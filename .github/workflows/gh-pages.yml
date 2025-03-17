@@ -39,7 +39,14 @@ jobs:
           cd demo
           npm run build
 
-      - name: Upload artifact
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: demo-dist
+          path: './demo/dist'
+          retention-days: 3
+
+      - name: Upload artifact for Pages
         uses: actions/upload-pages-artifact@v1
         with:
           path: './demo/dist'
