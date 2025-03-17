@@ -1,0 +1,38 @@
+name: Minimal Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build-minimal:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install and Build
+        run: |
+          npm ci
+          npm run build
+          cd demo
+          npm ci
+          npm run build
+
+      - name: Deploy Direct
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: demo/dist
+          branch: gh-pages
+          clean: true
