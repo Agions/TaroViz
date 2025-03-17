@@ -228,6 +228,11 @@ export interface AlipayAdapterOptions extends MiniAppAdapterOptions {
   canvasRef?: React.RefObject<any>;
 
   /**
+   * 图表配置
+   */
+  option?: any;
+
+  /**
    * 初始化回调
    */
   onInit?: (instance: any) => void;
@@ -239,9 +244,44 @@ export interface AlipayAdapterOptions extends MiniAppAdapterOptions {
 }
 
 /**
- * 鸿蒙适配器选项
+ * 鸿蒙OS适配器选项
  */
 export interface HarmonyAdapterOptions extends MiniAppAdapterOptions {
+  /**
+   * 画布ID
+   */
+  canvasId: string;
+
+  /**
+   * 宽度
+   */
+  width?: string | number;
+
+  /**
+   * 高度
+   */
+  height?: string | number;
+
+  /**
+   * 容器引用
+   */
+  containerRef?: React.RefObject<any>;
+
+  /**
+   * 画布引用
+   */
+  canvasRef?: React.RefObject<any>;
+
+  /**
+   * 图表配置
+   */
+  option?: any;
+
+  /**
+   * 初始化回调
+   */
+  onInit?: (instance: any) => void;
+
   /**
    * 鸿蒙特有参数
    */

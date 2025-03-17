@@ -1,6 +1,6 @@
 {
   "name": "taroviz",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "TaroViz 是一个多端兼容的 Apache ECharts 图表组件，专为 Taro 框架打造。支持在 H5、微信小程序、支付宝小程序和鸿蒙OS 等多个平台下无缝使用 ECharts 强大的可视化能力",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -17,14 +17,29 @@
     "build:all": "npm run build:h5 && npm run build:weapp && npm run build:alipay && npm run build:harmony",
     "test": "jest",
     "lint": "eslint src --ext .ts,.tsx",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run lint && npm run test && npm run build:all",
+    "demo:build": "cd demo && npm run build",
+    "demo:deploy": "cd demo && npm run deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agions/taroviz.git"
+  },
+  "homepage": "https://agions.github.io/taroviz",
+  "bugs": {
+    "url": "https://github.com/agions/taroviz/issues"
   },
   "keywords": [
     "taro",
     "echarts",
     "react",
     "chart",
-    "visualization"
+    "visualization",
+    "weapp",
+    "miniprogram",
+    "harmony",
+    "alipay"
   ],
   "author": "Agions",
   "license": "MIT",
