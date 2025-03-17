@@ -5,9 +5,8 @@
 import * as React from 'react';
 import * as echarts from 'echarts/core';
 import HarmonyAdapter from './adapters/harmony';
-import { HarmonyAdapterOptions } from './types/platform';
 import { EChartsProps } from './types/props';
-import { EChartsOption, Theme } from './types/common';
+import { EChartsOption, ThemeType } from './types/common';
 
 /**
  * 鸿蒙OS环境的ECharts图表组件
@@ -35,7 +34,7 @@ export default class ECharts extends React.Component<EChartsProps> {
       canvasId: this.canvasId,
       width,
       height,
-      theme: theme as Theme,
+      theme: theme as ThemeType,
       containerRef: this.containerRef,
       canvasRef: this.canvasRef,
       onInit: (instance: echarts.ECharts) => {
