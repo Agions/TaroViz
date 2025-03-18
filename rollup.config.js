@@ -5,6 +5,10 @@ const typescript = require('@rollup/plugin-typescript');
 const { terser } = require('rollup-plugin-terser');
 const { babel } = require('@rollup/plugin-babel');
 const path = require('path');
+const json = require('@rollup/plugin-json');
+const scss = require('rollup-plugin-scss');
+const postcss = require('rollup-plugin-postcss');
+const pkg = require('./package.json');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -15,13 +19,16 @@ const plugins = [
     browser: true
   }),
   commonjs(),
+  json(),
   typescript({
     tsconfig: './tsconfig.json',
     outputToFilesystem: true,
-    sourceMap: true
+    sourceMap: true,
+    declarationDir: 'dist/types',
+    declaration: true
   }),
   babel({
-    babelHelpers: 'runtime',
+    babelHelpers: 'bundled',
     exclude: 'node_modules/**',
     presets: [
       ['@babel/preset-env', {
@@ -38,6 +45,16 @@ const plugins = [
         regenerator: true
       }]
     ]
+  }),
+  scss({
+    output: 'dist/styles.css',
+    outputStyle: 'compressed'
+  }),
+  postcss({
+    extensions: ['.css', '.scss', '.sass'],
+    extract: 'styles.css',
+    minimize: true,
+    modules: true
   })
 ];
 
@@ -67,7 +84,9 @@ module.exports = {
     'echarts/renderers',
     'echarts-for-react',
     'echarts-for-react/lib/core',
-    /@babel\/runtime/
+    /@babel\/runtime/,
+    ...Object.keys(pkg.dependencies || {}),
+    ...Object.keys(pkg.peerDependencies || {})
   ],
   plugins
 };

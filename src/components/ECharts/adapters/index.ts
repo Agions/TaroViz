@@ -1,23 +1,27 @@
-import { PlatformType } from '../types/common';
-import H5Adapter from './h5';
-import WeappAdapter from './weapp';
-import AlipayAdapter from './alipay';
-import HarmonyAdapter from './harmony';
+import H5Adapter from './h5'
+import WeappAdapter from './weapp'
+import AlipayAdapter from './alipay'
+import HarmonyAdapter from './harmony'
+import { Adapter } from '../types'
+import Taro from '@tarojs/taro'
 
-// 根据当前平台返回对应的适配器
-export const getAdapter = () => {
-  const env = process.env.TARO_ENV;
+// 获取适配器
+export const getAdapter = (): Adapter => {
+  const env = Taro.getEnv()
+
   switch (env) {
-    case PlatformType.WEAPP:
-      return WeappAdapter;
-    case PlatformType.ALIPAY:
-      return AlipayAdapter;
-    case PlatformType.HARMONY:
-      return HarmonyAdapter;
-    case PlatformType.H5:
+    case Taro.ENV_TYPE.WEB:
+      return H5Adapter
+    case Taro.ENV_TYPE.WEAPP:
+      return WeappAdapter
+    case Taro.ENV_TYPE.ALIPAY:
+      return AlipayAdapter
+    case Taro.ENV_TYPE.HARMONY:
+      return HarmonyAdapter
     default:
-      return H5Adapter;
+      // 默认使用 H5 适配器
+      return H5Adapter
   }
-};
+}
 
-export { H5Adapter, WeappAdapter, AlipayAdapter, HarmonyAdapter };
+export default getAdapter

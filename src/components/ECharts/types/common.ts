@@ -2,6 +2,7 @@
  * Taro ECharts 通用类型定义
  */
 import { CSSProperties } from 'react';
+import { ECBasicOption } from 'echarts/types/dist/shared';
 
 /**
  * ECharts配置类型
@@ -83,9 +84,15 @@ export type ThemeType = string | Record<string, any>;
  * 平台类型枚举
  */
 export enum PlatformType {
+  H5 = 'h5',
   WEAPP = 'weapp',
   ALIPAY = 'alipay',
-  H5 = 'h5',
+  SWAN = 'swan',
+  QQ = 'qq',
+  JD = 'jd',
+  TT = 'tt',
+  DD = 'dd',
+  KS = 'ks',
   HARMONY = 'harmony'
 }
 
@@ -111,4 +118,85 @@ export interface ChartMethods {
   showLoading(loadingOption?: LoadingOption): void;
   hideLoading(): void;
   getDataURL(opts?: DataURLOption): string | undefined;
+}
+
+/**
+ * ECharts组件属性
+ */
+export interface EChartsProps {
+  option: ECBasicOption;
+  theme?: string | object;
+  width?: number | string;
+  height?: number | string;
+  loading?: boolean;
+  notMerge?: boolean;
+  lazyUpdate?: boolean;
+  onInit?: (chart: any) => void;
+  onRendered?: () => void;
+  onError?: (e: Error) => void;
+  canvasId?: string;
+  style?: CSSProperties;
+  className?: string;
+}
+
+/**
+ * 图表初始化选项
+ */
+export interface ChartInitOptions {
+  canvas: any;
+  ctx: any;
+  width: number;
+  height: number;
+  devicePixelRatio: number;
+  renderer?: string;
+  theme?: string;
+}
+
+/**
+ * 图表事件类型
+ */
+export enum ChartEventType {
+  CLICK = 'click',
+  DBLCLICK = 'dblclick',
+  MOUSEOVER = 'mouseover',
+  MOUSEOUT = 'mouseout',
+  MOUSEMOVE = 'mousemove',
+  MOUSEDOWN = 'mousedown',
+  MOUSEUP = 'mouseup',
+  GLOBALOUT = 'globalout',
+  LEGENDSELECTCHANGED = 'legendselectchanged',
+  LEGENDSELECTED = 'legendselected',
+  LEGENDUNSELECTED = 'legendunselected',
+  LEGENDSCROLL = 'legendscroll',
+  DATAZOOM = 'datazoom',
+  DATARANGESELECTED = 'datarangeselected',
+  TIMELINECHANGED = 'timelinechanged',
+  TIMELINEPLAYCHANGED = 'timelineplaychanged',
+  RESTORE = 'restore',
+  DATAVIEWCHANGED = 'dataviewchanged',
+  MAGICTYPECHANGED = 'magictypechanged',
+  GEOSELECTCHANGED = 'geoselectchanged',
+  GEOSELECTED = 'geoselected',
+  GEOUNSELECTED = 'geounselected',
+  PIESELECTCHANGED = 'pieselectchanged',
+  PIESELECTED = 'pieselected',
+  PIEUNSELECTED = 'pieunselected',
+  MAPSELECTCHANGED = 'mapselectchanged',
+  MAPSELECTED = 'mapselected',
+  MAPUNSELECTED = 'mapunselected',
+  AXISAREASELECTED = 'axisareaselected',
+  FOCUSNODEADJACENCY = 'focusnodeadjacency',
+  UNFOCUSNODEADJACENCY = 'unfocusnodeadjacency',
+  BRUSH = 'brush',
+  BRUSHSELECTED = 'brushselected',
+  RENDERED = 'rendered',
+  FINISHED = 'finished'
+}
+
+/**
+ * 图表事件监听器
+ */
+export interface ChartEventListener {
+  eventType: ChartEventType | string;
+  handler: Function;
 }
