@@ -7,7 +7,7 @@ export default ECharts;
 export * from './components/ECharts/utils';
 export * from './components/ECharts/types/common';
 // 选择性导出平台类型，避免冲突
-export {
+export type {
   Adapter,
   HarmonyAdapterOptions,
   MiniAppAdapterOptions

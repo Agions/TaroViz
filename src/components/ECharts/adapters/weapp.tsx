@@ -2,10 +2,10 @@
  * Taro ECharts 微信小程序适配器
  * 基于echarts-for-weapp实现微信小程序环境下的图表渲染
  */
+import React from 'react';
 import Taro from '@tarojs/taro';
 import * as echarts from 'echarts/core';
 import { Canvas } from '@tarojs/components';
-import * as React from 'react';
 
 // 导入类型
 import {

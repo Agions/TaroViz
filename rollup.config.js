@@ -1,85 +1,73 @@
 // rollup.config.js
+const { nodeResolve } = require('@rollup/plugin-node-resolve');
+const commonjs = require('@rollup/plugin-commonjs');
+const typescript = require('@rollup/plugin-typescript');
+const { terser } = require('rollup-plugin-terser');
+const { babel } = require('@rollup/plugin-babel');
 const path = require('path');
-const resolve = require('@rollup/plugin-node-resolve').default;
-const commonjs = require('@rollup/plugin-commonjs').default;
-const typescript = require('rollup-plugin-typescript2');
-const babel = require('@rollup/plugin-babel').default;
-const json = require('@rollup/plugin-json').default;
-const terser = require('@rollup/plugin-terser');
-const scss = require('rollup-plugin-scss');
-const pkg = require('./package.json');
 
-const TARO_ENV = process.env.TARO_ENV || 'all';
 const isProduction = process.env.NODE_ENV === 'production';
 
-const getOutput = () => {
-  if (TARO_ENV === 'all') {
-    return [
-      { file: pkg.main, format: 'cjs', sourcemap: true },
-      { file: pkg.module, format: 'es', sourcemap: true },
-    ];
-  }
-  return [
-    { file: `dist/index.${TARO_ENV}.js`, format: 'cjs', sourcemap: true },
-    { file: `dist/index.${TARO_ENV}.esm.js`, format: 'es', sourcemap: true },
-  ];
-};
-
-const getInput = () => {
-  if (TARO_ENV === 'all') {
-    return 'src/index.ts';
-  }
-  return `src/${TARO_ENV}.ts`;
-};
-
-// 根据环境排除不需要的文件
-const getExclude = () => {
-  if (TARO_ENV === 'h5') {
-    return [
-      'src/components/ECharts/harmony.tsx',
-      'src/components/ECharts/alipay.tsx',
-      'src/components/ECharts/weapp.tsx',
-      'src/components/ECharts/adapters/harmony.tsx',
-      'src/components/ECharts/adapters/alipay.tsx',
-      'src/components/ECharts/adapters/weapp.tsx'
-    ];
-  }
-  return [];
-};
-
+// 区分环境处理
 const plugins = [
-  typescript({
-    useTsconfigDeclarationDir: true,
-    tsconfigOverride: {
-      compilerOptions: {
-        sourceMap: true,
-        declaration: true,
-        declarationDir: 'dist/types',
-      },
-      include: ['src/**/*.ts', 'src/**/*.tsx'],
-      exclude: getExclude()
-    },
+  nodeResolve({
+    preferBuiltins: false,
+    browser: true
   }),
-  resolve(),
   commonjs(),
+  typescript({
+    tsconfig: './tsconfig.json',
+    outputToFilesystem: true,
+    sourceMap: true
+  }),
   babel({
     babelHelpers: 'runtime',
     exclude: 'node_modules/**',
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
-  }),
-  json(),
-  isProduction && terser(),
-  scss({
-    output: 'dist/styles.css',
-    outputStyle: 'compressed',
-    failOnError: true,
-    watch: 'src/components/ECharts/styles',
-  }),
+    presets: [
+      ['@babel/preset-env', {
+        modules: false,
+        targets: {
+          browsers: ['last 2 versions', 'not dead']
+        }
+      }],
+      '@babel/preset-react',
+      '@babel/preset-typescript'
+    ],
+    plugins: [
+      ['@babel/plugin-transform-runtime', {
+        regenerator: true
+      }]
+    ]
+  })
 ];
 
+// 生产环境添加压缩
+if (isProduction) {
+  plugins.push(terser());
+}
+
 module.exports = {
-  input: getInput(),
-  output: getOutput(),
-  external: ['react', 'react-dom', '@tarojs/taro', '@tarojs/components'],
-  plugins: plugins.filter(Boolean),
+  input: 'src/components/ECharts/index.js',
+  output: {
+    dir: 'dist',
+    format: 'esm',
+    sourcemap: true,
+    preserveModules: true,
+    preserveModulesRoot: 'src'
+  },
+  external: [
+    'react',
+    'react-dom',
+    '@tarojs/components',
+    '@tarojs/taro',
+    'echarts',
+    'echarts/core',
+    'echarts/charts',
+    'echarts/components',
+    'echarts/renderers',
+    'echarts-for-react',
+    'echarts-for-react/lib/core',
+    /@babel\/runtime/
+  ],
+  plugins
 };

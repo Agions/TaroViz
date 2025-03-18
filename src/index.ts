@@ -23,23 +23,22 @@
  * ```
  */
 
-import { PlatformType } from './components/ECharts/types/common';
+import Taro from '@tarojs/taro';
 
-// 根据当前环境导出对应的组件
+declare const TARO_ENV: 'weapp' | 'alipay' | 'h5' | 'harmony';
+
 let ECharts;
 
-if (process.env.TARO_ENV === PlatformType.WEAPP) {
+if (process.env.TARO_ENV === 'weapp') {
   ECharts = require('./components/ECharts/weapp').default;
-} else if (process.env.TARO_ENV === PlatformType.ALIPAY) {
+} else if (process.env.TARO_ENV === 'alipay') {
   ECharts = require('./components/ECharts/alipay').default;
-} else if (process.env.TARO_ENV === PlatformType.HARMONY) {
+} else if (process.env.TARO_ENV === 'harmony') {
   ECharts = require('./components/ECharts/harmony').default;
 } else {
-  // 默认导出H5组件
   ECharts = require('./components/ECharts/h5').default;
 }
 
-export { ECharts };
 export default ECharts;
 
 // 导出工具函数
@@ -48,7 +47,7 @@ export * from './components/ECharts/utils';
 // 导出类型定义
 export * from './components/ECharts/types/common';
 // 选择性导出平台类型，避免冲突
-export {
+export type {
   Adapter,
   AdapterOptions,
   H5AdapterOptions,

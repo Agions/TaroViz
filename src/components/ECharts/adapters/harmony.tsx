@@ -2,7 +2,7 @@
  * Taro ECharts 鸿蒙OS适配器
  * 为鸿蒙OS环境提供ECharts图表渲染支持
  */
-import * as React from 'react';
+import React from 'react';
 import Taro from '@tarojs/taro';
 import { Canvas } from '@tarojs/components';
 import * as echarts from 'echarts/core';

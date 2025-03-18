@@ -1,209 +1,82 @@
 # TaroViz
 
-## 简介
-
-TaroViz 是一个多端兼容的 Apache ECharts 图表组件，专为 Taro 框架打造。支持在 H5、微信小程序、支付宝小程序和鸿蒙OS 等多个平台下无缝使用 ECharts 强大的可视化能力。
-
-**在线演示**：[https://agions.github.io/taroviz](https://agions.github.io/taroviz)
+TaroViz 是一个基于 Taro 和 ECharts 的图表组件库，支持多端小程序和 H5。
 
 ## 特性
 
-- **多平台支持**：同一套代码，支持 H5、微信小程序、支付宝小程序和鸿蒙OS
-- **完整 ECharts 能力**：支持 ECharts 提供的所有图表类型和交互特性
-- **高性能渲染**：针对不同平台优化的渲染性能
-- **灵活的配置项**：与原生 ECharts 配置保持一致，易于上手
-- **丰富的事件处理**：支持点击、缩放、选中等交互事件处理
-- **主题定制**：支持自定义主题，满足不同设计需求
+- 🚀 基于 Taro 3.x 和 ECharts 5.x
+- 📱 支持多端：微信小程序、支付宝小程序、H5
+- 🎨 支持多种图表类型：折线图、柱状图、饼图、仪表盘等
+- 📦 按需加载，体积小巧
+- 🔧 支持自定义主题和配置
+- 📊 支持数据动态更新
 
 ## 安装
 
 ```bash
-# 使用 npm
-npm install taroviz echarts --save
-
-# 使用 yarn
-yarn add taroviz echarts
-
-# 使用 pnpm
-pnpm add taroviz echarts
+npm install taroviz
+# 或
+yarn add taroviz
 ```
 
-## 使用方法
+## 使用
 
-### 基础使用
+```tsx
+import { ECharts } from 'taroviz';
 
-```jsx
-import { Component } from 'react';
-import { View } from '@tarojs/components';
-import ECharts from 'taroviz';
-
-export default class Index extends Component {
-  render() {
-    // ECharts 配置项
-    const option = {
-      xAxis: {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [{
-        data: [120, 200, 150, 80, 70, 110, 130],
-        type: 'bar'
-      }]
-    };
-
-    return (
-      <View className='container'>
-        <ECharts
-          option={option}
-          width='100%'
-          height='300px'
-          onChartReady={(chart) => {
-            console.log('图表已准备就绪', chart);
-          }}
-        />
-      </View>
-    );
-  }
-}
-```
-
-### 获取图表实例
-
-```jsx
-import { Component, createRef } from 'react';
-import { View, Button } from '@tarojs/components';
-import ECharts from 'taroviz';
-import type { EChartsRef } from 'taroviz';
-
-export default class Index extends Component {
-  // 创建引用
-  chartRef = createRef<EChartsRef>();
-
-  // 更新数据
-  updateData = () => {
-    const chartInstance = this.chartRef.current?.getEchartsInstance();
-    if (chartInstance) {
-      // 直接操作图表实例
-      chartInstance.setOption({
-        series: [{
-          data: [Math.random() * 200, Math.random() * 200, Math.random() * 200]
-        }]
-      });
-    }
+function MyChart() {
+  const option = {
+    xAxis: {
+      type: 'category',
+      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [{
+      data: [820, 932, 901, 934, 1290, 1330, 1320],
+      type: 'line'
+    }]
   };
 
-  render() {
-    const option = {
-      xAxis: { data: ['A', 'B', 'C'] },
-      yAxis: {},
-      series: [{ type: 'bar', data: [100, 120, 90] }]
-    };
-
-    return (
-      <View className='container'>
-        <ECharts
-          ref={this.chartRef}
-          option={option}
-          width='100%'
-          height='300px'
-        />
-        <Button onClick={this.updateData}>更新数据</Button>
-      </View>
-    );
-  }
+  return <ECharts option={option} />;
 }
 ```
 
-## API
+## 支持的图表类型
 
-### 组件属性
+- 折线图 (line)
+- 柱状图 (bar)
+- 饼图 (pie)
+- 仪表盘 (gauge)
+- 散点图 (scatter)
+- 雷达图 (radar)
+- 地图 (map)
+- 热力图 (heatmap)
+- 树图 (tree)
+- 旭日图 (sunburst)
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| option | Object | - | ECharts 配置项，与 ECharts 官方配置一致 |
-| width | string \| number | '100%' | 图表宽度 |
-| height | string \| number | '300px' | 图表高度 |
-| theme | string \| Object | 'light' | 图表主题 |
-| canvasId | string | 'echarts-canvas' | Canvas ID，在小程序环境中必须唯一 |
-| notMerge | boolean | false | 是否不合并与之前的配置 |
-| lazyUpdate | boolean | false | 是否延迟更新 |
-| showLoading | boolean | false | 是否显示加载动画 |
-| loadingOption | Object | - | 加载动画配置 |
-| renderer | 'canvas' \| 'svg' | 'canvas' | 渲染器类型 |
-| devicePixelRatio | number | - | 设备像素比 |
-| disableTouch | boolean | false | 是否禁用触摸事件 |
-| onInit | (instance) => void | - | 图表初始化回调 |
-| onChartReady | (instance) => void | - | 图表准备就绪回调 |
-| onOptionChanged | (option) => void | - | 配置变更回调 |
-| onRendered | () => void | - | 渲染完成回调 |
-| onResize | (width, height) => void | - | 尺寸变化回调 |
-| onEvents | Object | - | 事件处理函数映射表 |
-| className | string | - | 自定义类名 |
-| style | Object | - | 自定义样式 |
+## 更新日志
 
-### 图表实例方法
+### v0.2.0
+- 新增 H5 平台支持
+- 优化打包配置
+- 完善类型定义
+- 添加示例文档
 
-通过 `ref` 可以获取组件实例，访问以下方法：
+### v0.1.0
+- 初始版本发布
+- 支持基础图表类型
+- 支持微信小程序
 
-| 方法 | 说明 |
-| --- | --- |
-| getEchartsInstance() | 获取 ECharts 实例 |
-| setOption(option, notMerge) | 设置图表配置 |
-| resize() | 调整图表大小 |
-| dispatchAction(payload) | 触发图表行为 |
-| convertToDataURL(opts) | 转换为图片 URL |
-| clear() | 清空图表 |
-| dispose() | 销毁图表实例 |
-| showLoading(opts) | 显示加载动画 |
-| hideLoading() | 隐藏加载动画 |
-| getDataURL(opts) | 获取图表图片 URL |
+## 文档
 
-## 平台支持
+详细文档请访问：[TaroViz 文档](https://github.com/agions/taroviz/wiki)
 
-TaroViz支持多种小程序平台和H5：
+## 贡献
 
-| 平台          | 支持状态        |
-|--------------|----------------|
-| H5           | 完全支持        |
-| 微信小程序    | 完全支持        |
-| 支付宝小程序  | 完全支持        |
-| 鸿蒙OS       | 完全支持        |
-
-## 在线演示
-
-访问 [TaroViz 演示站点](https://agions.github.io/taroviz) 查看更多示例和详细文档。
-
-## 贡献指南
-
-欢迎为 TaroViz 贡献代码和提出建议。请遵循以下步骤：
-
-1. Fork 仓库
-2. 创建新分支 (`git checkout -b feature/your-feature`)
-3. 提交修改 (`git commit -m 'Add some feature'`)
-4. 推送到远程分支 (`git push origin feature/your-feature`)
-5. 创建 Pull Request
-
-### 本地开发
-
-```bash
-# 安装依赖
-npm install
-
-# 构建库
-npm run build
-
-# 运行测试
-npm test
-
-# 构建和启动演示站点
-cd demo
-npm install
-npm run dev
-```
+欢迎提交 Issue 和 Pull Request！
 
 ## 许可证
 
-[MIT](LICENSE)
+MIT

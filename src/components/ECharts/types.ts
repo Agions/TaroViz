@@ -32,6 +32,7 @@ export interface EChartsProps {
   devicePixelRatio?: number;
   onRendered?: () => void;
   onResize?: (width: number, height: number) => void;
+  loading?: boolean;
 }
 
 /**
@@ -51,4 +52,4 @@ export interface EChartsRef {
 }
 
 // 从platform.ts导入适配器接口，避免重复定义
-export { Adapter, AdapterOptions } from './types/platform';
+export type { Adapter, AdapterOptions } from './types/platform';

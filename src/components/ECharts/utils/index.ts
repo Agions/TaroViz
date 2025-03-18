@@ -15,10 +15,10 @@ export const saveAsImage = async (dataUrl: string, fileName: string = 'chart-exp
     console.error('Invalid dataURL provided');
     return false;
   }
-  
+
   try {
     // 在H5环境下
-    if (process.env.TARO_ENV === 'h5') {
+    if ((process.env.TARO_ENV as string) === 'h5') {
       // 创建下载链接
       const link = document.createElement('a');
       link.download = fileName;
@@ -27,12 +27,12 @@ export const saveAsImage = async (dataUrl: string, fileName: string = 'chart-exp
       link.click();
       document.body.removeChild(link);
       return true;
-    } 
-    
+    }
+
     // 其他环境可能需要先将DataURL转为临时文件
     const tempFilePath = await dataUrlToTempFilePath(dataUrl);
     if (!tempFilePath) return false;
-    
+
     // 保存图片到相册
     try {
       await Taro.saveImageToPhotosAlbum({
@@ -41,16 +41,16 @@ export const saveAsImage = async (dataUrl: string, fileName: string = 'chart-exp
       return true;
     } catch (err) {
       console.error('Failed to save image to photos album:', err);
-      
+
       // 用户可能拒绝了授权，尝试打开设置页面
-      if (err.errMsg && err.errMsg.indexOf('auth') > -1) {
+      if ((err as any).errMsg && (err as any).errMsg.indexOf('auth') > -1) {
         const res = await Taro.showModal({
           title: '提示',
           content: '需要您授权保存图片到相册',
           confirmText: '去授权',
           cancelText: '取消'
         });
-        
+
         if (res.confirm) {
           await Taro.openSetting();
         }
@@ -69,10 +69,10 @@ export const saveAsImage = async (dataUrl: string, fileName: string = 'chart-exp
  * @returns 临时文件路径
  */
 export const dataUrlToTempFilePath = async (dataUrl: string): Promise<string | null> => {
-  if (process.env.TARO_ENV === 'h5') {
+  if ((process.env.TARO_ENV as string) === 'h5') {
     return dataUrl; // H5环境直接返回
   }
-  
+
   try {
     // 将base64转为临时文件
     let base64Data = dataUrl.split(',')[1];
@@ -80,13 +80,13 @@ export const dataUrlToTempFilePath = async (dataUrl: string): Promise<string | n
       console.error('Invalid DataURL format');
       return null;
     }
-    
+
     // 小程序环境
     const res = await Taro.base64ToArrayBuffer(base64Data);
     const fsm = Taro.getFileSystemManager();
     const timestamp = new Date().getTime();
     const tempFilePath = `${Taro.env.USER_DATA_PATH}/chart_${timestamp}.png`;
-    
+
     await new Promise<void>((resolve, reject) => {
       fsm.writeFile({
         filePath: tempFilePath,
@@ -96,7 +96,7 @@ export const dataUrlToTempFilePath = async (dataUrl: string): Promise<string | n
         fail: (err) => reject(err)
       });
     });
-    
+
     return tempFilePath;
   } catch (error) {
     console.error('Failed to convert DataURL to temp file:', error);
@@ -138,14 +138,14 @@ export const getDeviceInfo = async () => {
  * @returns 下载任务ID
  */
 export const createDownloadTask = (dataUrl: string, options?: { fileName?: string }): string => {
-  if (process.env.TARO_ENV !== 'h5') {
+  if ((process.env.TARO_ENV as string) !== 'h5') {
     console.warn('Download task is only supported in H5 environment');
     return '';
   }
-  
+
   // 创建一个唯一的任务ID
   const taskId = `download_${Date.now()}`;
-  
+
   try {
     // 创建下载链接，但不立即点击
     const link = document.createElement('a');
@@ -153,7 +153,7 @@ export const createDownloadTask = (dataUrl: string, options?: { fileName?: strin
     link.href = dataUrl;
     link.id = taskId;
     document.body.appendChild(link);
-    
+
     // 存储任务信息
     window.__TARO_ECHARTS_DOWNLOAD_TASKS = window.__TARO_ECHARTS_DOWNLOAD_TASKS || {};
     window.__TARO_ECHARTS_DOWNLOAD_TASKS[taskId] = {
@@ -162,7 +162,7 @@ export const createDownloadTask = (dataUrl: string, options?: { fileName?: strin
       fileName: link.download,
       createdAt: new Date()
     };
-    
+
     return taskId;
   } catch (error) {
     console.error('Failed to create download task:', error);
@@ -176,18 +176,18 @@ export const createDownloadTask = (dataUrl: string, options?: { fileName?: strin
  * @returns 是否成功
  */
 export const executeDownloadTask = (taskId: string): boolean => {
-  if (process.env.TARO_ENV !== 'h5' || !taskId) {
+  if ((process.env.TARO_ENV as string) !== 'h5' || !taskId) {
     return false;
   }
-  
+
   try {
     const tasks = window.__TARO_ECHARTS_DOWNLOAD_TASKS || {};
     const task = tasks[taskId];
     if (!task || !task.link) return false;
-    
+
     // 执行下载
     task.link.click();
-    
+
     // 清理DOM
     setTimeout(() => {
       if (task.link.parentNode) {
@@ -195,7 +195,7 @@ export const executeDownloadTask = (taskId: string): boolean => {
       }
       delete tasks[taskId];
     }, 100);
-    
+
     return true;
   } catch (error) {
     console.error('Failed to execute download task:', error);
@@ -213,4 +213,4 @@ declare global {
       createdAt: Date;
     }>;
   }
-} 
+}

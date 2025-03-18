@@ -1,256 +1,172 @@
 /**
- * Taro ECharts 支付宝小程序版本
+ * TaroViz 支付宝小程序版本
  * 为支付宝小程序环境提供ECharts图表组件
  */
-import { forwardRef, useRef, useImperativeHandle, useEffect, useState } from 'react';
-import { View } from '@tarojs/components';
+import React, { useEffect, useRef } from 'react';
+import { Canvas, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import AlipayAdapter from './adapters/alipay';
-import { lightTheme } from './theme';
-import type { EChartsProps, EChartsRef } from './types';
-import { AlipayAdapterOptions } from './types/platform';
-import { DataURLOption, LoadingOption } from './types/common';
+import * as echarts from 'echarts/core';
+import {
+  BarChart,
+  LineChart,
+  PieChart,
+  GaugeChart
+} from 'echarts/charts';
+import {
+  GridComponent,
+  TooltipComponent,
+  TitleComponent,
+  LegendComponent
+} from 'echarts/components';
+import { SVGRenderer, CanvasRenderer } from 'echarts/renderers';
+import { EChartsProps } from './types';
 
-// 导入样式
-import './styles/alipay.scss';
+// 注册必要的组件
+echarts.use([
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent,
+  BarChart,
+  LineChart,
+  PieChart,
+  GaugeChart,
+  CanvasRenderer,
+  SVGRenderer
+]);
 
-// 支付宝小程序环境的ECharts组件
-const AlipayECharts = forwardRef<EChartsRef, EChartsProps>((props, ref) => {
+// 定义查询结果类型
+interface CanvasNodeResult {
+  node: {
+    getContext: (type: string) => any;
+    _width: number;
+    _height: number;
+    width: number;
+    height: number;
+  };
+}
+
+// 扩展echarts模块，使其支持小程序canvas
+declare module 'echarts/core' {
+  // 扩展init函数接受小程序Canvas节点
+  export function init(
+    dom: HTMLElement | CanvasNodeResult['node'],
+    theme?: string | object,
+    opts?: echarts.EChartsInitOpts
+  ): echarts.ECharts;
+}
+
+const ECharts: React.FC<EChartsProps> = (props) => {
   const {
     option,
-    width = '100%',
-    height = '300px',
-    theme = lightTheme,
-    disableTouch = false,
+    style = { height: '300px', width: '100%' },
     className = '',
-    style = {},
     canvasId = 'echarts-canvas',
-    notMerge = false,
-    lazyUpdate = false,
-    showLoading = false,
-    loadingOption,
-    onInit,
-    onChartReady,
-    onEvents = {},
-    onOptionChanged,
-    onRendered,
-    onResize,
-    ...rest
+    loading = false
   } = props;
 
-  // 创建canvas引用
-  const canvasRef = useRef<any>(null);
-  // 创建适配器引用
-  const adapterRef = useRef<AlipayAdapter | null>(null);
-  // 图表实例
-  const [chartInstance, setChartInstance] = useState<any>(null);
+  const chartRef = useRef<any>(null);
 
-  // 初始化适配器
+  // 处理loading状态
   useEffect(() => {
-    // 创建适配器选项
-    const adapterOptions = {
-      canvasId,
-      width,
-      height,
-      disableTouch,
-      theme,
-      canvasRef,
-      option,
-      onInit: (instance) => {
-        setChartInstance(instance);
-        if (onInit) {
-          onInit(instance);
-        }
-      },
-      onEvents
-    } as AlipayAdapterOptions; // 使用类型断言
-
-    // 创建适配器实例
-    adapterRef.current = new AlipayAdapter(adapterOptions);
-
-    // 初始化图表
-    adapterRef.current.init().then(instance => {
-      if (instance) {
-        setChartInstance(instance);
+    if (chartRef.current) {
+      if (loading) {
+        chartRef.current.showLoading({
+          text: '加载中...',
+          color: '#5470c6',
+          maskColor: 'rgba(255, 255, 255, 0.8)'
+        });
+      } else {
+        chartRef.current.hideLoading();
       }
-    });
+    }
+  }, [loading]);
 
-    return () => {
-      // 组件卸载时销毁图表
-      if (adapterRef.current) {
-        adapterRef.current.dispose();
-        adapterRef.current = null;
+  useEffect(() => {
+    let chart: any = null;
+    let isInitialized = false;
+
+    const renderChart = async () => {
+      try {
+        // 支付宝小程序canvas获取方式略有不同
+        const query = Taro.createSelectorQuery();
+        const canvasNode = await new Promise<CanvasNodeResult[]>(resolve => {
+          query.select(`#${canvasId}`)
+            .node()
+            .exec((res) => {
+              resolve(res as CanvasNodeResult[]);
+            });
+        });
+
+        if (!canvasNode || !canvasNode[0] || !canvasNode[0].node) {
+          console.error('获取Canvas节点失败');
+          return;
+        }
+
+        const canvas = canvasNode[0].node;
+        const ctx = canvas.getContext('2d');
+
+        const pixelRatio = Taro.getSystemInfoSync().pixelRatio;
+        canvas.width = canvas._width * pixelRatio;
+        canvas.height = canvas._height * pixelRatio;
+        ctx.scale(pixelRatio, pixelRatio);
+
+        // 使用类型断言解决类型兼容性问题
+        chart = echarts.init(canvas as unknown as HTMLElement, null, {
+          width: canvas._width,
+          height: canvas._height,
+          renderer: 'canvas'
+        });
+
+        chart.setOption(option);
+        isInitialized = true;
+        chartRef.current = chart;
+
+        // 初始化后检查是否需要显示loading状态
+        if (loading) {
+          chart.showLoading({
+            text: '加载中...',
+            color: '#5470c6',
+            maskColor: 'rgba(255, 255, 255, 0.8)'
+          });
+        }
+
+        // 自动适应屏幕
+        const resizeListener = () => {
+          if (chart && !chart.isDisposed()) {
+            chart.resize();
+          }
+        };
+        Taro.eventCenter.on('__taroResize', resizeListener);
+
+        return () => {
+          Taro.eventCenter.off('__taroResize', resizeListener);
+          if (chart && !chart.isDisposed()) {
+            chart.dispose();
+          }
+        };
+      } catch (error) {
+        console.error('ECharts初始化失败：', error);
       }
     };
-  }, []);
 
-  // 监听配置变化，更新图表
-  useEffect(() => {
-    if (adapterRef.current && option) {
-      adapterRef.current.setOption(option, notMerge);
+    renderChart();
 
-      if (onOptionChanged) {
-        onOptionChanged(option);
+    return () => {
+      if (chart && !chart.isDisposed()) {
+        chart.dispose();
       }
-    }
-  }, [option, notMerge]);
-
-  // 监听图表就绪事件
-  useEffect(() => {
-    if (chartInstance && onChartReady) {
-      onChartReady(chartInstance);
-    }
-  }, [chartInstance, onChartReady]);
-
-  // 监听渲染完成事件
-  useEffect(() => {
-    if (chartInstance && onRendered) {
-      const handleRendered = () => {
-        onRendered();
-      };
-
-      chartInstance.on('rendered', handleRendered);
-
-      return () => {
-        chartInstance.off('rendered', handleRendered);
-      };
-    }
-  }, [chartInstance, onRendered]);
-
-  // 监听尺寸变化
-  useEffect(() => {
-    if (adapterRef.current) {
-      adapterRef.current.resize();
-
-      if (chartInstance && onResize) {
-        // 获取容器实际尺寸
-        const query = Taro.createSelectorQuery();
-        query.select(`#${canvasId}`)
-          .boundingClientRect(rect => {
-            if (rect && typeof rect === 'object' && 'width' in rect && 'height' in rect) {
-              onResize(rect.width as number, rect.height as number);
-            }
-          })
-          .exec();
-      }
-    }
-  }, [width, height, chartInstance, onResize]);
-
-  // 显示/隐藏加载动画
-  useEffect(() => {
-    if (chartInstance) {
-      if (showLoading) {
-        chartInstance.showLoading(loadingOption);
-      } else {
-        chartInstance.hideLoading();
-      }
-    }
-  }, [chartInstance, showLoading, loadingOption]);
-
-  // 绑定事件处理函数
-  useEffect(() => {
-    if (chartInstance && onEvents) {
-      // 先清除已有事件
-      Object.keys(onEvents).forEach(eventName => {
-        chartInstance.off(eventName);
-      });
-
-      // 重新绑定事件
-      Object.keys(onEvents).forEach(eventName => {
-        chartInstance.on(eventName, onEvents[eventName]);
-      });
-    }
-  }, [chartInstance, onEvents]);
-
-  // 提供组件实例方法
-  useImperativeHandle(ref, () => ({
-    // 获取ECharts实例
-    getEchartsInstance: () => chartInstance,
-
-    // 设置图表配置
-    setOption: (newOption, notMerge = false) => {
-      if (adapterRef.current) {
-        adapterRef.current.setOption(newOption, notMerge);
-      }
-    },
-
-    // 调整图表大小
-    resize: () => {
-      if (adapterRef.current) {
-        adapterRef.current.resize();
-      }
-    },
-
-    // 触发图表行为
-    dispatchAction: (payload) => {
-      if (chartInstance) {
-        chartInstance.dispatchAction(payload);
-      }
-    },
-
-    // 转换为图片
-    convertToDataURL: (opts?: DataURLOption) => {
-      if (adapterRef.current) {
-        return adapterRef.current.convertToDataURL(opts);
-      }
-      return undefined;
-    },
-
-    // 清空图表
-    clear: () => {
-      if (chartInstance) {
-        chartInstance.clear();
-      }
-    },
-
-    // 销毁图表实例
-    dispose: () => {
-      if (adapterRef.current) {
-        adapterRef.current.dispose();
-      }
-    },
-
-    // 显示加载动画
-    showLoading: (opts?: LoadingOption) => {
-      if (chartInstance) {
-        chartInstance.showLoading(opts);
-      }
-    },
-
-    // 隐藏加载动画
-    hideLoading: () => {
-      if (chartInstance) {
-        chartInstance.hideLoading();
-      }
-    },
-
-    // 获取图表图片
-    getDataURL: (opts?: DataURLOption) => {
-      if (adapterRef.current) {
-        return adapterRef.current.getDataURL(opts);
-      }
-      return undefined;
-    }
-  }), [chartInstance]);
-
-  // 计算合并样式
-  const mergedStyle = {
-    ...style,
-    width: typeof width === 'number' ? `${width}px` : width,
-    height: typeof height === 'number' ? `${height}px` : height,
-  };
-
-  // 主容器类名
-  const containerClass = `echarts-for-taro ${className}`.trim();
+    };
+  }, [canvasId, option]);
 
   return (
-    <View className={containerClass} style={mergedStyle} {...rest}>
-      {adapterRef.current?.render()}
-    </View>
+    <Canvas
+      type="2d"
+      id={canvasId}
+      className={className}
+      style={style}
+    />
   );
-});
+};
 
-// 设置组件名称
-AlipayECharts.displayName = 'AlipayECharts';
-
-export default AlipayECharts;
+export default ECharts;

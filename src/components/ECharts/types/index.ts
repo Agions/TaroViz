@@ -6,7 +6,7 @@
 export * from './common';
 export * from './props';
 // 选择性导出平台类型，避免冲突
-export {
+export type {
   Adapter,
   H5AdapterOptions,
   WeappAdapterOptions,

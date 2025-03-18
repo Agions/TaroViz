@@ -2,6 +2,7 @@
  * Taro ECharts H5适配器
  * 基于echarts-for-react实现H5环境下的图表渲染
  */
+import React from 'react';
 import * as echarts from 'echarts/core';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 
