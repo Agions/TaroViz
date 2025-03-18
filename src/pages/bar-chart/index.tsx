@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Button, Picker } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import ECharts from '../../components/ECharts';
+import { Chart } from '../../components/Chart';
+import type { EChartsOption } from 'echarts';
 import './index.scss';
 
 const BarChart: React.FC = () => {
@@ -10,18 +11,18 @@ const BarChart: React.FC = () => {
   const [selectedTypeIndex, setSelectedTypeIndex] = useState<number>(0);
 
   // 基础柱状图配置
-  const getBarOption = () => {
+  const getBarOption = (): EChartsOption => {
     const baseOption = {
       title: {
         text: '柱状图示例',
         left: 'center'
-      },
+      } as any,
       tooltip: {
         trigger: 'axis',
         axisPointer: {
           type: 'shadow'
         }
-      },
+      } as any,
       legend: {
         bottom: 0
       },
@@ -57,14 +58,14 @@ const BarChart: React.FC = () => {
             data: [180, 200, 190, 210]
           }
         ]
-      };
+      } as EChartsOption;
     } else if (chartType === 'bar-stack') {
       return {
         ...baseOption,
         title: {
           text: '堆叠柱状图示例',
           left: 'center'
-        },
+        } as any,
         xAxis: {
           type: 'category',
           data: ['一季度', '二季度', '三季度', '四季度']
@@ -92,14 +93,14 @@ const BarChart: React.FC = () => {
             data: [30, 42, 31, 44]
           }
         ]
-      };
+      } as EChartsOption;
     } else if (chartType === 'bar-horizontal') {
       return {
         ...baseOption,
         title: {
           text: '横向柱状图示例',
           left: 'center'
-        },
+        } as any,
         xAxis: {
           type: 'value'
         },
@@ -114,7 +115,7 @@ const BarChart: React.FC = () => {
             data: [120, 200, 150, 80, 70]
           }
         ]
-      };
+      } as EChartsOption;
     }
 
     // 默认返回基础柱状图配置
@@ -134,7 +135,7 @@ const BarChart: React.FC = () => {
           data: [120, 150, 180, 200]
         }
       ]
-    };
+    } as EChartsOption;
   };
 
   // 处理图表类型变化
@@ -147,7 +148,7 @@ const BarChart: React.FC = () => {
   return (
     <View className='bar-chart-page'>
       <View className='chart-container'>
-        <ECharts option={getBarOption()} />
+        <Chart option={getBarOption()} />
       </View>
 
       <View className='controls'>

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Button, Switch, Text } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import ECharts from '../../components/ECharts';
+import { Chart } from '../../components/Chart';
+import type { EChartsOption } from 'echarts';
 import './index.scss';
 
 const PieChart: React.FC = () => {
@@ -18,7 +19,7 @@ const PieChart: React.FC = () => {
   ];
 
   // 饼图配置
-  const getPieOption = () => {
+  const getPieOption = (): EChartsOption => {
     return {
       title: {
         text: isDonut ? '环形图示例' : '饼图示例',
@@ -27,7 +28,7 @@ const PieChart: React.FC = () => {
       tooltip: {
         trigger: 'item',
         formatter: '{a} <br/>{b}: {c} ({d}%)'
-      },
+      } as any,
       legend: {
         show: showLegend,
         orient: 'horizontal',
@@ -69,7 +70,7 @@ const PieChart: React.FC = () => {
   return (
     <View className='pie-chart-page'>
       <View className='chart-container'>
-        <ECharts option={getPieOption()} />
+        <Chart option={getPieOption()} />
       </View>
 
       <View className='controls'>

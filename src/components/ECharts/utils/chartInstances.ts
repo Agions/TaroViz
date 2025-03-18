@@ -88,12 +88,12 @@ interface ChartInitOptions {
   width: number
   height: number
   devicePixelRatio: number
-  renderer?: string
+  renderer?: 'canvas' | 'svg'
   theme?: string
 }
 
 export const getChartInstance = (options: ChartInitOptions) => {
-  const { canvas, ctx, width, height, devicePixelRatio, renderer = 'canvas', theme } = options
+  const { canvas, ctx, width, height, devicePixelRatio, renderer = 'canvas' as const, theme } = options
 
   // 初始化ECharts实例
   const chartInstance = echarts.init(canvas, theme, {
@@ -103,10 +103,10 @@ export const getChartInstance = (options: ChartInitOptions) => {
     devicePixelRatio,
     useCoarsePointer: true,
     pointerSize: 20
-  })
+  });
 
   // 设置canvas上下文
-  chartInstance.getZr().painter.ctx = ctx
+  (chartInstance.getZr().painter as any).ctx = ctx
 
   return chartInstance
 }
@@ -141,3 +141,6 @@ export const disposeAllChartInstances = () => {
   })
   chartInstancesCache.clear()
 }
+
+// 存储所有创建的图表实例，用于管理和清理
+export const CHART_INSTANCES: Record<string, echarts.ECharts> = {};

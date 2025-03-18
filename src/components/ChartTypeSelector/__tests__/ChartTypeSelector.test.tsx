@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import ChartTypeSelector from '../index'
+import { ChartTypeSelector } from '../index'
 import { getChartTypesByCategory } from '../../Chart/chartTypes'
 
 describe('ChartTypeSelector', () => {

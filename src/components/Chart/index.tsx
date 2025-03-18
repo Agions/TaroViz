@@ -99,11 +99,11 @@ export const Chart: React.FC<ChartProps> = ({
 
     // 应用自定义配置
     if (customConfig.tooltipFormatter && newOption.tooltip) {
-      newOption.tooltip.formatter = customConfig.tooltipFormatter
+      (newOption.tooltip as any).formatter = customConfig.tooltipFormatter
     }
 
     if (customConfig.legendFormatter && newOption.legend) {
-      newOption.legend.formatter = customConfig.legendFormatter
+      (newOption.legend as any).formatter = customConfig.legendFormatter
     }
 
     if (customConfig.axisLabelFormatter) {
@@ -112,7 +112,7 @@ export const Chart: React.FC<ChartProps> = ({
         const axisArray = Array.isArray(newOption.xAxis) ? newOption.xAxis : [newOption.xAxis]
         axisArray.forEach(axis => {
           if (axis && axis.axisLabel) {
-            axis.axisLabel.formatter = customConfig.axisLabelFormatter
+            (axis.axisLabel as any).formatter = customConfig.axisLabelFormatter
           }
         })
       }
@@ -121,7 +121,7 @@ export const Chart: React.FC<ChartProps> = ({
         const axisArray = Array.isArray(newOption.yAxis) ? newOption.yAxis : [newOption.yAxis]
         axisArray.forEach(axis => {
           if (axis && axis.axisLabel) {
-            axis.axisLabel.formatter = customConfig.axisLabelFormatter
+            (axis.axisLabel as any).formatter = customConfig.axisLabelFormatter
           }
         })
       }
@@ -168,12 +168,12 @@ export const Chart: React.FC<ChartProps> = ({
 
     // 应用标题位置
     if (customConfig.titlePosition && newOption.title) {
-      newOption.title.left = customConfig.titlePosition
+      (newOption.title as any).left = customConfig.titlePosition
     }
 
     // 应用提示触发方式
     if (customConfig.tooltipTrigger && newOption.tooltip) {
-      newOption.tooltip.trigger = customConfig.tooltipTrigger
+      (newOption.tooltip as any).trigger = customConfig.tooltipTrigger
     }
 
     // 应用背景色
@@ -309,6 +309,7 @@ export const Chart: React.FC<ChartProps> = ({
         ...style
       }}
     >
+      {/* @ts-ignore */}
       <EChartsComponent
         ref={chartRef}
         option={option}

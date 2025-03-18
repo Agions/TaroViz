@@ -31,7 +31,7 @@ export const generateId = (prefix: string = 'taroviz'): string => {
  */
 export const debounce = (fn: Function, delay: number): Function => {
   let timer: NodeJS.Timeout | null = null
-  return function(...args: any[]) {
+  return function(this: any, ...args: any[]) {
     if (timer) clearTimeout(timer)
     timer = setTimeout(() => {
       fn.apply(this, args)
@@ -45,7 +45,7 @@ export const debounce = (fn: Function, delay: number): Function => {
  */
 export const throttle = (fn: Function, delay: number): Function => {
   let lastTime = 0
-  return function(...args: any[]) {
+  return function(this: any, ...args: any[]) {
     const now = Date.now()
     if (now - lastTime > delay) {
       fn.apply(this, args)

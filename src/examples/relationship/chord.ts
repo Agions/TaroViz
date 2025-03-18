@@ -42,7 +42,7 @@ const option: EChartsOption = {
         borderColor: '#000'
       }
     }
-  ]
+  ] as  any
 };
 
 export default {

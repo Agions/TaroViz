@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Input, Switch, Slider, ColorPicker, Select } from '@tarojs/components'
+import { View, Text, Input, Switch, Slider, Picker } from '@tarojs/components'
 import type { EChartsOption } from 'echarts'
 import './ConfigForm.scss'
 
@@ -65,7 +65,7 @@ export const ConfigForm: React.FC<ConfigFormProps> = ({
   const handleSeriesNameChange = (e: any) => {
     onChange({
       ...option,
-      series: option.series.map((series, index) =>
+      series: (option.series as any[]).map((series, index) =>
         index === 0 ? { ...series, name: e.detail.value } : series
       )
     })
@@ -74,17 +74,17 @@ export const ConfigForm: React.FC<ConfigFormProps> = ({
   const handleColorChange = (color: string) => {
     onChange({
       ...option,
-      series: option.series.map((series, index) =>
+      series:  (option.series as any[]).map((series, index) =>
         index === 0 ? { ...series, itemStyle: { color } } : series
       )
     })
   }
 
-  const handleLineWidthChange = (value: number) => {
+  const handleLineWidthChange = (e: any) => {
     onChange({
       ...option,
-      series: option.series.map((series, index) =>
-        index === 0 ? { ...series, lineStyle: { width: value } } : series
+      series:  (option.series as any[]).map((series, index) =>
+        index === 0 ? { ...series, lineStyle: { width: e.detail.value } } : series
       )
     })
   }
@@ -92,17 +92,17 @@ export const ConfigForm: React.FC<ConfigFormProps> = ({
   const handleAnimationChange = (e: any) => {
     onChange({
       ...option,
-      series: option.series.map((series, index) =>
+      series:  (option.series as any[]).map((series, index) =>
         index === 0 ? { ...series, animation: e.detail.value } : series
       )
     })
   }
 
-  const handleAnimationDurationChange = (value: number) => {
+  const handleAnimationDurationChange = (e: any) => {
     onChange({
       ...option,
-      series: option.series.map((series, index) =>
-        index === 0 ? { ...series, animationDuration: value } : series
+      series: (option.series as any[]).map((series, index) =>
+        index === 0 ? { ...series, animationDuration: e.detail.value } : series
       )
     })
   }
@@ -115,7 +115,7 @@ export const ConfigForm: React.FC<ConfigFormProps> = ({
           <Text className='label'>标题文本</Text>
           <Input
             className='input'
-            value={option.title?.text || ''}
+            value={(option.title as any)?.text || ''}
             onInput={handleTitleChange}
             placeholder='请输入标题'
           />
@@ -127,14 +127,14 @@ export const ConfigForm: React.FC<ConfigFormProps> = ({
         <View className='form-item'>
           <Text className='label'>显示提示框</Text>
           <Switch
-            checked={option.tooltip?.show !== false}
+            checked={(option.tooltip as any)?.show !== false}
             onChange={handleTooltipChange}
           />
         </View>
         <View className='form-item'>
           <Text className='label'>显示图例</Text>
           <Switch
-            checked={option.legend?.show !== false}
+            checked={(option.legend as any)?.show !== false}
             onChange={handleLegendChange}
           />
         </View>
@@ -144,29 +144,21 @@ export const ConfigForm: React.FC<ConfigFormProps> = ({
         <Text className='section-title'>坐标轴设置</Text>
         <View className='form-item'>
           <Text className='label'>X轴类型</Text>
-          <Select
-            className='select'
-            value={option.xAxis?.type || 'category'}
-            onChange={handleXAxisTypeChange}
-          >
-            <option value='category'>类目轴</option>
-            <option value='value'>数值轴</option>
-            <option value='time'>时间轴</option>
-            <option value='log'>对数轴</option>
-          </Select>
+          <Input
+            className='input'
+            value={(option.xAxis as any)?.type || 'category'}
+            onInput={handleXAxisTypeChange}
+            placeholder='请输入X轴类型'
+          />
         </View>
         <View className='form-item'>
           <Text className='label'>Y轴类型</Text>
-          <Select
-            className='select'
-            value={option.yAxis?.type || 'value'}
-            onChange={handleYAxisTypeChange}
-          >
-            <option value='value'>数值轴</option>
-            <option value='category'>类目轴</option>
-            <option value='time'>时间轴</option>
-            <option value='log'>对数轴</option>
-          </Select>
+          <Input
+            className='input'
+            value={(option.yAxis as any)?.type || 'value'}
+            onInput={handleYAxisTypeChange}
+            placeholder='请输入Y轴类型'
+          />
         </View>
       </View>
 
@@ -187,10 +179,16 @@ export const ConfigForm: React.FC<ConfigFormProps> = ({
         <Text className='section-title'>样式设置</Text>
         <View className='form-item'>
           <Text className='label'>线条颜色</Text>
-          <ColorPicker
-            className='color-picker'
+          <Picker
+            className='picker'
+            range={[
+              { value: '#1890ff', label: '蓝色' },
+              { value: '#52c41a', label: '绿色' },
+              { value: '#f5222d', label: '红色' }
+            ]}
+            range-key='label'
             value={option.series?.[0]?.itemStyle?.color || '#1890ff'}
-            onChange={handleColorChange}
+            onChange={(e) => handleColorChange(e.detail.value as string)}
           />
         </View>
         <View className='form-item'>

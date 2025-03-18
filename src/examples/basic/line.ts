@@ -29,7 +29,8 @@ const option: EChartsOption = {
       },
       markLine: {
         data: [
-          { type: 'average', name: '平均值' }
+          { type: 'average', name: '平均值' },
+          { type: 'max', name: '最大值' }
         ]
       }
     },
@@ -48,7 +49,7 @@ const option: EChartsOption = {
         data: [
           { type: 'average', name: '平均值' },
           { symbol: 'none', x: '90%', yAxis: 'max' }
-        ]
+        ] as any
       }
     }
   ]

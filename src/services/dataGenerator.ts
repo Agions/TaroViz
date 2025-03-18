@@ -1,4 +1,4 @@
-import type { EChartsOption } from 'echarts'
+import type { EChartsOption, SeriesOption } from 'echarts'
 
 interface DataGeneratorOptions {
   type: string
@@ -65,7 +65,7 @@ export const dataGenerator = {
 
     return {
       ...option,
-      series: option.series.map((series, index) =>
+      series: (option.series! as SeriesOption[]).map((series, index) =>
         index === 0 ? { ...series, data: newData } : series
       )
     }

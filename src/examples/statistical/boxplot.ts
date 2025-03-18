@@ -10,8 +10,8 @@ const data = [
 ];
 
 // 计算箱线图数据
-const boxplotData = [];
-const categoryData = [];
+const boxplotData: any[] = [];
+const categoryData: any[] = [];
 for (let i = 0; i < data.length; i++) {
   const sorted = data[i].sort((a, b) => a - b);
   const q1 = sorted[Math.floor(sorted.length / 4)];

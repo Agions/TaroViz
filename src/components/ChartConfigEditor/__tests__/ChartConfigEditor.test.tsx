@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { ChartConfigEditor } from '../index'
 
 describe('ChartConfigEditor Component', () => {
-  const mockOption = {
+  const mockOption:any = {
     title: {
       text: '测试图表'
     },
@@ -102,7 +102,7 @@ describe('ChartConfigEditor Component', () => {
 
     // 切换提示框显示
     const tooltipSwitch = screen.getByText('显示提示框').nextElementSibling
-    fireEvent.click(tooltipSwitch)
+    fireEvent.click(tooltipSwitch as any)
 
     expect(mockOnChange).toHaveBeenCalledWith({
       ...mockOption,
@@ -127,7 +127,7 @@ describe('ChartConfigEditor Component', () => {
 
     // 切换图例显示
     const legendSwitch = screen.getByText('显示图例').nextElementSibling
-    fireEvent.click(legendSwitch)
+    fireEvent.click(legendSwitch as any)
 
     expect(mockOnChange).toHaveBeenCalledWith({
       ...mockOption,

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Button, Text, Input } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import ECharts from '../../components/ECharts';
+import { Chart } from '../../components/Chart';
+import type { EChartsOption } from 'echarts';
 import './index.scss';
 
 const CustomChart: React.FC = () => {
@@ -20,15 +21,15 @@ const CustomChart: React.FC = () => {
   const [inputName, setInputName] = useState<string>('');
 
   // 仪表盘配置
-  const getOption = () => {
+  const getOption = (): EChartsOption => {
     return {
       title: {
         text: '自定义仪表盘图',
         left: 'center'
-      },
+      } as any,
       tooltip: {
         formatter: '{a} <br/>{b} : {c}%'
-      },
+      } as any,
       series: [
         {
           name: '指标完成度',
@@ -90,7 +91,7 @@ const CustomChart: React.FC = () => {
           }
         }
       ]
-    };
+    } as EChartsOption;
   };
 
   // 添加数据
@@ -145,7 +146,7 @@ const CustomChart: React.FC = () => {
   return (
     <View className='custom-chart-page'>
       <View className='chart-container'>
-        <ECharts option={getOption()} />
+        <Chart option={getOption()} />
       </View>
 
       <View className='data-input'>

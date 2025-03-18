@@ -5,8 +5,15 @@ import { Chart } from '../index'
 
 const LazyChart = withLazyLoad(Chart)
 
+// 添加 mock 类型声明
+declare global {
+  interface Window {
+    IntersectionObserver: jest.Mock;
+  }
+}
+
 describe('withLazyLoad HOC', () => {
-  const mockOption = {
+  const mockOption :any = {
     xAxis: {
       type: 'category',
       data: ['Mon', 'Tue', 'Wed']
@@ -52,7 +59,7 @@ describe('withLazyLoad HOC', () => {
   it('respects custom threshold and rootMargin', () => {
     render(
       <LazyChart
-        option={mockOption}
+        option={mockOption as any}
         threshold={0.5}
         rootMargin="100px"
       />

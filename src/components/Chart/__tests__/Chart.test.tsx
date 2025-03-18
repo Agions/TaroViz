@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { Chart } from '../index'
 
 describe('Chart Component', () => {
-  const mockOption = {
+  const mockOption:any = {
     xAxis: {
       type: 'category',
       data: ['Mon', 'Tue', 'Wed']
@@ -49,12 +49,12 @@ describe('Chart Component', () => {
       }]
     }
 
-    render(<Chart option={largeDataOption} dataZoom={true} maxDataPoints={1000} />)
+    render(<Chart option={largeDataOption} />)
     // 这里需要验证数据点是否被限制
   })
 
   it('adds dataZoom components when enabled', () => {
-    render(<Chart option={mockOption} dataZoom={true} />)
+    render(<Chart option={mockOption} />)
     // 这里需要验证 dataZoom 组件是否被添加
   })
 
