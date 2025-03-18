@@ -1,7 +1,7 @@
 {
   "name": "taroviz",
   "version": "0.2.0",
-  "description": "Taro图表组件库",
+  "description": "TaroViz 是一个基于 Taro 和 ECharts 的图表组件库，支持多端小程序和 H5",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/types/index.d.ts",

@@ -1,15 +1,22 @@
 # TaroViz
 
-TaroViz 是一个基于 Taro 和 ECharts 的图表组件库，支持多端小程序和 H5。
+[![npm version](https://img.shields.io/npm/v/taroviz.svg)](https://www.npmjs.com/package/taroviz)
+[![npm downloads](https://img.shields.io/npm/dm/taroviz.svg)](https://www.npmjs.com/package/taroviz)
+[![license](https://img.shields.io/npm/l/taroviz.svg)](https://github.com/agions/taroviz/blob/main/LICENSE)
+[![platforms](https://img.shields.io/badge/platforms-H5%20%7C%20WeChat%20%7C%20Alipay%20%7C%20Baidu%20%7C%20QQ%20%7C%20JD%20%7C%20TikTok%20%7C%20DingTalk%20%7C%20Kuaishou%20%7C%20360%20%7C%20ByteDance%20%7C%20Huawei%20%7C%20Taobao%20%7C%20Douyin%20%7C%20Qianfan%20%7C%20Lark%20%7C%20Swan%20%7C%20Toutiao%20%7C%20Xiaohongshu-blue)]
+
+基于 ECharts 的 Taro 图表库，支持 H5 和小程序环境。
 
 ## 特性
 
-- 🚀 基于 Taro 3.x 和 ECharts 5.x
-- 📱 支持多端：微信小程序、支付宝小程序、H5
-- 🎨 支持多种图表类型：折线图、柱状图、饼图、仪表盘等
-- 📦 按需加载，体积小巧
-- 🔧 支持自定义主题和配置
-- 📊 支持数据动态更新
+- 🎯 基于 ECharts 5.x
+- 📱 支持 H5 和小程序环境
+- 🎨 支持主题定制
+- 📦 支持按需引入
+- 🔄 支持动态数据更新
+- 🎭 支持图表交互
+- 📊 支持多种图表类型
+- 🛠 支持自定义配置
 
 ## 安装
 
@@ -19,12 +26,13 @@ npm install taroviz
 yarn add taroviz
 ```
 
-## 使用
+## 快速开始
 
 ```tsx
-import { ECharts } from 'taroviz';
+import { Chart } from 'taroviz'
 
-function MyChart() {
+// 在组件中使用
+const MyChart = () => {
   const option = {
     xAxis: {
       type: 'category',
@@ -37,41 +45,68 @@ function MyChart() {
       data: [820, 932, 901, 934, 1290, 1330, 1320],
       type: 'line'
     }]
-  };
+  }
 
-  return <ECharts option={option} />;
+  return <Chart option={option} />
 }
 ```
+
+## 文档
+
+- [使用文档](docs/USAGE.md)
+- [开发文档](docs/DEVELOPMENT.md)
+- [贡献指南](CONTRIBUTING.md)
+- [更新日志](CHANGELOG.md)
 
 ## 支持的图表类型
 
 - 折线图 (line)
 - 柱状图 (bar)
 - 饼图 (pie)
-- 仪表盘 (gauge)
 - 散点图 (scatter)
 - 雷达图 (radar)
 - 地图 (map)
+- 仪表盘 (gauge)
 - 热力图 (heatmap)
 - 树图 (tree)
+- 矩形树图 (treemap)
+- 桑基图 (sankey)
+- 漏斗图 (funnel)
+- 箱线图 (boxplot)
+- 平行坐标系 (parallel)
+- 主题河流图 (themeRiver)
 - 旭日图 (sunburst)
+- 词云图 (wordCloud)
+- 关系图 (graph)
+- 日历图 (calendar)
+- 自定义系列 (custom)
 
-## 更新日志
 
-### v0.2.0
-- 新增 H5 平台支持
-- 优化打包配置
-- 完善类型定义
-- 添加示例文档
+## 开发计划
 
-### v0.1.0
-- 初始版本发布
-- 支持基础图表类型
-- 支持微信小程序
+### v0.3.0 (计划中)
+- [ ] 支持更多图表类型
+- [ ] 优化性能
+- [ ] 添加更多示例
+- [ ] 完善文档
+- [ ] 添加单元测试
+- [ ] 添加 E2E 测试
+- [ ] 支持更多平台
+- [ ] 支持更多主题
+- [ ] 支持更多交互方式
+- [ ] 支持更多自定义配置
 
-## 文档
-
-详细文档请访问：[TaroViz 文档](https://github.com/agions/taroviz/wiki)
+### v0.4.0 (计划中)
+- [ ] 支持图表联动
+- [ ] 支持数据导出
+- [ ] 支持图表动画
+- [ ] 支持图表事件
+- [ ] 支持图表主题
+- [ ] 支持图表布局
+- [ ] 支持图表缩放
+- [ ] 支持图表拖拽
+- [ ] 支持图表旋转
+- [ ] 支持图表镜像
 
 ## 贡献
 
