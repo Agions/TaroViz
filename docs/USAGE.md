@@ -1,33 +1,50 @@
 # TaroViz 使用文档
 
+TaroViz 是一个基于 ECharts 的 Taro 图表库，支持 H5 和小程序环境。本文档介绍如何使用 TaroViz 在 Taro 应用中展示各种图表。
+
+## 目录
+
+- [安装](#安装)
+- [基本使用](#基本使用)
+- [支持的图表类型](#支持的图表类型)
+- [配置项](#配置项)
+- [事件监听](#事件监听)
+- [实例方法](#实例方法)
+- [主题定制](#主题定制)
+- [移动端适配](#移动端适配)
+- [性能优化](#性能优化)
+- [平台差异](#平台差异)
+- [常见问题](#常见问题)
+
 ## 安装
 
-### 使用 npm 安装
-
 ```bash
+# 使用 npm
 npm install taroviz
-```
 
-### 使用 yarn 安装
-
-```bash
+# 使用 yarn
 yarn add taroviz
+
+# 使用 pnpm
+pnpm add taroviz
 ```
 
-## 基础使用
+## 基本使用
 
 ### 引入组件
 
-```tsx
-import { Chart } from 'taroviz'
+```jsx
+import { Chart } from 'taroviz';
 ```
 
 ### 基础示例
 
-```tsx
-import { Chart } from 'taroviz'
+```jsx
+import React from 'react';
+import { View } from '@tarojs/components';
+import { Chart } from 'taroviz';
 
-const MyChart = () => {
+const Index = () => {
   const option = {
     xAxis: {
       type: 'category',
@@ -40,228 +57,269 @@ const MyChart = () => {
       data: [820, 932, 901, 934, 1290, 1330, 1320],
       type: 'line'
     }]
-  }
-
-  return <Chart option={option} />
-}
-```
-
-## 配置说明
-
-### 基础配置
-
-| 参数 | 类型 | 说明 | 默认值 |
-|------|------|------|--------|
-| option | `EChartsOption` | ECharts 配置项 | - |
-| style | `CSSProperties` | 容器样式 | `{ width: '100%', height: '300px' }` |
-| theme | `string` | 主题名称 | 'light' |
-| loading | `boolean` | 是否显示加载动画 | false |
-| loadingOption | `object` | 加载动画配置 | - |
-
-### 事件配置
-
-```tsx
-const MyChart = () => {
-  const option = {
-    // ... 图表配置
-  }
-
-  const onInit = (chart) => {
-    console.log('图表初始化完成', chart)
-  }
-
-  const onClick = (params) => {
-    console.log('点击事件', params)
-  }
+  };
 
   return (
-    <Chart
-      option={option}
-      onInit={onInit}
-      onClick={onClick}
-    />
-  )
-}
-```
-
-### 主题配置
-
-```tsx
-import { Chart } from 'taroviz'
-import 'taroviz/dist/theme/dark.css'
-
-const MyChart = () => {
-  const option = {
-    // ... 图表配置
-  }
-
-  return <Chart option={option} theme="dark" />
-}
-```
-
-## 图表类型示例
-
-### 折线图
-
-```tsx
-const LineChart = () => {
-  const option = {
-    xAxis: {
-      type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    },
-    yAxis: {
-      type: 'value'
-    },
-    series: [{
-      data: [820, 932, 901, 934, 1290, 1330, 1320],
-      type: 'line',
-      smooth: true
-    }]
-  }
-
-  return <Chart option={option} />
-}
-```
-
-### 柱状图
-
-```tsx
-const BarChart = () => {
-  const option = {
-    xAxis: {
-      type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    },
-    yAxis: {
-      type: 'value'
-    },
-    series: [{
-      data: [120, 200, 150, 80, 70, 110, 130],
-      type: 'bar'
-    }]
-  }
-
-  return <Chart option={option} />
-}
-```
-
-### 饼图
-
-```tsx
-const PieChart = () => {
-  const option = {
-    tooltip: {
-      trigger: 'item'
-    },
-    series: [{
-      type: 'pie',
-      radius: '50%',
-      data: [
-        { value: 1048, name: '搜索引擎' },
-        { value: 735, name: '直接访问' },
-        { value: 580, name: '邮件营销' },
-        { value: 484, name: '联盟广告' },
-        { value: 300, name: '视频广告' }
-      ]
-    }]
-  }
-
-  return <Chart option={option} />
-}
-```
-
-## 动态数据更新
-
-```tsx
-const DynamicChart = () => {
-  const [data, setData] = useState([820, 932, 901, 934, 1290, 1330, 1320])
-
-  const option = {
-    xAxis: {
-      type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    },
-    yAxis: {
-      type: 'value'
-    },
-    series: [{
-      data: data,
-      type: 'line'
-    }]
-  }
-
-  const updateData = () => {
-    setData(data.map(v => v + Math.random() * 100))
-  }
-
-  return (
-    <div>
+    <View style={{ height: '300px' }}>
       <Chart option={option} />
-      <button onClick={updateData}>更新数据</button>
-    </div>
-  )
-}
+    </View>
+  );
+};
+
+export default Index;
 ```
 
-## 按需引入
+## 支持的图表类型
 
-```tsx
-// 只引入需要的图表类型
-import { Chart } from 'taroviz/dist/chart'
-import 'taroviz/dist/chart/line'
-import 'taroviz/dist/chart/bar'
+TaroViz 支持 ECharts 的所有图表类型，包括但不限于：
 
-const MyChart = () => {
+- 折线图 (line)
+- 柱状图 (bar)
+- 饼图 (pie)
+- 散点图 (scatter)
+- 雷达图 (radar)
+- 地图 (map)
+- 仪表盘 (gauge)
+- 热力图 (heatmap)
+- 树图 (tree)
+- 矩形树图 (treemap)
+- 桑基图 (sankey)
+- 漏斗图 (funnel)
+- 箱线图 (boxplot)
+- 平行坐标系 (parallel)
+- 主题河流图 (themeRiver)
+- 旭日图 (sunburst)
+- 词云图 (wordCloud)
+- 关系图 (graph)
+- 日历图 (calendar)
+- 自定义系列 (custom)
+
+## 配置项
+
+Chart 组件支持以下属性：
+
+| 属性 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| option | Object | - | ECharts 配置项，与 ECharts 配置完全兼容 |
+| theme | string/Object | - | 主题，可以是内置主题名称或自定义主题对象 |
+| width | string/number | '100%' | 图表宽度 |
+| height | string/number | '300px' | 图表高度 |
+| loading | boolean | false | 是否显示加载动画 |
+| notMerge | boolean | false | 是否不合并数据，设为 true 时，option 中的数据将全量替换 |
+| lazyUpdate | boolean | false | 是否延迟更新 |
+| onInit | function | - | 图表初始化完成的回调函数 |
+| onRendered | function | - | 图表渲染完成的回调函数 |
+| onError | function | - | 图表渲染出错的回调函数 |
+| canvasId | string | - | 自定义 canvas id |
+| style | Object | - | 容器样式 |
+| className | string | - | 容器类名 |
+
+## 事件监听
+
+TaroViz 支持监听 ECharts 的各种事件。可以通过获取图表实例来添加事件监听：
+
+```jsx
+import React, { useRef } from 'react';
+import { View } from '@tarojs/components';
+import { Chart } from 'taroviz';
+
+const Index = () => {
+  const chartRef = useRef(null);
+
   const option = {
-    // ... 图表配置
-  }
+    // ECharts 配置...
+  };
 
-  return <Chart option={option} />
-}
+  const handleInit = (chart) => {
+    chartRef.current = chart;
+
+    // 添加点击事件监听
+    chart.on('click', (params) => {
+      console.log('点击了图表：', params);
+    });
+  };
+
+  return (
+    <View style={{ height: '300px' }}>
+      <Chart option={option} onInit={handleInit} />
+    </View>
+  );
+};
+
+export default Index;
 ```
+
+## 实例方法
+
+通过 `onInit` 回调获取到图表实例后，可以调用以下方法：
+
+- `setOption(option, [notMerge], [lazyUpdate])`: 设置图表配置项
+- `resize()`: 改变图表尺寸
+- `dispatchAction(payload)`: 触发图表行为
+- `getDataURL([opts])`: 导出图表为图片
+- `clear()`: 清空图表
+- `dispose()`: 销毁图表实例
+
+示例：
+
+```jsx
+// 更新图表数据
+chartRef.current.setOption({
+  series: [{
+    data: [123, 456, 789]
+  }]
+});
+
+// 调整图表大小
+chartRef.current.resize();
+
+// 触发高亮操作
+chartRef.current.dispatchAction({
+  type: 'highlight',
+  seriesIndex: 0,
+  dataIndex: 1
+});
+```
+
+## 主题定制
+
+TaroViz 支持 ECharts 的主题功能，可以使用内置主题或自定义主题：
+
+```jsx
+// 使用内置主题
+<Chart option={option} theme="dark" />
+
+// 使用自定义主题
+const customTheme = {
+  color: ['#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272'],
+  backgroundColor: '#f0f0f0',
+  textStyle: {},
+  // 更多主题配置...
+};
+
+<Chart option={option} theme={customTheme} />
+```
+
+## 移动端适配
+
+TaroViz 已针对移动端进行优化，建议遵循以下最佳实践：
+
+1. 设置合适的容器高度
+2. 简化图表配置，减少元素数量
+3. 使用适当的字体大小和间距
+4. 优化交互方式，适应触摸操作
+
+```jsx
+// 移动端优化示例
+const option = {
+  grid: {
+    // 留出更多空间给坐标轴标签
+    left: '10%',
+    right: '10%'
+  },
+  xAxis: {
+    // 斜角展示长文本
+    axisLabel: {
+      rotate: 45,
+      fontSize: 12
+    }
+  },
+  tooltip: {
+    // 触摸友好的提示框
+    triggerOn: 'click',
+    enterable: true
+  }
+  // 其他配置...
+};
+```
+
+## 性能优化
+
+对于大数据量或复杂图表，可以使用以下优化策略：
+
+1. 使用数据抽样或聚合
+2. 启用渐进渲染
+3. 使用懒加载
+4. 减少不必要的动画和特效
+
+```jsx
+// 性能优化配置示例
+const option = {
+  // 启用渐进渲染
+  progressive: 200,
+  progressiveThreshold: 1000,
+
+  // 减少动画时间
+  animation: true,
+  animationDuration: 500,
+
+  // 简化线条绘制
+  series: [{
+    type: 'line',
+    sampling: 'average', // 数据抽样
+    showSymbol: false,   // 不显示标记点
+    lineStyle: {
+      width: 1           // 细线
+    }
+  }]
+};
+```
+
+## 平台差异
+
+TaroViz 支持以下平台：
+
+- H5
+- 微信小程序
+- 支付宝小程序
+- 百度小程序
+- QQ小程序
+- 京东小程序
+- 抖音小程序
+- 钉钉小程序
+- 快手小程序
+- 鸿蒙系统
+
+大部分功能在各平台表现一致，但存在以下差异：
+
+- 某些小程序平台的 Canvas 2D 功能可能受限
+- 部分平台可能不支持某些高级特效
+- 渲染性能在不同平台有差异
 
 ## 常见问题
 
-### 1. 图表不显示
+### 图表不显示或显示空白
 
-检查以下几点：
-- 确保容器有宽高
-- 检查 option 配置是否正确
-- 检查控制台是否有错误信息
+可能原因：
+- 容器高度未设置
+- 数据为空
+- Canvas 上下文获取失败
 
-### 2. 性能优化
+解决方案：
+- 确保容器有明确的高度
+- 检查数据格式是否正确
+- 在真机环境测试
 
-- 使用按需引入
-- 合理设置图表更新频率
-- 避免频繁更新大量数据
+### 图表性能问题
 
-### 3. 主题切换
+可能原因：
+- 数据量过大
+- 频繁更新
+- 复杂特效
 
-- 确保引入对应的主题文件
-- 检查主题名称是否正确
-- 注意主题切换的性能影响
+解决方案：
+- 减少数据点
+- 降低更新频率
+- 简化图表配置
 
-## 最佳实践
+### 样式与预期不符
 
-1. 合理设置图表容器大小
-2. 使用响应式布局
-3. 添加适当的加载状态
-4. 处理图表事件
-5. 优化数据更新策略
-6. 使用主题定制
-7. 添加图表交互提示
-8. 处理异常情况
+可能原因：
+- 主题冲突
+- 容器样式影响
+- 平台差异
 
-## 更新日志
-
-### v0.2.0
-- 新增 H5 平台支持
-- 优化打包配置
-- 完善类型定义
-- 添加示例文档
-
-### v0.1.0
-- 初始版本发布
-- 支持基础图表类型
-- 支持微信小程序
+解决方案：
+- 明确设置主题
+- 检查容器样式
+- 针对特定平台调整

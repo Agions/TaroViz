@@ -1,304 +1,368 @@
-# TaroViz 开发环境配置指南
+# TaroViz 开发文档
 
-## 1. 开发环境要求与配置步骤
+该文档面向想要参与 TaroViz 开发或了解其内部实现的开发者。
 
-### 通用环境要求
-- **Node.js**: v16.0.0或更高版本（推荐使用v18.x LTS版本）
-- **npm**: v8.0.0或更高版本，或**yarn**: v1.22.0或更高版本
-- **Git**: 最新稳定版
+## 目录
 
-### 微信小程序
-1. 下载并安装[微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)
-2. 在微信开发者工具中启用设置：
-   - 设置 → 项目设置 → 开启调试模式
-   - 设置 → 项目设置 → 开启ES6转ES5
-   - 设置 → 项目设置 → 不校验合法域名
-3. 配置AppID（测试可使用测试号）
+- [项目结构](#项目结构)
+- [开发环境](#开发环境)
+- [构建流程](#构建流程)
+- [版本规划与特性开发](#版本规划与特性开发)
+- [代码规范](#代码规范)
+- [平台适配](#平台适配)
+- [性能优化](#性能优化)
+- [测试](#测试)
+- [发布流程](#发布流程)
+- [贡献指南](#贡献指南)
 
-### H5
-1. 确保已安装现代浏览器（Chrome、Firefox、Safari等）
-2. 安装浏览器调试插件：
-   - Chrome DevTools
-   - React Developer Tools
+## 项目结构
 
-### 支付宝小程序
-1. 下载并安装[支付宝小程序开发者工具](https://opendocs.alipay.com/mini/ide/download)
-2. 在工具中配置：
-   - 关闭域名检查
-   - 开启默认编译ES6
-
-### 鸿蒙OS
-1. 按照鸿蒙开发文档配置开发环境
-2. 安装DevEco Studio
-
-## 2. 必要的全局依赖安装命令
-
-```bash
-# 安装Node.js和npm (使用nvm管理Node版本)
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-nvm install 18
-nvm use 18
-
-# 安装Taro CLI (全局)
-npm install -g @tarojs/cli
-
-# 全局工具 (可选但推荐)
-npm install -g typescript
-npm install -g eslint
-npm install -g prettier
-npm install -g rollup
-
-# 克隆项目并安装依赖
-git clone https://github.com/agions/taroviz.git
-cd taroviz
-npm install
+```
+taroviz/
+├── src/                # 源代码
+│   ├── components/     # 组件
+│   │   └── ECharts/    # 图表组件
+│   │       ├── adapters/   # 平台适配器
+│   │       ├── hooks/      # 自定义 Hooks
+│   │       ├── styles/     # 样式文件
+│   │       ├── utils/      # 工具函数
+│   │       ├── types/      # 类型定义
+│   │       └── themes/     # 主题配置
+│   ├── examples/       # 示例
+│   └── index.ts        # 主入口
+├── demo/               # 示例项目
+├── docs/               # 文档
+├── tests/              # 测试文件
+├── scripts/            # 构建脚本
+├── .eslintrc.js        # ESLint 配置
+├── .prettierrc         # Prettier 配置
+├── tsconfig.json       # TypeScript 配置
+├── package.json        # 包配置
+└── README.md           # 项目说明
 ```
 
-## 3. 开发调试命令说明
+## 开发环境
 
-### 项目初始化与依赖管理
+### 环境要求
+
+- Node.js >= 14.0.0
+- yarn >= 1.22.0 或 npm >= 6.0.0
+
+### 安装依赖
+
 ```bash
 # 安装项目依赖
-npm install
+yarn install
 
-# 重新生成lock文件(修复依赖问题)
-rm -rf node_modules package-lock.json
-npm install
+# 安装示例项目依赖
+cd demo && yarn install
 ```
 
-### 开发命令
+### 开发流程
+
+1. 启动开发环境
+
 ```bash
-# 开发模式(监视文件变化)
-npm run dev
+# 启动库开发环境
+yarn dev
 
-# H5环境开发
-npm run build:h5
-
-# 微信小程序开发
-npm run build:weapp
-
-# 支付宝小程序开发
-npm run build:alipay
-
-# 鸿蒙OS开发
-npm run build:harmony
-
-# 构建所有平台
-npm run build:all
-
-# TypeScript类型检查
-npm run type-check
-
-# 代码风格检查
-npm run lint
-
-# 代码风格自动修复
-npm run lint:fix
+# 启动示例项目开发环境
+cd demo && yarn dev:h5
+# 或者
+cd demo && yarn dev:weapp
 ```
+
+2. 修改代码并测试
+
+3. 构建
+
+```bash
+yarn build
+```
+
+## 构建流程
+
+TaroViz 使用 Rollup 进行打包，支持多种模块格式输出。
 
 ### 构建命令
+
 ```bash
-# 清理构建目录
-npm run clean
+# 完整构建
+yarn build
 
-# 构建生产版本
-npm run build
+# 仅构建库
+yarn build:lib
 
-# 运行测试
-npm test
+# 仅构建类型定义
+yarn build:types
 
-# 在发布前准备(自动运行build)
-npm run prepare
+# 仅构建示例
+yarn build:demo
 ```
 
-### 示例项目启动
+### 构建输出
+
+构建后的文件位于 `dist` 目录：
+
+- `dist/index.js` - CommonJS 格式
+- `dist/index.esm.js` - ES Module 格式
+- `dist/index.umd.js` - UMD 格式
+- `dist/types` - TypeScript 类型定义
+
+## 版本规划与特性开发
+
+TaroViz 采用逐步迭代的开发模式，每个版本专注于特定功能集的实现和优化。
+
+### v0.3.0 版本（已完成）
+
+v0.3.0 版本重点实现了以下功能：
+
+#### 增强的自定义配置功能
+- 实现了 `customConfig` 属性，简化常见图表配置
+- 支持提示框、图例、坐标轴标签等格式化函数
+- 添加了颜色主题、字体、动画、网格等多种视觉效果配置
+- 完善了加载状态和无数据状态处理
+
+#### 扩展的图表类型支持
+- 实现了完整的图表类型注册系统
+- 新增多种图表类型，包括：
+  - 基础图表：面积图、堆叠柱状图、环形图
+  - 统计图表：箱线图、K线图
+  - 关系图表：桑基图、和弦图
+  - 层级图表：矩形树图、旭日图
+  - 地理图表：热力图、路线图
+  - 特殊图表：水球图、词云图
+
+#### 丰富的示例应用
+- 交互式图表示例：展示高亮、提示框控制、标记点添加等交互功能
+- 动态数据图表示例：实现实时数据更新、数据窗口滑动、手动添加异常值
+- 响应式布局示例：支持单列、双列和仪表盘三种布局，自适应不同屏幕尺寸
+- 自定义配置示例：展示如何使用简化配置快速定制图表样式
+
+#### 文档和示例管理
+- 为Chart组件添加了详细的API文档
+- 创建了统一的示例索引和分类系统
+- 为每个示例提供了详细说明和使用指南
+
+### v0.4.0 版本规划
+
+v0.4.0 版本将专注于以下方向：
+
+#### 性能优化
+- 实现图表组件懒加载
+- 优化大数据量渲染性能
+- 提高跨平台渲染一致性
+- 减少不必要的重绘和计算
+
+#### 测试与质量保障
+- 添加单元测试覆盖核心功能
+- 实现端到端测试验证跨平台兼容性
+- 建立持续集成流程
+
+#### 扩展支持平台
+- 增强已支持平台的适配度
+- 添加更多小程序平台支持
+- 优化平台特定功能
+
+#### 高级交互与功能
+- 实现图表联动功能
+- 支持更复杂的图表交互
+- 添加数据导出能力
+- 增强图表动画效果
+
+### 参与特性开发
+
+如果您想参与特定特性的开发，建议按照以下步骤：
+
+1. 查看项目 Issues 和 Projects，了解当前开发重点
+2. 在开始开发前创建 Issue 讨论实现方案
+3. 遵循 [贡献指南](#贡献指南) 提交代码
+4. 编写充分的单元测试和文档
+5. 创建示例展示新功能的使用方法
+
+我们特别欢迎以下方面的贡献：
+- 新图表类型的实现
+- 性能优化
+- 跨平台兼容性改进
+- 文档和示例完善
+- 单元测试和端到端测试
+
+## 代码规范
+
+本项目使用 ESLint 和 Prettier 维护代码质量和统一风格。
+
+### 代码质量检查
+
 ```bash
-# 进入示例目录
-cd demo
+# 执行 ESLint 检查
+yarn lint
 
-# 安装依赖
-npm install
-
-# 运行H5示例
-npm run dev:h5
-
-# 运行微信小程序示例
-npm run dev:weapp
+# 自动修复 ESLint 错误
+yarn lint:fix
 ```
 
-## 4. 常见开发环境问题解决方案
+### 代码格式化
 
-### Node.js和npm相关问题
-
-| 问题 | 解决方案 |
-|------|---------|
-| 依赖安装失败 | 1. 清除npm缓存: `npm cache clean --force`<br>2. 使用淘宝镜像: `npm config set registry https://registry.npmmirror.com`<br>3. 删除node_modules重新安装: `rm -rf node_modules && npm install` |
-| 版本冲突 | 1. 使用`npm-check-updates`检查并更新依赖<br>2. 检查package.json中的peer dependencies |
-| 内存溢出错误 | 增加Node内存限制: `NODE_OPTIONS=--max_old_space_size=4096 npm run build` |
-
-### 平台特定问题
-
-#### 微信小程序
-- **问题**: 无法预览或真机调试
-  - **解决方案**: 1. 检查AppID配置 2. 确认开发者工具版本 3. 删除dist文件夹重新构建
-
-- **问题**: Canvas组件渲染问题
-  - **解决方案**: 1. 检查Canvas的ID和context获取方式 2. 确保使用Taro.createCanvasContext 3. 添加type='2d'属性
-
-#### 支付宝小程序
-- **问题**: 样式不一致
-  - **解决方案**: 1. 使用postcss适配 2. 检查rpx转换规则 3. 添加平台特定样式
-
-- **问题**: API调用失败
-  - **解决方案**: 1. 使用Taro.getEnv()判断环境 2. 使用process.env.TARO_ENV进行条件编译
-
-#### H5
-- **问题**: ECharts实例未正确渲染
-  - **解决方案**: 1. 检查容器元素是否正确设置了宽高 2. 确保在组件挂载后初始化图表 3. 使用resize方法响应容器尺寸变化
-
-#### 鸿蒙OS
-- **问题**: 组件兼容性问题
-  - **解决方案**: 1. 使用条件编译 2. 添加平台特定适配代码 3. 参考鸿蒙开发文档进行调整
-
-### 打包相关问题
-
-- **问题**: 打包体积过大
-  - **解决方案**: 1. 使用按需加载ECharts模块 2. 开启tree-shaking 3. 分离依赖和应用代码
-
-- **问题**: Rollup配置问题
-  - **解决方案**: 1. 检查external配置 2. 确保正确处理CSS文件 3. 配置适当的输出格式
-
-## 5. 高效开发的IDE设置与插件推荐
-
-### VSCode设置
-
-推荐在项目根目录创建`.vscode/settings.json`文件，包含以下设置：
-
-```json
-{
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  },
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
-  "files.eol": "\n",
-  "files.insertFinalNewline": true,
-  "files.trimTrailingWhitespace": true
-}
+```bash
+# 执行 Prettier 格式化
+yarn format
 ```
 
-### 推荐插件
+### 提交前检查
 
-#### VSCode插件
-- **ESLint**: 代码质量检查
-- **Prettier**: 代码格式化
-- **TypeScript Hero**: TS导入管理
-- **Path Intellisense**: 路径自动完成
-- **GitLens**: Git集成
-- **EditorConfig**: 统一编辑器配置
-- **Sass/Less支持插件**: CSS预处理器支持
+项目使用 husky 和 lint-staged 在提交前自动检查和格式化代码。
 
-#### 浏览器插件
-- **React Developer Tools**: React组件调试
-- **Redux DevTools**: 状态管理调试
-- **Taro Inspector**: Taro应用调试
-- **ECharts Explorer**: ECharts调试
+## 平台适配
 
-## 6. TaroViz开发最佳实践
+TaroViz 支持多个平台，每个平台都有对应的适配器。
 
-### 组件开发
+### 适配器结构
 
-1. **平台差异处理**
-   ```tsx
-   // 使用条件编译处理平台差异
-   import { ECharts } from 'taroviz';
+适配器位于 `src/components/ECharts/adapters` 目录下，每个平台对应一个适配器文件。
 
-   const MyChart = () => {
-     // 不同平台的配置差异
-     let chartConfig = {};
+### 适配原理
 
-     if (process.env.TARO_ENV === 'h5') {
-       // H5特有配置
-       chartConfig = { renderer: 'canvas' };
-     } else if (process.env.TARO_ENV === 'weapp') {
-       // 小程序特有配置
-       chartConfig = { renderer: 'svg' };
-     }
+1. 每个适配器都实现了相同的接口，但针对平台特性进行不同的实现
+2. 运行时会根据当前环境自动选择合适的适配器
+3. 适配器主要处理以下差异：
+   - Canvas 上下文获取方式
+   - 触摸事件转换
+   - 渲染流程调整
+   - 平台特定API调用
 
-     return <ECharts {...chartConfig} option={option} />;
-   };
-   ```
+### 添加新平台支持
 
-2. **性能优化**
-   - 避免频繁更新option
-   - 使用notMerge属性控制配置合并
-   - 使用lazyUpdate延迟更新
-   - 合理设置节流和防抖
+要添加新平台的支持，需要以下步骤：
 
-3. **类型安全**
-   - 为所有组件和函数提供完整类型定义
-   - 使用ECharts提供的类型声明
-   - 创建自定义类型扩展
+1. 创建平台适配器文件 (如 `src/components/ECharts/adapters/newplatform.tsx`)
+2. 实现适配器组件，处理平台特定逻辑
+3. 在 `src/components/ECharts/adapters/index.ts` 中导出并注册适配器
+4. 添加平台特定的优化和兼容性处理
+5. 编写文档和示例
 
-### 测试策略
+## 性能优化
 
-1. **单元测试**
-   - 测试核心功能和API
-   - 使用Jest进行快照测试
-   - 模拟ECharts实例
+### 减少重绘
 
-2. **集成测试**
-   - 测试不同平台的渲染结果
-   - 验证事件处理
-   - 检查性能和内存使用
+- 使用 `useCallback` 和 `useMemo` 减少不必要的函数重建和计算
+- 实现选择性渲染，只在必要时更新图表
 
-3. **端到端测试**
-   - 在实际设备上测试
-   - 验证用户交互
-   - 检查不同环境下的兼容性
+### 数据处理
 
-### 贡献示例
+- 大数据量时进行数据抽样或聚合
+- 使用 `requestAnimationFrame` 分批处理数据
 
-贡献新功能或修复bug时，请提供完整的示例代码:
+### 资源加载
+
+- 按需加载图表组件
+- 延迟加载非关键资源
+- 优化包体积，减少依赖
+
+## 测试
+
+TaroViz 使用 Jest 和 @testing-library/react 进行测试。
+
+### 单元测试
+
+```bash
+# 运行所有测试
+yarn test
+
+# 运行特定测试
+yarn test src/components/ECharts
+
+# 生成测试覆盖率报告
+yarn test:coverage
+```
+
+### 编写测试
+
+测试文件应放在对应组件目录下的 `__tests__` 目录中，如：
+`src/components/ECharts/__tests__/index.test.tsx`
 
 ```tsx
-// 示例：添加新图表类型支持
 import React from 'react';
-import { View } from '@tarojs/components';
-import { ECharts } from 'taroviz';
+import { render } from '@testing-library/react';
+import { Chart } from '../index';
 
-export default function SunburstChartExample() {
-  const option = {
-    series: [{
-      type: 'sunburst',
-      data: [/* 数据 */],
-      radius: [0, '90%'],
-      label: {
-        rotate: 'radial'
-      }
-    }]
-  };
-
-  return (
-    <View className='example-container'>
-      <ECharts
-        option={option}
-        width='100%'
-        height='300px'
+describe('Chart Component', () => {
+  it('renders without crashing', () => {
+    const { container } = render(
+      <Chart
+        option={{
+          xAxis: { type: 'category', data: ['A', 'B', 'C'] },
+          yAxis: { type: 'value' },
+          series: [{ data: [1, 2, 3], type: 'bar' }]
+        }}
       />
-    </View>
-  );
-}
+    );
+    expect(container).toBeInTheDocument();
+  });
+});
 ```
 
-## 小结
+## 发布流程
 
-本指南提供了TaroViz开发环境的基本配置步骤和工具推荐。遵循这些指南，可以快速搭建一个高效的开发环境，提升多平台图表组件的开发效率。随着项目的发展，可能需要根据具体需求调整配置。如有问题，请参考官方文档或在社区中提问。
+### 版本管理
 
-祝您开发顺利！
+1. 使用语义化版本号 (Semantic Versioning)
+2. 更新 `CHANGELOG.md` 文件，记录变更
+3. 更新版本号
+
+```bash
+# 更新补丁版本 (1.0.0 -> 1.0.1)
+yarn version --patch
+
+# 更新次要版本 (1.0.0 -> 1.1.0)
+yarn version --minor
+
+# 更新主要版本 (1.0.0 -> 2.0.0)
+yarn version --major
+```
+
+### 发布到 npm
+
+```bash
+# 构建
+yarn build
+
+# 发布
+npm publish
+```
+
+## 贡献指南
+
+我们欢迎任何形式的贡献，包括但不限于：
+
+- 提交 bug 报告
+- 功能请求
+- 代码贡献
+- 文档改进
+
+### 贡献流程
+
+1. Fork 项目仓库
+2. 创建功能分支 (`git checkout -b feature/amazing-feature`)
+3. 提交更改 (`git commit -m 'Add some amazing feature'`)
+4. 推送到分支 (`git push origin feature/amazing-feature`)
+5. 创建 Pull Request
+
+### Pull Request 指南
+
+- 确保 PR 描述清晰地说明了变更内容和原因
+- 包含必要的测试
+- 遵循现有的代码风格
+- 保持单一职责，一个 PR 只做一件事
+- 关联相关的 issue
+
+### 代码评审
+
+所有提交的代码都需要通过代码评审。评审将关注：
+
+- 功能正确性
+- 代码质量
+- 性能影响
+- 架构一致性
+- 文档完整性
+
+感谢您对 TaroViz 项目的贡献!
