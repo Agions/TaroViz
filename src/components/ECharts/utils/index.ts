@@ -3,6 +3,22 @@
  */
 import Taro from '@tarojs/taro';
 import { DataURLOption } from '../types/common';
+import { debounce } from './common';
+import { CHART_INSTANCES } from './chartInstances';
+
+// 事件系统
+export const events = {
+  click: 'click',
+  mousemove: 'mousemove',
+  mouseup: 'mouseup',
+  mousedown: 'mousedown',
+  mouseover: 'mouseover',
+  mouseout: 'mouseout',
+  globalout: 'globalout'
+};
+
+// 导出需要的函数和变量
+export { debounce, CHART_INSTANCES };
 
 /**
  * 保存图表为图片

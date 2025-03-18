@@ -33,7 +33,7 @@ const BJData = [
 
 // 转换数据格式
 function convertData(data) {
-  const res = [];
+  const res:any = [];
   for (let i = 0; i < data.length; i++) {
     const dataItem = data[i];
     const fromCoord = geoCoordMap[dataItem[0].name];
@@ -51,7 +51,7 @@ function convertData(data) {
 }
 
 const color = ['#a6c84c', '#ffa022', '#46bee9'];
-const series = [];
+const series:any[] = [];
 
 series.push({
   name: '北京 Top8',
@@ -136,17 +136,15 @@ const option: EChartsOption = {
   geo: {
     map: 'china',
     label: {
-      emphasis: {
-        show: false
-      }
+      show: false
     },
     roam: true,
     itemStyle: {
-      normal: {
-        areaColor: '#323c48',
-        borderColor: '#404a59'
-      },
-      emphasis: {
+      areaColor: '#323c48',
+      borderColor: '#404a59'
+    },
+    emphasis: {
+      itemStyle: {
         areaColor: '#2a333d'
       }
     }

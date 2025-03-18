@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 import { View, Text, Button } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import ECharts from '../../components/ECharts';
+import { Chart } from '../../components/Chart';
+import type { EChartsOption } from 'echarts';
 import './index.scss';
 
 const LineChart: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   // 折线图配置
-  const option = {
+  const option: EChartsOption = {
     title: {
       text: '折线图示例',
       left: 'center'
-    },
+    } as any,
     tooltip: {
       trigger: 'axis'
-    },
+    } as any,
     legend: {
       data: ['销量', '利润'],
       bottom: 0
@@ -68,7 +69,7 @@ const LineChart: React.FC = () => {
   return (
     <View className='line-chart-page'>
       <View className='chart-container'>
-        <ECharts option={option} loading={loading} />
+        <Chart option={option} loading={loading} />
       </View>
 
       <View className='controls'>

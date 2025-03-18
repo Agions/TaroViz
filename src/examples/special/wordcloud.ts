@@ -91,14 +91,12 @@ const option: EChartsOption = {
       sizeRange: [12, 60],
       // 词间距
       gridSize: 8,
-      // 词云形状
-      shape: 'circle',
       // 数据
       data: data.sort(function(a, b) {
         return b.value - a.value;
       })
     }
-  ]
+  ] as any,
 };
 
 export default {

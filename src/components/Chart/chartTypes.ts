@@ -316,7 +316,6 @@ export const chartTypes: Record<string, ChartType> = {
     defaultOption: {
       series: {
         type: 'sankey',
-        layout: 'none',
         emphasis: {
           focus: 'adjacency'
         },
@@ -356,7 +355,7 @@ export const chartTypes: Record<string, ChartType> = {
           [6, 5, 0, 2],
           [4, 1, 2, 0]
         ]
-      }
+      } as any
     }
   },
 
@@ -527,7 +526,7 @@ export const chartTypes: Record<string, ChartType> = {
           { name: '北京', value: [116.405285, 39.904989, 9] },
           { name: '上海', value: [121.472644, 31.231706, 8] },
           { name: '广州', value: [113.280637, 23.125178, 7] }
-        ]
+        ] as any
       }
     }
   },
@@ -640,7 +639,7 @@ export const chartTypes: Record<string, ChartType> = {
             }
           }
         }
-      }
+      } as any
     }
   },
   wordCloud: {
@@ -687,7 +686,7 @@ export const chartTypes: Record<string, ChartType> = {
           { name: '分析', value: 40 },
           { name: '展示', value: 30 }
         ]
-      }
+      } as any
     }
   }
 }

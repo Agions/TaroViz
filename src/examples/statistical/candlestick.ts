@@ -33,8 +33,8 @@ const data = [
 ];
 
 // 计算MA指标
-function calculateMA(dayCount) {
-  const result = [];
+function calculateMA(dayCount: number): (number | string)[] {
+  const result: (number | string)[] = [];
   for (let i = 0; i < data.length; i++) {
     if (i < dayCount - 1) {
       result.push('-');
@@ -42,7 +42,7 @@ function calculateMA(dayCount) {
     }
     let sum = 0;
     for (let j = 0; j < dayCount; j++) {
-      sum += data[i - j][1];
+      sum += Number(data[i - j][1]);
     }
     result.push(Math.round(sum / dayCount * 100) / 100);
   }
@@ -70,10 +70,8 @@ const option: EChartsOption = {
     bottom: '15%'
   },
   xAxis: {
-    type: 'category',
-    data: data.map(item => item[0]),
-    scale: true,
-    boundaryGap: false,
+    type: 'value',
+    boundaryGap: ['0%', '0%'],
     axisLine: { onZero: false },
     splitLine: { show: false },
     splitNumber: 20
@@ -112,7 +110,7 @@ const option: EChartsOption = {
       markPoint: {
         label: {
           formatter: function (param) {
-            return param != null ? Math.round(param.value) + '' : '';
+            return param != null ? Math.round(param?.value as any)  + '' : '';
           }
         },
         data: [

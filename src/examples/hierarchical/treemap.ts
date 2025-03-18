@@ -62,7 +62,7 @@ const option: EChartsOption = {
     formatter: function (info) {
       const value = info.value;
       const treePathInfo = info.treePathInfo;
-      const treePath = [];
+      const treePath: any[] = [];
 
       for (let i = 1; i < treePathInfo.length; i++) {
         treePath.push(treePathInfo[i].name);

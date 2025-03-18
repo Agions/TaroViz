@@ -47,7 +47,7 @@ const option: EChartsOption = {
         }
       }
     }
-  ]
+  ] as any,
 };
 
 export default {
