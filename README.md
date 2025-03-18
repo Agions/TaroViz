@@ -3,7 +3,6 @@
 [![npm version](https://img.shields.io/npm/v/taroviz.svg)](https://www.npmjs.com/package/taroviz)
 [![npm downloads](https://img.shields.io/npm/dm/taroviz.svg)](https://www.npmjs.com/package/taroviz)
 [![license](https://img.shields.io/npm/l/taroviz.svg)](https://github.com/agions/taroviz/blob/main/LICENSE)
-[![platforms](https://img.shields.io/badge/platforms-H5%20%7C%20WeChat%20%7C%20Alipay%20%7C%20Baidu%20%7C%20QQ%20%7C%20JD%20%7C%20TikTok%20%7C%20DingTalk%20%7C%20Kuaishou%20%7C%20360%20%7C%20ByteDance%20%7C%20Huawei%20%7C%20Taobao%20%7C%20Douyin%20%7C%20Qianfan%20%7C%20Lark%20%7C%20Swan%20%7C%20Toutiao%20%7C%20Xiaohongshu-blue)]
 
 基于 ECharts 的 Taro 图表库，支持 H5 和小程序环境。
 
