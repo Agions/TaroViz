@@ -1,6 +1,6 @@
 {
   "name": "taroviz",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "TaroViz 是一个基于 Taro 和 ECharts 的图表组件库，支持多端小程序和 H5",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -71,7 +71,7 @@
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.0.0",
-    "@types/jest": "^29.5.12",
+    "@types/jest": "29.5.14",
     "@types/node": "^20.11.19",
     "@types/react": "^18.2.57",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
