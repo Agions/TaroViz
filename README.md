@@ -9,7 +9,6 @@
 </div>
 
 <div align="center">
-  <a href="https://taroviz-demo.vercel.app">在线演示</a> •
   <a href="#快速开始">快速开始</a> •
   <a href="#图表类型">图表类型</a> •
   <a href="#文档">文档</a> •
