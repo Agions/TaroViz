@@ -104,9 +104,6 @@ export default function Page() {
 }
 ```
 
-<div align="center">
-  <img src="https://placeholder-for-chart-preview.com/line-chart.png" alt="折线图示例" width="400" />
-</div>
 
 ## 📊 图表示例
 
@@ -146,9 +143,7 @@ export default function BarChartExample() {
 }
 ```
 
-<div align="center">
-  <img src="https://placeholder-for-chart-preview.com/bar-chart.png" alt="柱状图示例" width="400" />
-</div>
+
 
 ### 饼图示例
 
@@ -201,9 +196,6 @@ export default function PieChartExample() {
 }
 ```
 
-<div align="center">
-  <img src="https://placeholder-for-chart-preview.com/pie-chart.png" alt="饼图示例" width="400" />
-</div>
 
 ## 📝 按需引入
 
