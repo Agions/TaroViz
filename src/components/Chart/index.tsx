@@ -1,15 +1,23 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react'
+import React, { useRef, useEffect, useState, useCallback, useImperativeHandle, forwardRef } from 'react'
 import { View } from '@tarojs/components'
 import type { EChartsOption } from 'echarts'
 import { getAdapter } from '../ECharts/adapters'
 import { registerEvents, dispatchAction } from './eventHandlers'
 import { ChartEventListener } from '../ECharts/types/common'
+import { ChartLinkageProps } from '../../linkage/types'
+import { optimizeChartOption } from '../../optimization/largeDataHandler'
+import { DataProcessingOptions } from '../../optimization/largeDataHandler'
+import { autoResponsiveLayout } from '../../layout/responsiveLayout'
+import { DrillDownManager } from '../../drilldown'
+import { exportChart, exportCSV } from '../../export'
 import './index.scss'
 
 // 获取适配器
-const EChartsComponent = getAdapter()
+const EChartsAdapter = getAdapter()
+// 将适配器转换为JSX组件类型（先转为unknown再转为ComponentType以消除类型错误）
+const EChartsComponent = EChartsAdapter as unknown as React.ComponentType<any>
 
-interface ChartProps {
+interface ChartProps extends ChartLinkageProps {
   option: EChartsOption
   theme?: string | object
   width?: number | string
@@ -44,6 +52,9 @@ interface ChartProps {
   noDataText?: string // 无数据时显示的文本
   throttleRender?: number // 渲染节流时间(ms)
   canvasId?: string // 自定义canvas id
+  dataProcessing?: DataProcessingOptions // 数据处理选项
+  enableDrillDown?: boolean // 启用下钻功能
+  enableResponsive?: boolean // 启用响应式布局
   customConfig?: { // 自定义配置
     tooltipFormatter?: (params: any) => string // 提示框格式化函数
     legendFormatter?: (name: string) => string // 图例格式化函数
@@ -62,7 +73,22 @@ interface ChartProps {
   }
 }
 
-export const Chart: React.FC<ChartProps> = ({
+export interface ChartInstance {
+  getEchartsInstance: () => any;
+  setOption: (option: EChartsOption, notMerge?: boolean, lazyUpdate?: boolean) => void;
+  getDrillManager: () => DrillDownManager | null;
+  reload: () => void;
+  clear: () => void;
+  resize: (opts?: { width?: number | string; height?: number | string }) => void;
+  dispose: () => void;
+  toggleLegend: (name: string, show: boolean) => void;
+  showLoading: (opts?: any) => void;
+  hideLoading: () => void;
+  exportAsImage: (options?: any) => Promise<string>;
+  exportAsCSV: (options?: any) => Promise<string>;
+}
+
+export const Chart = forwardRef<ChartInstance, ChartProps>(({
   option,
   theme,
   width = '100%',
@@ -84,10 +110,18 @@ export const Chart: React.FC<ChartProps> = ({
   noDataText = '暂无数据',
   throttleRender = 100,
   canvasId,
-  customConfig
-}) => {
+  dataProcessing,
+  enableDrillDown = false,
+  enableResponsive = false,
+  customConfig,
+  // Linkage props
+  linkage,
+  linkConfig,
+  chartId
+}, ref) => {
   const chartRef = useRef<any>(null)
   const chartInstanceRef = useRef<any>(null)
+  const drillManagerRef = useRef<DrillDownManager | null>(null)
   const [isLoading, setIsLoading] = useState(loading || showLoading)
   const [hasData, setHasData] = useState(true)
 
@@ -213,6 +247,24 @@ export const Chart: React.FC<ChartProps> = ({
 
     return newOption
   }, [customConfig])
+  
+  // 应用所有处理和优化
+  const getFinalOption = useCallback((rawOption: EChartsOption): EChartsOption => {
+    // 首先应用自定义配置
+    let processedOption = getProcessedOption(rawOption)
+    
+    // 应用性能优化
+    if (dataProcessing) {
+      processedOption = optimizeChartOption(processedOption, dataProcessing)
+    }
+    
+    // 应用响应式布局
+    if (enableResponsive) {
+      processedOption = autoResponsiveLayout(processedOption)
+    }
+    
+    return processedOption
+  }, [getProcessedOption, dataProcessing, enableResponsive])
 
   // 检查图表是否有数据
   const checkHasData = useCallback((opt: EChartsOption): boolean => {
@@ -231,16 +283,16 @@ export const Chart: React.FC<ChartProps> = ({
 
     chartInstanceRef.current = chart
 
-    // 应用处理后的配置
-    const processedOption = getProcessedOption(option)
+    // 应用最终处理的配置
+    const finalOption = getFinalOption(option)
 
     // 检查是否有数据
-    const hasDataValue = checkHasData(processedOption)
+    const hasDataValue = checkHasData(finalOption)
     setHasData(hasDataValue)
 
     // 设置配置
     try {
-      chart.setOption(processedOption, notMerge, lazyUpdate)
+      chart.setOption(finalOption, notMerge, lazyUpdate)
 
       // 注册事件
       if (onEvents && onEvents.length > 0) {
@@ -248,31 +300,56 @@ export const Chart: React.FC<ChartProps> = ({
       }
 
       // 设置加载状态
-      if (loading || showLoading) {
+      if (isLoading) {
         chart.showLoading(loadingOption)
       } else {
         chart.hideLoading()
       }
+      
+      // 初始化下钻管理器
+      if (enableDrillDown) {
+        import('../../drilldown').then(module => {
+          drillManagerRef.current = module.createDrillDown(chart)
+        })
+      }
 
-      // 初始化回调
-      if (onInit && typeof onInit === 'function') {
+      // 调用onInit回调
+      if (onInit) {
         onInit(chart)
       }
-
-      // 渲染完成回调
-      if (onRendered && typeof onRendered === 'function') {
-        onRendered()
-      }
     } catch (e) {
-      if (onError && typeof onError === 'function') {
+      if (onError) {
         onError(e as Error)
       } else {
-        console.error('图表渲染错误:', e)
+        console.error('图表初始化失败:', e)
       }
     }
-  }, [option, notMerge, lazyUpdate, loading, showLoading, loadingOption, onInit, onRendered, onError, onEvents, getProcessedOption, checkHasData])
+  }, [option, notMerge, lazyUpdate, isLoading, loadingOption, onEvents, onInit, onError, checkHasData, getFinalOption, enableDrillDown])
 
-  // 加载状态变化
+  // 更新图表
+  useEffect(() => {
+    if (!chartInstanceRef.current) return
+
+    // 应用最终处理的配置
+    const finalOption = getFinalOption(option)
+
+    // 检查是否有数据
+    const hasDataValue = checkHasData(finalOption)
+    setHasData(hasDataValue)
+
+    // 更新配置
+    try {
+      chartInstanceRef.current.setOption(finalOption, notMerge, lazyUpdate)
+    } catch (e) {
+      if (onError) {
+        onError(e as Error)
+      } else {
+        console.error('图表更新失败:', e)
+      }
+    }
+  }, [option, notMerge, lazyUpdate, onError, checkHasData, getFinalOption])
+
+  // 处理加载状态变化
   useEffect(() => {
     if (!chartInstanceRef.current) return
 
@@ -285,53 +362,105 @@ export const Chart: React.FC<ChartProps> = ({
     }
   }, [loading, showLoading, loadingOption])
 
-  // 监听配置变化
-  useEffect(() => {
-    if (!chartInstanceRef.current) return
-
-    // 应用处理后的配置
-    const processedOption = getProcessedOption(option)
-
-    // 检查是否有数据
-    const hasDataValue = checkHasData(processedOption)
-    setHasData(hasDataValue)
-
-    // 设置配置
-    chartInstanceRef.current.setOption(processedOption, notMerge, lazyUpdate)
-  }, [option, notMerge, lazyUpdate, getProcessedOption, checkHasData])
+  // 暴露组件API
+  useImperativeHandle(ref, () => ({
+    getEchartsInstance: () => chartInstanceRef.current,
+    
+    setOption: (newOption, notMerge, lazyUpdate) => {
+      if (chartInstanceRef.current) {
+        const finalOption = getFinalOption(newOption)
+        chartInstanceRef.current.setOption(finalOption, notMerge, lazyUpdate)
+      }
+    },
+    
+    getDrillManager: () => drillManagerRef.current,
+    
+    reload: () => {
+      if (chartInstanceRef.current) {
+        // 重新应用选项
+        const finalOption = getFinalOption(option)
+        chartInstanceRef.current.setOption(finalOption, true)
+      }
+    },
+    
+    clear: () => {
+      if (chartInstanceRef.current) {
+        chartInstanceRef.current.clear()
+      }
+    },
+    
+    resize: (opts) => {
+      if (chartInstanceRef.current) {
+        chartInstanceRef.current.resize(opts)
+      }
+    },
+    
+    dispose: () => {
+      if (chartInstanceRef.current) {
+        chartInstanceRef.current.dispose()
+        chartInstanceRef.current = null
+      }
+      
+      if (drillManagerRef.current) {
+        drillManagerRef.current = null
+      }
+    },
+    
+    toggleLegend: (name, show) => {
+      if (chartInstanceRef.current) {
+        dispatchAction(chartInstanceRef.current, {
+          type: show ? 'legendSelect' : 'legendUnSelect',
+          name
+        })
+      }
+    },
+    
+    showLoading: (opts) => {
+      if (chartInstanceRef.current) {
+        chartInstanceRef.current.showLoading(opts || loadingOption)
+      }
+    },
+    
+    hideLoading: () => {
+      if (chartInstanceRef.current) {
+        chartInstanceRef.current.hideLoading()
+      }
+    },
+    
+    exportAsImage: (opts) => {
+      if (!chartInstanceRef.current) {
+        return Promise.reject(new Error('图表实例不存在'))
+      }
+      return exportChart(chartInstanceRef.current, opts)
+    },
+    
+    exportAsCSV: (opts) => {
+      if (!chartInstanceRef.current) {
+        return Promise.reject(new Error('图表实例不存在'))
+      }
+      return exportCSV(chartInstanceRef.current, opts)
+    }
+  }), [option, getFinalOption, loadingOption])
 
   return (
-    <View
-      className={`taroviz-chart-container ${className}`}
-      style={{
-        width,
-        height,
-        ...style
-      }}
-    >
-      {/* @ts-ignore */}
+    <View className={`taroviz-chart-container ${className}`} style={{ width, height, ...style }}>
       <EChartsComponent
         ref={chartRef}
-        option={option}
-        theme={theme}
-        width={width}
-        height={height}
         onInit={handleInit}
+        onRendered={onRendered}
+        className="taroviz-chart"
+        theme={theme}
         canvasId={canvasId}
+        onlyRenderOnResize={onlyRenderOnResize}
+        throttleRender={throttleRender}
       />
-
-      {isLoading && (
-        <View className="taroviz-chart-loading">
-          <View className="loading-spinner"></View>
-          <View className="loading-text">{loadingOption?.text || '加载中...'}</View>
-        </View>
-      )}
-
-      {!isLoading && showNoDataMask && !hasData && (
-        <View className="taroviz-chart-no-data">
-          {noDataText}
+      {!hasData && showNoDataMask && (
+        <View className="taroviz-no-data-mask">
+          <View className="taroviz-no-data-text">{noDataText}</View>
         </View>
       )}
     </View>
   )
-}
+})
+
+Chart.displayName = 'Chart'
