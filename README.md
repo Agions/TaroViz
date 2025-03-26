@@ -5,7 +5,6 @@
 [![license](https://img.shields.io/npm/l/taroviz.svg)](https://github.com/agions/taroviz/blob/main/LICENSE)
 
 <div align="center">
-  <img src="https://placeholder-for-taroviz-logo.com/logo.png" alt="TaroViz Logo" width="200" />
   <p>基于 ECharts 的 Taro 图表库，支持多端环境的高性能可视化解决方案</p>
 </div>
 
