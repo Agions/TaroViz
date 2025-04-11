@@ -1,0 +1,80 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": "./",
+    "declaration": true,
+    "declarationDir": "./dist",
+    "paths": {
+      "@taroviz/core-bundle": [
+        "./src"
+      ],
+      "@taroviz/core": [
+        "../core/src"
+      ],
+      "@taroviz/core/*": [
+        "../core/src/*"
+      ],
+      "@taroviz/adapters": [
+        "../adapters/src"
+      ],
+      "@taroviz/adapters/*": [
+        "../adapters/src/*"
+      ],
+      "@taroviz/charts": [
+        "../charts/src"
+      ],
+      "@taroviz/charts/*": [
+        "../charts/src/*"
+      ],
+      "@taroviz/themes": [
+        "../themes/src"
+      ],
+      "@taroviz/themes/*": [
+        "../themes/src/*"
+      ],
+      "@taroviz/data": [
+        "../data/src"
+      ],
+      "@taroviz/data/*": [
+        "../data/src/*"
+      ],
+      "@taroviz/hooks": [
+        "../hooks/src"
+      ],
+      "@taroviz/hooks/*": [
+        "../hooks/src/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*",
+    "index.d.ts"
+  ],
+  "exclude": [
+    "**/__tests__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ],
+  "references": [
+    {
+      "path": "../core"
+    },
+    {
+      "path": "../adapters"
+    },
+    {
+      "path": "../charts"
+    },
+    {
+      "path": "../themes"
+    },
+    {
+      "path": "../data"
+    },
+    {
+      "path": "../hooks"
+    }
+  ]
+}

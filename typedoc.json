@@ -1,0 +1,23 @@
+{
+  "entryPoints": ["src/index.ts"],
+  "out": "docs/api",
+  "exclude": ["**/__tests__/**", "**/node_modules/**"],
+  "theme": "default",
+  "name": "TaroViz API文档",
+  "readme": "none",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "includeVersion": true,
+  "categorizeByGroup": true,
+  "categoryOrder": [
+    "Core",
+    "Charts",
+    "Themes",
+    "Data Processing",
+    "Utilities",
+    "Types"
+  ],
+  "searchInComments": true,
+  "sort": ["static-first", "visibility", "alphabetical"]
+} 

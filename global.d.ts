@@ -16,6 +16,63 @@ declare namespace NodeJS {
   }
 }
 
+// 微信小程序全局对象
+declare namespace WechatMiniprogram {
+  interface Wx {
+    getSystemInfoSync: () => any;
+    createSelectorQuery: () => any;
+    qy?: any; // 企业微信
+    [key: string]: any;
+  }
+}
+declare const wx: WechatMiniprogram.Wx;
+
+// 支付宝小程序全局对象
+declare const my: {
+  getSystemInfoSync: () => any;
+  createSelectorQuery: () => any;
+  [key: string]: any;
+};
+
+// 百度小程序全局对象
+declare const swan: {
+  getSystemInfoSync: () => any;
+  createSelectorQuery: () => any;
+  [key: string]: any;
+};
+
+// 字节跳动小程序全局对象
+declare const tt: {
+  getSystemInfoSync: () => any;
+  createSelectorQuery: () => any;
+  env?: {
+    appName?: string;
+    [key: string]: any;
+  };
+  [key: string]: any;
+};
+
+// QQ小程序全局对象
+declare const qq: {
+  getSystemInfoSync: () => any;
+  createSelectorQuery: () => any;
+  [key: string]: any;
+};
+
+// 京东小程序全局对象
+declare const jd: {
+  getSystemInfoSync: () => any;
+  createSelectorQuery: () => any;
+  [key: string]: any;
+};
+
+// 钉钉小程序全局对象
+declare const dd: {
+  getSystemInfoSync: () => any;
+  createSelectorQuery: () => any;
+  [key: string]: any;
+};
+
 // ECharts for 小程序
 declare module 'echarts-for-weapp';
 

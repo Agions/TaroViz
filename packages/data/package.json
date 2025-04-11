@@ -1,0 +1,24 @@
+{
+  "name": "@taroviz/data",
+  "version": "0.5.0",
+  "description": "TaroViz 数据处理工具",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "dev": "webpack --mode=development --watch",
+    "build": "webpack --mode=production",
+    "clean": "rimraf dist"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@taroviz/core": "0.5.0"
+  }
+}

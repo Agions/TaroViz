@@ -1,159 +1,186 @@
-# 贡献指南
+# TaroViz 贡献指南
 
-感谢您考虑为TaroViz做出贡献！本指南旨在帮助您顺利地为项目做出贡献。
+感谢您对TaroViz项目的关注！我们欢迎来自社区的贡献，无论是修复bug、改进文档还是添加新功能。本指南将帮助您了解如何参与贡献。
 
-## 目录
+## 开发环境设置
 
-- [行为准则](#行为准则)
-- [如何开始](#如何开始)
-  - [环境搭建](#环境搭建)
-  - [项目结构](#项目结构)
-- [开发流程](#开发流程)
-  - [分支策略](#分支策略)
-  - [提交规范](#提交规范)
-- [开发标准](#开发标准)
-  - [代码风格](#代码风格)
-  - [测试要求](#测试要求)
-  - [文档要求](#文档要求)
-- [提交变更](#提交变更)
-  - [Issue流程](#issue流程)
-  - [Pull Request流程](#pull-request流程)
-- [发布流程](#发布流程)
-- [社区互动](#社区互动)
+首先，克隆仓库并安装依赖：
 
+```bash
+git clone https://github.com/yourusername/taroviz.git
+cd taroviz
+npm install
+```
 
-## 如何开始
+TaroViz使用Lerna进行多包管理，初始化Lerna工作区：
 
-### 环境搭建
+```bash
+npm run bootstrap
+```
 
-1. Fork本仓库
-2. Clone您的fork到本地
-   ```bash
-   git clone https://github.com/yourusername/taroviz.git
-   cd taroviz
-   ```
-3. 安装依赖
-   ```bash
-   npm install
-   ```
-4. 设置上游仓库
-   ```bash
-   git remote add upstream https://github.com/agions/taroviz.git
-   ```
+## 项目结构
 
-有关详细的开发环境配置，请参阅我们的[开发环境配置指南](docs/DEVELOPMENT.md)。
-
-### 项目结构
+TaroViz项目采用了模块化的结构，主要包括以下目录：
 
 ```
 taroviz/
-├── src/               # 源代码
-│   ├── components/    # 组件
-│   ├── utils/         # 工具函数
-│   ├── types/         # 类型定义
-│   └── index.ts       # 入口文件
-├── dist/              # 构建输出
-├── docs/              # 文档
-├── tests/             # 测试文件
-├── examples/          # 示例代码
-└── config/            # 配置文件
+├── packages/
+│   ├── core/         # 核心功能和类型定义
+│   ├── adapters/     # 平台适配器
+│   ├── charts/       # 图表组件
+│   ├── hooks/        # React hooks
+│   ├── themes/       # 主题系统
+│   ├── data/         # 数据处理工具
+│   └── all/          # 整合包，导出所有功能
+├── examples/         # 使用示例
+├── docs/             # 文档
+├── scripts/          # 构建和开发脚本
+└── tests/            # 测试
 ```
 
 ## 开发流程
 
-### 分支策略
-
-- `main`: 稳定版本分支
-- `develop`: 开发分支
-- `feature/*`: 新功能分支
-- `bugfix/*`: 错误修复分支
-- `release/*`: 发布准备分支
-
-### 提交规范
-
-我们使用[约定式提交](https://www.conventionalcommits.org/)规范:
-
-```
-<类型>[可选作用域]: <描述>
-
-[可选正文]
-
-[可选脚注]
-```
-
-类型包括:
-- `feat`: 新功能
-- `fix`: 修复Bug
-- `docs`: 文档更新
-- `style`: 代码样式调整
-- `refactor`: 代码重构
-- `perf`: 性能优化
-- `test`: 测试相关
-- `chore`: 构建过程或辅助工具的变动
-
-## 开发标准
-
-### 代码风格
-
-我们使用ESLint和Prettier来保持代码风格一致:
+1. **创建分支**：从main分支创建一个新的功能分支或修复分支
+2. **开发**：在本地进行开发和测试
+3. **构建**：使用构建命令确保代码能够正确编译
 
 ```bash
-# 检查代码
+# 开发模式（监视文件变化）
+npm run dev
+
+# 构建所有包
+npm run build
+
+# 按依赖顺序构建
+npm run build:order
+
+# 构建单个包
+npm run build:core
+npm run build:adapters
+# 等等...
+```
+
+4. **测试**：运行测试确保功能正常
+
+```bash
+npm run test
+```
+
+5. **提交**：提交代码并推送到远程仓库
+6. **创建PR**：创建Pull Request并等待审核
+
+## 代码规范
+
+我们使用ESLint和Prettier来保持代码风格的一致性：
+
+```bash
+# 运行代码检查
 npm run lint
 
-# 自动修复问题
-npm run lint:fix
+# 自动修复代码风格问题
+npm run format
 ```
 
-### 测试要求
+### TypeScript规范
 
-所有代码变更需要有相应的测试:
+- 所有代码必须使用TypeScript编写
+- 所有公共API必须有明确的类型定义
+- 避免使用 `any`类型，除非确实必要
+- 尽量使用接口（interface）而不是类型别名（type）来定义对象类型
+- 使用联合类型表示有限集合的值
 
-```bash
-# 运行测试
-npm test
+## 类型系统设计
 
-# 查看测试覆盖率
-npm run test:coverage
+TaroViz的类型系统是其核心优势之一，我们非常重视类型定义的质量。主要的类型定义位于：
+
+- `packages/core/src/types/`: 核心类型定义
+- `types.d.ts`: 全局类型声明
+
+在开发新功能时，请注意以下事项：
+
+1. 确保类型之间不产生循环依赖
+2. 避免重复定义相同的类型
+3. 为复杂类型添加文档注释
+4. 使用命名空间避免名称冲突
+
+### 类型导出注意事项
+
+由于包之间存在依赖关系，当多个包导出同名类型时可能会产生冲突。我们采用以下策略来避免冲突：
+
+- 核心类型定义在 `@taroviz/core`包中
+- 其他包通过导入核心包的类型来扩展，而不是重新定义
+- 在主包中导出类型时，使用命名空间或重命名策略避免冲突
+
+例如：
+
+```typescript
+// 正确的做法
+import { BaseType } from '@taroviz/core';
+export interface ExtendedType extends BaseType {
+  // 扩展属性...
+}
+
+// 错误的做法
+export interface BaseType { // 与核心包中的类型同名
+  // ...
+}
 ```
 
-### 文档要求
+## 适配器开发
 
-对于新特性或API更改:
-- 更新README.md中的相关描述
-- 更新相关组件文档
-- 提供使用示例
+如果您需要为新平台添加适配器，请遵循以下步骤：
 
-## 提交变更
+1. 在 `packages/adapters/src/`中创建新的适配器目录
+2. 实现 `Adapter`接口（在 `@taroviz/core/types`中定义）
+3. 在 `packages/adapters/src/index.ts`中注册新适配器
+4. 添加适当的测试和文档
 
-### Issue流程
+## 提交规范
 
-1. 使用Issue模板创建新Issue
-2. 清晰描述问题或需求
-3. 添加合适的标签
-4. 等待维护者分配
+我们使用[Conventional Commits](https://www.conventionalcommits.org/)规范：
 
-### Pull Request流程
+- `feat`: 新功能
+- `fix`: 修复bug
+- `docs`: 文档更新
+- `style`: 代码风格变更（不影响功能）
+- `refactor`: 代码重构
+- `perf`: 性能优化
+- `test`: 添加或修改测试
+- `build`: 构建系统或外部依赖变更
+- `ci`: CI配置变更
+- `chore`: 其他变更
 
-1. 确保本地分支同步最新上游变更
-2. 创建功能分支
-3. 实现更改并提交
-4. 运行测试确认通过
-5. 推送到您的Fork
-6. 创建Pull Request并链接相关Issue
-7. 等待代码审查
+提交示例：
+
+```
+feat(charts): 添加雷达图组件
+fix(adapters): 修复微信小程序适配器初始化问题
+docs: 更新安装说明
+```
 
 ## 发布流程
 
-1. 更新版本号(使用[语义化版本](https://semver.org/))
-2. 更新CHANGELOG.md
-3. 创建发布标签
-4. 发布到npm
+发布新版本由维护者完成，流程如下：
 
-## 社区互动
+1. 更新版本号（使用Lerna）
+2. 生成变更日志
+3. 发布到npm
+4. 创建版本标签
 
-- 使用[Discussions](https://github.com/agions/taroviz/discussions)讨论想法
-- 参与Issue评论
-- 在PR中提供建设性反馈
+```bash
+# 更新版本
+npm run version
+
+# 发布
+npm run publish
+```
+
+## 问题和讨论
+
+如果您有任何问题或想法，可以：
+
+- 创建GitHub Issues
+- 在Pull Request中讨论
+- 联系维护者
 
 感谢您的贡献！

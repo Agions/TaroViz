@@ -1,0 +1,36 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "declaration": true,
+    "declarationDir": "./dist",
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@taroviz/core/*": [
+        "../core/*"
+      ],
+      "@taroviz/core": [
+        "../core/src/*"
+      ],
+      "@taroviz/adapters": [
+        "../adapters"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "references": [
+    {
+      "path": "../core"
+    },
+    {
+      "path": "../adapters"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "version": "0.5.0",
+  "npmClient": "npm",
+  "command": {
+    "publish": {
+      "message": "chore(release): publish %s",
+      "registry": "https://registry.npmjs.org/",
+      "ignoreChanges": ["*.md", "tests/**"]
+    },
+    "bootstrap": {
+      "npmClientArgs": ["--no-package-lock"]
+    },
+    "version": {
+      "allowBranch": "master",
+      "conventionalCommits": true,
+      "exact": true,
+      "message": "chore(release): %s"
+    }
+  },
+  "packages": ["packages/*"]
+} 

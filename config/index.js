@@ -70,44 +70,11 @@ const config = {
       ignoreOrder: true,
       filename: '[name].wxss'
     },
-    webpackChain(chain) {
-      // 通用优化
-      chain.optimization.sideEffects(true);
-      
-      // 共享模块
-      chain.merge({
-        optimization: {
-          splitChunks: {
-            cacheGroups: {
-              // 拆分ECharts相关代码
-              echarts: {
-                name: 'vendors-echarts',
-                test: /[\\/]node_modules[\\/](echarts|zrender|echarts-for-weapp)[\\/]/,
-                priority: 20,
-                chunks: 'all'
-              }
-            }
-          }
-        }
-      });
-      
-      // 路径别名
-      chain.resolve.alias
-        .set('@', path.resolve(__dirname, '..', 'src'))
-        .set('@components', path.resolve(__dirname, '..', 'src/components'))
-        .set('@hooks', path.resolve(__dirname, '..', 'src/hooks'))
-        .set('@utils', path.resolve(__dirname, '..', 'src/utils'))
-        .set('@themes', path.resolve(__dirname, '..', 'src/components/ECharts/themes'));
-    }
   },
   // H5通用配置
   h5: {
     publicPath: '/',
     staticDirectory: 'static',
-    router: {
-      mode: 'browser',
-      basename: '/taro-echarts'
-    }
   }
 };
 
