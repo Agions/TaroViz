@@ -1,6 +1,6 @@
 {
   "name": "@taroviz/core",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "TaroViz 核心组件和工具",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "dev": "webpack --mode=development --watch",
-    "build": "webpack --mode=production",
+    "build": "npx webpack --mode=production",
     "clean": "rimraf dist"
   },
   "publishConfig": {
@@ -31,5 +31,5 @@
     "echarts": ">=5.4.0",
     "react": ">=16.13.0"
   },
-  "gitHead": "fee0bd9a7ef518881bf2cfeac8ced80be3cb0124"
+  "gitHead": "91fc38170d66256221250816051c66abbdf5f8f8"
 }

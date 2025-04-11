@@ -1,6 +1,6 @@
 {
   "name": "@taroviz/charts",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "TaroViz 图表组件集合",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -12,15 +12,15 @@
   ],
   "scripts": {
     "dev": "webpack --mode=development --watch",
-    "build": "webpack --mode=production",
+    "build": "npx webpack --mode=production",
     "clean": "rimraf dist"
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@taroviz/adapters": "0.5.0",
-    "@taroviz/core": "0.5.0"
+    "@taroviz/adapters": "0.5.1",
+    "@taroviz/core": "0.5.1"
   },
   "peerDependencies": {
     "@tarojs/components": ">=3.4.0",
@@ -28,5 +28,5 @@
     "echarts": ">=5.4.0",
     "react": ">=16.13.0"
   },
-  "gitHead": "fee0bd9a7ef518881bf2cfeac8ced80be3cb0124"
+  "gitHead": "91fc38170d66256221250816051c66abbdf5f8f8"
 }

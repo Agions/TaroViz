@@ -23,6 +23,24 @@
       ],
       "@taroviz/adapters/*": [
         "../adapters/src/*"
+      ],
+      "@taroviz/hooks": [
+        "../hooks/src"
+      ],
+      "@taroviz/hooks/*": [
+        "../hooks/src/*"
+      ],
+      "@taroviz/themes": [
+        "../themes/src"
+      ],
+      "@taroviz/themes/*": [
+        "../themes/src/*"
+      ],
+      "@taroviz/data": [
+        "../data/src"
+      ],
+      "@taroviz/data/*": [
+        "../data/src/*"
       ]
     },
     "declarationDir": "./dist"
@@ -42,6 +60,15 @@
     },
     {
       "path": "../adapters"
+    },
+    {
+      "path": "../hooks"
+    },
+    {
+      "path": "../themes"
+    },
+    {
+      "path": "../data"
     }
   ]
 }

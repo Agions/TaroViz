@@ -1,21 +1,24 @@
 {
-  "version": "0.5.0",
-  "npmClient": "npm",
+  "version": "0.5.1",
+  "npmClient": "pnpm",
+  "useWorkspaces": true,
   "command": {
     "publish": {
       "message": "chore(release): publish %s",
       "registry": "https://registry.npmjs.org/",
-      "ignoreChanges": ["*.md", "tests/**"]
-    },
-    "bootstrap": {
-      "npmClientArgs": ["--no-package-lock"]
+      "ignoreChanges": [
+        "*.md",
+        "tests/**"
+      ]
     },
     "version": {
-      "allowBranch": "master",
+      "allowBranch": "main",
       "conventionalCommits": true,
       "exact": true,
       "message": "chore(release): %s"
     }
   },
-  "packages": ["packages/*"]
-} 
+  "packages": [
+    "packages/*"
+  ]
+}

@@ -6,14 +6,35 @@
     "baseUrl": ".",
     "composite": true,
     "paths": {
+      "@taroviz/adapters": [
+        "./src"
+      ],
       "@taroviz/adapters/*": [
         "./src/*"
+      ],
+      "@taroviz/core": [
+        "../core/src"
       ],
       "@taroviz/core/*": [
         "../core/src/*"
       ],
-      "@taroviz/core": [
-        "../core/src"
+      "@taroviz/hooks": [
+        "../hooks/src"
+      ],
+      "@taroviz/hooks/*": [
+        "../hooks/src/*"
+      ],
+      "@taroviz/themes": [
+        "../themes/src"
+      ],
+      "@taroviz/themes/*": [
+        "../themes/src/*"
+      ],
+      "@taroviz/data": [
+        "../data/src"
+      ],
+      "@taroviz/data/*": [
+        "../data/src/*"
       ]
     },
     "declaration": true,
@@ -23,7 +44,8 @@
     "allowJs": true
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "index.d.ts"
   ],
   "exclude": [
     "node_modules",
@@ -35,6 +57,15 @@
   "references": [
     {
       "path": "../core"
+    },
+    {
+      "path": "../hooks"
+    },
+    {
+      "path": "../themes"
+    },
+    {
+      "path": "../data"
     }
   ]
 }
