@@ -1,0 +1,47 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": "./",
+    "composite": true,
+    "paths": {
+      "@taroviz/charts": [
+        "./src"
+      ],
+      "@taroviz/charts/*": [
+        "./src/*"
+      ],
+      "@taroviz/core": [
+        "../core/src"
+      ],
+      "@taroviz/core/*": [
+        "../core/src/*"
+      ],
+      "@taroviz/adapters": [
+        "../adapters/src"
+      ],
+      "@taroviz/adapters/*": [
+        "../adapters/src/*"
+      ]
+    },
+    "declarationDir": "./dist"
+  },
+  "include": [
+    "src/**/*",
+    "index.d.ts"
+  ],
+  "exclude": [
+    "**/__tests__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ],
+  "references": [
+    {
+      "path": "../core"
+    },
+    {
+      "path": "../adapters"
+    }
+  ]
+}

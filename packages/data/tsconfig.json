@@ -1,0 +1,36 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "declaration": true,
+    "composite": true,
+    "declarationDir": "./dist",
+    "paths": {
+      "@taroviz/core/*": [
+        "../../../core/src/*"
+      ],
+      "@taroviz/adapters/*": [
+        "../../../adapters/src/*"
+      ],
+      "@taroviz/themes/*": [
+        "../../../themes/src/*"
+      ],
+      "@taroviz/hooks/*": [
+        "../../../hooks/src/*"
+      ],
+      "@taroviz/charts/*": [
+        "../../../charts/src/*"
+      ],
+      "@taroviz/all/*": [
+        "../../../all/src/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

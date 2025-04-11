@@ -1,88 +1,60 @@
 # TaroViz
 
-[![npm version](https://img.shields.io/npm/v/taroviz.svg)](https://www.npmjs.com/package/taroviz)
-[![npm downloads](https://img.shields.io/npm/dm/taroviz.svg)](https://www.npmjs.com/package/taroviz)
-[![license](https://img.shields.io/npm/l/taroviz.svg)](https://github.com/agions/taroviz/blob/main/LICENSE)
+TaroViz是一个专业的多端图表可视化解决方案，基于Taro和ECharts构建，专为跨平台应用场景设计。通过统一的API和灵活的适配器架构，提供在Web、React Native、小程序等多个平台上一致的图表开发体验和渲染效果。
 
-<div align="center">
-  <p>基于 ECharts 的 Taro 图表库，支持多端环境的高性能可视化解决方案</p>
-</div>
+![TaroViz Logo](./logo.png)
 
-<div align="center">
-  <a href="#快速开始">快速开始</a> •
-  <a href="#图表类型">图表类型</a> •
-  <a href="#文档">文档</a> •
-  <a href="#常见问题">常见问题</a>
-</div>
+## 功能特点
 
-## 📋 目录
+- **多端适配架构**：采用适配器模式，支持H5、微信小程序、支付宝小程序、百度小程序、鸿蒙OS等多平台
+- **统一API设计**：遵循一致性原则，提供统一的组件接口和配置项，实现一次开发多端运行
+- **TypeScript支持**：完整的类型定义系统，包含泛型支持和严格类型检查，提供卓越的开发体验
+- **丰富图表类型**：支持20+种图表类型，包括基础图表、复合图表和自定义图表
+- **声明式开发**：提供React Hooks API，实现声明式、响应式的图表开发模式
+- **主题与定制**：内置多种主题，并支持自定义主题和样式系统
+- **高性能渲染**：针对移动端优化的渲染性能，支持大数据集和复杂交互场景
+- **模块化设计**：采用模块化架构，支持按需引入，优化包体积和加载性能
 
-- [特性](#特性)
-- [环境要求](#环境要求)
-- [安装](#安装)
-- [快速开始](#快速开始)
-- [图表示例](#图表示例)
-- [图表类型](#图表类型)
-- [高级配置](#高级配置)
-- [按需引入](#按需引入)
-- [性能对比](#性能对比)
-- [版本更新](#版本更新)
-- [常见问题](#常见问题)
-- [国际化支持](#国际化支持)
-- [文档](#文档)
-- [开发计划](#开发计划)
-- [贡献](#贡献)
-- [许可证](#许可证)
+## 技术架构
 
-## ✨ 特性
+TaroViz采用多层架构设计，确保跨平台一致性和高性能：
 
-- 🎯 **基于 ECharts 5.x**：具备强大的图表渲染能力和丰富特性
-- 📱 **多端适配**：一套代码，多端运行 (微信小程序、H5、支付宝小程序、鸿蒙应用等)
-- 🎨 **主题定制**：内置多种主题，支持自定义主题样式
-- 📊 **图表丰富**：支持25+种图表类型，满足各类数据可视化需求
-- 🔌 **按需引入**：支持按需引入图表类型，减小打包体积
-- 📱 **响应式**：自动适配不同屏幕尺寸，实现最佳显示效果
-- 🔄 **动态更新**：支持实时数据更新和动态渲染
-- 🎭 **丰富交互**：支持点击、缩放、拖拽等多种交互方式
-- 💡 **开箱即用**：内置丰富的示例和模板，降低使用门槛
-- 🛠️ **TypeScript支持**：提供完善的类型定义，增强开发体验
+- **核心层**：提供基础图表能力和类型定义
+- **适配层**：处理不同平台差异，确保一致的API体验
+- **组件层**：提供React组件封装，简化开发流程
+- **钩子层**：提供React Hooks，实现声明式开发
+- **工具层**：提供数据处理、格式转换等通用工具
 
-## 🔧 环境要求
+这种分层设计确保了TaroViz能够在保持API一致性的同时，充分利用各平台的特性，提供最佳性能和用户体验。
 
-- Taro v3.3.0+
-- React v16.8.0+
-- 微信小程序基础库 2.16.0+
-- 支付宝小程序客户端 10.1.92+
-- Node.js v12+
-
-## 📦 安装
+## 安装
 
 ```bash
-# NPM
-npm install --save taroviz echarts
+# 方式1: 安装主包 (推荐)
+npm install @taroviz
 
-# Yarn
-yarn add taroviz echarts
+# 方式2: 安装主包和必要子包
+npm install @taroviz @taroviz/core @taroviz/adapters @taroviz/charts @taroviz/hooks
 
-# PNPM
-pnpm add taroviz echarts
+# 使用yarn
+yarn add @taroviz
+
+# 使用pnpm
+pnpm add @taroviz
 ```
 
-## 🚀 快速开始
+## 快速开始
+
+### 基础图表示例
 
 ```jsx
 import React from 'react';
 import { View } from '@tarojs/components';
-import { Chart } from 'taroviz';
+import { LineChart } from '@taroviz';
 
-export default function Page() {
+const BasicChart = () => {
+  // 图表配置
   const option = {
-    title: {
-      text: '基础折线图'
-    },
-    tooltip: {
-      trigger: 'axis'
-    },
     xAxis: {
       type: 'category',
       data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -90,310 +62,394 @@ export default function Page() {
     yAxis: {
       type: 'value'
     },
-    series: [{
-      data: [150, 230, 224, 218, 135, 147, 260],
-      type: 'line'
-    }]
-  };
-
-  return (
-    <View className='page'>
-      <Chart option={option} />
-    </View>
-  );
-}
-```
-
-
-## 📊 图表示例
-
-### 柱状图示例
-
-```jsx
-import React from 'react';
-import { View } from '@tarojs/components';
-import { Chart } from 'taroviz';
-
-export default function BarChartExample() {
-  const option = {
-    title: {
-      text: '柱状图示例'
-    },
     tooltip: {
       trigger: 'axis'
     },
-    xAxis: {
-      type: 'category',
-      data: ['一月', '二月', '三月', '四月', '五月', '六月']
-    },
-    yAxis: {
-      type: 'value'
-    },
     series: [{
-      data: [120, 200, 150, 80, 70, 110],
-      type: 'bar'
+      data: [150, 230, 224, 218, 135, 147, 260],
+      type: 'line',
+      smooth: true,
+      areaStyle: {}
     }]
   };
 
   return (
-    <View className='chart-container'>
-      <Chart option={option} />
+    <View className="chart-container">
+      <LineChart 
+        option={option} 
+        height="300px" 
+        theme="dark"
+        onChartReady={(chart) => console.log('图表已准备就绪', chart)}
+      />
     </View>
   );
-}
+};
+
+export default BasicChart;
 ```
 
-
-
-### 饼图示例
+### 多图表组合使用
 
 ```jsx
 import React from 'react';
 import { View } from '@tarojs/components';
-import { Chart } from 'taroviz';
+import { LineChart, BarChart, PieChart, ScatterChart } from '@taroviz';
 
-export default function PieChartExample() {
-  const option = {
-    title: {
-      text: '饼图示例',
-      left: 'center'
-    },
-    tooltip: {
-      trigger: 'item'
-    },
-    legend: {
-      orient: 'vertical',
-      left: 'left'
-    },
-    series: [
-      {
-        name: '访问来源',
-        type: 'pie',
-        radius: '50%',
-        data: [
-          { value: 1048, name: '搜索引擎' },
-          { value: 735, name: '直接访问' },
-          { value: 580, name: '邮件营销' },
-          { value: 484, name: '联盟广告' },
-          { value: 300, name: '视频广告' }
-        ],
-        emphasis: {
-          itemStyle: {
-            shadowBlur: 10,
-            shadowOffsetX: 0,
-            shadowColor: 'rgba(0, 0, 0, 0.5)'
-          }
-        }
-      }
-    ]
-  };
-
+const MultiChartDemo = () => {
+  // 各类图表配置 (代码略)
+  
   return (
-    <View className='chart-container'>
-      <Chart option={option} />
+    <View className="dashboard">
+      <View className="chart-row">
+        <LineChart option={lineOption} height="300px" className="chart-item" />
+        <BarChart option={barOption} height="300px" className="chart-item" />
+      </View>
+      <View className="chart-row">
+        <PieChart option={pieOption} height="300px" className="chart-item" />
+        <ScatterChart option={scatterOption} height="300px" className="chart-item" />
+      </View>
     </View>
+  );
+};
+```
+
+## 导入方式
+
+TaroViz提供多种灵活的导入方式，适应不同的项目结构和开发习惯：
+
+```jsx
+// 方式1：使用命名空间 (推荐)
+import { Core, Adapters, Charts, Hooks, Themes } from '@taroviz';
+
+// 命名空间使用示例
+const chart = new Charts.LineChart({ /* 配置 */ });
+const adapter = Adapters.getAdapter({ /* 配置 */ });
+const theme = Themes.getTheme('dark');
+const coreVersion = Core.version;
+
+// 方式2：直接导入 (简便)
+import { LineChart, getAdapter, useChart } from '@taroviz';
+
+// 方式3：子包导入 (精细控制)
+import { LineChart } from '@taroviz/charts';
+import { useChart } from '@taroviz/hooks';
+import { getAdapter } from '@taroviz/adapters';
+```
+
+## 响应式开发
+
+TaroViz提供了一系列React Hooks，实现响应式图表开发：
+
+```jsx
+import React, { useRef, useState, useEffect } from 'react';
+import { View, Button } from '@tarojs/components';
+import { useChart, useOption, useResize, useEvents, useLoading, useChartTheme } from '@taroviz';
+
+const ReactiveChart = () => {
+  // 状态管理
+  const chartRef = useRef(null);
+  const [instance] = useChart(chartRef);
+  const [loading, setLoading] = useState(true);
+  const [theme, setTheme] = useState('light');
+  const [data, setData] = useState([]);
+  
+  // 数据加载
+  useEffect(() => {
+    fetchData().then(responseData => {
+      setData(responseData);
+      setLoading(false);
+    });
+  }, []);
+  
+  // 图表配置 - 响应data变化自动更新
+  const option = {
+    xAxis: { type: 'category', data: data.map(item => item.name) },
+    yAxis: { type: 'value' },
+    series: [{ data: data.map(item => item.value), type: 'line' }]
+  };
+  
+  // 使用钩子函数构建响应式图表
+  useOption(instance, option);         // 配置响应
+  useResize(instance);                  // 尺寸响应
+  useLoading(instance, loading);        // 加载状态响应
+  useChartTheme(instance, theme);       // 主题响应
+  useEvents(instance, {                 // 事件响应
+    click: handleChartClick,
+    legendselectchanged: handleLegendChange
+  });
+  
+  return (
+    <View className="reactive-chart">
+      <View ref={chartRef} style={{ width: '100%', height: '300px' }} />
+      <View className="chart-controls">
+        <Button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+          切换主题
+        </Button>
+        <Button onClick={() => setLoading(!loading)}>
+          {loading ? '隐藏' : '显示'}加载状态
+        </Button>
+        <Button onClick={refreshData}>刷新数据</Button>
+      </View>
+    </View>
+  );
+};
+```
+
+## 适配器系统
+
+TaroViz的核心是强大的适配器系统，能够处理不同平台的差异，提供一致的开发体验：
+
+```jsx
+// 自动选择适配器 (推荐)
+import { getAdapter } from '@taroviz';
+
+function initChart(container, options) {
+  // 自动检测当前环境并选择合适的适配器
+  const adapter = getAdapter({
+    container,
+    width: '100%',
+    height: '300px',
+    theme: 'default',
+    devicePixelRatio: 2,
+    renderer: 'canvas'
+  });
+  
+  // 初始化并配置图表
+  adapter.init();
+  adapter.setOption(options);
+  
+  return adapter;
+}
+
+// 手动选择适配器
+import { H5Adapter, WeappAdapter, AlipayAdapter } from '@taroviz';
+// 或从子包导入
+import H5Adapter from '@taroviz/adapters/h5';
+import WeappAdapter from '@taroviz/adapters/weapp';
+
+// 根据环境创建适配器实例
+const adapter = isH5Environment 
+  ? new H5Adapter({ /* 配置 */ }) 
+  : new WeappAdapter({ /* 配置 */ });
+```
+
+## 性能优化
+
+TaroViz内置多种性能优化策略，特别适合移动端和小程序环境：
+
+### 大数据集优化
+
+```jsx
+import { Data, Charts } from '@taroviz';
+
+// 大数据集可视化优化
+function optimizedChart() {
+  // 假设有10,000+数据点
+  const largeDataset = generateLargeDataset();
+  
+  // 1. 数据降采样
+  const sampledData = Data.sample(largeDataset, {
+    count: 200,  // 采样后的点数
+    method: 'lttb' // 使用LTTB算法保留视觉特征
+  });
+  
+  // 2. 渐进渲染
+  const option = {
+    // 启用渐进渲染
+    progressive: 300, // 每帧渲染300个数据
+    progressiveThreshold: 1000, // 数据量超过1000时启用
+    
+    // 关闭不必要的动画
+    animation: false,
+    
+    // 使用采样后的数据
+    series: [{
+      type: 'line',
+      data: sampledData,
+      // 禁用符号绘制，减少绘制压力
+      showSymbol: false,
+      // 简化线条，提高性能
+      lineStyle: { width: 1 }
+    }]
+  };
+  
+  return <Charts.LineChart option={option} />;
+}
+```
+
+### 小程序优化
+
+```jsx
+import { LineChart } from '@taroviz';
+import Taro from '@tarojs/taro';
+
+function optimizedMiniChart() {
+  // 小程序环境特殊优化
+  const miniappOption = {
+    // 减少轴标签数量
+    xAxis: {
+      type: 'category',
+      data: ['一月', '二月', '三月', '四月', '五月', '六月'],
+      // 增大间隔，减少标签数量
+      axisLabel: { interval: 'auto' }
+    },
+    
+    // 简化提示框
+    tooltip: {
+      // 触摸优化
+      triggerOn: 'click',
+      // 简化内容
+      formatter: '{b}: {c}'
+    },
+    
+    // 其他配置...
+  };
+  
+  return (
+    <LineChart 
+      option={miniappOption}
+      // 小程序平台特殊配置
+      renderer="canvas"
+      notMerge={true}
+      lazyUpdate={true}
+      // 关闭不必要的动画
+      animation={Taro.getEnv() === Taro.ENV_TYPE.WEAPP ? false : true}
+    />
   );
 }
 ```
 
+## 模块化体系
 
-## 📝 按需引入
+TaroViz采用模块化设计，实现功能分离和按需加载：
 
-为了优化包体积，TaroViz 支持按需引入图表类型：
-
-```jsx
-// 只引入需要的图表类型
-import { Chart } from 'taroviz';
-import { LineChart, BarChart } from 'taroviz/charts';
-
-// 使用方式
-<LineChart option={lineOption} />
-<BarChart option={barOption} />
-
-// 或使用通用Chart组件指定类型
-<Chart option={option} type="line" />
+```
+@taroviz/
+├── core          # 核心功能和类型定义
+├── adapters      # 平台适配器实现
+├── charts        # 图表组件封装
+├── hooks         # React Hooks实现
+├── themes        # 主题系统
+├── data          # 数据处理工具
+└── all           # 完整功能导出
 ```
 
-体积对比：
-- 完整引入: ~780KB (gzip: ~230KB)
-- 按需引入基础图表: ~320KB (gzip: ~95KB)
-
-## 🔍 图表类型
-
-TaroViz 支持以下图表类型:
-
-### 基础图表
-- 折线图 (Line)
-- 柱状图 (Bar)
-- 饼图 (Pie)
-- 面积图 (Area)
-- 堆叠柱状图 (Stacked Bar)
-- 环形图 (Donut)
-
-### 统计图表
-- 散点图 (Scatter)
-- 雷达图 (Radar)
-- 箱线图 (Boxplot)
-- K线图 (Candlestick)
-
-### 关系图表
-- 关系图 (Graph)
-- 桑基图 (Sankey)
-- 和弦图 (Chord)
-
-### 层级图表
-- 树图 (Tree)
-- 矩形树图 (Treemap)
-- 旭日图 (Sunburst)
-
-### 地理图表
-- 地图 (Map)
-- 热力图 (Heatmap)
-- 地理连线图 (Lines)
-
-### 特殊图表
-- 仪表盘 (Gauge)
-- 水球图 (Liquid)
-- 词云图 (Wordcloud)
-
-
-## ⚙️ 高级配置
-
-TaroViz 提供了丰富的自定义配置选项:
+每个模块可独立使用，也可通过主包统一引入：
 
 ```jsx
-<Chart
-  option={option}
-  theme="dark"  // 内置主题: 'light', 'dark', 'vintage', 'macarons', 'westeros'
-  width="100%"
-  height="300px"
-  loading={false}
-  customConfig={{
-    // 简化配置
-    colorPalette: ['#5470c6', '#91cc75', '#fac858'],
-    tooltipFormatter: (params) => `${params.name}: ${params.value}`,
-    legendFormatter: (name) => `${name}系列`,
-    axisLabelFormatter: (value) => `${value}单位`,
-    // 视觉配置
-    fontFamily: 'Arial',
-    animation: true,
-    animationDuration: 1000,
-    // 布局配置
-    grid: { top: 40, right: 8, bottom: 40, left: 50 },
-    titlePosition: 'center'
-  }}
-  onEvents={{
-    click: (params) => console.log('点击了', params)
-  }}
-/>
+// 主包引入 (包含所有功能)
+import { LineChart, useChart } from '@taroviz';
+
+// 子包引入 (按需加载)
+import { LineChart } from '@taroviz/charts';
+import { useChart } from '@taroviz/hooks';
 ```
 
-## 📈 性能对比
+## 类型系统
 
-TaroViz 相比于原生 ECharts 在小程序环境中的性能优化：
+TaroViz提供完整的TypeScript类型支持，确保代码质量和开发体验：
 
-| 指标 | TaroViz | 原生 ECharts |
-| --- | --- | --- |
-| 首次渲染时间 | 120ms | 280ms |
-| 内存占用 | 12MB | 32MB |
-| 包体积(gzip) | 95KB(按需引入) | 230KB |
-| 动画帧率 | 60fps | 45fps |
-| 大数据渲染(1000点) | 580ms | 950ms |
+### 组件类型
 
-## 🔄 版本更新
+```tsx
+import { LineChart } from '@taroviz';
+import { LineChartProps } from '@taroviz/charts';
 
-### v0.3.0 (已完成)
-- [x] 支持更多图表类型
-- [x] 添加更多示例
-- [x] 完善文档
-- [x] 支持更多自定义配置
+// 组件属性类型
+const props: LineChartProps = {
+  option: { /* 图表配置 */ },
+  theme: 'dark',
+  width: '100%',
+  height: 300,
+  autoResize: true,
+  onChartInit: (instance) => {
+    // 类型安全的实例操作
+    instance.setOption({ /* 更新配置 */ });
+  }
+};
 
-### v0.4.0 (最新)
-- [x] 优化性能
-- [x] 添加单元测试
-- [x] 支持更多平台
-- [x] 支持图表联动
-- [x] 支持数据导出
-- [x] 支持图表下钻
-- [x] 实现响应式布局
-- [x] 添加大数据处理优化
-- [x] 完善类型系统
-- [x] 新增专用图表组件
-
-## ❓ 常见问题
-
-<details>
-<summary>图表在小程序中不显示或显示异常？</summary>
-<p>
-请确认：
-
-1. 小程序基础库版本是否满足要求(2.16.0+)
-2. Canvas组件是否正确引入和使用
-3. 检查图表容器是否有正确的宽高设置
-4. 在page.json中添加`"disableScroll": true`可解决部分显示问题
-</p>
-</details>
-
-<details>
-<summary>如何处理图表数据动态更新？</summary>
-<p>
-TaroViz会自动监听option变化并更新图表。确保使用`setOption`方法或React状态更新图表选项。如需手动刷新，可使用组件的`reload`方法。
-
-```jsx
-const chartRef = useRef(null);
-// 强制刷新
-chartRef.current?.reload();
+// 类型安全的组件使用
+<LineChart {...props} />;
 ```
-</p>
-</details>
 
-<details>
-<summary>如何处理图表性能问题？</summary>
-<p>
-- 使用按需加载减小包体积
-- 数据量大时使用`throttle`选项限制渲染频率
-- 开启`progressive`和`progressiveThreshold`渐进渲染
-- 减少不必要的动画效果
-- 使用`dataZoom`进行数据裁剪
-</p>
-</details>
+### 选项类型
 
+```tsx
+import { EChartsOption } from '@taroviz/core';
 
-## 📖 文档
+// 图表选项类型
+const option: EChartsOption = {
+  // 类型系统提供智能提示和验证
+  title: { text: '销售数据' },
+  xAxis: { 
+    type: 'category', 
+    data: ['Q1', 'Q2', 'Q3', 'Q4'] 
+  },
+  yAxis: { 
+    type: 'value',
+    name: '销售额 (万元)'
+  },
+  series: [{ 
+    name: '2023年',
+    data: [120, 200, 150, 180], 
+    type: 'line',
+    smooth: true,
+    markPoint: {
+      data: [
+        { type: 'max', name: '最大值' },
+        { type: 'min', name: '最小值' }
+      ]
+    }
+  }]
+};
+```
 
-- [使用文档](docs/USAGE.md)
-- [开发文档](docs/DEVELOPMENT.md)
-- [API参考](docs/API.md)
-- [配置项参考](docs/OPTIONS.md)
-- [图表类型示例](docs/EXAMPLES.md)
-- [贡献指南](CONTRIBUTING.md)
-- [更新日志](CHANGELOG.md)
+### 钩子函数类型
 
-## 🚀 开发计划
+```tsx
+import { useChart, useOption, useEvents } from '@taroviz';
+import { ChartInstance, ChartOptions, ChartEventParams } from '@taroviz/hooks';
 
-### v0.3.0 (已完成)
-- [x] 支持更多图表类型
-- [x] 添加更多示例
-- [x] 完善文档
-- [x] 支持更多自定义配置
+// 带泛型的钩子函数使用
+const [instance, setInstance] = useChart<ChartInstance>(chartRef);
 
-### v0.4.0 (已完成)
-- [x] 优化性能
-- [x] 添加单元测试
-- [x] 支持更多平台
-- [x] 支持图表联动
-- [x] 支持数据导出
-- [x] 支持图表下钻
-- [x] 实现响应式布局
-- [x] 添加大数据处理优化
-- [x] 完善类型系统
-- [x] 新增专用图表组件
+// 类型安全的配置更新
+const options: ChartOptions = { /* 图表配置 */ };
+useOption(instance, options);
 
-## 贡献
+// 类型安全的事件处理
+useEvents<ChartEventParams>(instance, {
+  click: (params) => {
+    // 类型安全的事件参数访问
+    console.log(`数据系列: ${params.seriesName}`);
+    console.log(`数据索引: ${params.dataIndex}`);
+    console.log(`数据值: ${params.value}`);
+  }
+});
+```
 
-欢迎提交 Issue 和 Pull Request！
+## 平台兼容性
+
+TaroViz目前支持以下平台:
+
+| 平台 | 版本要求 | 特殊配置 |
+|------|---------|---------|
+| Web / H5 | 现代浏览器，IE11+ | 无 |
+| 微信小程序 | 基础库 2.9.0+ | 需配置Canvas组件ID |
+| 支付宝小程序 | 基础库 2.0.0+ | 需启用Canvas 2D权限 |
+| 百度小程序 | 基础库 3.0.0+ | 无 |
+| 鸿蒙OS | HMS Core 5.0+ | 配置相关权限 |
+
+## API参考
+
+详细的API文档请参阅：
+
+- [API参考文档](./docs/API.md)
+- [使用指南](./docs/USAGE.md)
+- [图表类型示例](./docs/EXAMPLES.md)
+- [配置选项说明](./docs/OPTIONS.md)
+- [开发指南](./docs/DEVELOPMENT.md)
 
 ## 许可证
 
-
-[MIT](./LICENSE)
+TaroViz使用MIT许可证，详情请参见[LICENSE](LICENSE)文件。

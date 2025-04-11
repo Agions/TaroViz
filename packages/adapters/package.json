@@ -1,0 +1,31 @@
+{
+  "name": "@taroviz/adapters",
+  "version": "0.5.0",
+  "description": "TaroViz 平台适配器",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md",
+    "index.d.ts"
+  ],
+  "scripts": {
+    "dev": "webpack --mode=development --watch",
+    "build": "webpack --mode=production",
+    "clean": "rimraf dist"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@taroviz/core": "0.5.0"
+  },
+  "peerDependencies": {
+    "@tarojs/components": ">=3.4.0",
+    "@tarojs/taro": ">=3.4.0",
+    "echarts": ">=5.4.0",
+    "react": ">=16.13.0"
+  }
+}

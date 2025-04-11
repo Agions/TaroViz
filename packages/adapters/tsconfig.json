@@ -1,0 +1,40 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "composite": true,
+    "paths": {
+      "@taroviz/adapters/*": [
+        "./src/*"
+      ],
+      "@taroviz/core/*": [
+        "../core/src/*"
+      ],
+      "@taroviz/core": [
+        "../core/src"
+      ]
+    },
+    "declaration": true,
+    "declarationDir": "./dist",
+    "skipLibCheck": true,
+    "noEmitOnError": false,
+    "allowJs": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/__tests__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ],
+  "references": [
+    {
+      "path": "../core"
+    }
+  ]
+}

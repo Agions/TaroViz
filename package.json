@@ -1,29 +1,106 @@
 {
   "name": "taroviz",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "TaroViz 是一个基于 Taro 和 ECharts 的图表组件库，支持多端小程序和 H5",
+  "private": false,
   "main": "dist/index.js",
-  "module": "dist/index.js",
-  "types": "dist/types/index.d.ts",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "sideEffects": [
+    "*.scss",
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./core": {
+      "import": "./dist/packages/core/index.esm.js",
+      "require": "./dist/packages/core/index.js",
+      "types": "./dist/packages/core/index.d.ts"
+    },
+    "./adapters": {
+      "import": "./dist/packages/adapters/index.esm.js",
+      "require": "./dist/packages/adapters/index.js",
+      "types": "./dist/packages/adapters/index.d.ts"
+    },
+    "./charts": {
+      "import": "./dist/packages/charts/index.esm.js",
+      "require": "./dist/packages/charts/index.js",
+      "types": "./dist/packages/charts/index.d.ts"
+    },
+    "./themes": {
+      "import": "./dist/packages/themes/index.esm.js",
+      "require": "./dist/packages/themes/index.js",
+      "types": "./dist/packages/themes/index.d.ts"
+    },
+    "./data": {
+      "import": "./dist/packages/data/index.esm.js",
+      "require": "./dist/packages/data/index.js",
+      "types": "./dist/packages/data/index.d.ts"
+    },
+    "./hooks": {
+      "import": "./dist/packages/hooks/index.esm.js",
+      "require": "./dist/packages/hooks/index.js",
+      "types": "./dist/packages/hooks/index.d.ts"
+    },
+    "./h5": {
+      "import": "./dist/packages/adapters/h5.esm.js",
+      "require": "./dist/packages/adapters/h5.js",
+      "types": "./dist/packages/adapters/h5.d.ts"
+    },
+    "./weapp": {
+      "import": "./dist/packages/adapters/weapp.esm.js",
+      "require": "./dist/packages/adapters/weapp.js",
+      "types": "./dist/packages/adapters/weapp.d.ts"
+    },
+    "./alipay": {
+      "import": "./dist/packages/adapters/alipay.esm.js",
+      "require": "./dist/packages/adapters/alipay.js",
+      "types": "./dist/packages/adapters/alipay.d.ts"
+    },
+    "./harmony": {
+      "import": "./dist/packages/adapters/harmony.esm.js",
+      "require": "./dist/packages/adapters/harmony.js",
+      "types": "./dist/packages/adapters/harmony.d.ts"
+    },
+    "./swan": {
+      "import": "./dist/packages/adapters/swan.esm.js",
+      "require": "./dist/packages/adapters/swan.js",
+      "types": "./dist/packages/adapters/swan.d.ts"
+    }
+  },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "workspaces": [
+    "packages/*"
   ],
   "scripts": {
-    "dev": "rollup -c -w",
-    "build": "npm run clean && rollup -c",
-    "build:h5": "TARO_ENV=h5 rollup -c",
-    "build:weapp": "TARO_ENV=weapp rollup -c",
-    "build:alipay": "TARO_ENV=alipay rollup -c",
-    "build:harmony": "TARO_ENV=harmony rollup -c",
-    "build:all": "TARO_ENV=all rollup -c",
-    "clean": "rimraf dist",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "test:e2e": "cypress run",
-    "test:e2e:open": "cypress open",
-    "lint": "eslint src --ext .ts,.tsx --fix",
-    "prepare": "npm run build"
+    "dev": "webpack --mode=development --watch",
+    "build": "NODE_ENV=production lerna run build --stream && webpack --mode=production",
+    "build:order": "node build-packages.js",
+    "build:core": "cd packages/core && webpack --mode=production",
+    "build:adapters": "cd packages/adapters && webpack --mode=production",
+    "build:charts": "cd packages/charts && webpack --mode=production",
+    "build:themes": "cd packages/themes && webpack --mode=production",
+    "build:data": "cd packages/data && webpack --mode=production",
+    "build:hooks": "cd packages/hooks && webpack --mode=production",
+    "build:all": "cd packages/all && webpack --mode=production",
+    "build:simple": "npm run build:core && npm run build:adapters && npm run build:themes && npm run build:data && npm run build:hooks && npm run build:charts && npm run build:all",
+    "build:min": "NODE_ENV=production webpack --mode=production",
+    "build:analyze": "ANALYZE=true webpack --mode=production",
+    "clean": "lerna run clean --stream && rimraf dist node_modules",
+    "test": "lerna run test --stream",
+    "lint": "eslint packages --ext .ts,.tsx,.js,.jsx --fix",
+    "prepare": "husky install",
+    "publish": "npm run build && npm publish",
+    "lerna:publish": "lerna publish",
+    "bootstrap": "lerna bootstrap"
   },
   "repository": {
     "type": "git",
@@ -41,14 +118,20 @@
   ],
   "author": "agions",
   "license": "MIT",
+  "dependencies": {
+    "@taroviz/adapters": "^0.5.0",
+    "@taroviz/charts": "^0.5.0",
+    "@taroviz/core": "^0.5.0",
+    "@taroviz/data": "^0.5.0",
+    "@taroviz/hooks": "^0.5.0",
+    "@taroviz/themes": "^0.5.0",
+    "core-js": "3.41.0",
+    "regenerator-runtime": "0.14.1"
+  },
   "peerDependencies": {
     "@tarojs/components": ">=3.4.0",
     "@tarojs/taro": ">=3.4.0",
     "react": ">=16.13.0"
-  },
-  "dependencies": {
-    "core-js": "3.41.0",
-    "regenerator-runtime": "0.14.1"
   },
   "devDependencies": {
     "@babel/core": "7.26.10",
@@ -59,13 +142,8 @@
     "@babel/preset-typescript": "^7.23.3",
     "@babel/runtime": "7.26.10",
     "@babel/runtime-corejs3": "7.26.10",
-    "@rollup/plugin-babel": "6.0.4",
-    "@rollup/plugin-commonjs": "25.0.8",
-    "@rollup/plugin-json": "^6.1.0",
-    "@rollup/plugin-node-resolve": "16.0.1",
-    "@rollup/plugin-replace": "^5.0.5",
-    "@rollup/plugin-terser": "^0.4.4",
-    "@rollup/plugin-typescript": "11.1.6",
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
     "@tarojs/components": "^3.6.35",
     "@tarojs/taro": "^3.6.35",
     "@testing-library/jest-dom": "^6.0.0",
@@ -76,6 +154,11 @@
     "@types/react": "^18.2.57",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
+    "babel-loader": "^9.1.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^12.0.2",
+    "css-loader": "^6.9.1",
+    "css-minimizer-webpack-plugin": "^6.0.0",
     "cypress": "^13.0.0",
     "echarts": "5.6.0",
     "echarts-for-react": "3.0.3",
@@ -84,20 +167,33 @@
     "eslint": "^8.56.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "file-loader": "^6.2.0",
+    "fork-ts-checker-webpack-plugin": "^9.0.2",
+    "husky": "^9.0.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.0.0",
     "jest-environment-jsdom": "^29.0.0",
+    "lerna": "^8.0.0",
+    "lint-staged": "^14.0.0",
+    "mini-css-extract-plugin": "^2.7.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rimraf": "^5.0.5",
-    "rollup": "^4.12.0",
-    "rollup-plugin-postcss": "4.0.2",
-    "rollup-plugin-scss": "^4.0.0",
-    "rollup-plugin-terser": "7.0.2",
     "sass": "^1.71.1",
+    "sass-loader": "^14.1.1",
+    "style-loader": "^3.3.4",
+    "terser-webpack-plugin": "^5.3.10",
     "ts-jest": "^29.0.0",
+    "ts-loader": "^9.5.1",
     "tslib": "^2.6.2",
     "typescript": "^5.3.3",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.91.0",
+    "webpack-bundle-analyzer": "^4.10.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.2",
+    "webpack-merge": "^5.10.0",
+    "webpack-node-externals": "^3.0.0",
     "whatwg-fetch": "^3.6.20"
   }
 }

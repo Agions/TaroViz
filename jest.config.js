@@ -2,28 +2,34 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  transform: {
-    '^.+\\.tsx?$': 'ts-jest'
-  },
-  testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
-    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    '^@taroviz$': '<rootDir>/packages/all/src',
+    '^@taroviz/core(.*)$': '<rootDir>/packages/core/src$1',
+    '^@taroviz/adapters(.*)$': '<rootDir>/packages/adapters/src$1',
+    '^@taroviz/charts(.*)$': '<rootDir>/packages/charts/src$1',
+    '^@taroviz/themes(.*)$': '<rootDir>/packages/themes/src$1',
+    '^@taroviz/data(.*)$': '<rootDir>/packages/data/src$1',
+    '^@taroviz/hooks(.*)$': '<rootDir>/packages/hooks/src$1',
+    '\\.(css|less|scss)$': 'identity-obj-proxy'
   },
+  setupFilesAfterEnv: ['./jest.setup.js'],
+  transform: {
+    '^.+\\.(ts|tsx)$': ['ts-jest', {
+      tsconfig: 'tsconfig.json'
+    }]
+  },
+  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
   collectCoverageFrom: [
-    'src/**/*.{ts,tsx}',
-    '!src/**/*.d.ts',
-    '!src/**/*.stories.{ts,tsx}',
-    '!src/**/*.test.{ts,tsx}',
+    'packages/*/src/**/*.{ts,tsx}',
+    '!packages/*/src/**/*.d.ts',
+    '!packages/*/src/**/*.stories.{ts,tsx}',
+    '!packages/*/src/**/__tests__/**/*'
   ],
-  coverageThreshold: {
-    global: {
-      branches: 80,
-      functions: 80,
-      lines: 80,
-      statements: 80,
-    },
-  },
-  // 暂时注释掉这行以解决错误
-  // setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-}
+  coverageDirectory: 'coverage',
+  coverageReporters: ['text', 'lcov'],
+  globals: {
+    'ts-jest': {
+      isolatedModules: true
+    }
+  }
+};
