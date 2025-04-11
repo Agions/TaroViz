@@ -30,5 +30,6 @@
     "@tarojs/taro": ">=3.4.0",
     "echarts": ">=5.4.0",
     "react": ">=16.13.0"
-  }
+  },
+  "gitHead": "fee0bd9a7ef518881bf2cfeac8ced80be3cb0124"
 }

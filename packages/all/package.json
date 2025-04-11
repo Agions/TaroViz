@@ -18,17 +18,18 @@
     "access": "public"
   },
   "dependencies": {
-    "@taroviz/core": "0.5.0",
     "@taroviz/adapters": "0.5.0",
     "@taroviz/charts": "0.5.0",
-    "@taroviz/themes": "0.5.0",
+    "@taroviz/core": "0.5.0",
     "@taroviz/data": "0.5.0",
-    "@taroviz/hooks": "0.5.0"
+    "@taroviz/hooks": "0.5.0",
+    "@taroviz/themes": "0.5.0"
   },
   "peerDependencies": {
     "@tarojs/components": ">=3.4.0",
     "@tarojs/taro": ">=3.4.0",
     "echarts": ">=5.4.0",
     "react": ">=16.13.0"
-  }
+  },
+  "gitHead": "fee0bd9a7ef518881bf2cfeac8ced80be3cb0124"
 }
