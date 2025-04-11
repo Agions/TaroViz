@@ -26,10 +26,10 @@ TaroViz 是一个基于 ECharts 的 Taro 图表库，支持 H5 和小程序环�
 
 ```bash
 # 安装主包和必要子包
-npm install @taroviz @taroviz/core @taroviz/adapters @taroviz/charts @taroviz/hooks
+npm install taroviz @taroviz/core @taroviz/adapters @taroviz/charts @taroviz/hooks
 
 # 或者只安装主包（包含所有功能）
-npm install @taroviz
+npm install taroviz
 ```
 
 ## 导入方式
@@ -40,13 +40,13 @@ TaroViz 提供多种灵活的导入方式，可以根据需求选择：
 
 ```jsx
 // 命名空间导入
-import { Core, Charts, Hooks, Adapters } from '@taroviz';
+import { Core, Charts, Hooks, Adapters } from 'taroviz';
 
 // 直接导入组件
-import { LineChart, BarChart, PieChart } from '@taroviz';
+import { LineChart, BarChart, PieChart } from 'taroviz';
 
 // 直接导入钩子函数
-import { useChart, useOption } from '@taroviz';
+import { useChart, useOption } from 'taroviz';
 ```
 
 ### 方式2：从子包导入
@@ -75,7 +75,7 @@ TaroViz 提供了多种使用方式，以下是基本用法示例：
 ```jsx
 import React from 'react';
 import { View } from '@tarojs/components';
-import { LineChart } from '@taroviz';
+import { LineChart } from 'taroviz';
 
 const Index = () => {
   const option = {
@@ -111,7 +111,7 @@ TaroViz 提供了多种预定义的图表组件，让开发更加便捷：
 ```jsx
 import React from 'react';
 import { View } from '@tarojs/components';
-import { LineChart, BarChart, PieChart, RadarChart } from '@taroviz';
+import { LineChart, BarChart, PieChart, RadarChart } from 'taroviz';
 
 const ChartDemo = () => {
   // 折线图配置
@@ -185,7 +185,7 @@ TaroViz 提供了一系列 React Hooks，使图表开发更加灵活和声明式
 ```jsx
 import React, { useRef } from 'react';
 import { View } from '@tarojs/components';
-import { useChart } from '@taroviz';
+import { useChart } from 'taroviz';
 
 function ChartComponent() {
   const chartRef = useRef(null);
@@ -205,7 +205,7 @@ function ChartComponent() {
 ```jsx
 import React, { useRef, useState } from 'react';
 import { View, Button } from '@tarojs/components';
-import { useChart, useOption } from '@taroviz';
+import { useChart, useOption } from 'taroviz';
 
 function DynamicChart() {
   const chartRef = useRef(null);
@@ -238,7 +238,7 @@ function DynamicChart() {
 ```jsx
 import React, { useRef } from 'react';
 import { View } from '@tarojs/components';
-import { useChart, useOption, useResize } from '@taroviz';
+import { useChart, useOption, useResize } from 'taroviz';
 
 function ResponsiveChart() {
   const chartRef = useRef(null);
@@ -261,7 +261,7 @@ function ResponsiveChart() {
 ```jsx
 import React, { useRef } from 'react';
 import { View } from '@tarojs/components';
-import { useChart, useOption, useEvents } from '@taroviz';
+import { useChart, useOption, useEvents } from 'taroviz';
 import Taro from '@tarojs/taro';
 
 function InteractiveChart() {
@@ -298,7 +298,7 @@ function InteractiveChart() {
 ```jsx
 import React, { useRef, useState, useEffect } from 'react';
 import { View, Button } from '@tarojs/components';
-import { useChart, useOption, useResize, useEvents, useLoading } from '@taroviz';
+import { useChart, useOption, useResize, useEvents, useLoading } from 'taroviz';
 import Taro from '@tarojs/taro';
 
 function CompleteChart() {
@@ -352,7 +352,7 @@ TaroViz 使用适配器模式处理不同平台的差异：
 ```jsx
 import React from 'react';
 import { View } from '@tarojs/components';
-import { LineChart } from '@taroviz';
+import { LineChart } from 'taroviz';
 
 // TaroViz 会自动检测当前环境并使用合适的适配器
 const AutoChart = () => {
@@ -368,7 +368,7 @@ const AutoChart = () => {
 ```jsx
 import React, { useRef, useEffect } from 'react';
 import { View } from '@tarojs/components';
-import { getAdapter } from '@taroviz';
+import { getAdapter } from 'taroviz';
 // 或者直接导入特定适配器
 import H5Adapter from '@taroviz/adapters/h5';
 
@@ -439,7 +439,7 @@ TaroViz 支持监听 ECharts 的各种事件：
 ```jsx
 import React from 'react';
 import { View } from '@tarojs/components';
-import { LineChart } from '@taroviz';
+import { LineChart } from 'taroviz';
 
 function EventDemo() {
   const option = { /* 图表配置 */ };
@@ -464,7 +464,7 @@ function EventDemo() {
 ```jsx
 import React, { useRef } from 'react';
 import { View } from '@tarojs/components';
-import { useChart, useOption, useEvents } from '@taroviz';
+import { useChart, useOption, useEvents } from 'taroviz';
 
 function EventHookDemo() {
   const chartRef = useRef(null);
@@ -489,7 +489,7 @@ function EventHookDemo() {
 ```jsx
 import React, { useRef } from 'react';
 import { View, Button } from '@tarojs/components';
-import { useChart, useOption } from '@taroviz';
+import { useChart, useOption } from 'taroviz';
 
 function MethodDemo() {
   const chartRef = useRef(null);
@@ -534,7 +534,7 @@ TaroViz 支持多种主题定制方式：
 
 ```jsx
 import React from 'react';
-import { LineChart } from '@taroviz';
+import { LineChart } from 'taroviz';
 
 // 使用内置的dark主题
 function DarkThemeChart() {
@@ -547,7 +547,7 @@ function DarkThemeChart() {
 
 ```jsx
 import React from 'react';
-import { Themes, LineChart } from '@taroviz';
+import { Themes, LineChart } from 'taroviz';
 
 // 注册自定义主题
 Themes.registerTheme('myTheme', {
@@ -585,8 +585,8 @@ TaroViz 提供了数据处理工具，简化数据转换：
 
 ```jsx
 import React from 'react';
-import { LineChart } from '@taroviz';
-import { Data } from '@taroviz';
+import { LineChart } from 'taroviz';
+import { Data } from 'taroviz';
 
 function DataProcessingDemo() {
   // 原始数据
@@ -641,7 +641,7 @@ function DataProcessingDemo() {
 ```jsx
 import React from 'react';
 import { View } from '@tarojs/components';
-import { LineChart } from '@taroviz';
+import { LineChart } from 'taroviz';
 
 function ResponsiveChart() {
   const option = {
@@ -685,8 +685,8 @@ function ResponsiveChart() {
 
 ```jsx
 import React from 'react';
-import { LineChart } from '@taroviz';
-import { Data } from '@taroviz';
+import { LineChart } from 'taroviz';
+import { Data } from 'taroviz';
 
 function OptimizedChart() {
   // 假设有大量数据
@@ -720,14 +720,13 @@ function OptimizedChart() {
 
 ```jsx
 import React from 'react';
-import { LineChart } from '@taroviz';
+import { LineChart } from 'taroviz';
 
 function ProgressiveChart() {
   // 大数据量配置优化
   const option = {
     // 启用渐进渲染
     progressive: 200, // 每帧渲染200个数据
-    progressiveThreshold: 1000, // 数据量超过1000时启用渐进渲染
   
     // 简化图表元素
     animation: false, // 关闭动画
@@ -748,7 +747,7 @@ TaroViz 提供了完善的 TypeScript 类型定义，帮助开发者获得更好
 ```tsx
 import React from 'react';
 import { View } from '@tarojs/components';
-import { LineChart } from '@taroviz';
+import { LineChart } from 'taroviz';
 import { LineChartProps } from '@taroviz/charts';
 import { EChartsOption, ChartInstance } from '@taroviz/core';
 
@@ -789,7 +788,7 @@ function TypedChart() {
 ```tsx
 import React, { useRef } from 'react';
 import { View } from '@tarojs/components';
-import { useChart, useOption } from '@taroviz';
+import { useChart, useOption } from 'taroviz';
 import { ChartInstance, ChartOptions } from '@taroviz/hooks';
 
 function TypedHooksChart() {
@@ -824,7 +823,7 @@ TaroViz 支持多个平台，包括：
 ```jsx
 import React from 'react';
 import { View } from '@tarojs/components';
-import { LineChart } from '@taroviz';
+import { LineChart } from 'taroviz';
 import Taro from '@tarojs/taro';
 
 function PlatformSpecificChart() {

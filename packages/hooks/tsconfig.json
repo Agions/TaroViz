@@ -2,28 +2,54 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
+    "rootDir": "./src",
     "declaration": true,
     "declarationDir": "./dist",
     "composite": true,
     "baseUrl": ".",
     "paths": {
-      "@taroviz/core/*": [
-        "../core/*"
+      "@taroviz/hooks": [
+        "./src"
+      ],
+      "@taroviz/hooks/*": [
+        "./src/*"
       ],
       "@taroviz/core": [
+        "../core/src"
+      ],
+      "@taroviz/core/*": [
         "../core/src/*"
       ],
       "@taroviz/adapters": [
-        "../adapters"
+        "../adapters/src"
+      ],
+      "@taroviz/adapters/*": [
+        "../adapters/src/*"
+      ],
+      "@taroviz/themes": [
+        "../themes/src"
+      ],
+      "@taroviz/themes/*": [
+        "../themes/src/*"
+      ],
+      "@taroviz/data": [
+        "../data/src"
+      ],
+      "@taroviz/data/*": [
+        "../data/src/*"
       ]
     }
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "index.d.ts"
   ],
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "**/__tests__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx"
   ],
   "references": [
     {
@@ -31,6 +57,12 @@
     },
     {
       "path": "../adapters"
+    },
+    {
+      "path": "../themes"
+    },
+    {
+      "path": "../data"
     }
   ]
 }

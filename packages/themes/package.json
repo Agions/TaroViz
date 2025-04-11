@@ -1,6 +1,6 @@
 {
   "name": "@taroviz/themes",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "TaroViz 主题系统",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -18,8 +18,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "peerDependencies": {
-    "@taroviz/core": "0.5.0"
+  "dependencies": {
+    "@taroviz/core": "workspace:*"
   },
-  "gitHead": "fee0bd9a7ef518881bf2cfeac8ced80be3cb0124"
+  "gitHead": "91fc38170d66256221250816051c66abbdf5f8f8"
 }

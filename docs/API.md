@@ -23,16 +23,16 @@ TaroViz提供多种灵活的导入方式：
 
 ```jsx
 // 命名空间方式
-import { Core, Adapters, Charts, Hooks } from '@taroviz';
+import { Core, Adapters, Charts, Hooks } from 'taroviz';
 
 // 直接导入组件
-import { LineChart, BarChart, PieChart } from '@taroviz';
+import { LineChart, BarChart, PieChart } from 'taroviz';
 
 // 直接导入钩子函数
-import { useChart, useOption } from '@taroviz';
+import { useChart, useOption } from 'taroviz';
 
 // 直接导入适配器
-import { getAdapter, H5Adapter, WeappAdapter } from '@taroviz';
+import { getAdapter, H5Adapter, WeappAdapter } from 'taroviz';
 ```
 
 ### 子包导入
@@ -94,7 +94,7 @@ import React from 'react';
 import { View } from '@tarojs/components';
 import { BaseChart } from '@taroviz/core';
 // 或者从主包导入
-// import { BaseChart } from '@taroviz';
+// import { BaseChart } from 'taroviz';
 
 export default function ChartExample() {
   const chartRef = React.useRef(null);
@@ -128,7 +128,7 @@ TaroViz提供了针对特定图表类型的组件：
 ```jsx
 import { LineChart, BarChart, PieChart, RadarChart, ScatterChart, HeatmapChart } from '@taroviz/charts';
 // 或者从主包导入
-// import { LineChart, BarChart, PieChart } from '@taroviz';
+// import { LineChart, BarChart, PieChart } from 'taroviz';
 
 // 使用特定图表组件
 <LineChart option={lineOption} />
@@ -149,7 +149,7 @@ TaroViz提供了一系列React Hooks，使图表开发更加灵活：
 ```jsx
 import { useChart } from '@taroviz/hooks';
 // 或者从主包导入
-// import { useChart } from '@taroviz';
+// import { useChart } from 'taroviz';
 
 function ChartComponent() {
   const chartRef = useRef(null);
@@ -309,7 +309,7 @@ TaroViz使用适配器模式处理不同平台的差异：
 ```jsx
 import { getAdapter } from '@taroviz/adapters';
 // 或者从主包导入
-// import { getAdapter } from '@taroviz';
+// import { getAdapter } from 'taroviz';
 
 const adapter = getAdapter({
   canvasId: 'my-chart',
@@ -337,7 +337,7 @@ import SwanAdapter from '@taroviz/adapters/swan';
 import HarmonyAdapter from '@taroviz/adapters/harmony';
 
 // 或者从主包导入
-import { H5Adapter, WeappAdapter } from '@taroviz';
+import { H5Adapter, WeappAdapter } from 'taroviz';
 
 // 创建适配器实例
 const adapter = new H5Adapter({
@@ -358,7 +358,7 @@ adapter.setOption(option);
 设置全局默认配置：
 
 ```jsx
-import { Core } from '@taroviz';
+import { Core } from 'taroviz';
 
 Core.setGlobalOptions({
   theme: 'dark',
@@ -372,7 +372,7 @@ Core.setGlobalOptions({
 注册自定义主题：
 
 ```jsx
-import { Themes } from '@taroviz';
+import { Themes } from 'taroviz';
 
 Themes.registerTheme('myTheme', {
   color: ['#3498db', '#2ecc71', '#e74c3c'],
@@ -388,7 +388,7 @@ TaroViz提供了一系列工具函数：
 ### 数据处理工具
 
 ```jsx
-import { Data } from '@taroviz';
+import { Data } from 'taroviz';
 
 // 格式化数据
 const formattedData = Data.formatForChart(rawData, {
@@ -408,7 +408,7 @@ const aggregatedData = Data.aggregate(rawData, {
 ### 工具函数
 
 ```jsx
-import { Core } from '@taroviz';
+import { Core } from 'taroviz';
 
 // 生成唯一ID
 const id = Core.uuid();
