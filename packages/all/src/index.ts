@@ -29,7 +29,6 @@ export const Hooks = HooksLib;
 // 导出适配器核心功能
 export {
   getAdapter,
-  getEnv,
   detectPlatform,
   version as adaptersVersion,
   H5Adapter,
