@@ -9,42 +9,42 @@ export interface ChartFactoryOptions {
    * 图表容器ID
    */
   containerId: string;
-  
+
   /**
    * 图表配置项
    */
   option: EChartsOption;
-  
+
   /**
    * 宽度
    */
   width?: number | string;
-  
+
   /**
    * 高度
    */
   height?: number | string;
-  
+
   /**
    * 主题
    */
   theme?: string | object;
-  
+
   /**
    * 是否自动调整大小
    */
   autoResize?: boolean;
-  
+
   /**
    * 渲染器类型
    */
   renderer?: 'canvas' | 'svg';
-  
+
   /**
    * 图表初始化完成回调
    */
   onInit?: (chart: any) => void;
-  
+
   /**
    * 事件处理映射
    */
@@ -66,11 +66,11 @@ export const createChart = (options: ChartFactoryOptions) => {
     autoResize = true,
     renderer = 'canvas',
     onInit,
-    events = {}
+    events = {},
   } = options;
-  
+
   let chartInstance: any = null;
-  
+
   // 获取适配器
   const adapter = getAdapter({
     width,
@@ -82,31 +82,31 @@ export const createChart = (options: ChartFactoryOptions) => {
     renderer,
     onInit: (instance) => {
       chartInstance = instance;
-      
+
       // 绑定事件
       if (events) {
         Object.keys(events).forEach((eventName) => {
           instance.on(eventName, events[eventName]);
         });
       }
-      
+
       // 初始化回调
       if (onInit) {
         onInit(instance);
       }
-    }
+    },
   });
-  
+
   // 初始化图表
   adapter.init();
-  
+
   // 返回图表实例和控制方法
   return {
     /**
      * 获取图表实例
      */
     getInstance: () => chartInstance,
-    
+
     /**
      * 更新图表配置
      * @param newOption 新的配置项
@@ -117,7 +117,7 @@ export const createChart = (options: ChartFactoryOptions) => {
         chartInstance.setOption(newOption, notMerge);
       }
     },
-    
+
     /**
      * 重绘图表
      */
@@ -126,7 +126,7 @@ export const createChart = (options: ChartFactoryOptions) => {
         chartInstance.resize();
       }
     },
-    
+
     /**
      * 显示加载动画
      * @param loadingOption 加载配置
@@ -136,7 +136,7 @@ export const createChart = (options: ChartFactoryOptions) => {
         chartInstance.showLoading(loadingOption);
       }
     },
-    
+
     /**
      * 隐藏加载动画
      */
@@ -145,7 +145,7 @@ export const createChart = (options: ChartFactoryOptions) => {
         chartInstance.hideLoading();
       }
     },
-    
+
     /**
      * 绑定事件
      * @param eventName 事件名称
@@ -156,7 +156,7 @@ export const createChart = (options: ChartFactoryOptions) => {
         chartInstance.on(eventName, handler);
       }
     },
-    
+
     /**
      * 解绑事件
      * @param eventName 事件名称
@@ -167,7 +167,7 @@ export const createChart = (options: ChartFactoryOptions) => {
         chartInstance.off(eventName, handler);
       }
     },
-    
+
     /**
      * 销毁图表实例
      */
@@ -182,6 +182,6 @@ export const createChart = (options: ChartFactoryOptions) => {
         chartInstance.dispose();
         chartInstance = null;
       }
-    }
+    },
   };
-}; 
+};

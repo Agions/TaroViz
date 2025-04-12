@@ -16,4 +16,4 @@ export { default as BaseChart } from './components/BaseChart';
  * 库信息
  */
 export const name = 'taroviz';
-export const version = '0.5.0'; 
+export const version = '0.5.0';

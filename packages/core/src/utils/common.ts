@@ -13,7 +13,7 @@ export function debounce<T extends (...args: any[]) => any>(
   let timer: ReturnType<typeof setTimeout> | null = null;
   let isFirst = true;
 
-  return function(this: any, ...args: Parameters<T>): void {
+  return function (this: any, ...args: Parameters<T>): void {
     const context = this;
 
     if (timer) {
@@ -46,7 +46,7 @@ export function throttle<T extends (...args: any[]) => any>(
   let lastTime = 0;
   let timer: ReturnType<typeof setTimeout> | null = null;
 
-  return function(this: any, ...args: Parameters<T>): void {
+  return function (this: any, ...args: Parameters<T>): void {
     const now = Date.now();
     const context = this;
     const remaining = delay - (now - lastTime);
@@ -67,8 +67,6 @@ export function throttle<T extends (...args: any[]) => any>(
     }
   };
 }
-
-
 
 /**
  * 获取DOM元素
@@ -98,7 +96,8 @@ export const isNode = typeof process !== 'undefined' && process.versions && proc
  * 是否为React Native环境
  * @returns 是否为React Native环境
  */
-export const isReactNative = typeof navigator !== 'undefined' && navigator.product === 'ReactNative';
+export const isReactNative =
+  typeof navigator !== 'undefined' && navigator.product === 'ReactNative';
 
 /**
  * 是否为小程序环境
@@ -106,15 +105,25 @@ export const isReactNative = typeof navigator !== 'undefined' && navigator.produ
  */
 export const isMiniApp = (): boolean => {
   // @ts-ignore 小程序环境变量
-  if (typeof wx !== 'undefined') return true;
+  if (typeof wx !== 'undefined') {
+    return true;
+  }
   // @ts-ignore 支付宝小程序环境变量
-  if (typeof my !== 'undefined') return true;
+  if (typeof my !== 'undefined') {
+    return true;
+  }
   // @ts-ignore 百度小程序环境变量
-  if (typeof swan !== 'undefined') return true;
+  if (typeof swan !== 'undefined') {
+    return true;
+  }
   // @ts-ignore 字节跳动小程序环境变量
-  if (typeof tt !== 'undefined') return true;
+  if (typeof tt !== 'undefined') {
+    return true;
+  }
   // @ts-ignore 京东小程序环境变量
-  if (typeof jd !== 'undefined') return true;
-  
+  if (typeof jd !== 'undefined') {
+    return true;
+  }
+
   return false;
-}; 
+};

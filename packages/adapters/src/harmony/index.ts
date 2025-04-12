@@ -2,12 +2,12 @@
  * TaroViz 鸿蒙OS适配器
  * 基于鸿蒙OS应用的Canvas组件实现图表渲染
  */
-import React from 'react';
-import Taro from '@tarojs/taro';
 import { Canvas } from '@tarojs/components';
-import * as echarts from 'echarts/core';
+import Taro from '@tarojs/taro';
 import { Adapter, HarmonyAdapterOptions, EChartsOption } from '@taroviz/core/types';
 import { uuid } from '@taroviz/core/utils';
+import * as echarts from 'echarts/core';
+import React from 'react';
 
 /**
  * 鸿蒙OS环境下的ECharts适配器
@@ -19,9 +19,9 @@ class HarmonyAdapter implements Adapter {
   private ctx: any = null;
   private component: any = null;
   private canvasDom: any = null;
-  
+
   constructor(options: HarmonyAdapterOptions) {
-    this.options = options || {} as any;
+    this.options = options || ({} as any);
     this.canvasId = this.options.canvasId || `ec-canvas-${uuid()}`;
   }
 
@@ -39,17 +39,19 @@ class HarmonyAdapter implements Adapter {
     const createHarmonyCanvas = () => {
       // 鸿蒙环境检测
       const isHarmonyEnvironment = typeof (global as any).ohGetFeature !== 'undefined';
-      
+
       if (!isHarmonyEnvironment) {
-        console.warn('[TaroViz] Not running in HarmonyOS environment, fallback to standard implementation');
+        console.warn(
+          '[TaroViz] Not running in HarmonyOS environment, fallback to standard implementation'
+        );
         return this.initStandardCanvas();
       }
-      
+
       // 获取实际的canvas节点
       Taro.createSelectorQuery()
         .select(`#${this.canvasId}`)
         .fields({ node: true, size: true })
-        .exec(res => {
+        .exec((res) => {
           if (!res || !res[0] || !res[0].node) {
             console.error('[TaroViz] Failed to get canvas instance in HarmonyOS');
             return;
@@ -57,46 +59,46 @@ class HarmonyAdapter implements Adapter {
 
           const canvas = res[0].node;
           const ctx = canvas.getContext('2d');
-          
+
           // 处理鸿蒙特有的高DPI设置
           const dpr = Taro.getSystemInfoSync().pixelRatio || 2;
           canvas.width = res[0].width * dpr;
           canvas.height = res[0].height * dpr;
-          
+
           // 启用硬件加速（如果可用）
           if (this.options.harmonyOptions?.enableHardwareAcceleration) {
             // 这里添加鸿蒙特有的硬件加速API调用
             console.log('[TaroViz] Enabling hardware acceleration in HarmonyOS');
             // 示例: ctx.enableHardwareAcceleration && ctx.enableHardwareAcceleration();
           }
-          
+
           this.ctx = ctx;
           this.canvasDom = canvas;
-          
+
           // 初始化ECharts实例
           this.instance = echarts.init(canvas, null, {
             width: res[0].width,
             height: res[0].height,
             devicePixelRatio: dpr,
-            renderer: 'canvas'
+            renderer: 'canvas',
           });
-          
+
           // 设置图表配置
           if ((this.options as any).option) {
             this.instance.setOption((this.options as any).option);
           }
-          
+
           // 调用初始化回调
           if (this.options.onInit) {
             this.options.onInit(this.instance);
           }
         });
     };
-    
+
     createHarmonyCanvas();
     return null;
   }
-  
+
   /**
    * 标准Canvas初始化（降级方案）
    */
@@ -104,7 +106,7 @@ class HarmonyAdapter implements Adapter {
     Taro.createSelectorQuery()
       .select(`#${this.canvasId}`)
       .fields({ node: true, size: true })
-      .exec(res => {
+      .exec((res) => {
         if (!res || !res[0] || !res[0].node) {
           console.error('[TaroViz] Failed to get canvas instance');
           return;
@@ -112,34 +114,34 @@ class HarmonyAdapter implements Adapter {
 
         const canvas = res[0].node;
         const ctx = canvas.getContext('2d');
-        
+
         // 标准DPI设置
         const dpr = Taro.getSystemInfoSync().pixelRatio;
         canvas.width = res[0].width * dpr;
         canvas.height = res[0].height * dpr;
-        
+
         this.ctx = ctx;
         this.canvasDom = canvas;
-        
+
         // 初始化ECharts实例
         this.instance = echarts.init(canvas, null, {
           width: res[0].width,
           height: res[0].height,
           devicePixelRatio: dpr,
-          renderer: 'canvas'
+          renderer: 'canvas',
         });
-        
+
         // 设置图表配置
         if ((this.options as any).option) {
           this.instance.setOption((this.options as any).option);
         }
-        
+
         // 调用初始化回调
         if (this.options.onInit) {
           this.options.onInit(this.instance);
         }
       });
-    
+
     return null;
   }
 
@@ -274,7 +276,7 @@ class HarmonyAdapter implements Adapter {
       this.instance.dispose();
       this.instance = null;
     }
-    
+
     this.canvasDom = null;
     this.ctx = null;
   }
@@ -291,22 +293,22 @@ class HarmonyAdapter implements Adapter {
    */
   render(): JSX.Element {
     const { width = '100%', height = '300px' } = this.options;
-    
+
     // 合并样式
     const mergedStyle = {
       width: typeof width === 'number' ? `${width}px` : width,
-      height: typeof height === 'number' ? `${height}px` : height
+      height: typeof height === 'number' ? `${height}px` : height,
     };
-    
+
     return React.createElement(Canvas, {
       id: this.canvasId,
       style: mergedStyle,
       // 添加鸿蒙特有的属性
-      type: "2d",
-      className: "taroviz-echarts-harmony"
+      type: '2d',
+      className: 'taroviz-echarts-harmony',
     });
   }
 }
 
 // 导出适配器
-export default HarmonyAdapter; 
+export default HarmonyAdapter;

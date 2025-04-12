@@ -4,11 +4,11 @@
  */
 
 // 直接使用完整导入路径，避免类型冲突
-import { AdapterConfig } from '@taroviz/core/types';
 import type { Adapter } from '@taroviz/core/types';
-import { PlatformType } from '@taroviz/core/types';
-import { BaseAdapterConfig, AdapterOptions } from './types';
+import { AdapterConfig, PlatformType } from '@taroviz/core/types';
+
 import H5Adapter from './h5';
+import { BaseAdapterConfig, AdapterOptions } from './types';
 import WeappAdapter from './weapp';
 
 // 不再重新导出PlatformType和Adapter，使用者应从@taroviz/core导入
@@ -28,59 +28,90 @@ export function detectPlatform(): PlatformType {
   if (typeof window === 'undefined') {
     return PlatformType.H5; // 默认返回H5，实际并不会在服务端渲染图表
   }
-  
+
   // 微信小程序
-  if (typeof window !== 'undefined' && 'wx' in window && typeof (window as any).wx.getSystemInfoSync === 'function') {
+  if (
+    typeof window !== 'undefined' &&
+    'wx' in window &&
+    typeof (window as any).wx.getSystemInfoSync === 'function'
+  ) {
     return PlatformType.WEAPP;
   }
-  
+
   // 支付宝小程序
-  if (typeof window !== 'undefined' && 'my' in window && typeof (window as any).my.getSystemInfoSync === 'function') {
+  if (
+    typeof window !== 'undefined' &&
+    'my' in window &&
+    typeof (window as any).my.getSystemInfoSync === 'function'
+  ) {
     return PlatformType.ALIPAY;
   }
-  
+
   // 百度小程序
-  if (typeof window !== 'undefined' && 'swan' in window && typeof (window as any).swan.getSystemInfoSync === 'function') {
+  if (
+    typeof window !== 'undefined' &&
+    'swan' in window &&
+    typeof (window as any).swan.getSystemInfoSync === 'function'
+  ) {
     return PlatformType.SWAN;
   }
-  
+
   // 字节跳动小程序
-  if (typeof window !== 'undefined' && 'tt' in window && typeof (window as any).tt.getSystemInfoSync === 'function') {
+  if (
+    typeof window !== 'undefined' &&
+    'tt' in window &&
+    typeof (window as any).tt.getSystemInfoSync === 'function'
+  ) {
     return PlatformType.TT;
   }
-  
+
   // QQ小程序
-  if (typeof window !== 'undefined' && 'qq' in window && typeof (window as any).qq.getSystemInfoSync === 'function') {
+  if (
+    typeof window !== 'undefined' &&
+    'qq' in window &&
+    typeof (window as any).qq.getSystemInfoSync === 'function'
+  ) {
     return PlatformType.QQ;
   }
-  
+
   // 京东小程序
-  if (typeof window !== 'undefined' && 'jd' in window && typeof (window as any).jd.getSystemInfoSync === 'function') {
+  if (
+    typeof window !== 'undefined' &&
+    'jd' in window &&
+    typeof (window as any).jd.getSystemInfoSync === 'function'
+  ) {
     return PlatformType.JD;
   }
-  
+
   // 钉钉小程序
-  if (typeof window !== 'undefined' && 'dd' in window && typeof (window as any).dd.getSystemInfoSync === 'function') {
+  if (
+    typeof window !== 'undefined' &&
+    'dd' in window &&
+    typeof (window as any).dd.getSystemInfoSync === 'function'
+  ) {
     return PlatformType.DD;
   }
-  
+
   // 企业微信小程序
   if (typeof window !== 'undefined' && 'wx' in window && 'qy' in (window as any).wx) {
     return PlatformType.QYWX;
   }
-  
+
   // 飞书小程序
-  if (typeof window !== 'undefined' && 'tt' in window && 
-      typeof (window as any).tt.getSystemInfoSync === 'function' && 
-      (window as any).tt.env?.appName === 'lark') {
+  if (
+    typeof window !== 'undefined' &&
+    'tt' in window &&
+    typeof (window as any).tt.getSystemInfoSync === 'function' &&
+    (window as any).tt.env?.appName === 'lark'
+  ) {
     return PlatformType.LARK;
   }
-  
+
   // 鸿蒙OS（通过UserAgent判断）
   if (typeof navigator !== 'undefined' && navigator.userAgent.includes('HarmonyOS')) {
     return PlatformType.HARMONY;
   }
-  
+
   // 默认为H5
   return PlatformType.H5;
 }
@@ -119,7 +150,11 @@ async function loadAdapter(platform: PlatformType): Promise<any> {
 export function getEnv(): 'h5' | 'weapp' | 'unknown' {
   if (typeof window !== 'undefined' && typeof document !== 'undefined') {
     return 'h5';
-  } else if (typeof global !== 'undefined' && typeof global['wx'] !== 'undefined' && typeof global['wx'].getSystemInfoSync === 'function') {
+  } else if (
+    typeof global !== 'undefined' &&
+    typeof global['wx'] !== 'undefined' &&
+    typeof global['wx'].getSystemInfoSync === 'function'
+  ) {
     return 'weapp';
   }
   return 'unknown';
@@ -132,7 +167,7 @@ export function getEnv(): 'h5' | 'weapp' | 'unknown' {
  */
 export function getAdapter(options: AdapterOptions): Adapter {
   const env = getEnv();
-  
+
   switch (env) {
     case 'h5':
       return H5Adapter.create(options) as Adapter;
@@ -172,5 +207,5 @@ export default {
   getAdapter,
   getEnv,
   h5: H5Adapter,
-  weapp: WeappAdapter
-}; 
+  weapp: WeappAdapter,
+};

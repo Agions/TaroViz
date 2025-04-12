@@ -1,13 +1,12 @@
 /**
  * 图表类型定义
  */
-import type { ComposeOption } from 'echarts/core';
-import type { 
-  BarSeriesOption, 
+import type {
+  BarSeriesOption,
   LineSeriesOption,
   PieSeriesOption,
   ScatterSeriesOption,
-  RadarSeriesOption
+  RadarSeriesOption,
 } from 'echarts/charts';
 import type {
   TitleComponentOption,
@@ -15,8 +14,9 @@ import type {
   LegendComponentOption,
   TooltipComponentOption,
   ToolboxComponentOption,
-  DataZoomComponentOption
+  DataZoomComponentOption,
 } from 'echarts/components';
+import type { ComposeOption } from 'echarts/core';
 
 /**
  * 渲染优化配置
@@ -26,22 +26,22 @@ export interface RenderOptimizationConfig {
    * 是否启用渐进式渲染
    */
   progressive?: boolean;
-  
+
   /**
    * 渐进式渲染阈值
    */
   progressiveThreshold?: number;
-  
+
   /**
    * 渐进式渲染模式
    */
   progressiveChunkMode?: 'sequential' | 'mod';
-  
+
   /**
    * 是否启用懒更新
    */
   lazyUpdate?: boolean;
-  
+
   /**
    * 动画刷新阈值
    */
@@ -63,4 +63,4 @@ export type ChartOptions = ComposeOption<
   | TooltipComponentOption
   | ToolboxComponentOption
   | DataZoomComponentOption
->; 
+>;

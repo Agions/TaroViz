@@ -1,35 +1,27 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleNameMapper: {
-    '^@taroviz$': '<rootDir>/packages/all/src',
-    '^@taroviz/core(.*)$': '<rootDir>/packages/core/src$1',
-    '^@taroviz/adapters(.*)$': '<rootDir>/packages/adapters/src$1',
-    '^@taroviz/charts(.*)$': '<rootDir>/packages/charts/src$1',
-    '^@taroviz/themes(.*)$': '<rootDir>/packages/themes/src$1',
-    '^@taroviz/data(.*)$': '<rootDir>/packages/data/src$1',
-    '^@taroviz/hooks(.*)$': '<rootDir>/packages/hooks/src$1',
-    '\\.(css|less|scss)$': 'identity-obj-proxy'
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
   },
-  setupFilesAfterEnv: ['./jest.setup.js'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  testMatch: ['<rootDir>/packages/**/__tests__/**/*.(spec|test).(ts|tsx)'],
+  collectCoverageFrom: [
+    'packages/*/src/**/*.(ts|tsx)',
+    '!packages/*/src/**/*.d.ts',
+    '!packages/*/src/**/index.(ts|tsx)',
+  ],
+  coverageThreshold: {
+    global: {
+      branches: 80,
+      functions: 80,
+      lines: 80,
+      statements: 80,
+    },
+  },
   transform: {
     '^.+\\.(ts|tsx)$': ['ts-jest', {
-      tsconfig: 'tsconfig.json'
-    }]
+      tsconfig: 'tsconfig.test.json',
+    }],
   },
-  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
-  collectCoverageFrom: [
-    'packages/*/src/**/*.{ts,tsx}',
-    '!packages/*/src/**/*.d.ts',
-    '!packages/*/src/**/*.stories.{ts,tsx}',
-    '!packages/*/src/**/__tests__/**/*'
-  ],
-  coverageDirectory: 'coverage',
-  coverageReporters: ['text', 'lcov'],
-  globals: {
-    'ts-jest': {
-      isolatedModules: true
-    }
-  }
 };

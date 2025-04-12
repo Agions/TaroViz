@@ -45,7 +45,7 @@ export function getAllCharts(): Record<string, ECharts> {
  * 清空所有图表实例
  */
 export function clearAllCharts(): void {
-  Object.keys(CHART_INSTANCES).forEach(id => {
+  Object.keys(CHART_INSTANCES).forEach((id) => {
     try {
       CHART_INSTANCES[id].dispose();
     } catch (e) {
@@ -59,11 +59,11 @@ export function clearAllCharts(): void {
  * 调整所有图表实例大小
  */
 export function resizeAllCharts(): void {
-  Object.keys(CHART_INSTANCES).forEach(id => {
+  Object.keys(CHART_INSTANCES).forEach((id) => {
     try {
       CHART_INSTANCES[id].resize();
     } catch (e) {
       console.warn(`Failed to resize chart: ${id}`, e);
     }
   });
-} 
+}

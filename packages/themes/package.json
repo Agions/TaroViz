@@ -1,6 +1,6 @@
 {
-  "name": "@taroviz/themes",
-  "version": "0.5.1",
+  "name": "@agions/taroviz-themes",
+  "version": "1.0.0",
   "description": "TaroViz 主题系统",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -12,14 +12,18 @@
   ],
   "scripts": {
     "dev": "webpack --mode=development --watch",
-    "build": "webpack --mode=production",
+    "build": "npx webpack --mode=production",
     "clean": "rimraf dist"
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@taroviz/core": "workspace:*"
+    "@agions/taroviz-core": "workspace:*"
+  },
+  "peerDependencies": {
+    "@tarojs/taro": ">=3.4.0",
+    "react": ">=16.13.0"
   },
   "gitHead": "91fc38170d66256221250816051c66abbdf5f8f8"
 }

@@ -1,85 +1,76 @@
-import React, { useEffect, useRef } from 'react';
 import { View } from '@tarojs/components';
-import * as echarts from 'echarts/core';
-import { TreeChart as TreeChartComponent } from 'echarts/charts';
-import {
-  TooltipComponent,
-  TitleComponent,
-  LegendComponent
-} from 'echarts/components';
 import { getAdapter } from '@taroviz/adapters';
 import { EChartsOption } from '@taroviz/core/types';
 import { uuid } from '@taroviz/core/utils';
+import { TreeChart as TreeChartComponent } from 'echarts/charts';
+import { TooltipComponent, TitleComponent, LegendComponent } from 'echarts/components';
+import * as echarts from 'echarts/core';
+import React, { useEffect, useRef } from 'react';
 
 // 注册必要的组件
-echarts.use([
-  TreeChartComponent,
-  TooltipComponent,
-  TitleComponent,
-  LegendComponent
-]);
+echarts.use([TreeChartComponent, TooltipComponent, TitleComponent, LegendComponent]);
 
 export interface TreeChartProps {
   /**
    * 图表配置项
    */
   option: EChartsOption;
-  
+
   /**
    * 宽度
    */
   width?: number | string;
-  
+
   /**
    * 高度
    */
   height?: number | string;
-  
+
   /**
    * 主题
    */
   theme?: string | object;
-  
+
   /**
    * 样式
    */
   style?: React.CSSProperties;
-  
+
   /**
    * 类名
    */
   className?: string;
-  
+
   /**
    * 是否自动调整大小
    */
   autoResize?: boolean;
-  
+
   /**
    * 是否显示加载动画
    */
   loading?: boolean;
-  
+
   /**
    * 加载动画配置
    */
   loadingOption?: object;
-  
+
   /**
    * 图表实例初始化回调
    */
   onChartInit?: (chart: any) => void;
-  
+
   /**
    * 图表准备好的回调
    */
   onChartReady?: (chart: any) => void;
-  
+
   /**
    * 渲染器类型
    */
   renderer?: 'canvas' | 'svg';
-  
+
   /**
    * 事件回调
    */
@@ -102,12 +93,12 @@ const TreeChart: React.FC<TreeChartProps> = ({
   onChartInit,
   onChartReady,
   renderer = 'canvas',
-  onEvents = {}
+  onEvents = {},
 }) => {
   const chartId = useRef<string>(`tree-chart-${uuid()}`);
   const chartInstance = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  
+
   // 处理图表初始化
   useEffect(() => {
     // 获取适配器
@@ -122,29 +113,29 @@ const TreeChart: React.FC<TreeChartProps> = ({
       renderer,
       onInit: (instance) => {
         chartInstance.current = instance;
-        
+
         // 绑定事件
         if (onEvents) {
           Object.keys(onEvents).forEach((eventName) => {
             instance.on(eventName, onEvents[eventName]);
           });
         }
-        
+
         // 初始化回调
         if (onChartInit) {
           onChartInit(instance);
         }
-        
+
         // 准备好回调
         if (onChartReady) {
           onChartReady(instance);
         }
-      }
+      },
     });
-    
+
     // 初始化
     adapter.init();
-    
+
     // 组件卸载时清理
     return () => {
       if (chartInstance.current) {
@@ -159,14 +150,14 @@ const TreeChart: React.FC<TreeChartProps> = ({
       }
     };
   }, []);
-  
+
   // 更新配置
   useEffect(() => {
     if (chartInstance.current) {
       chartInstance.current.setOption(option, true);
     }
   }, [option]);
-  
+
   // 控制加载状态
   useEffect(() => {
     if (chartInstance.current) {
@@ -177,14 +168,14 @@ const TreeChart: React.FC<TreeChartProps> = ({
       }
     }
   }, [loading, loadingOption]);
-  
+
   // 自定义样式
   const mergedStyle = {
     width: typeof width === 'number' ? `${width}px` : width,
     height: typeof height === 'number' ? `${height}px` : height,
-    ...style
+    ...style,
   };
-  
+
   // 渲染适配器
   const adapter = getAdapter({
     width,
@@ -192,11 +183,11 @@ const TreeChart: React.FC<TreeChartProps> = ({
     theme,
     autoResize,
     canvasId: chartId.current,
-    containerRef
+    containerRef,
   });
-  
+
   return (
-    <View 
+    <View
       className={`taroviz-tree-chart ${className}`}
       style={mergedStyle}
       ref={containerRef as any}
@@ -206,4 +197,4 @@ const TreeChart: React.FC<TreeChartProps> = ({
   );
 };
 
-export default TreeChart; 
+export default TreeChart;

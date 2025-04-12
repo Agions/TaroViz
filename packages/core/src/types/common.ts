@@ -21,17 +21,17 @@ export interface DataURLOption {
    * 导出的图片类型
    */
   type?: 'png' | 'jpeg';
-  
+
   /**
    * 设备像素比
    */
   pixelRatio?: number;
-  
+
   /**
    * 背景色
    */
   backgroundColor?: string;
-  
+
   /**
    * 排除的组件列表
    */
@@ -46,7 +46,7 @@ export interface ChartSize {
    * 宽度
    */
   width?: number | string;
-  
+
   /**
    * 高度
    */
@@ -61,22 +61,22 @@ export interface ChartAnimation {
    * 是否启用动画
    */
   enabled?: boolean;
-  
+
   /**
    * 动画时长
    */
   duration?: number;
-  
+
   /**
    * 动画缓动效果
    */
   easing?: string;
-  
+
   /**
    * 初始动画时长
    */
   animationDuration?: number;
-  
+
   /**
    * 更新动画时长
    */
@@ -91,22 +91,22 @@ export interface ChartTheme {
    * 主题名称或配置
    */
   theme?: string | object;
-  
+
   /**
    * 背景色
    */
   backgroundColor?: string;
-  
+
   /**
    * 文本颜色
    */
   textColor?: string;
-  
+
   /**
    * 轴线颜色
    */
   axisLineColor?: string;
-  
+
   /**
    * 分割线颜色
    */
@@ -121,57 +121,57 @@ export interface ChartLoadingOptions {
    * 加载提示文本
    */
   text?: string;
-  
+
   /**
    * 加载动画颜色
    */
   color?: string;
-  
+
   /**
    * 文本颜色
    */
   textColor?: string;
-  
+
   /**
    * 遮罩颜色
    */
   maskColor?: string;
-  
+
   /**
    * z层级
    */
   zlevel?: number;
-  
+
   /**
    * 字体大小
    */
   fontSize?: number;
-  
+
   /**
    * 是否显示旋转器
    */
   showSpinner?: boolean;
-  
+
   /**
    * 旋转器半径
    */
   spinnerRadius?: number;
-  
+
   /**
    * 线宽
    */
   lineWidth?: number;
-  
+
   /**
    * 字体粗细
    */
   fontWeight?: number | string;
-  
+
   /**
    * 字体样式
    */
   fontStyle?: string;
-  
+
   /**
    * 字体族
    */
@@ -220,5 +220,5 @@ export enum ChartEventType {
   CHART_READY = 'chartReady',
   CHART_RESIZE = 'chartResize',
   CHART_ERROR = 'chartError',
-  CHART_DISPOSE = 'chartDispose'
-} 
+  CHART_DISPOSE = 'chartDispose',
+}

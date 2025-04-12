@@ -1,6 +1,6 @@
 {
-  "name": "@taroviz/adapters",
-  "version": "0.5.1",
+  "name": "@agions/taroviz-adapters",
+  "version": "1.0.0",
   "description": "TaroViz 平台适配器",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -20,7 +20,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@taroviz/core": "workspace:*"
+    "@agions/taroviz-core": "workspace:*"
   },
   "peerDependencies": {
     "@tarojs/components": ">=3.4.0",

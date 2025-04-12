@@ -2,8 +2,8 @@
  * TaroViz React Hooks
  * 提供与图表相关的React Hooks
  */
-import { useState, useEffect, useRef, useMemo } from 'react';
 import { getAdapter } from '@taroviz/adapters';
+import { useState, useEffect, useRef, useMemo } from 'react';
 
 // 通用图表配置类型
 interface ChartOptions {
@@ -29,23 +29,23 @@ interface ChartInstance {
  */
 export function useChart(chartRef: React.RefObject<HTMLElement>) {
   const [instance, setInstance] = useState<ChartInstance | null>(null);
-  
+
   useEffect(() => {
     if (chartRef.current && !instance) {
       // 使用默认配置初始化适配器
       const adapter = getAdapter({});
-      
+
       // 注意：Adapter接口可能没有直接定义setComponent方法
       // 但多数适配器实现中都有这个方法，我们可以通过类型断言使用
       if (typeof (adapter as any).setComponent === 'function') {
         (adapter as any).setComponent(chartRef.current);
       }
-      
+
       // 初始化并保存实例
       const chartInstance = adapter as unknown as ChartInstance;
       setInstance(chartInstance);
     }
-    
+
     return () => {
       if (instance) {
         try {
@@ -56,7 +56,7 @@ export function useChart(chartRef: React.RefObject<HTMLElement>) {
       }
     };
   }, [chartRef, instance]);
-  
+
   return [instance, setInstance] as const;
 }
 
@@ -66,11 +66,7 @@ export function useChart(chartRef: React.RefObject<HTMLElement>) {
  * @param option 图表选项
  * @param deps 依赖数组
  */
-export function useOption(
-  instance: ChartInstance | null, 
-  option: ChartOptions, 
-  deps: any[] = []
-) {
+export function useOption(instance: ChartInstance | null, option: ChartOptions, deps: any[] = []) {
   useEffect(() => {
     if (instance && option) {
       try {
@@ -88,8 +84,10 @@ export function useOption(
  */
 export function useResize(instance: ChartInstance | null) {
   useEffect(() => {
-    if (!instance) return;
-    
+    if (!instance) {
+      return;
+    }
+
     const handleResize = () => {
       try {
         instance.resize();
@@ -97,9 +95,9 @@ export function useResize(instance: ChartInstance | null) {
         console.warn('Failed to resize chart:', e);
       }
     };
-    
+
     window.addEventListener('resize', handleResize);
-    
+
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -111,15 +109,14 @@ export function useResize(instance: ChartInstance | null) {
  * @param instance 图表实例
  * @param events 事件对象
  */
-export function useEvents(
-  instance: ChartInstance | null, 
-  events: Record<string, Function>
-) {
+export function useEvents(instance: ChartInstance | null, events: Record<string, Function>) {
   useEffect(() => {
-    if (!instance) return;
-    
+    if (!instance) {
+      return;
+    }
+
     const eventEntries = Object.entries(events);
-    
+
     // 绑定事件
     eventEntries.forEach(([eventName, handler]) => {
       try {
@@ -128,7 +125,7 @@ export function useEvents(
         console.warn(`Failed to bind event ${eventName}:`, e);
       }
     });
-    
+
     // 清理事件
     return () => {
       eventEntries.forEach(([eventName, handler]) => {
@@ -149,8 +146,10 @@ export function useEvents(
  */
 export function useLoading(instance: ChartInstance | null, loading: boolean) {
   useEffect(() => {
-    if (!instance) return;
-    
+    if (!instance) {
+      return;
+    }
+
     try {
       if (loading) {
         instance.showLoading();
@@ -174,7 +173,7 @@ export function useChartTheme(theme: string | Record<string, any>, darkMode = fa
     if (typeof theme === 'string') {
       return darkMode ? 'dark' : theme;
     }
-    
+
     return theme;
   }, [theme, darkMode]);
 }
@@ -185,15 +184,12 @@ export function useChartTheme(theme: string | Record<string, any>, darkMode = fa
  * @param transformer 数据转换函数
  * @returns 转换后的图表选项
  */
-export function useChartData<T = any>(
-  data: T[],
-  transformer: (data: T[]) => ChartOptions
-) {
+export function useChartData<T = any>(data: T[], transformer: (data: T[]) => ChartOptions) {
   return useMemo(() => {
     if (!data || data.length === 0) {
       return { series: [] };
     }
-    
+
     return transformer(data);
   }, [data, transformer]);
 }
@@ -209,8 +205,8 @@ const hooks = {
   useEvents,
   useLoading,
   useChartTheme,
-  useChartData
+  useChartData,
 };
 
 // 为了同时支持具名导入和默认导入
-export default hooks; 
+export default hooks;

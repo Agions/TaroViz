@@ -26,12 +26,12 @@ export function processAdapterConfig(config: {
     canvasId: config.canvasId,
     containerRef: config.containerRef,
     option: config.option,
-    renderer: config.renderer
+    renderer: config.renderer,
   };
 
   // 复制其他可能存在的属性
   const result: Record<string, any> = { ...processedConfig };
-  Object.keys(config).forEach(key => {
+  Object.keys(config).forEach((key) => {
     if (!(key in processedConfig)) {
       result[key] = config[key];
     }
@@ -53,4 +53,4 @@ export function safeRenderAdapter(adapter: any): JSX.Element | null {
     }
   }
   return null;
-} 
+}
