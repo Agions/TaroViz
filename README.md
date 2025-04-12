@@ -128,7 +128,7 @@ const BarChartDemo = () => {
 
 ```bash
 # 克隆仓库
-git clone https://github.com/yourusername/taroviz.git
+git clone https://github.com/agions/taroviz.git
 
 # 安装依赖
 pnpm install
@@ -185,11 +185,5 @@ pnpm test
 
 如果您在使用过程中遇到问题，可以通过以下方式获取帮助：
 
-- [GitHub Issues](https://github.com/yourusername/taroviz/issues)
-- [文档网站](https://taroviz.dev)
-- [示例项目](https://github.com/yourusername/taroviz-examples)
+- [GitHub Issues](https://github.com/agions/taroviz/issues)
 
-## 团队
-
-- Author: [Your Name](https://github.com/yourusername)
-- [贡献者列表](https://github.com/yourusername/taroviz/graphs/contributors)
