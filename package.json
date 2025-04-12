@@ -13,7 +13,8 @@
     "type-check": "tsc --noEmit",
     "prepare": "husky install",
     "docs:build": "typedoc --options typedoc.json",
-    "docs:serve": "npx serve docs-api"
+    "docs:serve": "npx serve docs-api",
+    "docs:update": "node scripts/update-docs.js"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
