@@ -12,6 +12,12 @@ on:
       - '.github/workflows/docs.yml'
   workflow_dispatch:
 
+# 添加权限配置
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -462,4 +468,10 @@ jobs:
         with:
           folder: docs-dist
           branch: gh-pages
-          clean: true 
+          clean: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "docs: 自动部署文档 [skip ci]"
+          git-config-name: github-actions[bot]
+          git-config-email: github-actions[bot]@users.noreply.github.com
+          single-commit: true
+          silent: false 
