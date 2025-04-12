@@ -469,6 +469,7 @@ jobs:
           folder: docs-dist
           branch: gh-pages
           clean: true
+          force: true
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "docs: 自动部署文档 [skip ci]"
           git-config-name: github-actions[bot]
