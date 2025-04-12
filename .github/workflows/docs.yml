@@ -356,14 +356,14 @@ jobs:
             typedocConfig.out = "docs-api";
             typedocConfig.tsconfig = "tsconfig.typedoc.json";
             
-            // 添加skipLibCheck和skipErrorChecking选项
-            typedocConfig.skipLibCheck = true;
+            // 不再添加skipLibCheck选项，因为TypeDoc不支持
+            // typedocConfig.skipLibCheck = true;
             
             // 写入修改后的typedoc配置
             fs.writeFileSync('typedoc.temp.json', JSON.stringify(typedocConfig, null, 2));
             
             console.log('运行TypeDoc...');
-            // 使用pnpx而不是npx，避免npm workspace协议问题
+            // 使用pnpx而不是npx，避免npm workspace协议问题，添加skipErrorChecking选项
             execSync('pnpx typedoc --options typedoc.temp.json --skipErrorChecking --logLevel Verbose', { stdio: 'inherit' });
             console.log('TypeDoc文档生成成功!');
             
