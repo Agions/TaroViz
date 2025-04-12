@@ -36,19 +36,24 @@ jobs:
       - name: 安装依赖
         run: |
           echo "PNPM安装中..."
-          pnpm install
+          pnpm install --no-frozen-lockfile
           echo "PNPM安装完成"
-
-      - name: 安装TypeDoc
-        run: npm install -g typedoc
 
       - name: 构建文档
         run: |
-          if command -v pnpm &> /dev/null; then
-            echo "使用pnpm构建文档"
+          echo "环境变量PATH: $PATH"
+          echo "当前目录: $(pwd)"
+          echo "查看package.json中的依赖:"
+          cat package.json | grep typedoc || echo "未找到typedoc在package.json中"
+          echo "查看node_modules/.bin目录:"
+          ls -la node_modules/.bin/ || echo "目录不存在"
+          
+          if command -v npx &> /dev/null; then
+            echo "使用npx构建文档"
+            npx typedoc --version || echo "typedoc未找到"
             pnpm docs:update
           else
-            echo "pnpm未找到，使用node直接运行脚本"
+            echo "npx未找到，使用node直接运行脚本"
             npm run docs:build && node scripts/update-docs.js
           fi
 
