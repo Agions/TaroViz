@@ -1,6 +1,6 @@
 {
   "name": "@agions/taroviz-charts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "TaroViz 图表组件集合",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
