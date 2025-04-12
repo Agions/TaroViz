@@ -39,6 +39,26 @@ jobs:
           pnpm install --no-frozen-lockfile
           echo "PNPM安装完成"
 
+      - name: 构建所有包
+        run: |
+          echo "构建所有包..."
+          # 确保所有包都能被相互引用
+          pnpm -r exec -- mkdir -p dist
+          echo "已创建临时dist目录"
+          
+          # 为每个包生成基本的package.json
+          for pkg in packages/*; do
+            if [ -d "$pkg" ]; then
+              echo "处理包: $pkg"
+              if [ -f "$pkg/package.json" ]; then
+                # 确保每个包的dist目录中有基本package.json
+                name=$(node -e "console.log(require('./$pkg/package.json').name)")
+                echo "{\"name\":\"$name\",\"main\":\"index.js\",\"version\":\"1.0.2\"}" > $pkg/dist/package.json
+                echo "已为 $pkg 创建临时package.json"
+              fi
+            fi
+          done
+
       - name: 构建文档
         run: |
           echo "环境变量PATH: $PATH"
@@ -51,10 +71,10 @@ jobs:
           if command -v npx &> /dev/null; then
             echo "使用npx构建文档"
             npx typedoc --version || echo "typedoc未找到"
-            pnpm docs:update
+            NODE_OPTIONS=--max-old-space-size=4096 pnpm docs:update
           else
             echo "npx未找到，使用node直接运行脚本"
-            npm run docs:build && node scripts/update-docs.js
+            NODE_OPTIONS=--max-old-space-size=4096 npm run docs:build && node scripts/update-docs.js
           fi
 
       - name: 部署到 GitHub Pages
