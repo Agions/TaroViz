@@ -1,14 +1,11 @@
 {
-  "version": "0.5.1",
+  "version": "1.0.1",
   "npmClient": "pnpm",
   "command": {
     "publish": {
       "message": "chore(release): publish %s",
       "registry": "https://registry.npmjs.org/",
-      "ignoreChanges": [
-        "*.md",
-        "tests/**"
-      ]
+      "ignoreChanges": ["*.md", "tests/**"]
     },
     "version": {
       "allowBranch": "main",
@@ -17,7 +14,5 @@
       "message": "chore(release): %s"
     }
   },
-  "packages": [
-    "packages/*"
-  ]
+  "packages": ["packages/*"]
 }

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/Agions/TaroViz/compare/v0.4.0...v1.0.1) (2025-04-12)
+
+### Bug Fixes
+
+- 删除对不存在的 getEnv 导出的引用 ([8dd6d4f](https://github.com/Agions/TaroViz/commit/8dd6d4fb6db28690e3cc94cf7eab89985654067d))
+
 ## [0.5.1](https://github.com/Agions/TaroViz/compare/v0.4.0...v0.5.1) (2025-04-11)
 
 **Note:** Version bump only for package @taroviz/core-bundle
