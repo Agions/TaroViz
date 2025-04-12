@@ -179,7 +179,7 @@ pnpm test
 
 ## 许可证
 
-[MIT License](./LICENSE) © 2024 Agions
+[MIT License](./LICENSE) © 2025 Agions
 
 ## 支持
 
