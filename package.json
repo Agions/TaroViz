@@ -12,7 +12,7 @@
     "lint": "eslint packages/*/src --ext .ts,.tsx",
     "type-check": "tsc --noEmit",
     "prepare": "husky install",
-    "docs:build": "typedoc --options typedoc.json",
+    "docs:build": "npx typedoc --options typedoc.json",
     "docs:serve": "npx serve docs-api",
     "docs:update": "node scripts/update-docs.js"
   },

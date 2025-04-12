@@ -21,23 +21,36 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: 设置 Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          cache: 'pnpm'
-
       - name: 安装 pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 8
           run_install: false
 
+      - name: 设置 Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
       - name: 安装依赖
-        run: pnpm install
+        run: |
+          echo "PNPM安装中..."
+          pnpm install
+          echo "PNPM安装完成"
+
+      - name: 安装TypeDoc
+        run: npm install -g typedoc
 
       - name: 构建文档
-        run: pnpm docs:update
+        run: |
+          if command -v pnpm &> /dev/null; then
+            echo "使用pnpm构建文档"
+            pnpm docs:update
+          else
+            echo "pnpm未找到，使用node直接运行脚本"
+            npm run docs:build && node scripts/update-docs.js
+          fi
 
       - name: 部署到 GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
