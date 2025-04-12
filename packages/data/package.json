@@ -1,6 +1,6 @@
 {
-  "name": "@taroviz/data",
-  "version": "0.5.1",
+  "name": "@agions/taroviz-data",
+  "version": "1.0.0",
   "description": "TaroViz 数据处理工具",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -19,7 +19,11 @@
     "access": "public"
   },
   "dependencies": {
-    "@taroviz/core": "workspace:*"
+    "@agions/taroviz-core": "workspace:*"
+  },
+  "peerDependencies": {
+    "@tarojs/taro": ">=3.4.0",
+    "react": ">=16.13.0"
   },
   "gitHead": "91fc38170d66256221250816051c66abbdf5f8f8"
 }

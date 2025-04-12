@@ -2,12 +2,12 @@
  * TaroViz 支付宝小程序适配器
  * 基于支付宝小程序canvas组件实现图表渲染
  */
-import React from 'react';
-import Taro from '@tarojs/taro';
 import { Canvas } from '@tarojs/components';
-import * as echarts from 'echarts/core';
+import Taro from '@tarojs/taro';
 import { Adapter, AlipayAdapterOptions, EChartsOption } from '@taroviz/core/types';
 import { uuid } from '@taroviz/core/utils';
+import * as echarts from 'echarts/core';
+import React from 'react';
 
 /**
  * 支付宝小程序环境下的ECharts适配器
@@ -19,9 +19,9 @@ class AlipayAdapter implements Adapter {
   private ctx: any = null;
   private component: any = null;
   private canvasDom: any = null;
-  
+
   constructor(options: AlipayAdapterOptions) {
-    this.options = options || {} as any;
+    this.options = options || ({} as any);
     this.canvasId = this.options.canvasId || `ec-canvas-${uuid()}`;
   }
 
@@ -46,11 +46,11 @@ class AlipayAdapter implements Adapter {
 
         const width = res[0].width;
         const height = res[0].height;
-        
+
         // 获取canvas上下文
         // @ts-ignore
         const ctx = my.createCanvasContext(this.canvasId);
-        
+
         // 支付宝小程序不支持直接获取canvas节点，需要适配
         const myCanvas = {
           width,
@@ -60,38 +60,38 @@ class AlipayAdapter implements Adapter {
           createImage: () => ({
             onload: null,
             onerror: null,
-            src: ''
+            src: '',
           }),
           // 其他方法按需适配
           addEventListener: () => {},
           removeEventListener: () => {},
           dispatchEvent: () => {},
           requestAnimationFrame: (fn: Function) => setTimeout(fn, 16),
-          cancelAnimationFrame: (id: number) => clearTimeout(id)
+          cancelAnimationFrame: (id: number) => clearTimeout(id),
         };
-        
+
         this.ctx = ctx;
         this.canvasDom = myCanvas;
-        
+
         // 初始化图表
         this.instance = echarts.init(myCanvas as any, null, {
           width: width,
           height: height,
           devicePixelRatio: 2,
-          renderer: 'canvas'
+          renderer: 'canvas',
         });
-        
+
         // 设置图表配置
         if (this.options.option) {
           this.instance.setOption(this.options.option);
         }
-        
+
         // 调用初始化回调
         if (this.options.onInit) {
           this.options.onInit(this.instance);
         }
       });
-      
+
     return null;
   }
 
@@ -224,7 +224,7 @@ class AlipayAdapter implements Adapter {
       this.instance.dispose();
       this.instance = null;
     }
-    
+
     this.canvasDom = null;
     this.ctx = null;
   }
@@ -241,20 +241,20 @@ class AlipayAdapter implements Adapter {
    */
   render(): JSX.Element {
     const { width = '100%', height = '300px' } = this.options;
-    
+
     // 合并样式
     const mergedStyle = {
       width: typeof width === 'number' ? `${width}px` : width,
-      height: typeof height === 'number' ? `${height}px` : height
+      height: typeof height === 'number' ? `${height}px` : height,
     };
-    
+
     return React.createElement(Canvas, {
       id: this.canvasId,
       style: mergedStyle,
-      className: "taroviz-echarts-alipay"
+      className: 'taroviz-echarts-alipay',
     });
   }
 }
 
 // 导出适配器
-export default AlipayAdapter; 
+export default AlipayAdapter;

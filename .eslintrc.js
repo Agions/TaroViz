@@ -20,7 +20,10 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
-    'prettier'
+    'plugin:import/errors',
+    'plugin:import/warnings',
+    'plugin:import/typescript',
+    'plugin:prettier/recommended'
   ],
   env: {
     browser: true,
@@ -48,6 +51,13 @@ module.exports = {
       argsIgnorePattern: '^_',
       varsIgnorePattern: '^_' 
     }],
+    '@typescript-eslint/ban-types': ['error', {
+      types: {
+        'Function': {
+          message: 'Avoid using the `Function` type. Specify a more specific type instead.'
+        }
+      }
+    }],
     
     // React
     'react/prop-types': 'off',
@@ -70,7 +80,13 @@ module.exports = {
     // General
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'prettier/prettier': 'error',
+    'prettier/prettier': ['error', {
+      singleQuote: true,
+      semi: true,
+      tabWidth: 2,
+      printWidth: 100,
+      trailingComma: 'es5'
+    }],
     'prefer-const': 'error',
     'no-var': 'error',
     'eqeqeq': ['error', 'always', { 'null': 'ignore' }],

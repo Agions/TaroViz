@@ -6,7 +6,7 @@
 /**
  * 内置主题类型
  */
-export type BuiltinTheme = 
+export type BuiltinTheme =
   | 'default'
   | 'light'
   | 'dark'
@@ -25,27 +25,27 @@ export interface ThemeOptions {
    * 主题类型
    */
   theme?: BuiltinTheme | Record<string, any>;
-  
+
   /**
    * 是否启用深色模式
    */
   darkMode?: boolean;
-  
+
   /**
    * 颜色列表
    */
   colors?: string[];
-  
+
   /**
    * 背景色
    */
   backgroundColor?: string;
-  
+
   /**
    * 文本颜色
    */
   textColor?: string;
-  
+
   /**
    * 字体
    */
@@ -67,11 +67,12 @@ export const defaultTheme: ThemeOptions = {
     '#3ba272',
     '#fc8452',
     '#9a60b4',
-    '#ea7ccc'
+    '#ea7ccc',
   ],
   backgroundColor: 'transparent',
   textColor: '#333',
-  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+  fontFamily:
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
 };
 
 /**
@@ -89,11 +90,12 @@ export const darkTheme: ThemeOptions = {
     '#05c091',
     '#ff9f7f',
     '#8d48e3',
-    '#dd79ff'
+    '#dd79ff',
   ],
   backgroundColor: '#0f1117',
   textColor: '#e1e1e1',
-  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+  fontFamily:
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
 };
 
 /**
@@ -105,7 +107,7 @@ export function getTheme(options?: Partial<ThemeOptions>): ThemeOptions {
   if (!options) {
     return defaultTheme;
   }
-  
+
   const baseTheme = options.darkMode ? darkTheme : defaultTheme;
   return { ...baseTheme, ...options };
 }
@@ -125,5 +127,5 @@ export default {
   defaultTheme,
   darkTheme,
   getTheme,
-  registerTheme
-}; 
+  registerTheme,
+};

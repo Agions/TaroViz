@@ -12,7 +12,7 @@ export const events = {
   mousedown: 'mousedown',
   mouseover: 'mouseover',
   mouseout: 'mouseout',
-  globalout: 'globalout'
+  globalout: 'globalout',
 };
 
 /**
@@ -26,17 +26,20 @@ export * from './uuid';
  * @param source 源对象
  * @returns 合并后的对象
  */
-export function deepMerge<T extends Record<string, any>>(target: T, source: Record<string, any>): T {
-  const result:any = { ...target };
-  
-  Object.keys(source).forEach(key => {
+export function deepMerge<T extends Record<string, any>>(
+  target: T,
+  source: Record<string, any>
+): T {
+  const result: any = { ...target };
+
+  Object.keys(source).forEach((key) => {
     if (source[key] instanceof Object && key in target && target[key] instanceof Object) {
       result[key] = deepMerge(target[key], source[key]);
     } else {
       result[key] = source[key];
     }
   });
-  
+
   return result;
 }
 
@@ -46,14 +49,17 @@ export function deepMerge<T extends Record<string, any>>(target: T, source: Reco
  * @param delay 延迟时间（毫秒）
  * @returns 防抖后的函数
  */
-export function debounce<T extends (...args: any[]) => any>(fn: T, delay: number): (...args: Parameters<T>) => void {
+export function debounce<T extends (...args: any[]) => any>(
+  fn: T,
+  delay: number
+): (...args: Parameters<T>) => void {
   let timer: ReturnType<typeof setTimeout> | null = null;
-  
-  return function(this: any, ...args: Parameters<T>): void {
+
+  return function (this: any, ...args: Parameters<T>): void {
     if (timer) {
       clearTimeout(timer);
     }
-    
+
     timer = setTimeout(() => {
       fn.apply(this, args);
       timer = null;
@@ -67,12 +73,15 @@ export function debounce<T extends (...args: any[]) => any>(fn: T, delay: number
  * @param interval 间隔时间（毫秒）
  * @returns 节流后的函数
  */
-export function throttle<T extends (...args: any[]) => any>(fn: T, interval: number): (...args: Parameters<T>) => void {
+export function throttle<T extends (...args: any[]) => any>(
+  fn: T,
+  interval: number
+): (...args: Parameters<T>) => void {
   let lastTime = 0;
-  
-  return function(this: any, ...args: Parameters<T>): void {
+
+  return function (this: any, ...args: Parameters<T>): void {
     const now = Date.now();
-    
+
     if (now - lastTime >= interval) {
       fn.apply(this, args);
       lastTime = now;
@@ -91,20 +100,22 @@ export function throttle<T extends (...args: any[]) => any>(fn: T, interval: num
 export function getEnvironment() {
   const isServer = typeof window === 'undefined';
   const isClient = !isServer;
-  
+
   // 使用类型断言解决wx和my未定义的问题
-  const isWeapp = typeof (window as any)['wx'] !== 'undefined' && 
-                 typeof (window as any)['wx'].getSystemInfoSync === 'function';
-  const isAlipay = typeof (window as any)['my'] !== 'undefined' && 
-                  typeof (window as any)['my'].getSystemInfoSync === 'function';
+  const isWeapp =
+    typeof (window as any)['wx'] !== 'undefined' &&
+    typeof (window as any)['wx'].getSystemInfoSync === 'function';
+  const isAlipay =
+    typeof (window as any)['my'] !== 'undefined' &&
+    typeof (window as any)['my'].getSystemInfoSync === 'function';
   const isWeb = isClient && !isWeapp && !isAlipay;
-  
+
   return {
     isServer,
     isClient,
     isWeapp,
     isAlipay,
-    isWeb
+    isWeb,
   };
 }
 
@@ -116,19 +127,19 @@ export function getEnvironment() {
  * @returns 格式化后的字符串
  */
 export function formatNumber(
-  value: number, 
-  digits: number = 2, 
-  options: { 
-    useGrouping?: boolean; 
+  value: number,
+  digits: number = 2,
+  options: {
+    useGrouping?: boolean;
     locale?: string;
   } = {}
 ): string {
   const { useGrouping = true, locale = 'zh-CN' } = options;
-  
+
   return new Intl.NumberFormat(locale, {
     minimumFractionDigits: digits,
     maximumFractionDigits: digits,
-    useGrouping
+    useGrouping,
   }).format(value);
 }
 
@@ -140,15 +151,15 @@ export function formatNumber(
 export function getContrastColor(color: string): string {
   // 移除#前缀
   const hex = color.replace('#', '');
-  
+
   // 转换为RGB
   const r = parseInt(hex.substring(0, 2), 16);
   const g = parseInt(hex.substring(2, 4), 16);
   const b = parseInt(hex.substring(4, 6), 16);
-  
+
   // 计算亮度
   const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-  
+
   // 根据亮度返回黑色或白色
   return brightness > 128 ? '#000000' : '#FFFFFF';
-} 
+}

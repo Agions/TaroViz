@@ -1,8 +1,95 @@
-# Change Log
+# 更新日志
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+本文档记录 TaroViz 的所有重要变更。
 
-## [0.5.1](https://github.com/agions/taroviz/compare/v0.4.0...v0.5.1) (2025-04-11)
+## [1.0.0] 
 
-**Note:** Version bump only for package taroviz
+### 重大变更
+
+- 📦 包名更新：主包从 `@agions/taroviz-all` 改为 `@agions/taroviz`
+
+### 新增
+
+- 🎉 首次发布
+- 📊 支持基础图表类型：折线图、柱状图、饼图
+- 🎨 主题系统支持
+- 🔄 数据处理工具
+- 📱 多端适配支持
+
+### 核心包更新
+
+#### @agions/taroviz-core@1.0.0
+
+- ✨ 基础图表组件
+- 🛠️ 工具函数库
+- 📱 多端渲染支持
+
+#### @agions/taroviz-hooks@1.0.0
+
+- 🎯 图表数据处理 Hooks
+- 🔄 状态管理 Hooks
+- 🎨 主题 Hooks
+
+#### @agions/taroviz-data@1.0.0
+
+- 📊 数据转换工具
+- 📈 数据聚合功能
+- 🔍 数据过滤与验证
+
+#### @agions/taroviz-themes@1.0.0
+
+- 🎨 预设主题
+- 🛠️ 主题创建工具
+- 🔄 主题切换支持
+
+#### @agions/taroviz-adapters@1.0.0
+
+- 📱 多端适配器
+- 🔌 平台兼容层
+- 🛠️ 渲染优化
+
+### 修复
+
+- 修复图表渲染性能问题
+- 修复主题切换闪烁问题
+- 修复数据更新不及时问题
+
+### 优化
+
+- 优化图表渲染性能
+- 优化数据处理效率
+- 优化包体积
+
+### 文档
+
+- 📚 完善 API 文档
+- 🎯 添加使用示例
+- 📖 更新开发指南
+
+## [0.5.1]
+
+### 新增
+
+- 支持自定义主题
+- 添加数据处理工具
+- 新增图表类型
+
+### 修复
+
+- 修复小程序兼容性问题
+- 修复主题应用问题
+- 修复数据更新问题
+
+## [0.5.0]
+
+### 新增
+
+- 项目初始化
+- 基础功能实现
+- 核心包开发
+
+### 修复
+
+- 基础功能问题修复
+- 开发环境配置优化
+- 依赖关系调整

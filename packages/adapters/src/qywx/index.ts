@@ -2,12 +2,12 @@
  * TaroViz 企业微信小程序适配器
  * 基于企业微信小程序canvas组件实现图表渲染
  */
-import React from 'react';
-import Taro from '@tarojs/taro';
 import { Canvas } from '@tarojs/components';
-import * as echarts from 'echarts/core';
+import Taro from '@tarojs/taro';
 import { Adapter, WeappAdapterOptions, EChartsOption } from '@taroviz/core/types';
 import { uuid } from '@taroviz/core/utils';
+import * as echarts from 'echarts/core';
+import React from 'react';
 
 // 为WeappAdapterOptions添加选项属性（临时解决lint错误）
 interface QYWXAdapterOptions extends WeappAdapterOptions {
@@ -25,9 +25,9 @@ class QYWXAdapter implements Adapter {
   private ctx: any = null;
   private component: any = null;
   private canvasDom: any = null;
-  
+
   constructor(options: QYWXAdapterOptions) {
-    this.options = options || {} as any;
+    this.options = options || ({} as any);
     this.canvasId = this.options.canvasId || `ec-canvas-${uuid()}`;
   }
 
@@ -42,9 +42,10 @@ class QYWXAdapter implements Adapter {
     // 初始化企业微信小程序Canvas
     const query = Taro.createSelectorQuery();
     // @ts-ignore
-    query.select(`#${this.canvasId}`)
+    query
+      .select(`#${this.canvasId}`)
       .fields({ node: true, size: true })
-      .exec(res => {
+      .exec((res) => {
         if (!res || !res[0] || !res[0].node) {
           console.error('[TaroViz] Failed to get canvas instance');
           return;
@@ -52,35 +53,35 @@ class QYWXAdapter implements Adapter {
 
         const canvas = res[0].node;
         const ctx = canvas.getContext('2d');
-        
+
         // 设置canvas样式尺寸
         const dpr = Taro.getSystemInfoSync().pixelRatio;
         canvas.width = res[0].width * dpr;
         canvas.height = res[0].height * dpr;
-        
+
         // 保存上下文和DOM
         this.ctx = ctx;
         this.canvasDom = canvas;
-        
+
         // 初始化图表
         this.instance = echarts.init(canvas, null, {
           width: res[0].width,
           height: res[0].height,
           devicePixelRatio: dpr,
-          renderer: 'canvas'
+          renderer: 'canvas',
         });
-        
+
         // 设置图表配置
         if (this.options.option) {
           this.instance.setOption(this.options.option);
         }
-        
+
         // 调用初始化回调
         if (this.options.onInit) {
           this.options.onInit(this.instance);
         }
       });
-      
+
     return null;
   }
 
@@ -213,7 +214,7 @@ class QYWXAdapter implements Adapter {
       this.instance.dispose();
       this.instance = null;
     }
-    
+
     this.canvasDom = null;
     this.ctx = null;
   }
@@ -230,23 +231,23 @@ class QYWXAdapter implements Adapter {
    */
   render(): JSX.Element {
     const { width = '100%', height = '300px', style = {} } = this.options;
-    
+
     // 合并样式
     const mergedStyle = {
       width: typeof width === 'number' ? `${width}px` : width,
       height: typeof height === 'number' ? `${height}px` : height,
-      ...style
+      ...style,
     };
-    
+
     // @ts-ignore - 处理JSX兼容性问题
     return React.createElement(Canvas, {
-      type: "2d",
+      type: '2d',
       id: this.canvasId,
       style: mergedStyle,
-      className: "taroviz-echarts-qywx"
+      className: 'taroviz-echarts-qywx',
     });
   }
 }
 
 // 导出适配器
-export default QYWXAdapter; 
+export default QYWXAdapter;

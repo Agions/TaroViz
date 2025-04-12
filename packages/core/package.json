@@ -1,6 +1,6 @@
 {
-  "name": "@taroviz/core",
-  "version": "0.5.1",
+  "name": "@agions/taroviz-core",
+  "version": "1.0.0",
   "description": "TaroViz 核心组件和工具",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -28,7 +28,6 @@
   "peerDependencies": {
     "@tarojs/components": ">=3.4.0",
     "@tarojs/taro": ">=3.4.0",
-    "echarts": ">=5.4.0",
     "react": ">=16.13.0"
   },
   "gitHead": "91fc38170d66256221250816051c66abbdf5f8f8"

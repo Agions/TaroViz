@@ -1,16 +1,16 @@
 /**
  * TaroViz 适配器类型定义
- * 
+ *
  * 这个文件不再重新定义已在 @taroviz/core 中定义的接口，
  * 而是重新导出它们并扩展一些特定于适配器包的类型。
  */
-import { CSSProperties, ReactNode } from 'react';
-import { 
-  Adapter as CoreAdapter, 
+import {
+  Adapter as CoreAdapter,
   AdapterOptions as CoreAdapterOptions,
   H5AdapterOptions as CoreH5AdapterOptions,
-  WeappAdapterOptions as CoreWeappAdapterOptions
+  WeappAdapterOptions as CoreWeappAdapterOptions,
 } from '@taroviz/core/types';
+import { CSSProperties, ReactNode } from 'react';
 
 // 重新导出核心类型
 export type Adapter = CoreAdapter;
@@ -29,32 +29,32 @@ export interface BaseAdapterConfig {
    * 图表宽度
    */
   width?: number | string;
-  
+
   /**
    * 图表高度
    */
   height?: number | string;
-  
+
   /**
    * 图表主题
    */
   theme?: string | object;
-  
+
   /**
    * 是否自动调整大小
    */
   autoResize?: boolean;
-  
+
   /**
    * 画布ID
    */
   canvasId?: string;
-  
+
   /**
    * 容器引用
    */
   containerRef?: any;
-  
+
   /**
    * 图表选项
    */
@@ -64,7 +64,7 @@ export interface BaseAdapterConfig {
    * 渲染器类型
    */
   renderer?: 'canvas' | 'svg';
-  
+
   /**
    * 样式对象
    */
@@ -97,4 +97,4 @@ export interface AdapterFactory {
    * 创建适配器实例
    */
   create: (options: AdapterOptions) => Adapter;
-} 
+}

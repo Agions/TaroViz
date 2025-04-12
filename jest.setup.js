@@ -6,6 +6,25 @@ import 'whatwg-fetch';
 global.wx = {};
 global.my = {};
 global.swan = {};
+global.tt = {};
+
+// 模拟 window 对象
+global.window = {
+  devicePixelRatio: 1,
+};
+
+// 模拟 document 对象
+global.document = {
+  createElement: jest.fn(),
+  body: {
+    appendChild: jest.fn(),
+    removeChild: jest.fn(),
+  },
+};
+
+// 模拟 requestAnimationFrame
+global.requestAnimationFrame = (callback) => setTimeout(callback, 0);
+global.cancelAnimationFrame = (id) => clearTimeout(id);
 
 // 模拟 canvas 环境
 class MockCanvas {

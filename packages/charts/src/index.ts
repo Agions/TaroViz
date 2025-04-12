@@ -30,4 +30,4 @@ export { createChart } from './factory';
 /**
  * 版本信息
  */
-export const version = '0.5.0'; 
+export const version = '0.5.0';

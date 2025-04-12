@@ -2,12 +2,12 @@
  * TaroViz 百度智能小程序适配器
  * 基于百度智能小程序canvas组件实现图表渲染
  */
-import React, { PureComponent } from 'react';
-import Taro from '@tarojs/taro';
 import { Canvas } from '@tarojs/components';
-import * as echarts from 'echarts/core';
+import Taro from '@tarojs/taro';
 import { Adapter, SwanAdapterOptions, EChartsOption } from '@taroviz/core/types';
 import { uuid } from '@taroviz/core/utils';
+import * as echarts from 'echarts/core';
+import React, { PureComponent } from 'react';
 
 // 为SwanAdapterOptions添加选项属性（临时解决lint错误）
 interface EnhancedSwanAdapterOptions extends SwanAdapterOptions {
@@ -25,9 +25,9 @@ class SwanAdapter implements Adapter {
   private ctx: any = null;
   private component: any = null;
   private canvasDom: any = null;
-  
+
   constructor(options: EnhancedSwanAdapterOptions) {
-    this.options = options || {} as any;
+    this.options = options || ({} as any);
     this.canvasId = this.options.canvasId || `ec-canvas-${uuid()}`;
   }
 
@@ -42,9 +42,10 @@ class SwanAdapter implements Adapter {
     // 初始化小程序Canvas
     const query = Taro.createSelectorQuery();
     // @ts-ignore
-    query.select(`#${this.canvasId}`)
+    query
+      .select(`#${this.canvasId}`)
       .fields({ node: true, size: true })
-      .exec(res => {
+      .exec((res) => {
         if (!res || !res[0] || !res[0].node) {
           console.error('[TaroViz] Failed to get canvas instance');
           return;
@@ -52,35 +53,35 @@ class SwanAdapter implements Adapter {
 
         const canvas = res[0].node;
         const ctx = canvas.getContext('2d');
-        
+
         // 设置canvas样式尺寸
         const dpr = Taro.getSystemInfoSync().pixelRatio;
         canvas.width = res[0].width * dpr;
         canvas.height = res[0].height * dpr;
-        
+
         // 保存上下文和DOM
         this.ctx = ctx;
         this.canvasDom = canvas;
-        
+
         // 初始化图表
         this.instance = echarts.init(canvas, null, {
           width: res[0].width,
           height: res[0].height,
           devicePixelRatio: dpr,
-          renderer: 'canvas'
+          renderer: 'canvas',
         });
-        
+
         // 设置图表配置
         if (this.options.option) {
           this.instance.setOption(this.options.option);
         }
-        
+
         // 调用初始化回调
         if (this.options.onInit) {
           this.options.onInit(this.instance);
         }
       });
-      
+
     return null;
   }
 
@@ -213,7 +214,7 @@ class SwanAdapter implements Adapter {
       this.instance.dispose();
       this.instance = null;
     }
-    
+
     this.canvasDom = null;
     this.ctx = null;
   }
@@ -246,7 +247,7 @@ class SwanAdapter implements Adapter {
     return {
       platform: 'swan',
       renderer: 'canvas',
-      systemInfo: Taro.getSystemInfoSync()
+      systemInfo: Taro.getSystemInfoSync(),
     };
   }
 
@@ -255,20 +256,20 @@ class SwanAdapter implements Adapter {
    */
   render(): JSX.Element {
     const { width = '100%', height = '300px', style = {} } = this.options;
-    
+
     // 合并样式
     const mergedStyle = {
       width: typeof width === 'number' ? `${width}px` : width,
       height: typeof height === 'number' ? `${height}px` : height,
-      ...style
+      ...style,
     };
-    
+
     // 使用React.createElement替代JSX语法，避免TS错误
     return React.createElement(Canvas, {
-      type: "2d",
+      type: '2d',
       id: this.canvasId,
       style: mergedStyle,
-      className: "taroviz-echarts-swan"
+      className: 'taroviz-echarts-swan',
     });
   }
 }

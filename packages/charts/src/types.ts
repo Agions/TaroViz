@@ -12,62 +12,62 @@ export interface BaseChartProps {
    * 图表配置项
    */
   option: EChartsOption;
-  
+
   /**
    * 宽度
    */
   width?: number | string;
-  
+
   /**
    * 高度
    */
   height?: number | string;
-  
+
   /**
    * 主题
    */
   theme?: string | object;
-  
+
   /**
    * 样式
    */
   style?: React.CSSProperties;
-  
+
   /**
    * 类名
    */
   className?: string;
-  
+
   /**
    * 是否自动调整大小
    */
   autoResize?: boolean;
-  
+
   /**
    * 是否显示加载动画
    */
   loading?: boolean;
-  
+
   /**
    * 加载动画配置
    */
   loadingOption?: object;
-  
+
   /**
    * 图表实例初始化回调
    */
   onChartInit?: (chart: echarts.ECharts) => void;
-  
+
   /**
    * 图表准备好的回调
    */
   onChartReady?: (chart: echarts.ECharts) => void;
-  
+
   /**
    * 渲染器类型
    */
   renderer?: 'canvas' | 'svg';
-  
+
   /**
    * 事件回调
    */
@@ -142,4 +142,4 @@ export interface TreeChartProps extends BaseChartProps {
  */
 export interface SunburstChartProps extends BaseChartProps {
   // 旭日图特有属性
-} 
+}
