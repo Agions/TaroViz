@@ -20,12 +20,52 @@ function getCurrentVersion() {
   return packageJson.version || '未知版本';
 }
 
+// 跨平台兼容的命令执行
+function runCommand(command, options = {}) {
+  try {
+    return execSync(command, { ...options, stdio: 'inherit', cwd: rootDir });
+  } catch (error) {
+    console.error(`执行命令失败: ${command}`);
+    console.error(error);
+    return null;
+  }
+}
+
+// 跨平台兼容的目录复制
+function copyDirectory(source, destination) {
+  // 确保目标目录存在
+  if (!fs.existsSync(destination)) {
+    fs.mkdirSync(destination, { recursive: true });
+  }
+
+  // 读取源目录内容
+  const files = fs.readdirSync(source);
+  
+  // 复制每个文件/目录
+  for (const file of files) {
+    const sourcePath = path.join(source, file);
+    const destPath = path.join(destination, file);
+    
+    if (fs.statSync(sourcePath).isDirectory()) {
+      // 如果是目录，递归复制
+      copyDirectory(sourcePath, destPath);
+    } else {
+      // 如果是文件，直接复制
+      fs.copyFileSync(sourcePath, destPath);
+    }
+  }
+}
+
 // 生成API文档
 function generateApiDocs() {
   console.log('🔄 生成API文档...');
   try {
-    execSync('pnpm docs:build', { cwd: rootDir, stdio: 'inherit' });
-    console.log('✅ API文档生成成功！');
+    const result = runCommand('npx typedoc --options typedoc.json');
+    if (result !== null) {
+      console.log('✅ API文档生成成功！');
+    } else {
+      throw new Error('TypeDoc命令执行失败');
+    }
   } catch (error) {
     console.error('❌ API文档生成失败：', error);
     process.exit(1);
@@ -48,17 +88,39 @@ function prepareDeployment() {
   // 创建docs-dist目录
   const docsDistDir = path.join(rootDir, 'docs-dist');
   if (!fs.existsSync(docsDistDir)) {
-    fs.mkdirSync(docsDistDir);
+    fs.mkdirSync(docsDistDir, { recursive: true });
   }
   
   // 复制API文档
-  execSync(`cp -r ${path.join(rootDir, 'docs-api')}/* ${docsDistDir}/`, { stdio: 'inherit' });
+  const docsApiDir = path.join(rootDir, 'docs-api');
+  if (fs.existsSync(docsApiDir)) {
+    console.log('- 复制API文档...');
+    copyDirectory(docsApiDir, docsDistDir);
+  } else {
+    console.warn('⚠️ API文档目录不存在:', docsApiDir);
+  }
   
   // 复制其他文档
-  execSync(`cp -r ${path.join(rootDir, 'docs')}/* ${docsDistDir}/`, { stdio: 'inherit' });
+  const docsDir = path.join(rootDir, 'docs');
+  if (fs.existsSync(docsDir)) {
+    console.log('- 复制其他文档...');
+    const docsTargetDir = path.join(docsDistDir, 'guides');
+    if (!fs.existsSync(docsTargetDir)) {
+      fs.mkdirSync(docsTargetDir, { recursive: true });
+    }
+    copyDirectory(docsDir, docsTargetDir);
+  } else {
+    console.warn('⚠️ 文档目录不存在:', docsDir);
+  }
   
   // 复制README.md
-  execSync(`cp ${path.join(rootDir, 'README.md')} ${docsDistDir}/`, { stdio: 'inherit' });
+  const readmePath = path.join(rootDir, 'README.md');
+  if (fs.existsSync(readmePath)) {
+    console.log('- 复制README.md...');
+    fs.copyFileSync(readmePath, path.join(docsDistDir, 'README.md'));
+  } else {
+    console.warn('⚠️ README.md文件不存在:', readmePath);
+  }
   
   console.log('✅ 文档准备完成！');
 }
