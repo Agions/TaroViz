@@ -23,7 +23,14 @@ function getCurrentVersion() {
 // 跨平台兼容的命令执行
 function runCommand(command, options = {}) {
   try {
-    return execSync(command, { ...options, stdio: 'inherit', cwd: rootDir });
+    console.log(`执行命令: ${command}`);
+    const result = execSync(command, { 
+      ...options, 
+      stdio: 'inherit', 
+      cwd: rootDir 
+    });
+    console.log('命令执行成功！');
+    return result;
   } catch (error) {
     console.error(`执行命令失败: ${command}`);
     console.error(error);
@@ -56,11 +63,135 @@ function copyDirectory(source, destination) {
   }
 }
 
+// 先构建所有包
+function buildPackages() {
+  console.log('🔄 构建所有包...');
+  try {
+    // 为所有包创建临时的dist目录，确保TypeDoc能找到它们
+    const packagesDir = path.join(rootDir, 'packages');
+    const packages = fs.readdirSync(packagesDir);
+    
+    for (const pkg of packages) {
+      const packageDir = path.join(packagesDir, pkg);
+      if (fs.statSync(packageDir).isDirectory()) {
+        console.log(`- 构建包: ${pkg}`);
+        // 检查package.json是否存在
+        const packageJsonPath = path.join(packageDir, 'package.json');
+        if (fs.existsSync(packageJsonPath)) {
+          // 在各个包目录中执行构建
+          const buildResult = runCommand(`cd ${packageDir} && pnpm build`, { stdio: 'inherit' });
+          if (buildResult === null) {
+            console.warn(`⚠️ 构建包 ${pkg} 失败，尝试继续...`);
+          }
+        }
+      }
+    }
+    
+    console.log('✅ 包构建完成！');
+    return true;
+  } catch (error) {
+    console.error('❌ 构建包失败：', error);
+    return false;
+  }
+}
+
+// 为TypeDoc创建临时tsconfig
+function createTemporaryTsConfig() {
+  console.log('🔄 创建临时TypeDoc配置...');
+  
+  // 读取原始typedoc.json
+  const typedocPath = path.join(rootDir, 'typedoc.json');
+  let typedocConfig = {};
+  
+  if (fs.existsSync(typedocPath)) {
+    typedocConfig = JSON.parse(fs.readFileSync(typedocPath, 'utf8'));
+  }
+  
+  // 修改配置
+  typedocConfig.tsconfig = 'tsconfig.typedoc.json';
+  
+  // 写入临时的typedoc配置
+  fs.writeFileSync(
+    path.join(rootDir, 'typedoc.temp.json'),
+    JSON.stringify(typedocConfig, null, 2)
+  );
+  
+  // 创建临时的tsconfig.json供TypeDoc使用
+  const tsConfig = {
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "@agions/taroviz-core": ["packages/core/src"],
+        "@agions/taroviz-charts": ["packages/charts/src"],
+        "@agions/taroviz-themes": ["packages/themes/src"],
+        "@agions/taroviz-data": ["packages/data/src"],
+        "@agions/taroviz-hooks": ["packages/hooks/src"],
+        "@agions/taroviz-adapters": ["packages/adapters/src"],
+        "@agions/taroviz": ["packages/all/src"]
+      },
+      "module": "esnext",
+      "target": "es6",
+      "moduleResolution": "node",
+      "jsx": "react",
+      "skipLibCheck": true,
+      "esModuleInterop": true,
+      "resolveJsonModule": true
+    },
+    "include": [
+      "packages/*/src/**/*"
+    ],
+    "exclude": [
+      "node_modules",
+      "**/*.test.ts",
+      "**/*.test.tsx",
+      "**/__tests__/**"
+    ]
+  };
+  
+  fs.writeFileSync(
+    path.join(rootDir, 'tsconfig.typedoc.json'),
+    JSON.stringify(tsConfig, null, 2)
+  );
+  
+  console.log('✅ 临时配置创建完成！');
+}
+
+// 清理临时文件
+function cleanupTemporaryFiles() {
+  console.log('🔄 清理临时文件...');
+  
+  const tempTypedocPath = path.join(rootDir, 'typedoc.temp.json');
+  const tempTsConfigPath = path.join(rootDir, 'tsconfig.typedoc.json');
+  
+  if (fs.existsSync(tempTypedocPath)) {
+    fs.unlinkSync(tempTypedocPath);
+  }
+  
+  if (fs.existsSync(tempTsConfigPath)) {
+    fs.unlinkSync(tempTsConfigPath);
+  }
+  
+  console.log('✅ 临时文件清理完成！');
+}
+
 // 生成API文档
 function generateApiDocs() {
   console.log('🔄 生成API文档...');
   try {
-    const result = runCommand('npx typedoc --options typedoc.json');
+    // 先构建所有包
+    if (!buildPackages()) {
+      console.warn('⚠️ 构建包失败，但仍尝试生成文档...');
+    }
+    
+    // 创建临时TypeDoc配置
+    createTemporaryTsConfig();
+    
+    // 使用临时配置运行TypeDoc
+    const result = runCommand('npx typedoc --options typedoc.temp.json');
+    
+    // 清理临时文件
+    cleanupTemporaryFiles();
+    
     if (result !== null) {
       console.log('✅ API文档生成成功！');
     } else {
