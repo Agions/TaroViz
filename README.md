@@ -16,6 +16,18 @@
   </p>
 </div>
 
+## 📢 最新版本 v1.0.2
+
+我们很高兴地宣布 TaroViz v1.0.2 已正式发布！查看 [更新日志](./CHANGELOG.md) 了解详细信息。
+
+## 📚 文档
+
+- [API文档](./docs-api/index.html)
+- [使用指南](./docs/USAGE.md)
+- [开发指南](./docs/DEVELOPMENT.md)
+- [示例](./docs/EXAMPLES.md)
+- [FAQ](./docs/FAQ.md)
+
 ## 特性
 
 - 📊 丰富的图表类型
