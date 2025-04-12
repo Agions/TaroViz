@@ -42,7 +42,7 @@ jobs:
           
           # 安装webpack-cli和全局依赖
           echo "安装webpack-cli和其他必要依赖..."
-          npm install -g webpack-cli typescript ts-node glob typedoc
+          npm install -g webpack-cli typescript ts-node typedoc
           
           # 使用-w标志安装到工作空间根目录
           pnpm add -D webpack-cli -w || npm install -D webpack-cli
@@ -64,9 +64,8 @@ jobs:
         run: |
           echo "修复模块引用路径..."
           
-          # 安装glob用于文件查找
-          npm install -g glob
-          npm install glob
+          # 使用pnpm安装glob，避免npm workspace协议问题
+          pnpm add -D glob -w
           
           # 创建临时脚本来修复引用路径
           cat > fix-imports.js << 'EOF'
@@ -97,7 +96,7 @@ jobs:
           console.log(`总共修复了 ${replacementCount} 个文件的引用路径`);
           EOF
           
-          # 执行修复脚本
+          # 使用node执行脚本
           node fix-imports.js
 
       - name: 构建所有包
@@ -130,10 +129,10 @@ jobs:
           echo "环境变量PATH: $PATH"
           echo "当前目录: $(pwd)"
           
-          # 确保安装所有必要的工具
+          # 确保安装所有必要的工具，不使用npm install -g以避免workspace协议问题
           echo "安装文档生成依赖..."
-          npm install -g ts-node typescript glob typedoc
-          npm install -g @microsoft/api-extractor @microsoft/api-documenter
+          pnpm add -g typedoc typescript ts-node
+          pnpm add -D @microsoft/api-extractor @microsoft/api-documenter -w
           
           # 创建一个备用的简单文档生成脚本
           cat > fallback-docs.js << 'EOF'
@@ -149,10 +148,35 @@ jobs:
             fs.mkdirSync(docsDir, { recursive: true });
           }
           
-          // 复制README到docs目录
+          // 复制README到docs目录并创建index.html
           if (fs.existsSync('README.md')) {
-            fs.copyFileSync('README.md', path.join(docsDir, 'index.md'));
             fs.copyFileSync('README.md', path.join(docsDir, 'README.md'));
+            
+            // 读取README内容，转换为HTML
+            const readmeContent = fs.readFileSync('README.md', 'utf8');
+            const htmlContent = `
+            <!DOCTYPE html>
+            <html>
+            <head>
+              <title>TaroViz 文档</title>
+              <style>
+                body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; }
+                pre { background: #f6f8fa; padding: 16px; overflow: auto; border-radius: 3px; }
+                code { font-family: monospace; }
+                h1, h2, h3 { margin-top: 24px; margin-bottom: 16px; }
+                a { color: #0366d6; text-decoration: none; }
+                a:hover { text-decoration: underline; }
+              </style>
+            </head>
+            <body>
+              <div id="content">
+                ${readmeContent.replace(/```([^`]+)```/g, '<pre><code>$1</code></pre>')}
+              </div>
+            </body>
+            </html>
+            `;
+            
+            fs.writeFileSync(path.join(docsDir, 'index.html'), htmlContent);
           }
           
           // 复制文档目录
@@ -339,7 +363,8 @@ jobs:
             fs.writeFileSync('typedoc.temp.json', JSON.stringify(typedocConfig, null, 2));
             
             console.log('运行TypeDoc...');
-            execSync('npx typedoc --options typedoc.temp.json --skipErrorChecking --logLevel Verbose', { stdio: 'inherit' });
+            // 使用pnpx而不是npx，避免npm workspace协议问题
+            execSync('pnpx typedoc --options typedoc.temp.json --skipErrorChecking --logLevel Verbose', { stdio: 'inherit' });
             console.log('TypeDoc文档生成成功!');
             
             // 准备部署文件
