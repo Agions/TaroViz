@@ -1,10 +1,18 @@
 {
-  "entryPoints": ["src/index.ts"],
-  "out": "docs/api",
+  "entryPoints": [
+    "packages/all/src/index.ts",
+    "packages/core/src/index.ts",
+    "packages/charts/src/index.ts",
+    "packages/themes/src/index.ts",
+    "packages/data/src/index.ts",
+    "packages/hooks/src/index.ts",
+    "packages/adapters/src/index.ts"
+  ],
+  "out": "docs-api",
   "exclude": ["**/__tests__/**", "**/node_modules/**"],
   "theme": "default",
   "name": "TaroViz API文档",
-  "readme": "none",
+  "readme": "README.md",
   "excludePrivate": true,
   "excludeProtected": true,
   "excludeExternals": true,
