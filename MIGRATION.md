@@ -5,20 +5,20 @@
 为了提供更好的维护和支持，TaroViz 项目已经从原来的 `@taroviz` 作用域迁移到 `@agions` 作用域下。这次迁移包含以下几个主要目的：
 
 1. **更好的维护支持**：通过个人作用域管理，可以提供更及时的更新和维护
-2. **版本统一管理**：所有包统一升级到 1.0.0 版本，建立更清晰的版本发布周期
+2. **版本统一管理**：所有包统一升级到 1.0.1 版本，建立更清晰的版本发布周期
 3. **文档完善**：提供更详细的中文文档支持
 4. **包名优化**：采用更清晰的包命名规范，便于理解和使用
 
 ## 包名变更对照表
 
-| 原包名 | 新包名 | 说明 |
-|--------|--------|------|
-| @taroviz/core | @agions/taroviz-core | 核心功能包 |
-| @taroviz/adapters | @agions/taroviz-adapters | 平台适配器 |
-| @taroviz/hooks | @agions/taroviz-hooks | React Hooks |
-| @taroviz/data | @agions/taroviz-data | 数据处理工具 |
-| @taroviz/themes | @agions/taroviz-themes | 主题系统 |
-| @taroviz/core-bundle | @agions/taroviz | 整合包 |
+| 原包名               | 新包名                   | 说明         |
+| -------------------- | ------------------------ | ------------ |
+| @taroviz/core        | @agions/taroviz-core     | 核心功能包   |
+| @taroviz/adapters    | @agions/taroviz-adapters | 平台适配器   |
+| @taroviz/hooks       | @agions/taroviz-hooks    | React Hooks  |
+| @taroviz/data        | @agions/taroviz-data     | 数据处理工具 |
+| @taroviz/themes      | @agions/taroviz-themes   | 主题系统     |
+| @taroviz/core-bundle | @agions/taroviz          | 整合包       |
 
 ## 迁移步骤
 
