@@ -14,7 +14,8 @@
     "prepare": "husky install",
     "docs:build": "npx typedoc --options typedoc.json",
     "docs:serve": "npx serve docs-api",
-    "docs:update": "node scripts/update-docs.js"
+    "docs:update": "node scripts/update-docs.js",
+    "deps:update": "node scripts/update-deps.js"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
