@@ -3,57 +3,36 @@
  * 包含所有子包的功能
  */
 
-// 导出核心API
-import * as CoreLib from '@agions/taroviz-core';
-export const Core = CoreLib;
-
-// 导出适配器API
+// 导入所有子包
 import * as AdaptersLib from '@agions/taroviz-adapters';
-export const Adapters = AdaptersLib;
-
-// 导出图表组件API
 import * as ChartsLib from '@agions/taroviz-charts';
-export const Charts = ChartsLib;
-
-// 导出主题系统API
-export const Themes = ThemesLib;
-
-// 导出数据处理API
+import * as CoreLib from '@agions/taroviz-core';
 import * as DataLib from '@agions/taroviz-data';
-export const Data = DataLib;
-
-// 导出Hooks API
 import * as HooksLib from '@agions/taroviz-hooks';
+import HooksDefault from '@agions/taroviz-hooks';
+import * as ThemesLib from '@agions/taroviz-themes';
+
+// 导出命名空间
+export const Core = CoreLib;
+export const Adapters = AdaptersLib;
+export const Charts = ChartsLib;
+export const Themes = ThemesLib;
+export const Data = DataLib;
 export const Hooks = HooksLib;
 
 // 导出适配器核心功能
-export {
-  getAdapter,
-  detectPlatform,
-  version as adaptersVersion,
-  H5Adapter,
-  WeappAdapter,
-  AlipayAdapter,
-  SwanAdapter,
-  HarmonyAdapter,
-} from '@agions/taroviz-adapters';
+export { getAdapter, detectPlatform, version as adaptersVersion } from '@agions/taroviz-adapters';
 
 // 导出核心类型
-export { BaseChart, version as coreVersion } from '@agions/taroviz-core';
+export { version as coreVersion } from '@agions/taroviz-core';
+
+// 从适配器导出所有适配器
+export const { H5Adapter, WeappAdapter, AlipayAdapter, SwanAdapter, HarmonyAdapter } = AdaptersLib;
 
 // 导出常用图表组件
-export {
-  LineChart,
-  BarChart,
-  PieChart,
-  RadarChart,
-  ScatterChart,
-  HeatmapChart,
-} from '@agions/taroviz-charts';
+export const { LineChart, BarChart, PieChart, RadarChart, ScatterChart, HeatmapChart } = ChartsLib;
 
 // 导出Hooks功能
-import HooksDefault from '@agions/taroviz-hooks';
-import * as ThemesLib from '@agions/taroviz-themes';
 export const {
   useChart,
   useOption,

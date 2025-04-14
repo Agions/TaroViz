@@ -4,10 +4,10 @@
  */
 import { Canvas } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import { Adapter, SwanAdapterOptions, EChartsOption } from '@taroviz/core/types';
+import { Adapter, SwanAdapterOptions, EChartsOption, EventHandler } from '@taroviz/core/types';
 import { uuid } from '@taroviz/core/utils';
 import * as echarts from 'echarts/core';
-import React, { PureComponent } from 'react';
+import React from 'react';
 
 // 为SwanAdapterOptions添加选项属性（临时解决lint错误）
 interface EnhancedSwanAdapterOptions extends SwanAdapterOptions {
@@ -41,7 +41,6 @@ class SwanAdapter implements Adapter {
 
     // 初始化小程序Canvas
     const query = Taro.createSelectorQuery();
-    // @ts-ignore
     query
       .select(`#${this.canvasId}`)
       .fields({ node: true, size: true })
@@ -146,7 +145,7 @@ class SwanAdapter implements Adapter {
   /**
    * 转换为DataURL
    */
-  convertToDataURL(opts?: any): string | undefined {
+  convertToDataURL(_opts?: any): string | undefined {
     // 小程序环境不支持直接获取DataURL
     console.warn('[TaroViz] convertToDataURL not supported in Swan environment');
     return undefined;
@@ -164,7 +163,7 @@ class SwanAdapter implements Adapter {
   /**
    * 获取DataURL
    */
-  getDataURL(opts?: any): string | undefined {
+  getDataURL(_opts?: any): string | undefined {
     // 小程序环境不支持直接获取DataURL
     console.warn('[TaroViz] getDataURL not supported in Swan environment');
     return undefined;
@@ -182,7 +181,7 @@ class SwanAdapter implements Adapter {
   /**
    * 解绑事件
    */
-  off(eventName: string, handler?: Function): void {
+  off(eventName: string, handler?: EventHandler): void {
     if (this.instance) {
       this.instance.off(eventName, handler);
     }

@@ -4,22 +4,12 @@ export * from './common';
 // 平台类型
 export * from './platform';
 
-// 导入所需类型
-import type { AdapterOptions } from './platform';
-
-// 从各个子模块导出所有类型
-export * from './platform';
 export * from './chart';
 
 // ECharts相关类型
 import * as echarts from 'echarts/core';
 
 import { ChartOptions } from './chart';
-
-/**
- * 版本信息
- */
-export const version = '0.5.0';
 
 /**
  * TaroViz核心类型定义
@@ -75,16 +65,6 @@ export type AnimationEasing =
  * 渲染器类型
  */
 export type RendererType = 'canvas' | 'svg';
-
-/**
- * 平台类型
- */
-export { PlatformType } from './platform';
-
-/**
- * 图表事件类型
- */
-export { ChartEventType } from './common';
 
 /**
  * 图表事件回调类型
@@ -204,12 +184,12 @@ export interface Adapter {
   /**
    * 绑定事件
    */
-  on(eventName: string, handler: Function): void;
+  on(eventName: string, handler: (params: any) => void): void;
 
   /**
    * 解绑事件
    */
-  off(eventName: string, handler?: Function): void;
+  off(eventName: string, handler?: (params: any) => void): void;
 
   /**
    * 调整图表大小

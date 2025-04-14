@@ -1,0 +1,382 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QUICK_START - TaroViz文档</title>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    pre { 
+      background: #f6f8fa;
+      padding: 16px;
+      overflow: auto;
+      border-radius: 5px;
+    }
+    code { 
+      font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+      background: #f6f8fa;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 20px 0;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f8f9fa;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: #0d47a1;
+    }
+    a {
+      color: #0366d6;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .nav {
+      background: #f8f9fa;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .nav a {
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <a href="../index.html">首页</a>
+    <a href="../USAGE.html">使用指南</a>
+    <a href="../API.html">API文档</a>
+    <a href="../EXAMPLES.html">示例</a>
+    <a href="../DEVELOPMENT.html">开发指南</a>
+  </div>
+  
+  <div class="content">
+<h1>TaroViz 快速入门指南</h1>
+<p>这篇指南将帮助您快速上手 TaroViz，在几分钟内创建您的第一个跨平台可视化图表。</p>
+<h2>前置条件</h2>
+<p>在开始之前，请确保您已经：</p>
+<ul>
+<li>安装了 Node.js (推荐 v14 或更高版本)</li>
+<li>安装了包管理工具 (npm, yarn 或 pnpm)</li>
+<li>熟悉 React 和 Taro 的基本概念</li>
+</ul>
+<h2>安装</h2>
+<h3>步骤 1: 创建一个新的 Taro 项目</h3>
+<p>如果您还没有一个 Taro 项目，可以使用以下命令创建：</p>
+<pre><code class="language-bash"># 安装 Taro CLI
+npm install -g @tarojs/cli
+
+# 创建新项目
+taro init my-taroviz-app
+</code></pre>
+<p>根据提示选择框架 (React) 和项目类型。</p>
+<h3>步骤 2: 安装 TaroViz</h3>
+<p>在您的 Taro 项目中，安装 TaroViz 依赖：</p>
+<pre><code class="language-bash"># 进入项目目录
+cd my-taroviz-app
+
+# 使用 npm
+npm install @taroviz/core @taroviz/components
+
+# 或使用 yarn
+yarn add @taroviz/core @taroviz/components
+
+# 或使用 pnpm
+pnpm add @taroviz/core @taroviz/components
+</code></pre>
+<h3>步骤 3: 配置项目</h3>
+<p>在 Taro 配置文件 <code>config/index.js</code> 中添加必要的配置：</p>
+<pre><code class="language-javascript">// config/index.js
+const config = {
+  // ...其他配置
+  mini: {
+    // ...
+    postcss: {
+      // ...
+      url: {
+        enable: true,
+        config: {
+          limit: 10240 // 设定转换尺寸上限
+        }
+      }
+    }
+  },
+  h5: {
+    // ...
+    esnextModules: [&#39;@taroviz&#39;],
+  }
+}
+</code></pre>
+<h2>创建您的第一个图表</h2>
+<h3>步骤 1: 创建一个简单的折线图</h3>
+<p>在您的组件文件中（例如 <code>src/pages/index/index.jsx</code>）：</p>
+<pre><code class="language-jsx">import React from &#39;react&#39;;
+import { View } from &#39;@tarojs/components&#39;;
+import { LineChart } from &#39;@taroviz/components&#39;;
+
+export default function Index() {
+  // 准备数据
+  const data = {
+    labels: [&#39;1月&#39;, &#39;2月&#39;, &#39;3月&#39;, &#39;4月&#39;, &#39;5月&#39;, &#39;6月&#39;],
+    datasets: [
+      {
+        label: &#39;销售额&#39;,
+        data: [12, 19, 3, 5, 2, 3],
+        borderColor: &#39;#5ab1ef&#39;,
+        backgroundColor: &#39;rgba(90, 177, 239, 0.2)&#39;,
+      }
+    ]
+  };
+
+  // 图表配置
+  const options = {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: &#39;月度销售趋势&#39;
+      },
+      tooltip: {
+        enable: true
+      }
+    }
+  };
+
+  return (
+    &lt;View className=&#39;index&#39;&gt;
+      &lt;View style={{ padding: &#39;20px&#39;, width: &#39;100%&#39;, height: &#39;300px&#39; }}&gt;
+        &lt;LineChart 
+          data={data}
+          options={options}
+          width=&#39;100%&#39;
+          height=&#39;100%&#39;
+        /&gt;
+      &lt;/View&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+<h3>步骤 2: 运行项目</h3>
+<pre><code class="language-bash"># 运行到 H5
+npm run dev:h5
+
+# 或运行到微信小程序
+npm run dev:weapp
+</code></pre>
+<p>就这么简单！您已经创建了第一个使用 TaroViz 的可视化图表。</p>
+<h2>添加交互功能</h2>
+<p>让我们为图表添加一些交互性，例如点击响应：</p>
+<pre><code class="language-jsx">import React, { useState } from &#39;react&#39;;
+import { View, Text } from &#39;@tarojs/components&#39;;
+import { LineChart } from &#39;@taroviz/components&#39;;
+
+export default function InteractiveChart() {
+  const [selectedPoint, setSelectedPoint] = useState(null);
+  
+  // 准备数据
+  const data = {
+    labels: [&#39;1月&#39;, &#39;2月&#39;, &#39;3月&#39;, &#39;4月&#39;, &#39;5月&#39;, &#39;6月&#39;],
+    datasets: [
+      {
+        label: &#39;销售额&#39;,
+        data: [12, 19, 3, 5, 2, 3],
+        borderColor: &#39;#5ab1ef&#39;,
+        backgroundColor: &#39;rgba(90, 177, 239, 0.2)&#39;,
+      }
+    ]
+  };
+  
+  const handleChartClick = (event, chart) =&gt; {
+    const points = chart.getElementsAtEventForMode(
+      event.nativeEvent,
+      &#39;nearest&#39;,
+      { intersect: true },
+      false
+    );
+  
+    if (points.length) {
+      const firstPoint = points[0];
+      const label = data.labels[firstPoint.index];
+      const value = data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
+      setSelectedPoint({ label, value });
+    } else {
+      setSelectedPoint(null);
+    }
+  };
+  
+  return (
+    &lt;View className=&#39;index&#39;&gt;
+      &lt;View style={{ padding: &#39;20px&#39;, width: &#39;100%&#39;, height: &#39;300px&#39; }}&gt;
+        &lt;LineChart 
+          data={data}
+          width=&#39;100%&#39;
+          height=&#39;100%&#39;
+          onTap={handleChartClick}
+        /&gt;
+      &lt;/View&gt;
+    
+      {selectedPoint &amp;&amp; (
+        &lt;View style={{ marginTop: &#39;20px&#39;, textAlign: &#39;center&#39; }}&gt;
+          &lt;Text&gt;您选择了: {selectedPoint.label}, 值: {selectedPoint.value}&lt;/Text&gt;
+        &lt;/View&gt;
+      )}
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+<h2>自定义主题</h2>
+<p>TaroViz 允许您轻松自定义图表的外观：</p>
+<pre><code class="language-jsx">import React from &#39;react&#39;;
+import { View } from &#39;@tarojs/components&#39;;
+import { ThemeProvider } from &#39;@taroviz/core&#39;;
+import { LineChart } from &#39;@taroviz/components&#39;;
+
+export default function ThemedChart() {
+  // 自定义主题
+  const customTheme = {
+    colors: [&#39;#FF6B6B&#39;, &#39;#4ECDC4&#39;, &#39;#45B7D1&#39;, &#39;#DDDF6B&#39;, &#39;#E7A97E&#39;],
+    backgroundColor: &#39;#FFFFFF&#39;,
+    textStyle: {
+      color: &#39;#333333&#39;,
+      fontSize: 12
+    },
+    lineStyle: {
+      width: 2,
+      dash: [0, 0]
+    }
+  };
+  
+  // 图表数据
+  const data = {
+    labels: [&#39;1月&#39;, &#39;2月&#39;, &#39;3月&#39;, &#39;4月&#39;, &#39;5月&#39;, &#39;6月&#39;],
+    datasets: [
+      {
+        label: &#39;销售额&#39;,
+        data: [12, 19, 3, 5, 2, 3]
+      },
+      {
+        label: &#39;成本&#39;,
+        data: [8, 12, 2, 4, 1, 2]
+      }
+    ]
+  };
+  
+  return (
+    &lt;View className=&#39;index&#39;&gt;
+      &lt;ThemeProvider theme={customTheme}&gt;
+        &lt;View style={{ padding: &#39;20px&#39;, width: &#39;100%&#39;, height: &#39;300px&#39; }}&gt;
+          &lt;LineChart 
+            data={data}
+            width=&#39;100%&#39;
+            height=&#39;100%&#39;
+          /&gt;
+        &lt;/View&gt;
+      &lt;/ThemeProvider&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+<h2>响应式图表</h2>
+<p>创建能够适应不同屏幕尺寸的图表：</p>
+<pre><code class="language-jsx">import React, { useEffect, useState } from &#39;react&#39;;
+import { View } from &#39;@tarojs/components&#39;;
+import Taro from &#39;@tarojs/taro&#39;;
+import { LineChart } from &#39;@taroviz/components&#39;;
+
+export default function ResponsiveChart() {
+  const [size, setSize] = useState({ width: 300, height: 200 });
+  
+  useEffect(() =&gt; {
+    // 获取设备信息
+    const getSystemInfo = async () =&gt; {
+      const info = await Taro.getSystemInfo();
+      setSize({
+        width: info.windowWidth * 0.9, // 使用窗口宽度的90%
+        height: info.windowHeight * 0.3 // 使用窗口高度的30%
+      });
+    };
+  
+    getSystemInfo();
+  }, []);
+  
+  // 图表数据
+  const data = {
+    labels: [&#39;1月&#39;, &#39;2月&#39;, &#39;3月&#39;, &#39;4月&#39;, &#39;5月&#39;, &#39;6月&#39;],
+    datasets: [
+      {
+        label: &#39;销售额&#39;,
+        data: [12, 19, 3, 5, 2, 3]
+      }
+    ]
+  };
+  
+  return (
+    &lt;View className=&#39;index&#39;&gt;
+      &lt;View style={{ padding: &#39;20px&#39; }}&gt;
+        &lt;LineChart 
+          data={data}
+          width={size.width}
+          height={size.height}
+          options={{ responsive: true, maintainAspectRatio: false }}
+        /&gt;
+      &lt;/View&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+<h2>下一步</h2>
+<p>现在您已经了解了 TaroViz 的基础用法，可以：</p>
+<ol>
+<li>查看<a href="https://github.com/agions/taroviz">完整文档</a>了解更多高级功能</li>
+<li>探索<a href="./EXAMPLES.md">示例库</a>获取更多实用案例</li>
+<li>阅读<a href="./API.md">API参考</a>获取详细的参数说明</li>
+<li>查看<a href="./FAQ.md">常见问题</a>解决可能遇到的问题</li>
+</ol>
+<h2>常见问题排查</h2>
+<p>如果您在使用过程中遇到问题，请确保：</p>
+<ol>
+<li>所有依赖已正确安装</li>
+<li>Taro 配置正确</li>
+<li>Canvas 组件有明确的尺寸</li>
+<li>数据格式符合要求</li>
+</ol>
+<p>有关更多的疑难解答，请参阅<a href="./FAQ.md">常见问题解答</a>。</p>
+<h2>获取帮助</h2>
+<p>如果您需要更多帮助：</p>
+<ol>
+<li>在 GitHub 上提交 <a href="https://github.com/agions/taroviz/issues">Issue</a></li>
+<li>查阅<a href="https://github.com/agions/taroviz">完整文档</a></li>
+<li>加入社区讨论群获取支持</li>
+</ol>
+
+  </div>
+</body>
+</html>
+    

@@ -3,17 +3,40 @@
  * 基于支付宝小程序canvas组件实现图表渲染
  */
 import { Canvas } from '@tarojs/components';
-import Taro from '@tarojs/taro';
-import { Adapter, AlipayAdapterOptions, EChartsOption } from '@taroviz/core/types';
-import { uuid } from '@taroviz/core/utils';
 import * as echarts from 'echarts/core';
 import React from 'react';
+
+import { Adapter, AlipayAdapterOptions } from '../types';
+
+// 支付宝小程序全局对象
+declare const my: {
+  createSelectorQuery: () => {
+    select: (selector: string) => {
+      boundingClientRect: () => {
+        exec: (callback: (res: any[]) => void) => void;
+      };
+    };
+  };
+  createCanvasContext: (canvasId: string) => any;
+  [key: string]: any;
+};
+
+/**
+ * 生成唯一ID
+ * @returns 随机生成的UUID字符串
+ */
+function generateUuid(): string {
+  return 'xxxx-xxxx-xxxx-xxxx'.replace(/[x]/g, function (_c) {
+    const r = (Math.random() * 16) | 0;
+    return r.toString(16);
+  });
+}
 
 /**
  * 支付宝小程序环境下的ECharts适配器
  */
 class AlipayAdapter implements Adapter {
-  private instance: any = null;
+  private instance: echarts.ECharts | null = null;
   private options: AlipayAdapterOptions;
   private canvasId: string;
   private ctx: any = null;
@@ -21,24 +44,23 @@ class AlipayAdapter implements Adapter {
   private canvasDom: any = null;
 
   constructor(options: AlipayAdapterOptions) {
-    this.options = options || ({} as any);
-    this.canvasId = this.options.canvasId || `ec-canvas-${uuid()}`;
+    this.options = options || ({} as AlipayAdapterOptions);
+    this.canvasId = this.options.canvasId || `ec-canvas-${generateUuid()}`;
   }
 
   /**
    * 初始化图表
    */
-  init(): any {
+  init(): echarts.ECharts | null {
     if (this.instance) {
       return this.instance;
     }
 
     // 支付宝小程序初始化Canvas
-    // @ts-ignore
     my.createSelectorQuery()
       .select(`#${this.canvasId}`)
       .boundingClientRect()
-      .exec((res: any) => {
+      .exec((res: any[]) => {
         if (!res || !res[0]) {
           console.error('[TaroViz] Failed to get canvas instance');
           return;
@@ -48,7 +70,6 @@ class AlipayAdapter implements Adapter {
         const height = res[0].height;
 
         // 获取canvas上下文
-        // @ts-ignore
         const ctx = my.createCanvasContext(this.canvasId);
 
         // 支付宝小程序不支持直接获取canvas节点，需要适配
@@ -66,7 +87,7 @@ class AlipayAdapter implements Adapter {
           addEventListener: () => {},
           removeEventListener: () => {},
           dispatchEvent: () => {},
-          requestAnimationFrame: (fn: Function) => setTimeout(fn, 16),
+          requestAnimationFrame: (callback: () => void) => setTimeout(callback, 16),
           cancelAnimationFrame: (id: number) => clearTimeout(id),
         };
 
@@ -98,49 +119,28 @@ class AlipayAdapter implements Adapter {
   /**
    * 获取图表实例
    */
-  getInstance(): any {
+  getInstance(): echarts.ECharts | null {
     return this.instance;
   }
 
   /**
    * 设置图表配置项
    */
-  setOption(option: EChartsOption, opts?: any): void {
+  setOption(option: any, opts?: any): void {
     if (this.instance) {
       this.instance.setOption(option, opts);
     } else {
       // 保存配置，等实例初始化后应用
-      (this.options as any).option = option;
+      this.options.option = option;
     }
-  }
-
-  /**
-   * 获取图表宽度
-   */
-  getWidth(): number {
-    return this.instance?.getWidth() || 0;
-  }
-
-  /**
-   * 获取图表高度
-   */
-  getHeight(): number {
-    return this.instance?.getHeight() || 0;
-  }
-
-  /**
-   * 获取DOM元素
-   */
-  getDom(): HTMLElement | null {
-    return this.canvasDom || null;
   }
 
   /**
    * 调整图表大小
    */
-  resize(opts?: any): void {
+  resize(_opts?: any): void {
     if (this.instance) {
-      this.instance.resize(opts);
+      this.instance.resize();
     }
   }
 
@@ -154,15 +154,6 @@ class AlipayAdapter implements Adapter {
   }
 
   /**
-   * 转换为DataURL
-   */
-  convertToDataURL(opts?: any): string | undefined {
-    // 支付宝小程序环境不支持直接获取DataURL
-    console.warn('[TaroViz] convertToDataURL not supported in Alipay environment');
-    return undefined;
-  }
-
-  /**
    * 清空图表
    */
   clear(): void {
@@ -172,18 +163,9 @@ class AlipayAdapter implements Adapter {
   }
 
   /**
-   * 获取DataURL
-   */
-  getDataURL(opts?: any): string | undefined {
-    // 支付宝小程序环境不支持直接获取DataURL
-    console.warn('[TaroViz] getDataURL not supported in Alipay environment');
-    return undefined;
-  }
-
-  /**
    * 绑定事件
    */
-  on(eventName: string, handler: any, context?: object): void {
+  on(eventName: string, handler: (params: any) => void, context?: any): void {
     if (this.instance) {
       this.instance.on(eventName, handler, context);
     }
@@ -192,7 +174,7 @@ class AlipayAdapter implements Adapter {
   /**
    * 解绑事件
    */
-  off(eventName: string, handler?: Function): void {
+  off(eventName: string, handler?: (params: any) => void): void {
     if (this.instance) {
       this.instance.off(eventName, handler);
     }
@@ -201,9 +183,9 @@ class AlipayAdapter implements Adapter {
   /**
    * 显示加载动画
    */
-  showLoading(opts?: object): void {
+  showLoading(_opts?: object): void {
     if (this.instance) {
-      this.instance.showLoading(opts);
+      this.instance.showLoading();
     }
   }
 
@@ -240,15 +222,17 @@ class AlipayAdapter implements Adapter {
    * 渲染图表
    */
   render(): JSX.Element {
-    const { width = '100%', height = '300px' } = this.options;
+    const { width = '100%', height = '300px', style = {} } = this.options;
 
     // 合并样式
     const mergedStyle = {
       width: typeof width === 'number' ? `${width}px` : width,
       height: typeof height === 'number' ? `${height}px` : height,
+      ...style,
     };
 
     return React.createElement(Canvas, {
+      type: '2d',
       id: this.canvasId,
       style: mergedStyle,
       className: 'taroviz-echarts-alipay',
@@ -256,5 +240,4 @@ class AlipayAdapter implements Adapter {
   }
 }
 
-// 导出适配器
 export default AlipayAdapter;

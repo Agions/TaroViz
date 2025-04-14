@@ -1,7 +1,12 @@
 /**
  * TaroViz 平台适配器类型定义
  */
-import { AdapterConfig, EChartsType, PlatformType, Adapter as CoreAdapter } from '@taroviz/core/types';
+import {
+  AdapterOptions as AdapterConfig,
+  EChartsType,
+  PlatformType,
+  Adapter as CoreAdapter,
+} from '@agions/taroviz-core';
 
 /**
  * 重导出核心Adapter类型
@@ -11,7 +16,7 @@ export type Adapter = CoreAdapter;
 /**
  * 平台类型枚举
  */
-export { PlatformType } from '@taroviz/core/types';
+export { PlatformType } from '@agions/taroviz-core';
 
 /**
  * 检测当前运行的平台环境
@@ -131,6 +136,6 @@ export class LarkAdapter implements Adapter {
 }
 
 /**
- * 版本信息
+ * 包版本信息
  */
-export const version: string; 
+export const version: string;

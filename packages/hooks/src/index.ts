@@ -3,7 +3,8 @@
  * 提供与图表相关的React Hooks
  */
 import { getAdapter } from '@taroviz/adapters';
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { EventHandler } from '@taroviz/core/types';
+import { useState, useEffect, useMemo } from 'react';
 
 // 通用图表配置类型
 interface ChartOptions {
@@ -14,8 +15,8 @@ interface ChartOptions {
 interface ChartInstance {
   setOption: (option: any, notMerge?: boolean) => void;
   resize: () => void;
-  on: (event: string, handler: Function) => void;
-  off: (event: string, handler?: Function) => void;
+  on: (event: string, handler: EventHandler) => void;
+  off: (event: string, handler?: EventHandler) => void;
   showLoading: (opts?: any) => void;
   hideLoading: () => void;
   dispose: () => void;
@@ -109,7 +110,7 @@ export function useResize(instance: ChartInstance | null) {
  * @param instance 图表实例
  * @param events 事件对象
  */
-export function useEvents(instance: ChartInstance | null, events: Record<string, Function>) {
+export function useEvents(instance: ChartInstance | null, events: Record<string, EventHandler>) {
   useEffect(() => {
     if (!instance) {
       return;

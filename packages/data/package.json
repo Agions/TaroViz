@@ -1,6 +1,6 @@
 {
   "name": "@agions/taroviz-data",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "TaroViz 数据处理工具",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

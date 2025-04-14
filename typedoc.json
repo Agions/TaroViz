@@ -28,8 +28,7 @@
   ],
   "searchInComments": true,
   "sort": ["static-first", "visibility", "alphabetical"],
-  "plugin": ["typedoc-plugin-markdown"],
-  "htmlLang": "zh-CN",
+  "plugin": [],
   "disableSources": false,
   "sourceLinkTemplate": "https://github.com/agions/taroviz/blob/{gitRevision}/{path}#L{line}",
   "navigation": {

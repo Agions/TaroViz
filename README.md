@@ -25,7 +25,7 @@
 - [API文档](./docs-api/index.html)
 - [使用指南](./docs/USAGE.md)
 - [开发指南](./docs/DEVELOPMENT.md)
-- [示例](./docs/EXAMPLES.md)
+- [示例](./docs/EXAMPLE.md)
 - [FAQ](./docs/FAQ.md)
 
 ## 特性

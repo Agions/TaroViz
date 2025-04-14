@@ -1,6 +1,6 @@
 {
   "name": "@agions/taroviz",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "TaroViz 是一个基于 Taro 和 ECharts 的图表组件库，支持多端小程序和 H5",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
