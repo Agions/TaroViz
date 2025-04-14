@@ -1,11 +1,13 @@
+/* eslint-disable prettier/prettier */
 // webpack.config.js
 const path = require('path');
-const TerserPlugin = require('terser-webpack-plugin');
+
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const nodeExternals = require('webpack-node-externals');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
 
 // 获取当前环境
 const env = process.env.TARO_ENV || 'all';
@@ -20,33 +22,20 @@ const ignoredTsErrorCodes = [
   2683, // 'this' implicitly has type 'any'
   7030, // Not all code paths return a value
   2554, // Expected 1 arguments, but got 0
-  2308  // Module has already exported a member named 'version'
-];
-
-// 外部依赖不打包
-const externals = [
-  'react',
-  'react-dom',
-  '@tarojs/taro',
-  '@tarojs/components',
-  'echarts',
-  'echarts/core',
-  'echarts/charts',
-  'echarts/components',
-  'echarts/renderers',
-  'echarts-for-react',
+  2308, // Module has already exported a member named 'version'
 ];
 
 // 平台特定入口
-const platformEntries = env === 'all'
-  ? {
-      h5: './packages/adapters/src/h5/index.ts',
-      weapp: './packages/adapters/src/weapp/index.ts',
-      alipay: './packages/adapters/src/alipay/index.ts',
-      harmony: './packages/adapters/src/harmony/index.ts',
-      swan: './packages/adapters/src/swan/index.ts'
-    }
-  : { [env]: `./packages/adapters/src/${env}/index.ts` };
+const platformEntries =
+  env === 'all'
+    ? {
+        h5: './packages/adapters/src/h5/index.ts',
+        weapp: './packages/adapters/src/weapp/index.ts',
+        alipay: './packages/adapters/src/alipay/index.ts',
+        harmony: './packages/adapters/src/harmony/index.ts',
+        swan: './packages/adapters/src/swan/index.ts',
+      }
+    : { [env]: `./packages/adapters/src/${env}/index.ts` };
 
 // 打包分包
 const packageEntries = {
@@ -56,17 +45,17 @@ const packageEntries = {
   themes: './packages/themes/src/index.ts',
   data: './packages/data/src/index.ts',
   hooks: './packages/hooks/src/index.ts',
-  'core-bundle': './packages/all/src/index.ts'
+  'core-bundle': './packages/all/src/index.ts',
 };
 
 // 设置路径别名
 const aliasConfig = {
-  '@agions/core': path.resolve(__dirname, 'packages/core/src'),
-  '@agions/adapters': path.resolve(__dirname, 'packages/adapters/src'),
-  '@agions/charts': path.resolve(__dirname, 'packages/charts/src'),
-  '@agions/themes': path.resolve(__dirname, 'packages/themes/src'),
-  '@agions/data': path.resolve(__dirname, 'packages/data/src'),
-  '@agions/hooks': path.resolve(__dirname, 'packages/hooks/src')
+  '@agions/taroviz-core': path.resolve(__dirname, 'packages/core/src'),
+  '@agions/taroviz-adapters': path.resolve(__dirname, 'packages/adapters/src'),
+  '@agions/taroviz-charts': path.resolve(__dirname, 'packages/charts/src'),
+  '@agions/taroviz-themes': path.resolve(__dirname, 'packages/themes/src'),
+  '@agions/taroviz-data': path.resolve(__dirname, 'packages/data/src'),
+  '@agions/taroviz-hooks': path.resolve(__dirname, 'packages/hooks/src'),
 };
 
 // 基础webpack配置
@@ -82,53 +71,52 @@ const baseConfig = {
             loader: 'babel-loader',
             options: {
               presets: [
-                ['@babel/preset-env', {
-                  targets: {
-                    browsers: ['> 1%', 'last 2 versions', 'not ie <= 11']
+                [
+                  '@babel/preset-env',
+                  {
+                    targets: {
+                      browsers: ['> 1%', 'last 2 versions', 'not ie <= 11'],
+                    },
+                    useBuiltIns: 'usage',
+                    corejs: 3,
                   },
-                  useBuiltIns: 'usage',
-                  corejs: 3
-                }],
+                ],
                 '@babel/preset-react',
-                '@babel/preset-typescript'
+                '@babel/preset-typescript',
               ],
-              plugins: [
-                ['@babel/plugin-proposal-decorators', { legacy: true }]
-              ]
-            }
+              plugins: [['@babel/plugin-proposal-decorators', { legacy: true }]],
+            },
           },
           {
             loader: 'ts-loader',
             options: {
               configFile: path.resolve(__dirname, './tsconfig.json'),
               transpileOnly: true,
-              ignoreDiagnostics: ignoredTsErrorCodes
-            }
-          }
+              ignoreDiagnostics: ignoredTsErrorCodes,
+            },
+          },
         ],
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
         test: /\.(css|scss)$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'sass-loader',
-        ],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
-        type: 'asset'
-      }
-    ]
+        type: 'asset',
+      },
+    ],
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
-    alias: aliasConfig
+    alias: aliasConfig,
   },
-  externals: [nodeExternals({
-    allowlist: [/\.css$/, /\.scss$/]
-  })],
+  externals: [
+    nodeExternals({
+      allowlist: [/\.css$/, /\.scss$/],
+    }),
+  ],
   optimization: {
     minimize: isProduction,
     minimizer: [
@@ -140,20 +128,20 @@ const baseConfig = {
             unsafe_comps: true,
             drop_console: isProduction,
             drop_debugger: isProduction,
-            passes: 3
+            passes: 3,
           },
           format: {
-            comments: false
+            comments: false,
           },
           mangle: {
             properties: {
-              regex: /^_/
-            }
-          }
-        }
+              regex: /^_/,
+            },
+          },
+        },
       }),
-      new CssMinimizerPlugin()
-    ]
+      new CssMinimizerPlugin(),
+    ],
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -164,50 +152,50 @@ const baseConfig = {
           semantic: true,
           syntactic: false,
           declaration: false,
-          global: false
+          global: false,
         },
-        mode: 'write-references'
-      }
+        mode: 'write-references',
+      },
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].css'
-    })
-  ]
+      filename: '[name].css',
+    }),
+  ],
 };
 
 // 主入口
 const mainConfig = {
   ...baseConfig,
   entry: {
-    index: './src/index.ts'
+    index: './src/index.ts',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
     library: {
       type: 'umd',
-      name: 'TaroViz'
+      name: 'TaroViz',
     },
-    globalObject: 'this'
-  }
+    globalObject: 'this',
+  },
 };
 
 // ESM版本配置
 const esmConfig = {
   ...baseConfig,
   entry: {
-    'index.esm': './src/index.ts'
+    'index.esm': './src/index.ts',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
     library: {
-      type: 'module'
-    }
+      type: 'module',
+    },
   },
   experiments: {
-    outputModule: true
-  }
+    outputModule: true,
+  },
 };
 
 // 平台特定配置
@@ -219,10 +207,10 @@ const platformConfigs = Object.keys(platformEntries).map(name => ({
     filename: '[name].js',
     library: {
       type: 'umd',
-      name: ['TaroViz', name]
+      name: ['TaroViz', name],
     },
-    globalObject: 'this'
-  }
+    globalObject: 'this',
+  },
 }));
 
 // 平台特定ESM配置
@@ -233,12 +221,12 @@ const platformEsmConfigs = Object.keys(platformEntries).map(name => ({
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
     library: {
-      type: 'module'
-    }
+      type: 'module',
+    },
   },
   experiments: {
-    outputModule: true
-  }
+    outputModule: true,
+  },
 }));
 
 // 分包配置
@@ -250,10 +238,10 @@ const packageConfigs = Object.keys(packageEntries).map(name => ({
     filename: 'index.js',
     library: {
       type: 'umd',
-      name: ['TaroViz', name]
+      name: ['TaroViz', name],
     },
-    globalObject: 'this'
-  }
+    globalObject: 'this',
+  },
 }));
 
 // 分包ESM配置
@@ -264,46 +252,13 @@ const packageEsmConfigs = Object.keys(packageEntries).map(name => ({
     path: path.resolve(__dirname, `dist/packages/${name}`),
     filename: 'index.esm.js',
     library: {
-      type: 'module'
-    }
+      type: 'module',
+    },
   },
   experiments: {
-    outputModule: true
-  }
-}));
-
-// 类型声明配置
-const dtsConfigs = Object.keys(packageEntries).map(name => ({
-  ...baseConfig,
-  entry: { [name]: packageEntries[name] },
-  output: {
-    path: path.resolve(__dirname, `dist/packages/${name}`),
-    filename: 'index.d.ts'
+    outputModule: true,
   },
-  module: {
-    ...baseConfig.module,
-    rules: [
-      {
-        test: /\.tsx?$/,
-        use: [
-          {
-            loader: 'ts-loader',
-            options: {
-              configFile: path.resolve(__dirname, './tsconfig.json'),
-              compilerOptions: {
-                declaration: true,
-                emitDeclarationOnly: true
-              },
-              ignoreDiagnostics: ignoredTsErrorCodes
-            }
-          }
-        ],
-        exclude: /node_modules/
-      }
-    ]
-  }
 }));
-
 // 分析配置
 if (shouldAnalyze) {
   const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
@@ -316,5 +271,5 @@ module.exports = [
   ...platformConfigs,
   ...platformEsmConfigs,
   ...packageConfigs,
-  ...packageEsmConfigs
-]; 
+  ...packageEsmConfigs,
+];

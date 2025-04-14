@@ -1,11 +1,13 @@
-import { View } from '@tarojs/components';
+/* eslint-disable prettier/prettier */
+/* eslint-disable import/no-unresolved */
 import { getAdapter } from '@agions/taroviz-adapters';
-import { EChartsOption } from '@agions/taroviz-core';
-import { uuid } from '@agions/taroviz-core';
+import { EChartsOption, uuid } from '@agions/taroviz-core';
+import { View } from '@tarojs/components';
 import { FunnelChart as FunnelChartComponent } from 'echarts/charts';
 import { TooltipComponent, TitleComponent, LegendComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import React, { useEffect, useRef } from 'react';
+
 import { safeRenderAdapter } from '../utils';
 
 // 注册必要的组件
@@ -112,12 +114,12 @@ const FunnelChart: React.FC<FunnelChartProps> = ({
       containerRef,
       option,
       renderer,
-      onInit: (instance) => {
+      onInit: instance => {
         chartInstance.current = instance;
 
         // 绑定事件
         if (onEvents) {
-          Object.keys(onEvents).forEach((eventName) => {
+          Object.keys(onEvents).forEach(eventName => {
             instance.on(eventName, onEvents[eventName]);
           });
         }
@@ -142,7 +144,7 @@ const FunnelChart: React.FC<FunnelChartProps> = ({
       if (chartInstance.current) {
         // 解绑事件
         if (onEvents) {
-          Object.keys(onEvents).forEach((eventName) => {
+          Object.keys(onEvents).forEach(eventName => {
             chartInstance.current.off(eventName);
           });
         }

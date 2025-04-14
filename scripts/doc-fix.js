@@ -2,9 +2,9 @@
  * 文档修复脚本 - 为解决TypeDoc构建问题
  */
 
+const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
 
 // 颜色函数
 const colors = {
@@ -13,7 +13,7 @@ const colors = {
   yellow: '\x1b[33m',
   red: '\x1b[31m',
   blue: '\x1b[34m',
-  cyan: '\x1b[36m'
+  cyan: '\x1b[36m',
 };
 
 /**
@@ -55,24 +55,24 @@ function createTempBuildDir() {
  */
 function createSimpleTypeDocConfig() {
   const tempConfigPath = path.join(process.cwd(), 'typedoc.simple.json');
-  
+
   // 基本配置
   const simpleConfig = {
-    entryPoints: ["packages/core/src/index.ts"],
-    out: "docs-api",
-    exclude: ["**/__tests__/**", "**/node_modules/**"],
-    theme: "default",
-    name: "TaroViz API文档",
-    readme: "README.md",
+    entryPoints: ['packages/core/src/index.ts'],
+    out: 'docs-api',
+    exclude: ['**/__tests__/**', '**/node_modules/**'],
+    theme: 'default',
+    name: 'TaroViz API文档',
+    readme: 'README.md',
     excludePrivate: true,
     excludeProtected: true,
     excludeExternals: true,
-    includeVersion: true
+    includeVersion: true,
   };
-  
+
   fs.writeFileSync(tempConfigPath, JSON.stringify(simpleConfig, null, 2));
   log(`创建简化TypeDoc配置: ${tempConfigPath}`, colors.green);
-  
+
   return tempConfigPath;
 }
 
@@ -82,16 +82,16 @@ function createSimpleTypeDocConfig() {
 function generateCoreDocs() {
   // 创建临时配置
   const configPath = createSimpleTypeDocConfig();
-  
+
   // 运行TypeDoc
   const success = runCommand(`npx typedoc --options ${configPath}`, '核心API文档生成失败');
-  
+
   // 清理
   if (fs.existsSync(configPath)) {
     fs.unlinkSync(configPath);
     log('已删除临时TypeDoc配置', colors.yellow);
   }
-  
+
   return success;
 }
 
@@ -104,7 +104,7 @@ function prepareDocStructure() {
   if (!fs.existsSync(docsApiDir)) {
     fs.mkdirSync(docsApiDir, { recursive: true });
   }
-  
+
   // 创建一个基本的索引页
   const indexPath = path.join(docsApiDir, 'index.html');
   const indexContent = `
@@ -195,10 +195,10 @@ function prepareDocStructure() {
 </body>
 </html>
   `;
-  
+
   fs.writeFileSync(indexPath, indexContent);
   log(`创建API文档索引页: ${indexPath}`, colors.green);
-  
+
   // 创建各个包的目录
   const packages = ['core', 'charts', 'adapters', 'data', 'hooks', 'themes', 'all'];
   packages.forEach(pkg => {
@@ -206,7 +206,7 @@ function prepareDocStructure() {
     if (!fs.existsSync(pkgDir)) {
       fs.mkdirSync(pkgDir, { recursive: true });
     }
-    
+
     // 创建简单的占位索引页
     const pkgIndexPath = path.join(pkgDir, 'index.html');
     const pkgIndexContent = `
@@ -258,11 +258,11 @@ function prepareDocStructure() {
 </body>
 </html>
     `;
-    
+
     fs.writeFileSync(pkgIndexPath, pkgIndexContent);
     log(`创建包占位文档: ${pkgIndexPath}`, colors.green);
   });
-  
+
   return true;
 }
 
@@ -271,15 +271,21 @@ function prepareDocStructure() {
  */
 function main() {
   log('开始修复文档生成...', colors.cyan);
-  
+
   // 尝试生成核心包文档
   const coreSuccess = generateCoreDocs();
-  log(coreSuccess ? '核心包文档生成成功' : '核心包文档生成失败，使用占位文档', coreSuccess ? colors.green : colors.yellow);
-  
+  log(
+    coreSuccess ? '核心包文档生成成功' : '核心包文档生成失败，使用占位文档',
+    coreSuccess ? colors.green : colors.yellow
+  );
+
   // 创建文档结构
   const structureSuccess = prepareDocStructure();
-  log(structureSuccess ? '文档结构准备完成' : '文档结构准备失败', structureSuccess ? colors.green : colors.red);
-  
+  log(
+    structureSuccess ? '文档结构准备完成' : '文档结构准备失败',
+    structureSuccess ? colors.green : colors.red
+  );
+
   if (structureSuccess) {
     log('文档修复完成！请继续执行文档构建流程', colors.green);
     return true;
@@ -295,5 +301,5 @@ if (require.main === module) {
 }
 
 module.exports = {
-  fixDocs: main
-}; 
+  fixDocs: main,
+};

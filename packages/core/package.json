@@ -30,5 +30,8 @@
     "@tarojs/taro": ">=3.4.0",
     "react": ">=16.13.0"
   },
-  "gitHead": "91fc38170d66256221250816051c66abbdf5f8f8"
+  "gitHead": "08705385bf791a02d7eb7d74ffbf44f021f26b5b",
+  "devDependencies": {
+    "prettier": "^3.5.3"
+  }
 }

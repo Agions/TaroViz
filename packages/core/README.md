@@ -45,7 +45,7 @@ const renderer = createRenderer({
   width: 600,
   height: 400,
   pixelRatio: 2, // 支持高清屏
-  optimizeRendering: true // 启用渲染优化
+  optimizeRendering: true, // 启用渲染优化
 });
 
 // 绘制图形
@@ -91,11 +91,11 @@ import { EventSystem, EventType } from '@agions/taroviz-core';
 // 创建事件系统
 const eventSystem = new EventSystem({
   container: 'chart-container',
-  captureEvents: true
+  captureEvents: true,
 });
 
 // 注册事件处理
-eventSystem.on(EventType.CLICK, (event) => {
+eventSystem.on(EventType.CLICK, event => {
   const { x, y, target, originalEvent } = event;
   console.log('点击坐标:', x, y);
   console.log('点击目标:', target);
@@ -129,7 +129,7 @@ const customTheme = {
   textStyle: {
     fontFamily: 'Roboto, sans-serif',
     fontSize: 12,
-    color: '#333333'
+    color: '#333333',
   },
   // 其他主题属性...
 };
@@ -142,7 +142,7 @@ const registeredTheme = ThemeManager.getTheme('myTheme');
 
 // 使用主题混合
 const mergedTheme = ThemeManager.mergeTheme(presetThemes.dark, {
-  colors: ['#ff4d4f', '#ffa940', '#73d13d']
+  colors: ['#ff4d4f', '#ffa940', '#73d13d'],
 });
 ```
 
@@ -163,19 +163,21 @@ const circle = new Circle({
   fill: '#1890ff',
   stroke: '#096dd9',
   strokeWidth: 2,
-  opacity: 0.8
+  opacity: 0.8,
 });
 
 // 创建组
 const group = new Group();
 group.add(circle);
-group.add(new Rect({
-  x: 200,
-  y: 80,
-  width: 100,
-  height: 60,
-  fill: '#52c41a'
-}));
+group.add(
+  new Rect({
+    x: 200,
+    y: 80,
+    width: 100,
+    height: 60,
+    fill: '#52c41a',
+  })
+);
 
 // 应用变换
 group.translate(10, 10);
@@ -183,7 +185,7 @@ group.rotate(Math.PI / 4);
 group.scale(1.2, 1.2);
 
 // 添加事件
-circle.on('click', (e) => {
+circle.on('click', e => {
   console.log('圆形被点击');
 });
 
@@ -205,8 +207,8 @@ const df = new DataFrame({
   data: [
     ['A', 10, '2023-01-01'],
     ['B', 20, '2023-01-02'],
-    ['C', 30, '2023-01-03']
-  ]
+    ['C', 30, '2023-01-03'],
+  ],
 });
 
 // 获取列值
@@ -223,8 +225,8 @@ const summary = df.aggregate({
   groupBy: 'category',
   measures: [
     { field: 'value', op: 'sum', as: 'totalValue' },
-    { field: 'value', op: 'mean', as: 'avgValue' }
-  ]
+    { field: 'value', op: 'mean', as: 'avgValue' },
+  ],
 });
 ```
 
@@ -233,18 +235,14 @@ const summary = df.aggregate({
 提供各种坐标系定义和转换工具：
 
 ```tsx
-import { 
-  CartesianCoordinate, 
-  PolarCoordinate, 
-  Point 
-} from '@agions/taroviz-core';
+import { CartesianCoordinate, PolarCoordinate, Point } from '@agions/taroviz-core';
 
 // 创建笛卡尔坐标系
 const cartesian = new CartesianCoordinate({
   x: { min: 0, max: 100 },
   y: { min: 0, max: 100 },
   originPosition: 'bottom-left', // 或 'top-left', 'center' 等
-  padding: { top: 20, right: 20, bottom: 30, left: 40 }
+  padding: { top: 20, right: 20, bottom: 30, left: 40 },
 });
 
 // 坐标转换
@@ -257,7 +255,7 @@ const polar = new PolarCoordinate({
   center: { x: 200, y: 200 },
   radius: 150,
   startAngle: 0,
-  endAngle: Math.PI * 2
+  endAngle: Math.PI * 2,
 });
 
 // 极坐标转换
@@ -279,13 +277,13 @@ const animation = new Animation({
   duration: 500, // 毫秒
   delay: 100,
   easing: Easing.easeInOut,
-  onUpdate: (values) => {
+  onUpdate: values => {
     // 更新图形属性
     circle.attr(values);
   },
   onComplete: () => {
     console.log('动画完成');
-  }
+  },
 });
 
 // 开始动画
@@ -306,13 +304,7 @@ animation.stop();
 提供一系列实用的工具函数：
 
 ```tsx
-import { 
-  utils, 
-  math, 
-  color, 
-  scale,
-  formatter 
-} from '@agions/taroviz-core';
+import { utils, math, color, scale, formatter } from '@agions/taroviz-core';
 
 // 颜色处理
 const rgbColor = color.hexToRgb('#1890ff'); // { r: 24, g: 144, b: 255 }
@@ -325,20 +317,13 @@ const angle = math.angle(0, 0, 10, 10); // 45°
 const isPointInRect = math.pointInRect(10, 10, { x: 0, y: 0, width: 20, height: 20 }); // true
 
 // 比例尺
-const linearScale = scale.linear()
-  .domain([0, 100])
-  .range([0, 500]);
-  
+const linearScale = scale.linear().domain([0, 100]).range([0, 500]);
+
 const value = linearScale(50); // 250
 
-const logScale = scale.log()
-  .domain([1, 1000])
-  .range([0, 300]);
+const logScale = scale.log().domain([1, 1000]).range([0, 300]);
 
-const bandScale = scale.band()
-  .domain(['A', 'B', 'C', 'D'])
-  .range([0, 400])
-  .padding(0.1);
+const bandScale = scale.band().domain(['A', 'B', 'C', 'D']).range([0, 400]).padding(0.1);
 
 // 格式化工具
 const formattedNumber = formatter.number(1234.5678, { precision: 2 }); // '1,234.57'
@@ -366,15 +351,15 @@ class MyCustomChart extends BaseChart<MyCustomChartProps> {
       </div>
     );
   }
-  
+
   // 实现图表绘制方法
   drawChart() {
     const { data, width, height } = this.props;
     const ctx = this.getContext();
-  
+
     // 绘制图表...
   }
-  
+
   // 更新图表
   updateChart(prevProps) {
     // 处理属性变化...
@@ -384,14 +369,7 @@ class MyCustomChart extends BaseChart<MyCustomChartProps> {
 
 // 使用自定义图表
 const App = () => {
-  return (
-    <MyCustomChart
-      data={[10, 20, 30, 40]}
-      width={600}
-      height={400}
-      theme="default"
-    />
-  );
+  return <MyCustomChart data={[10, 20, 30, 40]} width={600} height={400} theme="default" />;
 };
 ```
 
@@ -400,13 +378,7 @@ const App = () => {
 提供构建图表的基础组件：
 
 ```tsx
-import {
-  Axis,
-  Legend,
-  Tooltip,
-  Grid,
-  Title
-} from '@agions/taroviz-core';
+import { Axis, Legend, Tooltip, Grid, Title } from '@agions/taroviz-core';
 import React from 'react';
 
 // 使用基础组件
@@ -414,39 +386,17 @@ const App = () => {
   return (
     <div className="chart-container">
       <Title text="销售数据" subtext="2023年季度报告" />
-    
-      <Grid
-        left={50}
-        right={50}
-        top={60}
-        bottom={60}
-      />
-    
-      <Axis
-        type="x"
-        position="bottom"
-        data={['Q1', 'Q2', 'Q3', 'Q4']}
-        title="季度"
-      />
-    
-      <Axis
-        type="y"
-        position="left"
-        min={0}
-        max={100}
-        title="销售额(万元)"
-      />
-    
-      <Legend
-        data={['销售额', '利润']}
-        position="top-right"
-      />
-    
-      <Tooltip
-        trigger="item"
-        formatter="{b}: {c} ({d}%)"
-      />
-    
+
+      <Grid left={50} right={50} top={60} bottom={60} />
+
+      <Axis type="x" position="bottom" data={['Q1', 'Q2', 'Q3', 'Q4']} title="季度" />
+
+      <Axis type="y" position="left" min={0} max={100} title="销售额(万元)" />
+
+      <Legend data={['销售额', '利润']} position="top-right" />
+
+      <Tooltip trigger="item" formatter="{b}: {c} ({d}%)" />
+
       {/* 图表内容... */}
     </div>
   );

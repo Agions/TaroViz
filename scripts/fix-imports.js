@@ -4,6 +4,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+
 const glob = require('glob');
 
 // 查找所有TypeScript文件
@@ -20,7 +21,7 @@ const replacements = [
   { from: /@agions\/charts/g, to: '@agions/taroviz-charts' },
   { from: /@agions\/themes/g, to: '@agions/taroviz-themes' },
   { from: /@agions\/data/g, to: '@agions/taroviz-data' },
-  { from: /@agions\/hooks/g, to: '@agions/taroviz-hooks' }
+  { from: /@agions\/hooks/g, to: '@agions/taroviz-hooks' },
 ];
 
 // 处理每个文件
@@ -47,4 +48,4 @@ files.forEach(file => {
   }
 });
 
-console.log(`修复完成，共修改了 ${modifiedCount} 个文件。`); 
+console.log(`修复完成，共修改了 ${modifiedCount} 个文件。`);

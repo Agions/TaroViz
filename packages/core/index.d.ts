@@ -15,4 +15,4 @@ export { default as BaseChart } from './src/components/BaseChart';
  * 库信息
  */
 export const name: string;
-export const version: string; 
+export const version: string;

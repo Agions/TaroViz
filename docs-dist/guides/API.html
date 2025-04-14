@@ -1,12 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>API - TaroViz文档</title>
   <style>
-    body { 
+    body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       line-height: 1.6;
       color: #333;
@@ -14,46 +14,64 @@
       margin: 0 auto;
       padding: 20px;
     }
-    pre { 
+
+    pre {
       background: #f6f8fa;
       padding: 16px;
       overflow: auto;
       border-radius: 5px;
     }
-    code { 
+
+    code {
       font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
       background: #f6f8fa;
       padding: 2px 4px;
       border-radius: 3px;
     }
+
     table {
       border-collapse: collapse;
       width: 100%;
       margin: 20px 0;
     }
-    table, th, td {
+
+    table,
+    th,
+    td {
       border: 1px solid #ddd;
     }
-    th, td {
+
+    th,
+    td {
       padding: 12px;
       text-align: left;
     }
+
     th {
       background-color: #f8f9fa;
     }
-    h1, h2, h3, h4, h5, h6 {
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
       margin-top: 24px;
       margin-bottom: 16px;
       font-weight: 600;
       color: #0d47a1;
     }
+
     a {
       color: #0366d6;
       text-decoration: none;
     }
+
     a:hover {
       text-decoration: underline;
     }
+
     .nav {
       background: #f8f9fa;
       padding: 15px;
@@ -63,11 +81,13 @@
       flex-wrap: wrap;
       gap: 15px;
     }
+
     .nav a {
       font-weight: 500;
     }
   </style>
 </head>
+
 <body>
   <div class="nav">
     <a href="../index.html">首页</a>
@@ -76,173 +96,183 @@
     <a href="../EXAMPLES.html">示例</a>
     <a href="../DEVELOPMENT.html">开发指南</a>
   </div>
-  
+
   <div class="content">
-<h1>TaroViz API文档</h1>
-<h2>核心组件</h2>
-<h3>LineChart</h3>
-<p>折线图组件，用于展示数据趋势。</p>
-<pre><code class="language-jsx">import { LineChart } from &#39;@agions/taroviz&#39;;
+    <h1>TaroViz API文档</h1>
+    <h2>核心组件</h2>
+    <h3>LineChart</h3>
+    <p>折线图组件，用于展示数据趋势。</p>
+    <pre><code class="language-jsx">import { LineChart } from &#39;@agions/taroviz&#39;;
 
 &lt;LineChart 
   data={chartData} 
   config={chartConfig} 
 /&gt;
 </code></pre>
-<p><strong>属性：</strong></p>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>类型</th>
-<th>描述</th>
-<th>是否必须</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>data</td>
-<td>object</td>
-<td>图表数据</td>
-<td>是</td>
-</tr>
-<tr>
-<td>config</td>
-<td>object</td>
-<td>图表配置</td>
-<td>否</td>
-</tr>
-</tbody></table>
-<h3>BarChart</h3>
-<p>柱状图组件，用于比较不同类别的数据。</p>
-<pre><code class="language-jsx">import { BarChart } from &#39;@agions/taroviz&#39;;
+    <p><strong>属性：</strong></p>
+    <table>
+      <thead>
+        <tr>
+          <th>属性</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>是否必须</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>data</td>
+          <td>object</td>
+          <td>图表数据</td>
+          <td>是</td>
+        </tr>
+        <tr>
+          <td>config</td>
+          <td>object</td>
+          <td>图表配置</td>
+          <td>否</td>
+        </tr>
+      </tbody>
+    </table>
+    <h3>BarChart</h3>
+    <p>柱状图组件，用于比较不同类别的数据。</p>
+    <pre><code class="language-jsx">import { BarChart } from &#39;@agions/taroviz&#39;;
 
 &lt;BarChart 
   data={chartData} 
   config={chartConfig} 
 /&gt;
 </code></pre>
-<p><strong>属性：</strong></p>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>类型</th>
-<th>描述</th>
-<th>是否必须</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>data</td>
-<td>object</td>
-<td>图表数据</td>
-<td>是</td>
-</tr>
-<tr>
-<td>config</td>
-<td>object</td>
-<td>图表配置</td>
-<td>否</td>
-</tr>
-</tbody></table>
-<h3>PieChart</h3>
-<p>饼图组件，用于展示部分与整体的关系。</p>
-<pre><code class="language-jsx">import { PieChart } from &#39;@agions/taroviz&#39;;
+    <p><strong>属性：</strong></p>
+    <table>
+      <thead>
+        <tr>
+          <th>属性</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>是否必须</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>data</td>
+          <td>object</td>
+          <td>图表数据</td>
+          <td>是</td>
+        </tr>
+        <tr>
+          <td>config</td>
+          <td>object</td>
+          <td>图表配置</td>
+          <td>否</td>
+        </tr>
+      </tbody>
+    </table>
+    <h3>PieChart</h3>
+    <p>饼图组件，用于展示部分与整体的关系。</p>
+    <pre><code class="language-jsx">import { PieChart } from &#39;@agions/taroviz&#39;;
 
 &lt;PieChart 
   data={chartData} 
   config={chartConfig} 
 /&gt;
 </code></pre>
-<p><strong>属性：</strong></p>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>类型</th>
-<th>描述</th>
-<th>是否必须</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>data</td>
-<td>object</td>
-<td>图表数据</td>
-<td>是</td>
-</tr>
-<tr>
-<td>config</td>
-<td>object</td>
-<td>图表配置</td>
-<td>否</td>
-</tr>
-</tbody></table>
-<h3>ScatterChart</h3>
-<p>散点图组件，用于展示数据分布。</p>
-<pre><code class="language-jsx">import { ScatterChart } from &#39;@agions/taroviz&#39;;
+    <p><strong>属性：</strong></p>
+    <table>
+      <thead>
+        <tr>
+          <th>属性</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>是否必须</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>data</td>
+          <td>object</td>
+          <td>图表数据</td>
+          <td>是</td>
+        </tr>
+        <tr>
+          <td>config</td>
+          <td>object</td>
+          <td>图表配置</td>
+          <td>否</td>
+        </tr>
+      </tbody>
+    </table>
+    <h3>ScatterChart</h3>
+    <p>散点图组件，用于展示数据分布。</p>
+    <pre><code class="language-jsx">import { ScatterChart } from &#39;@agions/taroviz&#39;;
 
 &lt;ScatterChart 
   data={chartData} 
   config={chartConfig} 
 /&gt;
 </code></pre>
-<p><strong>属性：</strong></p>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>类型</th>
-<th>描述</th>
-<th>是否必须</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>data</td>
-<td>object</td>
-<td>图表数据</td>
-<td>是</td>
-</tr>
-<tr>
-<td>config</td>
-<td>object</td>
-<td>图表配置</td>
-<td>否</td>
-</tr>
-</tbody></table>
-<h3>RadarChart</h3>
-<p>雷达图组件，用于多维度数据比较。</p>
-<pre><code class="language-jsx">import { RadarChart } from &#39;@agions/taroviz&#39;;
+    <p><strong>属性：</strong></p>
+    <table>
+      <thead>
+        <tr>
+          <th>属性</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>是否必须</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>data</td>
+          <td>object</td>
+          <td>图表数据</td>
+          <td>是</td>
+        </tr>
+        <tr>
+          <td>config</td>
+          <td>object</td>
+          <td>图表配置</td>
+          <td>否</td>
+        </tr>
+      </tbody>
+    </table>
+    <h3>RadarChart</h3>
+    <p>雷达图组件，用于多维度数据比较。</p>
+    <pre><code class="language-jsx">import { RadarChart } from &#39;@agions/taroviz&#39;;
 
 &lt;RadarChart 
   data={chartData} 
   config={chartConfig} 
 /&gt;
 </code></pre>
-<p><strong>属性：</strong></p>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>类型</th>
-<th>描述</th>
-<th>是否必须</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>data</td>
-<td>object</td>
-<td>图表数据</td>
-<td>是</td>
-</tr>
-<tr>
-<td>config</td>
-<td>object</td>
-<td>图表配置</td>
-<td>否</td>
-</tr>
-</tbody></table>
-<h2>数据格式</h2>
-<h3>基本数据格式</h3>
-<pre><code class="language-js">const chartData = {
+    <p><strong>属性：</strong></p>
+    <table>
+      <thead>
+        <tr>
+          <th>属性</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>是否必须</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>data</td>
+          <td>object</td>
+          <td>图表数据</td>
+          <td>是</td>
+        </tr>
+        <tr>
+          <td>config</td>
+          <td>object</td>
+          <td>图表配置</td>
+          <td>否</td>
+        </tr>
+      </tbody>
+    </table>
+    <h2>数据格式</h2>
+    <h3>基本数据格式</h3>
+    <pre><code class="language-js">const chartData = {
   categories: string[],  // 类别数组
   series: [              // 数据系列数组
     {
@@ -252,8 +282,8 @@
   ]
 };
 </code></pre>
-<h3>饼图数据格式</h3>
-<pre><code class="language-js">const pieData = {
+    <h3>饼图数据格式</h3>
+    <pre><code class="language-js">const pieData = {
   series: [
     {
       name: string,       // 系列名称
@@ -267,9 +297,9 @@
   ]
 };
 </code></pre>
-<h2>配置选项</h2>
-<h3>通用配置</h3>
-<pre><code class="language-js">const chartConfig = {
+    <h2>配置选项</h2>
+    <h3>通用配置</h3>
+    <pre><code class="language-js">const chartConfig = {
   // 基本设置
   width: number | string,    // 图表宽度，默认&#39;100%&#39;
   height: number | string,   // 图表高度，默认300
@@ -307,10 +337,10 @@
   }
 };
 </code></pre>
-<h2>Hooks</h2>
-<h3>useChart</h3>
-<p>用于获取和操作图表实例的Hook。</p>
-<pre><code class="language-jsx">import { useChart } from &#39;@agions/taroviz-hooks&#39;;
+    <h2>Hooks</h2>
+    <h3>useChart</h3>
+    <p>用于获取和操作图表实例的Hook。</p>
+    <pre><code class="language-jsx">import { useChart } from &#39;@agions/taroviz-hooks&#39;;
 
 function MyChart() {
   const { chartRef, getInstance } = useChart();
@@ -331,9 +361,9 @@ function MyChart() {
   );
 }
 </code></pre>
-<h3>useWindowSize</h3>
-<p>用于获取当前窗口尺寸的Hook。</p>
-<pre><code class="language-jsx">import { useWindowSize } from &#39;@agions/taroviz-hooks&#39;;
+    <h3>useWindowSize</h3>
+    <p>用于获取当前窗口尺寸的Hook。</p>
+    <pre><code class="language-jsx">import { useWindowSize } from &#39;@agions/taroviz-hooks&#39;;
 
 function ResponsiveChart() {
   const { width, height } = useWindowSize();
@@ -346,9 +376,9 @@ function ResponsiveChart() {
   );
 }
 </code></pre>
-<h2>主题系统</h2>
-<h3>使用预设主题</h3>
-<pre><code class="language-jsx">import { LineChart } from &#39;@agions/taroviz&#39;;
+    <h2>主题系统</h2>
+    <h3>使用预设主题</h3>
+    <pre><code class="language-jsx">import { LineChart } from &#39;@agions/taroviz&#39;;
 import { THEME_DARK, THEME_LIGHT } from &#39;@agions/taroviz-themes&#39;;
 
 &lt;LineChart 
@@ -356,8 +386,8 @@ import { THEME_DARK, THEME_LIGHT } from &#39;@agions/taroviz-themes&#39;;
   config={{ theme: THEME_DARK }} 
 /&gt;
 </code></pre>
-<h3>自定义主题</h3>
-<pre><code class="language-jsx">import { LineChart } from &#39;@agions/taroviz&#39;;
+    <h3>自定义主题</h3>
+    <pre><code class="language-jsx">import { LineChart } from &#39;@agions/taroviz&#39;;
 
 const customTheme = {
   color: [&#39;#ff7f50&#39;, &#39;#87cefa&#39;, &#39;#da70d6&#39;, &#39;#32cd32&#39;, &#39;#6495ed&#39;],
@@ -387,16 +417,16 @@ const customTheme = {
   config={{ theme: customTheme }} 
 /&gt;
 </code></pre>
-<h2>平台适配器</h2>
-<h3>获取当前平台信息</h3>
-<pre><code class="language-jsx">import { getPlatform } from &#39;@agions/taroviz-adapters&#39;;
+    <h2>平台适配器</h2>
+    <h3>获取当前平台信息</h3>
+    <pre><code class="language-jsx">import { getPlatform } from &#39;@agions/taroviz-adapters&#39;;
 
 const platform = getPlatform();
 console.log(platform.name); // &#39;weapp&#39;, &#39;alipay&#39;, &#39;h5&#39;, ...
 console.log(platform.canUseCanvas); // true/false
 </code></pre>
-<h3>根据平台调整配置</h3>
-<pre><code class="language-jsx">import { getPlatform } from &#39;@agions/taroviz-adapters&#39;;
+    <h3>根据平台调整配置</h3>
+    <pre><code class="language-jsx">import { getPlatform } from &#39;@agions/taroviz-adapters&#39;;
 import { LineChart } from &#39;@agions/taroviz&#39;;
 
 function PlatformAwareChart() {
@@ -413,5 +443,5 @@ function PlatformAwareChart() {
 
   </div>
 </body>
+
 </html>
-    

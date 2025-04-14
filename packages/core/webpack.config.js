@@ -17,8 +17,8 @@ module.exports = [
       path: path.resolve(__dirname, 'dist'),
       filename: 'index.js',
       library: {
-        type: 'commonjs2'
-      }
+        type: 'commonjs2',
+      },
     },
     devtool: isProduction ? false : 'source-map',
     externals: [nodeExternals()],
@@ -31,20 +31,21 @@ module.exports = [
               loader: 'babel-loader',
               options: {
                 presets: [
-                  ['@babel/preset-env', {
-                    targets: {
-                      browsers: ['> 1%', 'last 2 versions', 'not ie <= 11']
+                  [
+                    '@babel/preset-env',
+                    {
+                      targets: {
+                        browsers: ['> 1%', 'last 2 versions', 'not ie <= 11'],
+                      },
+                      useBuiltIns: 'usage',
+                      corejs: 3,
                     },
-                    useBuiltIns: 'usage',
-                    corejs: 3
-                  }],
+                  ],
                   '@babel/preset-react',
-                  '@babel/preset-typescript'
+                  '@babel/preset-typescript',
                 ],
-                plugins: [
-                  ['@babel/plugin-proposal-decorators', { legacy: true }]
-                ]
-              }
+                plugins: [['@babel/plugin-proposal-decorators', { legacy: true }]],
+              },
             },
             {
               loader: 'ts-loader',
@@ -52,28 +53,24 @@ module.exports = [
                 configFile: path.resolve(rootDir, './tsconfig.json'),
                 compilerOptions: {
                   declaration: true,
-                  declarationDir: './dist'
+                  declarationDir: './dist',
                 },
                 transpileOnly: true,
-                ignoreDiagnostics: [6133, 2769, 2540, 2683]
-              }
-            }
+                ignoreDiagnostics: [6133, 2769, 2540, 2683],
+              },
+            },
           ],
-          exclude: /node_modules/
+          exclude: /node_modules/,
         },
         {
           test: /\.(css|scss)$/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            'css-loader',
-            'sass-loader',
-          ],
+          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
         },
         {
           test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
-          type: 'asset'
-        }
-      ]
+          type: 'asset',
+        },
+      ],
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
@@ -83,8 +80,8 @@ module.exports = [
         '@agions/charts': path.resolve(rootDir, 'packages/charts/src'),
         '@agions/themes': path.resolve(rootDir, 'packages/themes/src'),
         '@agions/data': path.resolve(rootDir, 'packages/data/src'),
-        '@agions/hooks': path.resolve(rootDir, 'packages/hooks/src')
-      }
+        '@agions/hooks': path.resolve(rootDir, 'packages/hooks/src'),
+      },
     },
     optimization: {
       minimize: isProduction,
@@ -96,19 +93,19 @@ module.exports = [
               unsafe: true,
               unsafe_comps: true,
               drop_console: isProduction,
-              drop_debugger: isProduction
+              drop_debugger: isProduction,
             },
             format: {
-              comments: false
+              comments: false,
             },
             mangle: {
               properties: {
-                regex: /^_/
-              }
-            }
-          }
-        })
-      ]
+                regex: /^_/,
+              },
+            },
+          },
+        }),
+      ],
     },
     plugins: [
       new CleanWebpackPlugin(),
@@ -119,14 +116,14 @@ module.exports = [
             semantic: true,
             syntactic: false,
             declaration: false,
-            global: false
-          }
-        }
+            global: false,
+          },
+        },
       }),
       new MiniCssExtractPlugin({
-        filename: '[name].css'
-      })
-    ]
+        filename: '[name].css',
+      }),
+    ],
   },
   // ESM
   {
@@ -136,11 +133,11 @@ module.exports = [
       path: path.resolve(__dirname, 'dist'),
       filename: 'index.esm.js',
       library: {
-        type: 'module'
-      }
+        type: 'module',
+      },
     },
     experiments: {
-      outputModule: true
+      outputModule: true,
     },
     devtool: isProduction ? false : 'source-map',
     externals: [nodeExternals()],
@@ -153,48 +150,45 @@ module.exports = [
               loader: 'babel-loader',
               options: {
                 presets: [
-                  ['@babel/preset-env', {
-                    targets: {
-                      browsers: ['> 1%', 'last 2 versions', 'not ie <= 11']
+                  [
+                    '@babel/preset-env',
+                    {
+                      targets: {
+                        browsers: ['> 1%', 'last 2 versions', 'not ie <= 11'],
+                      },
+                      useBuiltIns: 'usage',
+                      corejs: 3,
                     },
-                    useBuiltIns: 'usage',
-                    corejs: 3
-                  }],
+                  ],
                   '@babel/preset-react',
-                  '@babel/preset-typescript'
+                  '@babel/preset-typescript',
                 ],
-                plugins: [
-                  ['@babel/plugin-proposal-decorators', { legacy: true }]
-                ]
-              }
+                plugins: [['@babel/plugin-proposal-decorators', { legacy: true }]],
+              },
             },
             {
               loader: 'ts-loader',
               options: {
                 configFile: path.resolve(rootDir, './tsconfig.json'),
                 compilerOptions: {
-                  declaration: false
+                  declaration: false,
                 },
                 transpileOnly: true,
-                ignoreDiagnostics: [6133, 2769, 2540, 2683]
-              }
-            }
+                ignoreDiagnostics: [6133, 2769, 2540, 2683],
+              },
+            },
           ],
-          exclude: /node_modules/
+          exclude: /node_modules/,
         },
         {
           test: /\.(css|scss)$/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            'css-loader',
-            'sass-loader',
-          ],
+          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
         },
         {
           test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
-          type: 'asset'
-        }
-      ]
+          type: 'asset',
+        },
+      ],
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
@@ -204,8 +198,8 @@ module.exports = [
         '@agions/charts': path.resolve(rootDir, 'packages/charts/src'),
         '@agions/themes': path.resolve(rootDir, 'packages/themes/src'),
         '@agions/data': path.resolve(rootDir, 'packages/data/src'),
-        '@agions/hooks': path.resolve(rootDir, 'packages/hooks/src')
-      }
+        '@agions/hooks': path.resolve(rootDir, 'packages/hooks/src'),
+      },
     },
     optimization: {
       minimize: isProduction,
@@ -217,19 +211,19 @@ module.exports = [
               unsafe: true,
               unsafe_comps: true,
               drop_console: isProduction,
-              drop_debugger: isProduction
+              drop_debugger: isProduction,
             },
             format: {
-              comments: false
+              comments: false,
             },
             mangle: {
               properties: {
-                regex: /^_/
-              }
-            }
-          }
-        })
-      ]
+                regex: /^_/,
+              },
+            },
+          },
+        }),
+      ],
     },
     plugins: [
       new ForkTsCheckerWebpackPlugin({
@@ -239,13 +233,13 @@ module.exports = [
             semantic: true,
             syntactic: false,
             declaration: false,
-            global: false
-          }
-        }
+            global: false,
+          },
+        },
       }),
       new MiniCssExtractPlugin({
-        filename: '[name].css'
-      })
-    ]
-  }
-]; 
+        filename: '[name].css',
+      }),
+    ],
+  },
+];

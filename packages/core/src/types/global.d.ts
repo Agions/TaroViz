@@ -89,4 +89,4 @@ interface IDd {
 // 钉钉小程序全局变量
 declare const dd: IDd;
 
-// 自定义类型定义进行补充 
+// 自定义类型定义进行补充

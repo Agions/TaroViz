@@ -830,7 +830,7 @@ export function formatDate(value: Date | number | string, format: string = 'YYYY
 /**
  * 版本信息
  */
-export const version = '0.5.0';
+export const version = '1.0.3';
 
 export default {
   filterData,

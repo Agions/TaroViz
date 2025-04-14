@@ -20,7 +20,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@agions/taroviz-core": "workspace:*"
+    "@agions/taroviz-core": "1.0.3"
   },
   "peerDependencies": {
     "@tarojs/components": ">=3.4.0",
@@ -28,5 +28,5 @@
     "echarts": ">=5.4.0",
     "react": ">=16.13.0"
   },
-  "gitHead": "91fc38170d66256221250816051c66abbdf5f8f8"
+  "gitHead": "08705385bf791a02d7eb7d74ffbf44f021f26b5b"
 }

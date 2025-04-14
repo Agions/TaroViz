@@ -1,7 +1,7 @@
-import { View } from '@tarojs/components';
 import { getAdapter } from '@agions/taroviz-adapters';
 import { EChartsOption } from '@agions/taroviz-core/types';
 import { uuid } from '@agions/taroviz-core/utils';
+import { View } from '@tarojs/components';
 import { TreemapChart as TreemapChartComponent } from 'echarts/charts';
 import {
   TooltipComponent,
@@ -11,6 +11,7 @@ import {
 } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import React, { useEffect, useRef } from 'react';
+
 import { safeRenderAdapter } from '../utils';
 
 // 注册必要的组件
@@ -123,12 +124,12 @@ const TreemapChart: React.FC<TreemapChartProps> = ({
       containerRef,
       option,
       renderer,
-      onInit: (instance) => {
+      onInit: instance => {
         chartInstance.current = instance;
 
         // 绑定事件
         if (onEvents) {
-          Object.keys(onEvents).forEach((eventName) => {
+          Object.keys(onEvents).forEach(eventName => {
             instance.on(eventName, onEvents[eventName]);
           });
         }
@@ -153,7 +154,7 @@ const TreemapChart: React.FC<TreemapChartProps> = ({
       if (chartInstance.current) {
         // 解绑事件
         if (onEvents) {
-          Object.keys(onEvents).forEach((eventName) => {
+          Object.keys(onEvents).forEach(eventName => {
             chartInstance.current.off(eventName);
           });
         }

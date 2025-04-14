@@ -158,7 +158,7 @@ const BaseChart: React.FC<BaseChartProps> = ({
 
     // 绑定事件
     if (onEvents) {
-      Object.keys(onEvents).forEach((eventName) => {
+      Object.keys(onEvents).forEach(eventName => {
         chart.on(eventName, onEvents[eventName]);
       });
     }
@@ -193,7 +193,7 @@ const BaseChart: React.FC<BaseChartProps> = ({
 
       // 解绑自定义事件
       if (chart && onEvents) {
-        Object.keys(onEvents).forEach((eventName) => {
+        Object.keys(onEvents).forEach(eventName => {
           chart.off(eventName);
         });
       }

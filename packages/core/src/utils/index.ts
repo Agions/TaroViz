@@ -32,7 +32,7 @@ export function deepMerge<T extends Record<string, any>>(
 ): T {
   const result: any = { ...target };
 
-  Object.keys(source).forEach((key) => {
+  Object.keys(source).forEach(key => {
     if (source[key] instanceof Object && key in target && target[key] instanceof Object) {
       result[key] = deepMerge(target[key], source[key]);
     } else {

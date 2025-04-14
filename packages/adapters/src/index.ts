@@ -3,7 +3,7 @@
  * 自动检测并加载适合当前平台的适配器
  */
 
-import { PlatformType } from '@agions/taroviz-core';
+import { PlatformType } from '@Agions/taroviz-core';
 
 import H5Adapter from './h5';
 import type { AdapterOptions } from './types';
@@ -14,6 +14,7 @@ interface Adapter {
   init(): any;
   dispose(): void;
   // 其他必要的接口定义
+  render(): JSX.Element;
 }
 
 // 定义全局 wx 接口以避免编译错误

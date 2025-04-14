@@ -1,6 +1,6 @@
-import { View } from '@tarojs/components';
 import { getAdapter } from '@agions/taroviz-adapters';
 import { uuid } from '@agions/taroviz-core';
+import { View } from '@tarojs/components';
 import * as echarts from 'echarts/core';
 import React, { useEffect, useRef, useMemo } from 'react';
 
@@ -54,7 +54,7 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
 
         // 绑定事件
         if (onEvents) {
-          Object.keys(onEvents).forEach((eventName) => {
+          Object.keys(onEvents).forEach(eventName => {
             instance.on(eventName, onEvents[eventName]);
           });
         }
@@ -80,7 +80,7 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
       if (chartInstance.current) {
         // 解绑事件
         if (onEvents) {
-          Object.keys(onEvents).forEach((eventName) => {
+          Object.keys(onEvents).forEach(eventName => {
             chartInstance.current?.off(eventName);
           });
         }

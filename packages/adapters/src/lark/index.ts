@@ -1,11 +1,19 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * TaroViz 飞书小程序适配器
  * 基于飞书小程序canvas组件实现图表渲染
  */
+import {
+  Adapter,
+  MiniAppAdapterOptions,
+  EChartsOption,
+  EventHandler,
+  uuid,
+} from '@Agions/taroviz-core';
 import { Canvas } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import { Adapter, MiniAppAdapterOptions, EChartsOption, EventHandler } from '@agions/taroviz-core';
-import { uuid } from '@agions/taroviz-core';
 import * as echarts from 'echarts/core';
 import React from 'react';
 
@@ -45,7 +53,7 @@ class LarkAdapter implements Adapter {
     query
       .select(`#${this.canvasId}`)
       .fields({ node: true, size: true })
-      .exec((res) => {
+      .exec(res => {
         if (!res || !res[0] || !res[0].node) {
           console.error('[TaroViz] Failed to get canvas instance');
           return;
