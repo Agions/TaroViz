@@ -15,22 +15,22 @@
 
 TaroViz的Chart组件支持以下配置项：
 
-| 属性 | 类型 | 默认值 | 描述 |
-| --- | --- | --- | --- |
-| option | Object | {} | ECharts配置项，主要图表配置都在这里定义 |
-| theme | string \| Object | 'default' | 主题名称或配置对象 |
-| width | string \| number | '100%' | 图表宽度 |
-| height | string \| number | '300px' | 图表高度 |
-| loading | boolean | false | 是否显示加载动画 |
-| loadingOption | Object | {} | 加载动画配置项 |
-| renderer | 'canvas' \| 'svg' | 'canvas' | 渲染器类型，小程序环境建议使用canvas |
-| notMerge | boolean | false | 更新时是否不与之前的option合并 |
-| lazyUpdate | boolean | false | 是否延迟更新 |
-| silent | boolean | false | 是否禁止图表交互 |
-| devicePixelRatio | number | window.devicePixelRatio | 设备像素比 |
-| locale | string | 'en-US' | 国际化语言设置 |
-| onEvents | Object | {} | 事件监听函数对象 |
-| customConfig | Object | {} | 自定义配置项，简化常用的echarts配置 |
+| 属性             | 类型             | 默认值                  | 描述                                    |
+| ---------------- | ---------------- | ----------------------- | --------------------------------------- |
+| option           | Object           | {}                      | ECharts配置项，主要图表配置都在这里定义 |
+| theme            | string\| Object  | 'default'               | 主题名称或配置对象                      |
+| width            | string\| number  | '100%'                  | 图表宽度                                |
+| height           | string\| number  | '300px'                 | 图表高度                                |
+| loading          | boolean          | false                   | 是否显示加载动画                        |
+| loadingOption    | Object           | {}                      | 加载动画配置项                          |
+| renderer         | 'canvas'\| 'svg' | 'canvas'                | 渲染器类型，小程序环境建议使用canvas    |
+| notMerge         | boolean          | false                   | 更新时是否不与之前的option合并          |
+| lazyUpdate       | boolean          | false                   | 是否延迟更新                            |
+| silent           | boolean          | false                   | 是否禁止图表交互                        |
+| devicePixelRatio | number           | window.devicePixelRatio | 设备像素比                              |
+| locale           | string           | 'en-US'                 | 国际化语言设置                          |
+| onEvents         | Object           | {}                      | 事件监听函数对象                        |
+| customConfig     | Object           | {}                      | 自定义配置项，简化常用的echarts配置     |
 
 ## ECharts选项配置
 
@@ -39,7 +39,7 @@ TaroViz的Chart组件支持以下配置项：
 ### 标题(title)
 
 ```js
-title: {
+title: {% raw %}{
   text: '图表标题',
   subtext: '副标题',
   left: 'center', // 水平位置: 'left', 'center', 'right'
@@ -48,13 +48,13 @@ title: {
     color: '#333',
     fontSize: 18
   }
-}
+}{% endraw %}
 ```
 
 ### 图例(legend)
 
 ```js
-legend: {
+legend: {% raw %}{
   type: 'plain', // 'plain', 'scroll'
   orient: 'horizontal', // 'horizontal', 'vertical'
   left: 'center',
@@ -64,13 +64,13 @@ legend: {
     '系列1': true,
     '系列2': false
   }
-}
+}{% endraw %}
 ```
 
 ### 提示框(tooltip)
 
 ```js
-tooltip: {
+tooltip: {% raw %}{
   trigger: 'item', // 'item', 'axis', 'none'
   formatter: '{a} <br/>{b}: {c} ({d}%)', // 字符串模板或回调函数
   axisPointer: {
@@ -83,13 +83,13 @@ tooltip: {
   textStyle: {
     color: '#fff'
   }
-}
+}{% endraw %}
 ```
 
 ### 坐标轴(xAxis, yAxis)
 
 ```js
-xAxis: {
+xAxis: {% raw %}{
   type: 'category', // 'value', 'category', 'time', 'log'
   data: ['周一', '周二', '周三', '周四', '周五'],
   name: 'X轴名称',
@@ -105,8 +105,8 @@ xAxis: {
     rotate: 0,
     formatter: '{value} 单位'
   }
-},
-yAxis: {
+}{% endraw %},
+yAxis: {% raw %}{
   type: 'value',
   name: 'Y轴名称',
   min: 0,
@@ -115,13 +115,13 @@ yAxis: {
   splitLine: {
     show: true
   }
-}
+}{% endraw %}
 ```
 
 ### 系列(series)
 
 ```js
-series: [
+series: {% raw %}[
   {
     name: '系列1',
     type: 'line', // 图表类型
@@ -149,42 +149,42 @@ series: [
       }
     }
   }
-]
+]{% endraw %}
 ```
 
 ### 其他常用配置
 
 ```js
 // 网格配置
-grid: {
+grid: {% raw %}{
   left: '3%',
   right: '4%',
   top: '16%',
   bottom: '3%',
   containLabel: true // 包含坐标轴标签
-},
+}{% endraw %},
 
 // 工具箱
-toolbox: {
+toolbox: {% raw %}{
   feature: {
     saveAsImage: {}, // 保存为图片
     dataZoom: {},    // 数据缩放
     restore: {},     // 还原
     dataView: {}     // 数据视图
   }
-},
+}{% endraw %},
 
 // 区域缩放
-dataZoom: [
+dataZoom: {% raw %}[
   {
     type: 'inside', // 'inside', 'slider'
     start: 0,
     end: 100
   }
-],
+]{% endraw %},
 
 // 视觉映射
-visualMap: {
+visualMap: {% raw %}{
   min: 0,
   max: 1000,
   calculable: true,
@@ -193,12 +193,12 @@ visualMap: {
   inRange: {
     color: ['#50a3ba', '#eac736', '#d94e5d']
   }
-}
+}{% endraw %}
 ```
 
 ## 自定义配置选项
 
-TaroViz提供了`customConfig`属性，可以简化常用的图表配置：
+TaroViz提供了 `customConfig`属性，可以简化常用的图表配置：
 
 ```js
 customConfig: {
@@ -237,7 +237,7 @@ customConfig: {
 
 ## 主题配置
 
-TaroViz内置了多种主题，可以通过`theme`属性直接使用：
+TaroViz内置了多种主题，可以通过 `theme`属性直接使用：
 
 ```jsx
 <Chart option={option} theme="dark" />
@@ -249,14 +249,14 @@ TaroViz内置了多种主题，可以通过`theme`属性直接使用：
 import { configTheme } from 'taroviz';
 
 // 注册自定义主题
-configTheme('myTheme', {
+configTheme('myTheme', {% raw %}{
   color: ['#5470c6', '#91cc75', '#fac858'],
   backgroundColor: '#ffffff',
   textStyle: { color: '#333333' },
   title: { textStyle: { color: '#222222' } },
   line: { itemStyle: { borderWidth: 2 } },
   // 更多配置项...
-});
+}{% endraw %});
 
 // 使用自定义主题
 <Chart option={option} theme="myTheme" />
@@ -271,27 +271,27 @@ import { Chart, configResponsive } from 'taroviz';
 
 // 定义响应式断点和配置
 configResponsive([
-  {
+  {% raw %}{
     query: { maxWidth: 576 }, // 小屏幕
     option: {
       legend: { orient: 'horizontal', top: 'bottom' },
       grid: { left: '5%', right: '5%' }
     }
-  },
-  {
+  }{% endraw %},
+  {% raw %}{
     query: { minWidth: 576, maxWidth: 768 }, // 中屏幕
     option: {
       legend: { orient: 'horizontal', top: '10%' },
       grid: { left: '10%', right: '10%' }
     }
-  },
-  {
+  }{% endraw %},
+  {% raw %}{
     query: { minWidth: 768 }, // 大屏幕
     option: {
       legend: { orient: 'vertical', right: '5%' },
       grid: { left: '15%', right: '15%' }
     }
-  }
+  }{% endraw %}
 ]);
 ```
 
@@ -303,7 +303,7 @@ TaroViz可以根据不同平台环境应用不同配置：
 import { Chart, configByPlatform } from 'taroviz';
 
 // 配置不同平台的默认选项
-configByPlatform({
+configByPlatform({% raw %}{
   weapp: {
     renderer: 'canvas',
     devicePixelRatio: 2.5,
@@ -323,5 +323,5 @@ configByPlatform({
   harmony: {
     // 鸿蒙应用特定配置
   }
-});
-``` 
+}{% endraw %});
+```

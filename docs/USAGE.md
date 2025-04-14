@@ -250,7 +250,7 @@ function ResponsiveChart() {
   // 监听窗口大小变化，自动调整图表尺寸
   useResize(instance);
   
-  return <View ref={chartRef} style={{ width: '100%', height: '50vh' }} />;
+  return <View ref={chartRef} style={% raw %}{{ width: '100%', height: '50vh' }}{% endraw %} />;
 }
 ```
 
@@ -272,7 +272,7 @@ function InteractiveChart() {
   useOption(instance, option);
   
   // 定义事件处理函数
-  const events = {
+  const events = {% raw %}{
     click: (params) => {
       Taro.showToast({
         title: `点击了 ${params.name}: ${params.value}`,
@@ -282,12 +282,12 @@ function InteractiveChart() {
     legendselectchanged: (params) => {
       console.log('图例选择变化:', params);
     }
-  };
+  }{% endraw %};
   
   // 绑定事件
   useEvents(instance, events);
   
-  return <View ref={chartRef} style={{ width: '100%', height: '300px' }} />;
+  return <View ref={chartRef} style={% raw %}{{ width: '100%', height: '300px' }}{% endraw %} />;
 }
 ```
 
@@ -316,23 +316,23 @@ function CompleteChart() {
   }, []);
   
   // 图表配置
-  const option = {
+  const option = {% raw %}{
     xAxis: { type: 'category', data: ['A', 'B', 'C', 'D', 'E'] },
     yAxis: { type: 'value' },
     series: [{ data, type: 'line' }]
-  };
+  }{% endraw %};
   
   // 使用钩子函数
   useOption(instance, option);
   useResize(instance);
   useLoading(instance, loading);
-  useEvents(instance, {
+  useEvents(instance, {% raw %}{
     click: (params) => Taro.showToast({ title: `值: ${params.value}`, icon: 'none' })
-  });
+  }{% endraw %});
   
   return (
     <View>
-      <View ref={chartRef} style={{ width: '100%', height: '300px' }} />
+      <View ref={chartRef} style={% raw %}{{ width: '100%', height: '300px' }}{% endraw %} />
       <Button onClick={() => setLoading(!loading)}>
         {loading ? '隐藏' : '显示'}加载状态
       </Button>
@@ -383,14 +383,14 @@ const ManualAdapterChart = () => {
         width: '100%',
         height: '300px'
       });
-    
+  
       // 或者手动指定适配器
       // const adapter = new H5Adapter({
       //   containerRef: chartRef,
       //   width: '100%',
       //   height: '300px'
       // });
-    
+  
       // 初始化并配置图表
       adapter.init();
       adapter.setOption({ /* 图表配置 */ });
@@ -444,11 +444,11 @@ import { LineChart } from 'taroviz';
 function EventDemo() {
   const option = { /* 图表配置 */ };
   
-  const eventHandlers = {
+  const eventHandlers = {% raw %}{
     click: (params) => console.log('点击事件:', params),
     mouseover: (params) => console.log('鼠标悬停事件:', params),
     legendselectchanged: (params) => console.log('图例选择变化:', params)
-  };
+  }{% endraw %};
   
   return (
     <LineChart 
@@ -473,12 +473,12 @@ function EventHookDemo() {
   const option = { /* 图表配置 */ };
   useOption(instance, option);
   
-  useEvents(instance, {
+  useEvents(instance, {% raw %}{
     click: (params) => console.log('点击事件:', params),
     mouseover: (params) => console.log('鼠标悬停事件:', params)
-  });
+  }{% endraw %});
   
-  return <View ref={chartRef} style={{ width: '100%', height: '300px' }} />;
+  return <View ref={chartRef} style={% raw %}{{ width: '100%', height: '300px' }}{% endraw %} />;
 }
 ```
 

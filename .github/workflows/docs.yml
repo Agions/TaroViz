@@ -191,14 +191,22 @@ jobs:
             <html>
             <head>
               <title>TaroViz 文档</title>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
               <style>
-                body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; }
+                body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #333; }
                 pre { background: #f6f8fa; padding: 16px; overflow: auto; border-radius: 3px; }
-                code { font-family: monospace; }
-                h1, h2, h3 { margin-top: 24px; margin-bottom: 16px; }
+                code { font-family: monospace; background: #f6f8fa; padding: 2px 4px; border-radius: 3px; }
+                h1, h2, h3 { margin-top: 24px; margin-bottom: 16px; color: #0d47a1; }
                 a { color: #0366d6; text-decoration: none; }
                 a:hover { text-decoration: underline; }
+                img { max-width: 100%; }
+                blockquote { padding: 0 1em; color: #6a737d; border-left: 0.25em solid #dfe2e5; }
+                table { border-collapse: collapse; width: 100%; }
+                table, th, td { border: 1px solid #ddd; padding: 8px; }
+                tr:nth-child(even) { background-color: #f2f2f2; }
               </style>
+              <base href="./">
             </head>
             <body>
               <div id="content">
@@ -231,7 +239,57 @@ jobs:
                   }
                   copyDir(srcPath, destPath);
                 } else {
-                  fs.copyFileSync(srcPath, destPath);
+                  // 如果是Markdown文件，转换为HTML
+                  if (entry.name.endsWith('.md')) {
+                    const mdContent = fs.readFileSync(srcPath, 'utf8');
+                    const htmlFileName = entry.name.replace('.md', '.html');
+                    const htmlPath = path.join(dest, htmlFileName);
+                    
+                    const htmlContent = `
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                      <title>${entry.name.replace('.md', '')} - TaroViz 文档</title>
+                      <meta charset="UTF-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                      <style>
+                        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #333; }
+                        pre { background: #f6f8fa; padding: 16px; overflow: auto; border-radius: 3px; }
+                        code { font-family: monospace; background: #f6f8fa; padding: 2px 4px; border-radius: 3px; }
+                        h1, h2, h3 { margin-top: 24px; margin-bottom: 16px; color: #0d47a1; }
+                        a { color: #0366d6; text-decoration: none; }
+                        a:hover { text-decoration: underline; }
+                        img { max-width: 100%; }
+                        blockquote { padding: 0 1em; color: #6a737d; border-left: 0.25em solid #dfe2e5; }
+                        table { border-collapse: collapse; width: 100%; }
+                        table, th, td { border: 1px solid #ddd; padding: 8px; }
+                        tr:nth-child(even) { background-color: #f2f2f2; }
+                        .nav { margin-bottom: 20px; padding: 10px; background: #f8f9fa; border-radius: 5px; }
+                        .nav a { margin-right: 15px; }
+                      </style>
+                      <base href="../">
+                    </head>
+                    <body>
+                      <div class="nav">
+                        <a href="index.html">主页</a>
+                        <a href="guides/USAGE.html">使用指南</a>
+                        <a href="guides/API.html">API文档</a>
+                        <a href="guides/EXAMPLES.html">示例</a>
+                      </div>
+                      <div id="content">
+                        ${mdContent.replace(/```([^`]+)```/g, '<pre><code>$1</code></pre>')}
+                      </div>
+                    </body>
+                    </html>
+                    `;
+                    
+                    fs.writeFileSync(htmlPath, htmlContent);
+                    
+                    // 同时保留原始.md文件
+                    fs.copyFileSync(srcPath, destPath);
+                  } else {
+                    fs.copyFileSync(srcPath, destPath);
+                  }
                 }
               }
             };
@@ -251,18 +309,33 @@ jobs:
           <html>
           <head>
             <title>TaroViz API文档</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <style>
-              body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; }
-              h1 { color: #333; }
-              .package { margin-bottom: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
-              .package h2 { margin-top: 0; }
+              body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; color: #333; }
+              h1 { color: #0d47a1; }
+              .package { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+              .package h2 { margin-top: 0; color: #0d47a1; }
               a { color: #0366d6; text-decoration: none; }
               a:hover { text-decoration: underline; }
+              .nav { margin-bottom: 20px; padding: 10px; background: #f8f9fa; border-radius: 5px; }
+              .nav a { margin-right: 15px; }
+              @media (min-width: 768px) {
+                body { max-width: 800px; margin: 0 auto; }
+              }
             </style>
+            <base href="./">
           </head>
           <body>
+            <div class="nav">
+              <a href="index.html">主页</a>
+              <a href="guides/USAGE.html">使用指南</a>
+              <a href="api-index.html">API文档</a>
+              <a href="guides/EXAMPLES.html">示例</a>
+            </div>
+            
             <h1>TaroViz API文档</h1>
-            <p>这是TaroViz库的API文档临时索引页。完整文档生成过程中出现了问题，但您仍然可以查看以下内容：</p>
+            <p>这是TaroViz库的API文档，提供了所有核心包的使用说明：</p>
             
             <div class="package">
               <h2>@agions/taroviz</h2>
@@ -281,7 +354,7 @@ jobs:
               </ul>
             </div>
             
-            <p><a href="./guides/USAGE.md">查看使用指南</a> | <a href="./README.md">返回首页</a></p>
+            <p><a href="./guides/USAGE.html">查看使用指南</a> | <a href="./index.html">返回首页</a></p>
           </body>
           </html>
           `;
@@ -289,7 +362,219 @@ jobs:
           fs.writeFileSync(apiIndexPath, apiIndexContent);
           console.log('已生成临时API索引页');
           
+          // 创建全局样式文件
+          const cssPath = path.join(docsDir, 'styles.css');
+          const cssContent = `
+          body { 
+            font-family: Arial, sans-serif; 
+            line-height: 1.6; 
+            color: #333; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px; 
+          }
+          pre { 
+            background: #f6f8fa; 
+            padding: 16px; 
+            overflow: auto; 
+            border-radius: 3px; 
+          }
+          code { 
+            font-family: monospace; 
+            background: #f6f8fa; 
+            padding: 2px 4px; 
+            border-radius: 3px; 
+          }
+          h1, h2, h3 { 
+            margin-top: 24px; 
+            margin-bottom: 16px; 
+            color: #0d47a1; 
+          }
+          a { 
+            color: #0366d6; 
+            text-decoration: none; 
+          }
+          a:hover { 
+            text-decoration: underline; 
+          }
+          img { 
+            max-width: 100%; 
+          }
+          .nav { 
+            margin-bottom: 20px; 
+            padding: 10px; 
+            background: #f8f9fa; 
+            border-radius: 5px; 
+          }
+          .nav a { 
+            margin-right: 15px; 
+          }
+          `;
+          
+          fs.writeFileSync(cssPath, cssContent);
+          console.log('已生成全局样式文件');
+          
           console.log('基本文档生成完成。');
+          EOF
+          
+          # 创建一个备用的首页
+          cat > index-template.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>TaroViz - 多端图表组件库</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+              body { 
+                font-family: Arial, sans-serif; 
+                line-height: 1.6; 
+                color: #333; 
+                max-width: 800px; 
+                margin: 0 auto; 
+                padding: 20px; 
+              }
+              pre { 
+                background: #f6f8fa; 
+                padding: 16px; 
+                overflow: auto; 
+                border-radius: 3px; 
+              }
+              code { 
+                font-family: monospace; 
+                background: #f6f8fa; 
+                padding: 2px 4px; 
+                border-radius: 3px; 
+              }
+              h1, h2, h3 { 
+                margin-top: 24px; 
+                margin-bottom: 16px; 
+                color: #0d47a1; 
+              }
+              a { 
+                color: #0366d6; 
+                text-decoration: none; 
+              }
+              a:hover { 
+                text-decoration: underline; 
+              }
+              img { 
+                max-width: 100%; 
+              }
+              .nav { 
+                margin-bottom: 20px; 
+                padding: 10px; 
+                background: #f8f9fa; 
+                border-radius: 5px; 
+              }
+              .nav a { 
+                margin-right: 15px; 
+              }
+              .hero {
+                padding: 30px 0;
+                text-align: center;
+                background: #f0f4f8;
+                border-radius: 8px;
+                margin-bottom: 30px;
+              }
+              .hero h1 {
+                font-size: 2.5em;
+                margin-bottom: 10px;
+              }
+              .hero p {
+                font-size: 1.2em;
+                color: #666;
+              }
+              .button {
+                display: inline-block;
+                padding: 10px 20px;
+                background: #0d47a1;
+                color: white;
+                border-radius: 5px;
+                margin-top: 15px;
+                font-weight: bold;
+              }
+              .button:hover {
+                background: #0a3880;
+                text-decoration: none;
+              }
+              .features {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                margin: 30px 0;
+              }
+              .feature {
+                flex: 0 0 48%;
+                margin-bottom: 20px;
+                padding: 15px;
+                background: #f8f9fa;
+                border-radius: 5px;
+              }
+              @media (max-width: 768px) {
+                .feature {
+                  flex: 0 0 100%;
+                }
+              }
+              .footer {
+                margin-top: 40px;
+                padding-top: 20px;
+                border-top: 1px solid #eee;
+                text-align: center;
+                font-size: 0.9em;
+                color: #666;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="nav">
+              <a href="index.html">主页</a>
+              <a href="guides/USAGE.html">使用指南</a>
+              <a href="api-index.html">API文档</a>
+              <a href="guides/EXAMPLES.html">示例</a>
+            </div>
+            
+            <div class="hero">
+              <h1>TaroViz</h1>
+              <p>基于Taro和ECharts的多端图表组件库</p>
+              <a href="guides/USAGE.html" class="button">开始使用</a>
+            </div>
+            
+            <h2>什么是TaroViz?</h2>
+            <p>TaroViz是一个基于Taro和ECharts的图表组件库，旨在为Taro开发者提供易用、高效的数据可视化解决方案。它支持多种小程序平台和H5，让你的数据可视化能力更上一层楼。</p>
+            
+            <div class="features">
+              <div class="feature">
+                <h3>多平台支持</h3>
+                <p>支持微信小程序、支付宝小程序、百度小程序等多个平台，以及H5。</p>
+              </div>
+              <div class="feature">
+                <h3>丰富的图表类型</h3>
+                <p>提供柱状图、折线图、饼图、散点图等多种图表类型。</p>
+              </div>
+              <div class="feature">
+                <h3>易于使用</h3>
+                <p>简单的API设计，快速上手，轻松集成到Taro应用中。</p>
+              </div>
+              <div class="feature">
+                <h3>高度可定制</h3>
+                <p>提供丰富的配置选项，支持自定义主题和交互。</p>
+              </div>
+            </div>
+            
+            <h2>快速开始</h2>
+            <p>使用npm或yarn安装TaroViz：</p>
+            <pre><code>npm install @agions/taroviz</code></pre>
+            <p>或</p>
+            <pre><code>yarn add @agions/taroviz</code></pre>
+            
+            <p>详细的使用方法，请参考<a href="guides/USAGE.html">使用指南</a>。</p>
+            
+            <div class="footer">
+              <p>© 2023 TaroViz 团队</p>
+            </div>
+          </body>
+          </html>
           EOF
           
           # 使用自定义脚本生成文档
@@ -496,6 +781,12 @@ jobs:
           # 确保.nojekyll文件存在
           touch docs-dist/.nojekyll
           echo "确保.nojekyll文件存在"
+          
+          # 如果index.html不存在，使用模板创建
+          if [ ! -f docs-dist/index.html ]; then
+            cp index-template.html docs-dist/index.html
+            echo "使用模板创建了index.html"
+          fi
           
           # 添加 CNAME 文件 (如果有自定义域名)
           if [ -n "$CNAME_VALUE" ]; then
