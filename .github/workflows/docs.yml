@@ -203,7 +203,7 @@ jobs:
                 img { max-width: 100%; }
                 blockquote { padding: 0 1em; color: #6a737d; border-left: 0.25em solid #dfe2e5; }
                 table { border-collapse: collapse; width: 100%; }
-                table, th, td { border: 1px solid #ddd; padding: 8px; }
+                table, th, td { border: 1px solid #ddd; }
                 tr:nth-child(even) { background-color: #f2f2f2; }
               </style>
               <base href="./">
@@ -856,4 +856,328 @@ jobs:
       - name: 部署失败通知
         if: failure()
         run: |
-          echo "::error::❌ 文档部署失败！请检查构建日志以获取更多信息。" 
+          echo "::error::❌ 文档部署失败！请检查构建日志以获取更多信息。"
+
+      # 在docs-dist目录准备好后，添加转换脚本
+      - name: 添加Markdown转HTML转换脚本
+        run: |
+          # 安装必要的依赖
+          npm install -g marked
+          
+          # 创建转换脚本
+          cat > convert-md-to-html.js << 'EOF'
+          const fs = require('fs');
+          const path = require('path');
+          const marked = require('marked');
+          
+          // 设置样式
+          const CSS = `
+          body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+          }
+          pre {
+            background: #f6f8fa;
+            padding: 16px;
+            overflow: auto;
+            border-radius: 5px;
+          }
+          code {
+            font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+            background: #f6f8fa;
+            padding: 2px 4px;
+            border-radius: 3px;
+          }
+          table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+          }
+          table, th, td {
+            border: 1px solid #ddd;
+          }
+          th, td {
+            padding: 12px;
+            text-align: left;
+          }
+          th {
+            background-color: #f8f9fa;
+          }
+          h1, h2, h3, h4, h5, h6 {
+            margin-top: 24px;
+            margin-bottom: 16px;
+            font-weight: 600;
+            color: #0d47a1;
+          }
+          a {
+            color: #0366d6;
+            text-decoration: none;
+          }
+          a:hover {
+            text-decoration: underline;
+          }
+          .header {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border-bottom: 1px solid #e1e4e8;
+          }
+          .nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+          }
+          .nav a {
+            font-weight: 500;
+          }
+          `;
+          
+          // 创建导航栏
+          const NAV = `
+          <div class="header">
+            <h1>TaroViz 文档</h1>
+            <div class="nav">
+              <a href="../index.html">首页</a>
+              <a href="USAGE.html">使用指南</a>
+              <a href="API.html">API文档</a>
+              <a href="EXAMPLES.html">示例</a>
+              <a href="DEVELOPMENT.html">开发指南</a>
+              <a href="FAQ.html">常见问题</a>
+            </div>
+          </div>
+          `;
+          
+          // 转换Markdown目录下的文件
+          function convertMdDirectory(dirPath, outputDir, depth = 0) {
+            const relativePath = '../'.repeat(depth);
+            
+            if (!fs.existsSync(outputDir)) {
+              fs.mkdirSync(outputDir, { recursive: true });
+            }
+            
+            const files = fs.readdirSync(dirPath);
+            
+            files.forEach(file => {
+              const filePath = path.join(dirPath, file);
+              const stats = fs.statSync(filePath);
+              
+              if (stats.isDirectory()) {
+                const newOutputDir = path.join(outputDir, file);
+                convertMdDirectory(filePath, newOutputDir, depth + 1);
+              } else if (file.endsWith('.md')) {
+                const content = fs.readFileSync(filePath, 'utf-8');
+                const htmlContent = marked.parse(content);
+                
+                const fileName = file.replace('.md', '.html');
+                const outputPath = path.join(outputDir, fileName);
+                
+                const fullHtml = `
+                <!DOCTYPE html>
+                <html lang="zh-CN">
+                <head>
+                  <meta charset="UTF-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                  <title>${fileName.replace('.html', '')} - TaroViz 文档</title>
+                  <style>${CSS}</style>
+                  <base href="${relativePath}">
+                </head>
+                <body>
+                  ${NAV}
+                  <div class="content">
+                    ${htmlContent}
+                  </div>
+                </body>
+                </html>
+                `;
+                
+                fs.writeFileSync(outputPath, fullHtml);
+                console.log(`转换完成: ${filePath} -> ${outputPath}`);
+              }
+            });
+          }
+          
+          // 创建首页
+          function createIndex(outputDir) {
+            const indexPath = path.join(outputDir, 'index.html');
+            const indexContent = `
+            <!DOCTYPE html>
+            <html lang="zh-CN">
+            <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>TaroViz - 多端图表组件库</title>
+              <style>
+                ${CSS}
+                .hero {
+                  background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+                  color: white;
+                  padding: 60px 20px;
+                  text-align: center;
+                  border-radius: 8px;
+                  margin-bottom: 40px;
+                }
+                .hero h1 {
+                  font-size: 2.5em;
+                  margin-bottom: 15px;
+                  color: white;
+                }
+                .hero p {
+                  font-size: 1.2em;
+                  margin-bottom: 25px;
+                  opacity: 0.9;
+                }
+                .button {
+                  display: inline-block;
+                  background: white;
+                  color: #2b5797;
+                  padding: 12px 25px;
+                  border-radius: 30px;
+                  font-weight: bold;
+                  margin-top: 10px;
+                  transition: all 0.3s ease;
+                }
+                .button:hover {
+                  transform: translateY(-3px);
+                  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+                  text-decoration: none;
+                }
+                .features {
+                  display: grid;
+                  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                  gap: 30px;
+                  margin: 50px 0;
+                }
+                .feature {
+                  background: #f8f9fa;
+                  border-radius: 8px;
+                  padding: 25px;
+                  transition: transform 0.3s ease;
+                }
+                .feature:hover {
+                  transform: translateY(-5px);
+                }
+                .feature h3 {
+                  margin-top: 0;
+                  color: #0d47a1;
+                }
+                .footer {
+                  text-align: center;
+                  margin-top: 80px;
+                  padding-top: 30px;
+                  border-top: 1px solid #eaecef;
+                  color: #586069;
+                  font-size: 0.9em;
+                }
+              </style>
+            </head>
+            <body>
+              <div class="hero">
+                <h1>TaroViz</h1>
+                <p>基于Taro和ECharts的多端图表组件库</p>
+                <a href="guides/USAGE.html" class="button">开始使用</a>
+              </div>
+              
+              <div class="content">
+                <h2>什么是 TaroViz?</h2>
+                <p>TaroViz 是一个基于 Taro 和 ECharts 的图表组件库，为 Taro 开发者提供易用、高效的数据可视化解决方案。它支持多种小程序平台和 H5，让你的数据可视化能力更上一层楼。</p>
+                
+                <div class="features">
+                  <div class="feature">
+                    <h3>🚀 多平台支持</h3>
+                    <p>支持微信小程序、支付宝小程序、百度小程序等多个平台，以及H5。</p>
+                  </div>
+                  <div class="feature">
+                    <h3>📊 丰富的图表类型</h3>
+                    <p>提供柱状图、折线图、饼图、散点图等多种图表类型。</p>
+                  </div>
+                  <div class="feature">
+                    <h3>🙌 易于使用</h3>
+                    <p>简单的API设计，快速上手，轻松集成到Taro应用中。</p>
+                  </div>
+                  <div class="feature">
+                    <h3>🎨 高度可定制</h3>
+                    <p>提供丰富的配置选项，支持自定义主题和交互。</p>
+                  </div>
+                </div>
+                
+                <h2>快速开始</h2>
+                <pre><code>npm install @agions/taroviz</code></pre>
+                <p>或</p>
+                <pre><code>yarn add @agions/taroviz</code></pre>
+                
+                <p>详细的使用方法，请参考<a href="guides/USAGE.html">使用指南</a>。</p>
+              </div>
+              
+              <div class="footer">
+                <p>© 2023 TaroViz 团队</p>
+              </div>
+            </body>
+            </html>
+            `;
+            
+            fs.writeFileSync(indexPath, indexContent);
+            console.log(`创建首页完成: ${indexPath}`);
+          }
+          
+          // 主函数
+          function main() {
+            const docsDir = 'docs';
+            const outputDir = 'docs-dist';
+            
+            // 确保输出目录存在
+            if (!fs.existsSync(outputDir)) {
+              fs.mkdirSync(outputDir, { recursive: true });
+            }
+            
+            // 转换docs下的文件
+            convertMdDirectory(docsDir, path.join(outputDir, 'guides'));
+            
+            // 创建首页
+            createIndex(outputDir);
+            
+            // 确保.nojekyll文件存在
+            fs.writeFileSync(path.join(outputDir, '.nojekyll'), '');
+            console.log('已创建.nojekyll文件');
+          }
+          
+          main();
+          EOF
+          
+          # 执行转换脚本
+          node convert-md-to-html.js
+          
+          # 添加sitemap.xml
+          cat > docs-dist/sitemap.xml << 'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+            <url>
+              <loc>https://agions.github.io/taroviz/</loc>
+              <lastmod>2023-10-01</lastmod>
+              <changefreq>weekly</changefreq>
+              <priority>1.0</priority>
+            </url>
+            <url>
+              <loc>https://agions.github.io/taroviz/guides/USAGE.html</loc>
+              <changefreq>monthly</changefreq>
+              <priority>0.8</priority>
+            </url>
+            <url>
+              <loc>https://agions.github.io/taroviz/guides/API.html</loc>
+              <changefreq>monthly</changefreq>
+              <priority>0.8</priority>
+            </url>
+            <url>
+              <loc>https://agions.github.io/taroviz/guides/EXAMPLES.html</loc>
+              <changefreq>monthly</changefreq>
+              <priority>0.8</priority>
+            </url>
+          </urlset>
+          EOF
+          
+          echo "文档转换完成!" 
