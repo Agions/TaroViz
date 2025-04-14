@@ -12,7 +12,7 @@ import { View } from '@tarojs/components';
 import { Chart } from 'taroviz';
 
 export default function LineChart() {
-  const option = {
+  const option = {% raw %}{
     xAxis: {
       type: 'category',
       data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -24,7 +24,7 @@ export default function LineChart() {
       data: [150, 230, 224, 218, 135, 147, 260],
       type: 'line'
     }]
-  };
+  }{% endraw %};
 
   return <Chart option={option} />;
 }
@@ -38,7 +38,7 @@ import { View } from '@tarojs/components';
 import { Chart } from 'taroviz';
 
 export default function BarChart() {
-  const option = {
+  const option = {% raw %}{
     xAxis: {
       type: 'category',
       data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -50,7 +50,7 @@ export default function BarChart() {
       data: [120, 200, 150, 80, 70, 110, 130],
       type: 'bar'
     }]
-  };
+  }{% endraw %};
 
   return <Chart option={option} />;
 }
@@ -64,7 +64,7 @@ import { View } from '@tarojs/components';
 import { Chart } from 'taroviz';
 
 export default function PieChart() {
-  const option = {
+  const option = {% raw %}{
     tooltip: {
       trigger: 'item'
     },
@@ -85,7 +85,7 @@ export default function PieChart() {
         ]
       }
     ]
-  };
+  }{% endraw %};
 
   return <Chart option={option} />;
 }
@@ -101,7 +101,7 @@ import { View } from '@tarojs/components';
 import { Chart } from 'taroviz';
 
 export default function ScatterChart() {
-  const option = {
+  const option = {% raw %}{
     xAxis: {},
     yAxis: {},
     series: [{
@@ -121,7 +121,7 @@ export default function ScatterChart() {
       ],
       type: 'scatter'
     }]
-  };
+  }{% endraw %};
 
   return <Chart option={option} />;
 }
@@ -135,7 +135,7 @@ import { View } from '@tarojs/components';
 import { Chart } from 'taroviz';
 
 export default function RadarChart() {
-  const option = {
+  const option = {% raw %}{
     radar: {
       indicator: [
         { name: '销售', max: 10000 },
@@ -159,7 +159,7 @@ export default function RadarChart() {
         }
       ]
     }]
-  };
+  }{% endraw %};
 
   return <Chart option={option} />;
 }
@@ -175,7 +175,7 @@ import { View } from '@tarojs/components';
 import { Chart } from 'taroviz';
 
 export default function GraphChart() {
-  const option = {
+  const option = {% raw %}{
     series: [{
       type: 'graph',
       layout: 'force',
@@ -199,7 +199,7 @@ export default function GraphChart() {
         repulsion: 100
       }
     }]
-  };
+  }{% endraw %};
 
   return <Chart option={option} />;
 }
@@ -221,7 +221,7 @@ export default function MapChart() {
     Chart.registerMap('china', chinaJson);
   }, []);
 
-  const option = {
+  const option = {% raw %}{
     series: [{
       type: 'map',
       map: 'china',
@@ -234,7 +234,7 @@ export default function MapChart() {
         { name: '广东', value: 300 }
       ]
     }]
-  };
+  }{% endraw %};
 
   return <Chart option={option} />;
 }
@@ -250,7 +250,7 @@ import { View } from '@tarojs/components';
 import { Chart } from 'taroviz';
 
 export default function GaugeChart() {
-  const option = {
+  const option = {% raw %}{
     series: [{
       type: 'gauge',
       progress: {
@@ -264,7 +264,7 @@ export default function GaugeChart() {
         name: '完成率'
       }]
     }]
-  };
+  }{% endraw %};
 
   return <Chart option={option} />;
 }
@@ -279,7 +279,7 @@ import { Chart } from 'taroviz';
 import 'echarts-liquidfill';
 
 export default function LiquidFillChart() {
-  const option = {
+  const option = {% raw %}{
     series: [{
       type: 'liquidFill',
       data: [0.6, 0.5, 0.4, 0.3],
@@ -289,7 +289,7 @@ export default function LiquidFillChart() {
         fontSize: 28
       }
     }]
-  };
+  }{% endraw %};
 
   return <Chart option={option} />;
 }
@@ -305,7 +305,7 @@ import { View } from '@tarojs/components';
 import { Chart } from 'taroviz';
 
 export default function LineBarChart() {
-  const option = {
+  const option = {% raw %}{
     tooltip: {
       trigger: 'axis'
     },
@@ -358,7 +358,7 @@ export default function LineBarChart() {
         data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
       }
     ]
-  };
+  }{% endraw %};
 
   return <Chart option={option} />;
 }
@@ -376,7 +376,7 @@ import { Chart } from 'taroviz';
 export default function InteractiveChart() {
   const [data, setData] = React.useState([5, 20, 36, 10, 10, 20]);
   
-  const option = {
+  const option = {% raw %}{
     tooltip: {},
     xAxis: {
       data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
@@ -387,16 +387,16 @@ export default function InteractiveChart() {
       type: 'bar',
       data: data
     }]
-  };
+  }{% endraw %};
   
-  const handleEvents = {
+  const handleEvents = {% raw %}{
     click: (params) => {
       // 更新数据
       const newData = [...data];
       newData[params.dataIndex] += 10;
       setData(newData);
     }
-  };
+  }{% endraw %};
 
   return <Chart option={option} onEvents={handleEvents} />;
 }
@@ -413,7 +413,7 @@ import { Button } from '@tarojs/components';
 export default function ThemeChangeChart() {
   const [theme, setTheme] = React.useState('default');
   
-  const option = {
+  const option = {% raw %}{
     xAxis: {
       type: 'category',
       data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -425,7 +425,7 @@ export default function ThemeChangeChart() {
       data: [120, 200, 150, 80, 70, 110, 130],
       type: 'bar'
     }]
-  };
+  }{% endraw %};
   
   const changeTheme = () => {
     const themes = ['default', 'dark', 'vintage', 'macarons', 'westeros'];
@@ -441,4 +441,4 @@ export default function ThemeChangeChart() {
     </View>
   );
 }
-``` 
+```
