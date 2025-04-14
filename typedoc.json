@@ -27,5 +27,21 @@
     "Types"
   ],
   "searchInComments": true,
-  "sort": ["static-first", "visibility", "alphabetical"]
+  "sort": ["static-first", "visibility", "alphabetical"],
+  "plugin": ["typedoc-plugin-markdown"],
+  "htmlLang": "zh-CN",
+  "disableSources": false,
+  "sourceLinkTemplate": "https://github.com/agions/taroviz/blob/{gitRevision}/{path}#L{line}",
+  "navigation": {
+    "includeCategories": true,
+    "includeGroups": true
+  },
+  "sidebarLinks": {
+    "使用指南": "https://github.com/agions/taroviz/blob/main/docs/USAGE.md",
+    "GitHub仓库": "https://github.com/agions/taroviz"
+  },
+  "validation": {
+    "invalidLink": true,
+    "notDocumented": false
+  }
 } 

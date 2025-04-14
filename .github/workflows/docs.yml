@@ -21,6 +21,10 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    # 添加并发控制，避免多个文档部署工作流同时运行
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
     steps:
       - name: 检出代码
         uses: actions/checkout@v3
@@ -38,6 +42,24 @@ jobs:
         with:
           node-version: '18'
           cache: 'pnpm'
+
+      # 添加依赖缓存
+      - name: 缓存依赖
+        uses: actions/cache@v3
+        with:
+          path: |
+            **/node_modules
+            .pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+            
+      # 添加文档构建缓存
+      - name: 缓存文档构建
+        uses: actions/cache@v3
+        with:
+          path: docs-api
+          key: docs-api-${{ hashFiles('packages/*/src/**/*.ts', 'packages/*/src/**/*.tsx', 'typedoc.json') }}
 
       - name: 安装依赖
         run: |
@@ -65,6 +87,10 @@ jobs:
           done
           
           echo "PNPM安装完成"
+        
+      # 添加 typedoc-plugin-markdown 插件
+      - name: 安装文档插件
+        run: pnpm add -D typedoc-plugin-markdown -w
 
       - name: 修复模块引用
         run: |
@@ -446,7 +472,39 @@ jobs:
               fs.writeFileSync(path.join('docs-dist', 'index.html'), placeholderContent);
             }
             
-            // 清理临时文件
+            # 添加 CNAME 文件 (如果有自定义域名)
+            if [ -n "$CNAME_VALUE" ]; then
+              echo "$CNAME_VALUE" > docs-dist/CNAME
+              echo "已创建CNAME文件: $CNAME_VALUE"
+            fi
+            
+            # 添加站点地图
+            cat > docs-dist/sitemap.xml << 'EOF'
+            <?xml version="1.0" encoding="UTF-8"?>
+            <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+              <url>
+                <loc>https://agions.github.io/taroviz/</loc>
+                <lastmod>2023-06-19</lastmod>
+                <changefreq>weekly</changefreq>
+                <priority>1.0</priority>
+              </url>
+              <url>
+                <loc>https://agions.github.io/taroviz/guides/USAGE.html</loc>
+                <changefreq>monthly</changefreq>
+                <priority>0.8</priority>
+              </url>
+              <url>
+                <loc>https://agions.github.io/taroviz/guides/API.html</loc>
+                <changefreq>monthly</changefreq>
+                <priority>0.8</priority>
+              </url>
+            </urlset>
+            EOF
+            
+            # 添加谷歌站点验证文件 (如果需要)
+            echo "google-site-verification: google123456.html" > docs-dist/google123456.html
+            
+            # 清理临时文件
             try {
               if (fs.existsSync('typedoc.temp.json')) {
                 fs.unlinkSync('typedoc.temp.json');
@@ -463,7 +521,21 @@ jobs:
           # 运行自定义脚本
           NODE_OPTIONS=--max-old-space-size=8192 node generate-docs.js || node fallback-docs.js
 
+      # 添加状态检查步骤
+      - name: 检查文档生成状态
+        id: check_docs
+        run: |
+          if [ -d "docs-dist" ] && [ "$(ls -A docs-dist)" ]; then
+            echo "文档生成成功，准备部署..."
+            echo "status=success" >> $GITHUB_OUTPUT
+          else
+            echo "文档生成失败，放弃部署！"
+            echo "status=failed" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
       - name: 部署到 GitHub Pages
+        if: steps.check_docs.outputs.status == 'success'
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: docs-dist
@@ -475,4 +547,14 @@ jobs:
           git-config-name: github-actions[bot]
           git-config-email: github-actions[bot]@users.noreply.github.com
           single-commit: true
-          silent: false 
+
+      # 添加部署通知
+      - name: 部署完成通知
+        if: success()
+        run: |
+          echo "::notice::📚 文档已成功部署到 GitHub Pages! 访问 https://agions.github.io/taroviz/ 查看最新文档。"
+          
+      - name: 部署失败通知
+        if: failure()
+        run: |
+          echo "::error::❌ 文档部署失败！请检查构建日志以获取更多信息。" 
