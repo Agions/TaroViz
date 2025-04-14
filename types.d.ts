@@ -6,27 +6,27 @@
 /**
  * 核心包类型定义
  */
-declare module '@taroviz/core' {
-  export * from '@taroviz/core/src/types';
-  export * from '@taroviz/core/src/utils';
+declare module '@agions/core' {
+  export * from '@agions/core/src/types';
+  export * from '@agions/core/src/utils';
   export const name: string;
   export const version: string;
   export const BaseChart: React.ComponentType<any>;
 }
 
-declare module '@taroviz/core/types' {
-  export * from '@taroviz/core/src/types';
+declare module '@agions/core/types' {
+  export * from '@agions/core/src/types';
 }
 
-declare module '@taroviz/core/utils' {
-  export * from '@taroviz/core/src/utils';
+declare module '@agions/core/utils' {
+  export * from '@agions/core/src/utils';
 }
 
 /**
  * 适配器包类型定义
  */
-declare module '@taroviz/adapters' {
-  import { AdapterOptions, Platform, Adapter as CoreAdapter } from '@taroviz/core/types';
+declare module '@agions/adapters' {
+  import { AdapterOptions, Platform, Adapter as CoreAdapter } from '@agions/core/types';
   
   export interface AdapterConfig extends AdapterOptions {}
   export type Adapter = CoreAdapter;
@@ -146,32 +146,32 @@ declare module '@taroviz/adapters' {
 /**
  * 适配器子包类型定义
  */
-declare module '@taroviz/adapters/h5' {
-  import { H5Adapter } from '@taroviz/adapters';
+declare module '@agions/adapters/h5' {
+  import { H5Adapter } from '@agions/adapters';
   const adapter: typeof H5Adapter;
   export default adapter;
 }
 
-declare module '@taroviz/adapters/weapp' {
-  import { WeappAdapter } from '@taroviz/adapters';
+declare module '@agions/adapters/weapp' {
+  import { WeappAdapter } from '@agions/adapters';
   const adapter: typeof WeappAdapter;
   export default adapter;
 }
 
-declare module '@taroviz/adapters/alipay' {
-  import { AlipayAdapter } from '@taroviz/adapters';
+declare module '@agions/adapters/alipay' {
+  import { AlipayAdapter } from '@agions/adapters';
   const adapter: typeof AlipayAdapter;
   export default adapter;
 }
 
-declare module '@taroviz/adapters/swan' {
-  import { SwanAdapter } from '@taroviz/adapters';
+declare module '@agions/adapters/swan' {
+  import { SwanAdapter } from '@agions/adapters';
   const adapter: typeof SwanAdapter;
   export default adapter;
 }
 
-declare module '@taroviz/adapters/harmony' {
-  import { HarmonyAdapter } from '@taroviz/adapters';
+declare module '@agions/adapters/harmony' {
+  import { HarmonyAdapter } from '@agions/adapters';
   const adapter: typeof HarmonyAdapter;
   export default adapter;
 }
@@ -179,23 +179,23 @@ declare module '@taroviz/adapters/harmony' {
 /**
  * 主题包类型定义
  */
-declare module '@taroviz/themes' {
-  export * from '@taroviz/themes/src';
+declare module '@agions/themes' {
+  export * from '@agions/themes/src';
   export const version: string;
 }
 
 /**
  * 数据处理包类型定义
  */
-declare module '@taroviz/data' {
-  export * from '@taroviz/data/src';
+declare module '@agions/data' {
+  export * from '@agions/data/src';
   export const version: string;
 }
 
 /**
  * Hooks包类型定义
  */
-declare module '@taroviz/hooks' {
+declare module '@agions/hooks' {
   import React from 'react';
   
   export interface ChartOptions {
@@ -239,22 +239,22 @@ declare module '@taroviz/hooks' {
 /**
  * 图表组件包类型定义
  */
-declare module '@taroviz/charts' {
-  export * from '@taroviz/charts/src';
+declare module '@agions/charts' {
+  export * from '@agions/charts/src';
   export const version: string;
 }
 
 /**
  * 完整导出包类型定义
  */
-declare module '@taroviz' {
-  import * as CoreLib from '@taroviz/core';
-  import * as AdaptersLib from '@taroviz/adapters';
-  import * as ChartsLib from '@taroviz/charts';
-  import * as ThemesLib from '@taroviz/themes';
-  import * as DataLib from '@taroviz/data';
-  import * as HooksLib from '@taroviz/hooks';
-  import { LineChart, BarChart, PieChart, RadarChart, ScatterChart, HeatmapChart } from '@taroviz/charts';
+declare module '@agions' {
+  import * as CoreLib from '@agions/core';
+  import * as AdaptersLib from '@agions/adapters';
+  import * as ChartsLib from '@agions/charts';
+  import * as ThemesLib from '@agions/themes';
+  import * as DataLib from '@agions/data';
+  import * as HooksLib from '@agions/hooks';
+  import { LineChart, BarChart, PieChart, RadarChart, ScatterChart, HeatmapChart } from '@agions/charts';
   import { 
     useChart, 
     useOption, 
@@ -263,7 +263,7 @@ declare module '@taroviz' {
     useLoading, 
     useChartTheme, 
     useChartData 
-  } from '@taroviz/hooks';
+  } from '@agions/hooks';
   
   // 命名空间导出
   export const Core: typeof CoreLib;

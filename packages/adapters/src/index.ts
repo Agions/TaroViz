@@ -22,6 +22,16 @@ declare const _wx: {
   [key: string]: any;
 };
 
+// 扩展全局变量类型定义
+declare global {
+  interface Global {
+    wx?: {
+      getSystemInfoSync: () => any;
+      [key: string]: any;
+    };
+  }
+}
+
 /**
  * 检测当前运行的平台环境
  * @returns 当前平台类型
@@ -155,8 +165,8 @@ export function getEnv(): 'h5' | 'weapp' | 'unknown' {
     return 'h5';
   } else if (
     typeof global !== 'undefined' &&
-    typeof global['wx'] !== 'undefined' &&
-    typeof global['wx'].getSystemInfoSync === 'function'
+    typeof (global as any)['wx'] !== 'undefined' &&
+    typeof (global as any)['wx'].getSystemInfoSync === 'function'
   ) {
     return 'weapp';
   }

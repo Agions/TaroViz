@@ -1,6 +1,6 @@
 /**
  * 修复导入路径
- * 将 @taroviz/* 替换为 @agions/taroviz-*
+ * 将 @agions/* 替换为 @agions/taroviz-*
  */
 const fs = require('fs');
 const path = require('path');
@@ -13,14 +13,14 @@ console.log(`找到 ${files.length} 个文件需要处理...`);
 
 // 定义替换规则
 const replacements = [
-  { from: /@taroviz\/core\/types/g, to: '@agions/taroviz-core/types' },
-  { from: /@taroviz\/core\/utils/g, to: '@agions/taroviz-core/utils' },
-  { from: /@taroviz\/core/g, to: '@agions/taroviz-core' },
-  { from: /@taroviz\/adapters/g, to: '@agions/taroviz-adapters' },
-  { from: /@taroviz\/charts/g, to: '@agions/taroviz-charts' },
-  { from: /@taroviz\/themes/g, to: '@agions/taroviz-themes' },
-  { from: /@taroviz\/data/g, to: '@agions/taroviz-data' },
-  { from: /@taroviz\/hooks/g, to: '@agions/taroviz-hooks' }
+  { from: /@agions\/core\/types/g, to: '@agions/taroviz-core/types' },
+  { from: /@agions\/core\/utils/g, to: '@agions/taroviz-core/utils' },
+  { from: /@agions\/core/g, to: '@agions/taroviz-core' },
+  { from: /@agions\/adapters/g, to: '@agions/taroviz-adapters' },
+  { from: /@agions\/charts/g, to: '@agions/taroviz-charts' },
+  { from: /@agions\/themes/g, to: '@agions/taroviz-themes' },
+  { from: /@agions\/data/g, to: '@agions/taroviz-data' },
+  { from: /@agions\/hooks/g, to: '@agions/taroviz-hooks' }
 ];
 
 // 处理每个文件

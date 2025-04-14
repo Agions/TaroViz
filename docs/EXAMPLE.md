@@ -7,7 +7,7 @@
 ### 折线图
 
 ```jsx
-import { LineChart } from '@taroviz/components';
+import { LineChart } from '@agions/components';
 
 // 基础折线图
 function BasicLine() {
@@ -69,7 +69,7 @@ function AreaChart() {
 ### 柱状图
 
 ```jsx
-import { BarChart } from '@taroviz/components';
+import { BarChart } from '@agions/components';
 
 // 基础柱状图
 function BasicBar() {
@@ -143,7 +143,7 @@ function StackedBar() {
 ### 饼图
 
 ```jsx
-import { PieChart } from '@taroviz/components';
+import { PieChart } from '@agions/components';
 
 // 基础饼图
 function BasicPie() {
@@ -185,7 +185,7 @@ function DonutChart() {
 ### 散点图
 
 ```jsx
-import { ScatterChart } from '@taroviz/components';
+import { ScatterChart } from '@agions/components';
 
 function ScatterPlot() {
   const data = {
@@ -213,7 +213,7 @@ function ScatterPlot() {
 ### 雷达图
 
 ```jsx
-import { RadarChart } from '@taroviz/components';
+import { RadarChart } from '@agions/components';
 
 function RadarPlot() {
   const data = {
@@ -241,7 +241,7 @@ function RadarPlot() {
 ### 混合图表
 
 ```jsx
-import { MixedChart } from '@taroviz/components';
+import { MixedChart } from '@agions/components';
 
 function MixedChartExample() {
   const data = {
@@ -291,7 +291,7 @@ function MixedChartExample() {
 ### 工具提示
 
 ```jsx
-import { LineChart } from '@taroviz/components';
+import { LineChart } from '@agions/components';
 
 function TooltipExample() {
   const data = {
@@ -336,7 +336,7 @@ function TooltipExample() {
 ```jsx
 import React, { useState } from 'react';
 import { View, Text } from '@tarojs/components';
-import { PieChart } from '@taroviz/components';
+import { PieChart } from '@agions/components';
 
 function ClickableChart() {
   const [clickedSlice, setClickedSlice] = useState(null);
@@ -382,7 +382,7 @@ function ClickableChart() {
 ### 自定义样式
 
 ```jsx
-import { BarChart } from '@taroviz/components';
+import { BarChart } from '@agions/components';
 
 function CustomStyleBar() {
   const data = {
@@ -452,7 +452,7 @@ function CustomStyleBar() {
 import React, { useEffect, useState } from 'react';
 import { View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import { LineChart } from '@taroviz/components';
+import { LineChart } from '@agions/components';
 
 function ResponsiveChartExample() {
   const [chartDimensions, setChartDimensions] = useState({
@@ -517,7 +517,7 @@ function ResponsiveChartExample() {
 
 ```jsx
 import React, { useEffect, useState } from 'react';
-import { LineChart } from '@taroviz/components';
+import { LineChart } from '@agions/components';
 
 function RealtimeChart() {
   const [data, setData] = useState({

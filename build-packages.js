@@ -14,7 +14,7 @@ const buildOrder = [
   'data',
   'hooks',
   'charts',
-  'all'  // 包文件夹名仍为all，但发布名为@taroviz
+  'all'  // 包文件夹名仍为all，但发布名为@agions
 ];
 
 console.log('正在检查和修复包配置...');
@@ -36,9 +36,9 @@ buildOrder.forEach(packageName => {
         
         // 为all包特殊处理
         if (packageName === 'all') {
-          console.log(`已为 @taroviz 移除 type:module 配置`);
+          console.log(`已为 @agions 移除 type:module 配置`);
         } else {
-          console.log(`已为 @taroviz/${packageName} 移除 type:module 配置`);
+          console.log(`已为 @agions/${packageName} 移除 type:module 配置`);
         }
       }
       
@@ -69,12 +69,12 @@ buildOrder.forEach(packageName => {
             tsconfig.compilerOptions.paths = {};
             buildOrder.forEach(pkg => {
               if (pkg !== packageName) {
-                tsconfig.compilerOptions.paths[`@taroviz/${pkg}/*`] = [`../../../${pkg}/src/*`];
+                tsconfig.compilerOptions.paths[`@agions/${pkg}/*`] = [`../../../${pkg}/src/*`];
               }
             });
             // 特殊处理all包
             if (packageName === 'all') {
-              tsconfig.compilerOptions.paths['@taroviz/*'] = [`../*`];
+              tsconfig.compilerOptions.paths['@agions/*'] = [`../*`];
             }
           }
           
@@ -86,9 +86,9 @@ buildOrder.forEach(packageName => {
       }
     } catch (error) {
       if (packageName === 'all') {
-        console.error(`无法解析或修改 @taroviz 的配置:`, error);
+        console.error(`无法解析或修改 @agions 的配置:`, error);
       } else {
-        console.error(`无法解析或修改 @taroviz/${packageName} 的配置:`, error);
+        console.error(`无法解析或修改 @agions/${packageName} 的配置:`, error);
       }
     }
   }
@@ -129,15 +129,15 @@ console.log('正在按顺序构建所有包...');
 let buildFailed = false;
 
 buildOrder.forEach(pkg => {
-  console.log(`正在构建 ${pkg === 'all' ? '@taroviz' : '@taroviz/' + pkg}...`);
+  console.log(`正在构建 ${pkg === 'all' ? '@agions' : '@agions/' + pkg}...`);
   try {
     execSync(`cd packages/${pkg} && npx webpack --mode=production`, { 
       stdio: 'inherit', 
       env: { ...process.env, NODE_ENV: 'production' } 
     });
-    console.log(`${pkg === 'all' ? '@taroviz' : '@taroviz/' + pkg} 构建成功`);
+    console.log(`${pkg === 'all' ? '@agions' : '@agions/' + pkg} 构建成功`);
   } catch (error) {
-    console.error(`${pkg === 'all' ? '@taroviz' : '@taroviz/' + pkg} 构建失败:`, error);
+    console.error(`${pkg === 'all' ? '@agions' : '@agions/' + pkg} 构建失败:`, error);
     buildFailed = true;
   }
 });

@@ -11,6 +11,7 @@ import {
 } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import React, { useEffect, useRef } from 'react';
+import { safeRenderAdapter } from '../utils';
 
 // 注册必要的组件
 echarts.use([
@@ -203,7 +204,7 @@ const TreemapChart: React.FC<TreemapChartProps> = ({
       style={mergedStyle}
       ref={containerRef as any}
     >
-      {adapter.render()}
+      {safeRenderAdapter(adapter)}
     </View>
   );
 };

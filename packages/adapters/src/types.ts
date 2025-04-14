@@ -4,7 +4,8 @@
 import { PlatformType, Adapter } from '@agions/taroviz-core';
 import { CSSProperties } from 'react';
 
-export { PlatformType, Adapter };
+export type { Adapter };
+export { PlatformType };
 
 /**
  * 基础适配器选项

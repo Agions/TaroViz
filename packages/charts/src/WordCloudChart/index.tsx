@@ -7,6 +7,7 @@ import { uuid } from '@agions/taroviz-core/utils';
 import { TooltipComponent, TitleComponent, LegendComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import React, { useEffect, useRef } from 'react';
+import { safeRenderAdapter } from '../utils';
 
 // 注册必要的组件
 echarts.use([TooltipComponent, TitleComponent, LegendComponent]);
@@ -194,7 +195,7 @@ const WordCloudChart: React.FC<WordCloudChartProps> = ({
       style={mergedStyle}
       ref={containerRef as any}
     >
-      {adapter.render()}
+      {safeRenderAdapter(adapter)}
     </View>
   );
 };

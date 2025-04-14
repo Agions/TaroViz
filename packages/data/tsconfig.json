@@ -8,40 +8,40 @@
     "declarationDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "@taroviz/data": [
+      "@agions/taroviz-data": [
         "./src"
       ],
-      "@taroviz/data/*": [
+      "@agions/taroviz-data/*": [
         "./src/*"
       ],
-      "@taroviz/core": [
+      "@agions/taroviz-core": [
         "../core/src"
       ],
-      "@taroviz/core/*": [
+      "@agions/taroviz-core/*": [
         "../core/src/*"
       ],
-      "@taroviz/adapters": [
+      "@agions/taroviz-adapters": [
         "../adapters/src"
       ],
-      "@taroviz/adapters/*": [
+      "@agions/taroviz-adapters/*": [
         "../adapters/src/*"
       ],
-      "@taroviz/hooks": [
+      "@agions/taroviz-hooks": [
         "../hooks/src"
       ],
-      "@taroviz/hooks/*": [
+      "@agions/taroviz-hooks/*": [
         "../hooks/src/*"
       ],
-      "@taroviz/themes": [
+      "@agions/taroviz-themes": [
         "../themes/src"
       ],
-      "@taroviz/themes/*": [
+      "@agions/taroviz-themes/*": [
         "../themes/src/*"
       ],
-      "@taroviz/charts": [
+      "@agions/taroviz-charts": [
         "../charts/src"
       ],
-      "@taroviz/charts/*": [
+      "@agions/taroviz-charts/*": [
         "../charts/src/*"
       ]
     }

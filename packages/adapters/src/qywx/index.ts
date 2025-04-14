@@ -4,8 +4,8 @@
  */
 import { Canvas } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import { Adapter, WeappAdapterOptions, EChartsOption, EventHandler } from '@agions/taroviz-core/types';
-import { uuid } from '@agions/taroviz-core/utils';
+import { Adapter, WeappAdapterOptions, EChartsOption, EventHandler } from '@agions/taroviz-core';
+import { uuid } from '@agions/taroviz-core';
 import * as echarts from 'echarts/core';
 import React from 'react';
 

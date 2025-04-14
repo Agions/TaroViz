@@ -2,10 +2,10 @@
  * TaroViz 百度智能小程序适配器
  * 基于百度智能小程序canvas组件实现图表渲染
  */
+import { Adapter, SwanAdapterOptions, EChartsOption, EventHandler } from '@agions/taroviz-core';
+import { uuid } from '@agions/taroviz-core';
 import { Canvas } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import { Adapter, SwanAdapterOptions, EChartsOption, EventHandler } from '@taroviz/core/types';
-import { uuid } from '@taroviz/core/utils';
 import * as echarts from 'echarts/core';
 import React from 'react';
 

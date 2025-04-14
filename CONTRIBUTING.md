@@ -107,7 +107,7 @@ TaroViz的类型系统是其核心优势之一，我们非常重视类型定义�
 
 由于包之间存在依赖关系，当多个包导出同名类型时可能会产生冲突。我们采用以下策略来避免冲突：
 
-- 核心类型定义在 `@taroviz/core`包中
+- 核心类型定义在 `@agions/core`包中
 - 其他包通过导入核心包的类型来扩展，而不是重新定义
 - 在主包中导出类型时，使用命名空间或重命名策略避免冲突
 
@@ -115,7 +115,7 @@ TaroViz的类型系统是其核心优势之一，我们非常重视类型定义�
 
 ```typescript
 // 正确的做法
-import { BaseType } from '@taroviz/core';
+import { BaseType } from '@agions/core';
 export interface ExtendedType extends BaseType {
   // 扩展属性...
 }
@@ -131,7 +131,7 @@ export interface BaseType { // 与核心包中的类型同名
 如果您需要为新平台添加适配器，请遵循以下步骤：
 
 1. 在 `packages/adapters/src/`中创建新的适配器目录
-2. 实现 `Adapter`接口（在 `@taroviz/core/types`中定义）
+2. 实现 `Adapter`接口（在 `@agions/core/types`中定义）
 3. 在 `packages/adapters/src/index.ts`中注册新适配器
 4. 添加适当的测试和文档
 

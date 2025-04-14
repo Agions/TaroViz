@@ -12,6 +12,7 @@ import {
 } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import React, { useEffect, useRef } from 'react';
+import { safeRenderAdapter } from '../utils';
 
 // 注册必要的组件
 echarts.use([
@@ -209,7 +210,7 @@ const ComboChart: React.FC<ComboChartProps> = ({
       style={mergedStyle}
       ref={containerRef as any}
     >
-      {adapter.render()}
+      {safeRenderAdapter(adapter)}
     </View>
   );
 };
