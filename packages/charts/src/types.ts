@@ -1,7 +1,7 @@
 /**
  * TaroViz Charts 类型定义
  */
-import { EChartsOption } from '@taroviz/core';
+import { EChartsOption } from '@agions/taroviz-core';
 import * as echarts from 'echarts/core';
 
 /**

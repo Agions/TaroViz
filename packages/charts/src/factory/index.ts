@@ -1,5 +1,5 @@
-import { getAdapter } from '@taroviz/adapters';
-import { EChartsOption } from '@taroviz/core/types';
+import { getAdapter } from '@agions/taroviz-adapters';
+import { EChartsOption } from '@agions/taroviz-core/types';
 
 /**
  * 图表工厂配置选项

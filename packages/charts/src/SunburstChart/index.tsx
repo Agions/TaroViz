@@ -1,7 +1,7 @@
 import { View } from '@tarojs/components';
-import { getAdapter } from '@taroviz/adapters';
-import { EChartsOption } from '@taroviz/core/types';
-import { uuid } from '@taroviz/core/utils';
+import { getAdapter } from '@agions/taroviz-adapters';
+import { EChartsOption } from '@agions/taroviz-core/types';
+import { uuid } from '@agions/taroviz-core/utils';
 import { SunburstChart as SunburstChartComponent } from 'echarts/charts';
 import {
   TooltipComponent,

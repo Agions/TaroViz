@@ -1,5 +1,5 @@
 import { View } from '@tarojs/components';
-import { EChartsOption } from '@taroviz/core/types';
+import { EChartsOption } from '@agions/taroviz-core/types';
 import React, { useEffect, useState } from 'react';
 
 // 导入其他基础图表组件
