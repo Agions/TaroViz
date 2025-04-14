@@ -1,6 +1,6 @@
 {
   "name": "@agions/taroviz-charts",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "TaroViz 图表组件集合",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -51,8 +51,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@agions/taroviz-adapters": "1.0.3",
-    "@agions/taroviz-core": "1.0.3"
+    "@agions/taroviz-adapters": "1.1.0",
+    "@agions/taroviz-core": "1.1.0"
   },
   "peerDependencies": {
     "@tarojs/components": ">=3.4.0",
