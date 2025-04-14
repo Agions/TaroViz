@@ -1,0 +1,248 @@
+
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>FAQ - TaroViz 文档</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+              body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #333; }
+              pre { background: #f6f8fa; padding: 16px; overflow: auto; border-radius: 3px; }
+              code { font-family: monospace; background: #f6f8fa; padding: 2px 4px; border-radius: 3px; }
+              h1, h2, h3 { margin-top: 24px; margin-bottom: 16px; color: #0d47a1; }
+              a { color: #0366d6; text-decoration: none; }
+              a:hover { text-decoration: underline; }
+              img { max-width: 100%; }
+              blockquote { padding: 0 1em; color: #6a737d; border-left: 0.25em solid #dfe2e5; }
+              table { border-collapse: collapse; width: 100%; }
+              table, th, td { border: 1px solid #ddd; padding: 8px; }
+              tr:nth-child(even) { background-color: #f2f2f2; }
+              .nav { margin-bottom: 20px; padding: 10px; background: #f8f9fa; border-radius: 5px; }
+              .nav a { margin-right: 15px; }
+            </style>
+            <base href="../">
+          </head>
+          <body>
+            <div class="nav">
+              <a href="index.html">主页</a>
+              <a href="guides/USAGE.html">使用指南</a>
+              <a href="guides/API.html">API文档</a>
+              <a href="guides/EXAMPLES.html">示例</a>
+            </div>
+            <div id="content">
+              # TaroViz 常见问题解答（FAQ）
+
+## 目录
+
+- [基础问题](#基础问题)
+- [安装和配置](#安装和配置)
+- [功能使用](#功能使用)
+- [性能问题](#性能问题)
+- [平台兼容性](#平台兼容性)
+- [错误处理](#错误处理)
+
+## 基础问题
+
+### Q: TaroViz 支持哪些图表类型？
+
+A: TaroViz 目前支持以下图表类型：
+
+- 折线图（Line Chart）
+- 柱状图（Bar Chart）
+- 饼图（Pie Chart）
+- 散点图（Scatter Chart）
+- 雷达图（Radar Chart）
+- 热力图（Heat Map）
+- 更多图表类型正在开发中
+
+### Q: TaroViz 可以在哪些平台上使用？
+
+A: TaroViz 支持以下平台：
+
+- 微信小程序
+- 支付宝小程序
+- 百度小程序
+- 字节跳动小程序
+- H5
+- React Native
+
+## 安装和配置
+
+### Q: 如何安装 TaroViz？
+
+A: 您可以使用以下命令安装：
+
+<pre><code>bash
+# 使用 npm
+npm install @agions/taroviz
+
+# 使用 yarn
+yarn add @agions/taroviz
+
+# 使用 pnpm
+pnpm add @agions/taroviz
+</code></pre>
+
+### Q: 为什么安装时报错 "peer dependencies" 未满足？
+
+A: 请确保您的项目安装了以下依赖：
+
+- React >= 16.13.0
+- @tarojs/taro >= 3.4.0
+- @tarojs/components >= 3.4.0
+
+<pre><code>bash
+pnpm add react@^16.13.0 @tarojs/taro@^3.4.0 @tarojs/components@^3.4.0
+</code></pre>
+
+### Q: 如何配置 TypeScript？
+
+A: 在 `tsconfig.json` 中添加以下配置：
+
+<pre><code>json
+{
+  "compilerOptions": {
+    "types": ["@tarojs/taro", "@agions/taroviz-core"]
+  }
+}
+</code></pre>
+
+## 功能使用
+
+### Q: 如何自定义图表主题？
+
+A: 使用 `createTheme` 创建自定义主题：
+
+<pre><code>typescript
+import { createTheme, ThemeProvider } from '@agions/taroviz-themes';
+
+const customTheme = createTheme({
+  palette: {
+    primary: '#1890ff',
+    secondary: '#13c2c2'
+  }
+});
+
+function App() {
+  return (
+    <ThemeProvider theme={customTheme}>
+      <YourChart />
+    </ThemeProvider>
+  );
+}
+</code></pre>
+
+### Q: 如何处理大数据量图表？
+
+A: 使用数据采样或虚拟滚动：
+
+<pre><code>typescript
+import { useVirtualData } from '@agions/taroviz-hooks';
+
+function BigDataChart() {
+  const { data } = useVirtualData(rawData, {
+    sampleSize: 1000,
+    method: 'lttb'
+  });
+  
+  return <LineChart data={data} />;
+}
+</code></pre>
+
+## 性能问题
+
+### Q: 图表渲染很慢怎么办？
+
+A: 可以采取以下措施：
+
+1. 使用数据采样
+2. 启用虚拟滚动
+3. 实现数据缓存
+4. 避免不必要的重渲染
+
+<pre><code>typescript
+import { useChartOptimize } from '@agions/taroviz-hooks';
+
+function OptimizedChart() {
+  const { data, loading } = useChartOptimize(rawData, {
+    enableCache: true,
+    enableVirtual: true
+  });
+}
+</code></pre>
+
+### Q: 如何优化小程序的包体积？
+
+A: 可以：
+
+1. 使用分包加载
+2. 按需引入组件
+3. 开启 tree-shaking
+4. 使用动态加载
+
+## 平台兼容性
+
+### Q: 在不同平台上展示效果不一致怎么办？
+
+A: 使用平台适配器：
+
+<pre><code>typescript
+import { getPlatformAdapter } from '@agions/taroviz-adapters';
+
+const adapter = getPlatformAdapter();
+const Chart = adapter.getChart('line');
+</code></pre>
+
+### Q: 如何处理不同平台的触摸事件？
+
+A: 使用统一的事件处理：
+
+<pre><code>typescript
+import { useChartEvents } from '@agions/taroviz-hooks';
+
+function TouchableChart() {
+  const { handleTouch } = useChartEvents({
+    onTouch: (e) => {
+      // 统一的事件处理逻辑
+    }
+  });
+}
+</code></pre>
+
+## 错误处理
+
+### Q: 如何处理图表加载失败？
+
+A: 使用错误边界和加载状态：
+
+<pre><code>typescript
+import { ChartErrorBoundary } from '@agions/taroviz-core';
+
+function SafeChart() {
+  return (
+    <ChartErrorBoundary fallback={<ErrorMessage />}>
+      <Chart data={data} />
+    </ChartErrorBoundary>
+  );
+}
+</code></pre>
+
+### Q: 数据格式错误怎么处理？
+
+A: 使用数据验证：
+
+<pre><code>typescript
+import { validateChartData } from '@agions/taroviz-data';
+
+function ValidatedChart() {
+  const isValid = validateChartData(data);
+  if (!isValid) {
+    return <ErrorMessage message="数据格式错误" />;
+  }
+  return <Chart data={data} />;
+}
+</code></pre>
+            </div>
+          </body>
+          </html>
+          
