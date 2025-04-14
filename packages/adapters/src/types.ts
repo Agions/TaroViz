@@ -1,7 +1,7 @@
 /**
  * TaroViz 适配器类型定义
  */
-import { PlatformType, Adapter } from '@agions/taroviz-core';
+import { PlatformType, Adapter } from '@Agions/taroviz-core';
 import { CSSProperties } from 'react';
 
 export type { Adapter };

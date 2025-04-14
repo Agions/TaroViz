@@ -80,12 +80,12 @@ export const createChart = (options: ChartFactoryOptions) => {
     canvasId: containerId,
     option,
     renderer,
-    onInit: (instance) => {
+    onInit: instance => {
       chartInstance = instance;
 
       // 绑定事件
       if (events) {
-        Object.keys(events).forEach((eventName) => {
+        Object.keys(events).forEach(eventName => {
           instance.on(eventName, events[eventName]);
         });
       }
@@ -175,7 +175,7 @@ export const createChart = (options: ChartFactoryOptions) => {
       if (chartInstance) {
         // 解绑所有事件
         if (events) {
-          Object.keys(events).forEach((eventName) => {
+          Object.keys(events).forEach(eventName => {
             chartInstance.off(eventName);
           });
         }

@@ -2,7 +2,7 @@
  * TaroViz H5适配器
  * 基于echarts-for-react实现H5环境下的图表渲染
  */
-import { EventHandler } from '@agions/taroviz-core';
+import { EventHandler } from '@Agions/taroviz-core';
 import {
   GridComponent,
   TooltipComponent,

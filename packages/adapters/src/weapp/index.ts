@@ -2,7 +2,7 @@
  * TaroViz 微信小程序适配器
  * 基于微信小程序canvas组件实现图表渲染
  */
-import { Adapter, WeappAdapterOptions, EventHandler } from '@agions/taroviz-core';
+import { Adapter, WeappAdapterOptions, EventHandler } from '@Agions/taroviz-core';
 import React from 'react';
 
 // 扩展 WeappAdapterOptions 类型

@@ -6,6 +6,38 @@
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./LineChart": {
+      "import": "./dist/components/LineChart.js",
+      "require": "./dist/components/LineChart.js",
+      "types": "./dist/LineChart/index.d.ts"
+    },
+    "./BarChart": {
+      "import": "./dist/components/BarChart.js",
+      "require": "./dist/components/BarChart.js",
+      "types": "./dist/BarChart/index.d.ts"
+    },
+    "./PieChart": {
+      "import": "./dist/components/PieChart.js",
+      "require": "./dist/components/PieChart.js",
+      "types": "./dist/PieChart/index.d.ts"
+    },
+    "./ScatterChart": {
+      "import": "./dist/components/ScatterChart.js",
+      "require": "./dist/components/ScatterChart.js",
+      "types": "./dist/ScatterChart/index.d.ts"
+    },
+    "./RadarChart": {
+      "import": "./dist/components/RadarChart.js",
+      "require": "./dist/components/RadarChart.js",
+      "types": "./dist/RadarChart/index.d.ts"
+    }
+  },
   "files": [
     "dist",
     "README.md"
@@ -19,8 +51,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@agions/taroviz-adapters": "workspace:*",
-    "@agions/taroviz-core": "workspace:*"
+    "@agions/taroviz-adapters": "1.0.3",
+    "@agions/taroviz-core": "1.0.3"
   },
   "peerDependencies": {
     "@tarojs/components": ">=3.4.0",
@@ -28,5 +60,5 @@
     "echarts": ">=5.4.0",
     "react": ">=16.13.0"
   },
-  "gitHead": "91fc38170d66256221250816051c66abbdf5f8f8"
+  "gitHead": "08705385bf791a02d7eb7d74ffbf44f021f26b5b"
 }

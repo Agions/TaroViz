@@ -8,79 +8,20 @@
     "composite": true,
     "baseUrl": ".",
     "paths": {
-      "@agions/hooks": [
-        "./src"
-      ],
-      "@agions/hooks/*": [
-        "./src/*"
-      ],
-      "@agions/core": [
-        "../core/src"
-      ],
-      "@agions/core/*": [
-        "../core/src/*"
-      ],
-      "@agions/adapters": [
-        "../adapters/src"
-      ],
-      "@agions/adapters/*": [
-        "../adapters/src/*"
-      ],
-      "@agions/themes": [
-        "../themes/src"
-      ],
-      "@agions/themes/*": [
-        "../themes/src/*"
-      ],
-      "@agions/data": [
-        "../data/src"
-      ],
-      "@agions/data/*": [
-        "../data/src/*"
-      ],
-      "@agions/taroviz-hooks": [
-        "./src"
-      ],
-      "@agions/taroviz-hooks/*": [
-        "./src/*"
-      ],
-      "@agions/taroviz-core": [
-        "../core/src"
-      ],
-      "@agions/taroviz-core/*": [
-        "../core/src/*"
-      ],
-      "@agions/taroviz-adapters": [
-        "../adapters/src"
-      ],
-      "@agions/taroviz-adapters/*": [
-        "../adapters/src/*"
-      ],
-      "@agions/taroviz-themes": [
-        "../themes/src"
-      ],
-      "@agions/taroviz-themes/*": [
-        "../themes/src/*"
-      ],
-      "@agions/taroviz-data": [
-        "../data/src"
-      ],
-      "@agions/taroviz-data/*": [
-        "../data/src/*"
-      ]
+      "@agions/taroviz-hooks": ["./src"],
+      "@agions/taroviz-hooks/*": ["./src/*"],
+      "@agions/taroviz-core": ["../core/src"],
+      "@agions/taroviz-core/*": ["../core/src/*"],
+      "@agions/taroviz-adapters": ["../adapters/src"],
+      "@agions/taroviz-adapters/*": ["../adapters/src/*"],
+      "@agions/taroviz-themes": ["../themes/src"],
+      "@agions/taroviz-themes/*": ["../themes/src/*"],
+      "@agions/taroviz-data": ["../data/src"],
+      "@agions/taroviz-data/*": ["../data/src/*"]
     }
   },
-  "include": [
-    "src/**/*",
-    "index.d.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "**/__tests__/**",
-    "**/*.test.ts",
-    "**/*.test.tsx"
-  ],
+  "include": ["src/**/*", "index.d.ts"],
+  "exclude": ["node_modules", "dist", "**/__tests__/**", "**/*.test.ts", "**/*.test.tsx"],
   "references": [
     {
       "path": "../core"

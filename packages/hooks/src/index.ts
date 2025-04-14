@@ -1,9 +1,10 @@
+/* eslint-disable import/no-unresolved */
 /**
  * TaroViz React Hooks
  * 提供与图表相关的React Hooks
  */
+import { EventHandler } from '@Agions/taroviz-core';
 import { getAdapter } from '@agions/taroviz-adapters';
-import { EventHandler } from '@agions/taroviz-core/types';
 import { useState, useEffect, useMemo } from 'react';
 
 // 通用图表配置类型
@@ -196,7 +197,7 @@ export function useChartData<T = any>(data: T[], transformer: (data: T[]) => Cha
 }
 
 // 导出版本号
-export const version = '0.5.0';
+export const version = '1.0.3';
 
 // 导出所有hooks到默认导出对象
 const hooks = {
