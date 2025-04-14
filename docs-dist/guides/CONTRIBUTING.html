@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CONTRIBUTING - TaroViz文档</title>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    pre { 
+      background: #f6f8fa;
+      padding: 16px;
+      overflow: auto;
+      border-radius: 5px;
+    }
+    code { 
+      font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+      background: #f6f8fa;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 20px 0;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f8f9fa;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: #0d47a1;
+    }
+    a {
+      color: #0366d6;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .nav {
+      background: #f8f9fa;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .nav a {
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <a href="../index.html">首页</a>
+    <a href="../USAGE.html">使用指南</a>
+    <a href="../API.html">API文档</a>
+    <a href="../EXAMPLES.html">示例</a>
+    <a href="../DEVELOPMENT.html">开发指南</a>
+  </div>
+  
+  <div class="content">
+<h1>TaroViz 贡献指南</h1>
+<p>感谢您对TaroViz的关注！我们非常欢迎社区贡献，无论是功能开发、问题修复、文档完善还是使用反馈。本指南将帮助您了解如何参与TaroViz的开发和改进。</p>
+<h2>行为准则</h2>
+<p>参与TaroViz项目意味着您同意遵守我们的行为准则：</p>
+<ul>
+<li>尊重所有参与者，不论经验水平、性别、性取向、残疾状况、种族或宗教信仰</li>
+<li>使用友善和包容的语言</li>
+<li>对不同观点和经验持开放态度</li>
+<li>优雅地接受建设性批评</li>
+<li>关注对社区最有利的事情</li>
+</ul>
+<h2>如何贡献</h2>
+<h3>报告Bug</h3>
+<p>如果您发现了Bug，请在GitHub Issues中创建一个新的Issue，并包含以下信息：</p>
+<ol>
+<li>Bug的清晰描述</li>
+<li>复现步骤（越详细越好）</li>
+<li>预期行为与实际行为</li>
+<li>TaroViz版本、Taro版本和运行环境（如微信开发者工具版本、操作系统等）</li>
+<li>可能的解决方案（如果有）</li>
+</ol>
+<h3>提出新功能</h3>
+<ol>
+<li>在提交Pull Request前，先创建一个Issue讨论您的想法</li>
+<li>清晰地描述该功能的用途和价值</li>
+<li>如有可能，提供使用示例或设计方案</li>
+</ol>
+<h3>提交Pull Request</h3>
+<ol>
+<li>Fork项目仓库</li>
+<li>创建您的特性分支：<code>git checkout -b feature/your-feature</code></li>
+<li>提交您的更改：<code>git commit -am &#39;feat: add some feature&#39;</code></li>
+<li>推送到分支：<code>git push origin feature/your-feature</code></li>
+<li>提交Pull Request</li>
+</ol>
+<h2>开发流程</h2>
+<h3>1. 环境搭建</h3>
+<pre><code class="language-bash"># 克隆项目
+git clone https://github.com/yourusername/taroviz.git
+cd taroviz
+
+# 安装依赖
+pnpm install
+
+# 链接本地包
+pnpm run bootstrap
+</code></pre>
+<h3>2. 开发规范</h3>
+<h4>代码风格</h4>
+<p>本项目使用ESLint和Prettier进行代码风格检查和格式化，请确保您的代码符合项目规范：</p>
+<pre><code class="language-bash"># 检查代码风格
+pnpm run lint
+
+# 自动修复
+pnpm run lint:fix
+</code></pre>
+<h4>提交规范</h4>
+<p>我们使用<a href="https://www.conventionalcommits.org/zh-hans/">约定式提交</a>规范，提交信息格式如下：</p>
+<pre><code>&lt;类型&gt;[可选的作用域]: &lt;描述&gt;
+
+[可选的正文]
+
+[可选的脚注]
+</code></pre>
+<p>常用的提交类型：</p>
+<ul>
+<li><code>feat</code>: 新功能</li>
+<li><code>fix</code>: 修复Bug</li>
+<li><code>docs</code>: 文档变更</li>
+<li><code>style</code>: 代码格式变更（不影响代码运行的变动）</li>
+<li><code>refactor</code>: 重构（既不是新增功能，也不是修复Bug的代码变动）</li>
+<li><code>perf</code>: 性能优化</li>
+<li><code>test</code>: 增加测试</li>
+<li><code>chore</code>: 构建过程或辅助工具的变动</li>
+<li><code>ci</code>: 持续集成相关的改动</li>
+</ul>
+<p>示例：</p>
+<pre><code>feat(charts): 添加雷达图组件
+
+- 支持基本雷达图配置
+- 支持自定义样式
+- 支持交互事件
+
+关联 #123
+</code></pre>
+<h3>3. 测试</h3>
+<p>添加或修改功能后，请确保添加相应的测试用例：</p>
+<pre><code class="language-bash"># 运行测试
+pnpm run test
+
+# 查看测试覆盖率
+pnpm run test:coverage
+</code></pre>
+<h3>4. 文档</h3>
+<p>如果您添加了新功能或修改了现有功能，请同时更新相应的文档：</p>
+<pre><code class="language-bash"># 生成API文档
+pnpm run docs:api
+
+# 预览文档
+pnpm run docs:serve
+</code></pre>
+<h2>项目结构</h2>
+<pre><code>taroviz/
+├── packages/              # 核心包
+│   ├── core/              # 核心渲染引擎
+│   ├── components/        # 图表组件
+│   ├── hooks/             # React Hooks
+│   └── adapters/          # 平台适配器
+├── examples/              # 示例项目
+├── docs/                  # 文档
+├── scripts/               # 构建和开发脚本
+├── tests/                 # 测试
+└── package.json           # 项目配置
+</code></pre>
+<h2>版本发布</h2>
+<p>TaroViz使用语义化版本控制，版本号格式为：<code>主版本号.次版本号.修订号</code></p>
+<ul>
+<li>主版本号：做了不兼容的API修改</li>
+<li>次版本号：做了向下兼容的功能性新增</li>
+<li>修订号：做了向下兼容的问题修正</li>
+</ul>
+<p>维护者会根据PR的内容决定下一个版本号。</p>
+<h2>获取帮助</h2>
+<p>如果您在贡献过程中遇到任何问题，可以通过以下方式获取帮助：</p>
+<ul>
+<li>GitHub Issues</li>
+<li>项目讨论区</li>
+<li>联系维护者</li>
+</ul>
+<h2>致谢</h2>
+<p>再次感谢您对TaroViz的贡献！您的参与对于项目的发展至关重要。</p>
+
+  </div>
+</body>
+</html>
+    

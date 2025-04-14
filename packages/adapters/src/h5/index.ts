@@ -2,6 +2,7 @@
  * TaroViz H5适配器
  * 基于echarts-for-react实现H5环境下的图表渲染
  */
+import { EventHandler } from '@agions/taroviz-core';
 import {
   GridComponent,
   TooltipComponent,
@@ -178,7 +179,7 @@ class H5Adapter implements Adapter {
   /**
    * 绑定事件
    */
-  on(eventName: string, handler: Function, context?: object): void {
+  on(eventName: string, handler: EventHandler, context?: object): void {
     if (this.chartInstance) {
       this.chartInstance.on(eventName, handler, context);
     }
@@ -187,7 +188,7 @@ class H5Adapter implements Adapter {
   /**
    * 解绑事件
    */
-  off(eventName: string, handler?: Function): void {
+  off(eventName: string, handler?: EventHandler): void {
     if (this.chartInstance) {
       this.chartInstance.off(eventName, handler);
     }
@@ -214,7 +215,7 @@ class H5Adapter implements Adapter {
   /**
    * 设置组件实例
    */
-  setComponent(component: any): void {
+  setComponent(_component: any): void {
     // H5适配器不需要存储组件实例
   }
 

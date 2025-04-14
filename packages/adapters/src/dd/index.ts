@@ -4,7 +4,7 @@
  */
 import { Canvas } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import { Adapter, MiniAppAdapterOptions, EChartsOption } from '@taroviz/core/types';
+import { Adapter, MiniAppAdapterOptions, EChartsOption, EventHandler } from '@taroviz/core/types';
 import { uuid } from '@taroviz/core/utils';
 import * as echarts from 'echarts/core';
 import React from 'react';
@@ -182,7 +182,7 @@ class DDAdapter implements Adapter {
   /**
    * 解绑事件
    */
-  off(eventName: string, handler?: Function): void {
+  off(eventName: string, handler?: EventHandler): void {
     if (this.instance) {
       this.instance.off(eventName, handler);
     }

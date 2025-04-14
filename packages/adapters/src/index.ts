@@ -3,19 +3,22 @@
  * 自动检测并加载适合当前平台的适配器
  */
 
-// 直接使用完整导入路径，避免类型冲突
-import type { Adapter } from '@taroviz/core/types';
-import { AdapterConfig, PlatformType } from '@taroviz/core/types';
+import { PlatformType } from '@agions/taroviz-core';
 
 import H5Adapter from './h5';
-import { BaseAdapterConfig, AdapterOptions } from './types';
+import type { AdapterOptions } from './types';
 import WeappAdapter from './weapp';
 
-// 不再重新导出PlatformType和Adapter，使用者应从@taroviz/core导入
+// 本地定义Adapter接口以避免导入问题
+interface Adapter {
+  init(): any;
+  dispose(): void;
+  // 其他必要的接口定义
+}
 
 // 定义全局 wx 接口以避免编译错误
-declare const wx: {
-  getSystemInfoSync: Function;
+declare const _wx: {
+  getSystemInfoSync: () => any;
   [key: string]: any;
 };
 
@@ -121,7 +124,7 @@ export function detectPlatform(): PlatformType {
  * @param platform 平台类型
  * @returns 适配器类
  */
-async function loadAdapter(platform: PlatformType): Promise<any> {
+async function _loadAdapter(platform: PlatformType): Promise<any> {
   switch (platform) {
     case PlatformType.WEAPP:
       return (await import('./weapp')).default;

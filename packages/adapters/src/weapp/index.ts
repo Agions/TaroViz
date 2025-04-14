@@ -2,9 +2,13 @@
  * TaroViz 微信小程序适配器
  * 基于微信小程序canvas组件实现图表渲染
  */
+import { Adapter, WeappAdapterOptions, EventHandler } from '@taroviz/core/types';
 import React from 'react';
 
-import { Adapter, WeappAdapterOptions } from '../types';
+// 扩展 WeappAdapterOptions 类型
+interface ExtendedWeappAdapterOptions extends WeappAdapterOptions {
+  component?: any;
+}
 
 /**
  * 微信小程序环境下的图表适配器
@@ -13,7 +17,7 @@ class WeappAdapter implements Adapter {
   /**
    * 配置项
    */
-  private config: WeappAdapterOptions;
+  private config: ExtendedWeappAdapterOptions;
 
   /**
    * 图表实例
@@ -29,7 +33,7 @@ class WeappAdapter implements Adapter {
    * 构造函数
    * @param config 适配器配置
    */
-  constructor(config: WeappAdapterOptions) {
+  constructor(config: ExtendedWeappAdapterOptions) {
     this.config = config;
     this.component = config.component;
   }
@@ -141,7 +145,7 @@ class WeappAdapter implements Adapter {
   /**
    * 绑定事件
    */
-  on(eventName: string, handler: Function, context?: object): void {
+  on(eventName: string, handler: EventHandler, context?: object): void {
     if (this.chartInstance) {
       this.chartInstance.on?.(eventName, handler, context);
     }
@@ -150,7 +154,7 @@ class WeappAdapter implements Adapter {
   /**
    * 解绑事件
    */
-  off(eventName: string, handler?: Function): void {
+  off(eventName: string, handler?: EventHandler): void {
     if (this.chartInstance) {
       this.chartInstance.off?.(eventName, handler);
     }
@@ -257,7 +261,7 @@ class WeappAdapter implements Adapter {
  * @param options 适配器选项
  * @returns 微信小程序适配器实例
  */
-export function createWeappAdapter(options: WeappAdapterOptions): Adapter {
+export function createWeappAdapter(options: ExtendedWeappAdapterOptions): Adapter {
   return new WeappAdapter(options);
 }
 

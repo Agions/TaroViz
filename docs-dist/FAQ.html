@@ -1,0 +1,318 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ - TaroViz文档</title>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    pre { 
+      background: #f6f8fa;
+      padding: 16px;
+      overflow: auto;
+      border-radius: 5px;
+    }
+    code { 
+      font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+      background: #f6f8fa;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 20px 0;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f8f9fa;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: #0d47a1;
+    }
+    a {
+      color: #0366d6;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .nav {
+      background: #f8f9fa;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .nav a {
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <a href="../index.html">首页</a>
+    <a href="../USAGE.html">使用指南</a>
+    <a href="../API.html">API文档</a>
+    <a href="../EXAMPLES.html">示例</a>
+    <a href="../DEVELOPMENT.html">开发指南</a>
+  </div>
+  
+  <div class="content">
+<h1>TaroViz 常见问题解答 (FAQ)</h1>
+<p>本文档收集了使用 TaroViz 过程中最常见的问题及其解答。如果您在使用过程中遇到问题，请先查阅本文档，若问题未能解决，可以在 GitHub Issues 中提问。</p>
+<h2>基础问题</h2>
+<h3>Q: TaroViz 是什么？</h3>
+<p>A: TaroViz 是一个基于 Taro 框架的跨平台可视化图表库，专为小程序和 H5 环境设计，支持各种常见图表类型，并提供了丰富的定制选项和交互能力。</p>
+<h3>Q: TaroViz 支持哪些平台？</h3>
+<p>A: TaroViz 支持所有 Taro 支持的平台，包括微信小程序、支付宝小程序、百度小程序、头条小程序、QQ小程序、京东小程序以及 H5 环境。</p>
+<h3>Q: TaroViz 与其他图表库如 ECharts 有什么区别？</h3>
+<p>A: TaroViz 专为 Taro 生态设计，针对小程序环境进行了深度优化，体积更小，渲染性能更好。同时，TaroViz 提供了与 React 组件无缝集成的能力，支持 React Hooks，更符合 React 开发习惯。</p>
+<h2>安装与配置</h2>
+<h3>Q: 如何安装 TaroViz？</h3>
+<p>A: 您可以使用包管理器安装 TaroViz：</p>
+<pre><code class="language-bash"># 使用 npm
+npm install @taroviz/core @taroviz/components
+
+# 使用 yarn
+yarn add @taroviz/core @taroviz/components
+
+# 使用 pnpm
+pnpm add @taroviz/core @taroviz/components
+</code></pre>
+<h3>Q: 如何在 Taro 项目中配置 TaroViz？</h3>
+<p>A: 在 Taro 项目中，需要在项目配置文件 <code>config/index.js</code> 中添加以下配置：</p>
+<pre><code class="language-javascript">// config/index.js
+const config = {
+  // ...其他配置
+  mini: {
+    // ...
+    postcss: {
+      // ...
+      url: {
+        enable: true,
+        config: {
+          limit: 10240 // 设定转换尺寸上限
+        }
+      }
+    }
+  },
+  h5: {
+    // ...
+    esnextModules: [&#39;@taroviz&#39;],
+  }
+}
+</code></pre>
+<h2>使用问题</h2>
+<h3>Q: 图表无法正常显示，怎么排查？</h3>
+<p>A: 请检查以下几点：</p>
+<ol>
+<li>Canvas 容器的宽高是否设置正确</li>
+<li>数据格式是否符合要求</li>
+<li>是否正确引入了所需的组件</li>
+<li>在小程序中，检查是否有正确配置 Canvas 的 canvas-id</li>
+<li>检查控制台是否有报错信息</li>
+</ol>
+<h3>Q: 如何自定义图表主题？</h3>
+<p>A: TaroViz 提供了主题系统，您可以通过以下方式自定义主题：</p>
+<pre><code class="language-jsx">import { ThemeProvider } from &#39;@taroviz/core&#39;;
+import { LineChart } from &#39;@taroviz/components&#39;;
+
+const customTheme = {
+  colors: [&#39;#FF6B6B&#39;, &#39;#4ECDC4&#39;, &#39;#45B7D1&#39;, &#39;#DDDF6B&#39;, &#39;#E7A97E&#39;],
+  backgroundColor: &#39;#FFFFFF&#39;,
+  textStyle: {
+    color: &#39;#333333&#39;,
+    fontSize: 12
+  },
+  // 其他主题配置...
+};
+
+function App() {
+  return (
+    &lt;ThemeProvider theme={customTheme}&gt;
+      &lt;LineChart {...props} /&gt;
+    &lt;/ThemeProvider&gt;
+  );
+}
+</code></pre>
+<h3>Q: 图表在不同尺寸设备上显示异常，如何处理？</h3>
+<p>A: TaroViz 支持响应式设计，您可以：</p>
+<ol>
+<li>使用百分比或视口单位（vw/vh）设置容器大小</li>
+<li>使用 <code>autoFit</code> 属性让图表自适应容器大小</li>
+<li>结合 Taro 的设备信息 API 动态计算合适的尺寸</li>
+</ol>
+<pre><code class="language-jsx">import { useEffect, useState } from &#39;react&#39;;
+import Taro from &#39;@tarojs/taro&#39;;
+import { LineChart } from &#39;@taroviz/components&#39;;
+
+function ResponsiveChart() {
+  const [size, setSize] = useState({ width: 300, height: 200 });
+  
+  useEffect(() =&gt; {
+    const info = Taro.getSystemInfoSync();
+    setSize({
+      width: info.windowWidth * 0.9,
+      height: info.windowHeight * 0.3
+    });
+  }, []);
+  
+  return &lt;LineChart width={size.width} height={size.height} {...otherProps} /&gt;;
+}
+</code></pre>
+<h2>性能优化</h2>
+<h3>Q: 大数据量图表渲染缓慢，如何优化？</h3>
+<p>A: 可以采取以下措施优化大数据量图表的性能：</p>
+<ol>
+<li>使用数据采样或聚合技术减少数据点数量</li>
+<li>启用 <code>lazy</code> 属性延迟渲染</li>
+<li>避免频繁更新导致重复渲染</li>
+<li>设置合理的动画时长或关闭动画</li>
+<li>对于非常大的数据集，考虑分页或虚拟化渲染</li>
+</ol>
+<h3>Q: 如何减小打包体积？</h3>
+<p>A: TaroViz 采用模块化设计，您可以：</p>
+<ol>
+<li>只引入需要的图表组件，而不是整个库</li>
+<li>使用 Tree-Shaking 功能（确保您的构建工具支持）</li>
+<li>如需进一步优化，可以使用 TaroViz 的按需加载功能</li>
+</ol>
+<pre><code class="language-jsx">// 按需引入
+import { LineChart } from &#39;@taroviz/components/LineChart&#39;;
+import { BarChart } from &#39;@taroviz/components/BarChart&#39;;
+</code></pre>
+<h2>功能扩展</h2>
+<h3>Q: 如何创建自定义图表组件？</h3>
+<p>A: TaroViz 提供了底层绘图 API，您可以基于这些 API 创建自定义图表：</p>
+<pre><code class="language-jsx">import { useCanvas, useTheme } from &#39;@taroviz/hooks&#39;;
+import { Chart } from &#39;@taroviz/core&#39;;
+
+function CustomChart(props) {
+  const { data, width, height, ...rest } = props;
+  const theme = useTheme();
+  
+  const renderContent = (ctx, chart) =&gt; {
+    // 使用 Canvas 上下文绘制自定义内容
+    ctx.fillStyle = theme.colors[0];
+    // ...绘制逻辑
+  };
+  
+  return (
+    &lt;Chart
+      width={width}
+      height={height}
+      data={data}
+      render={renderContent}
+      {...rest}
+    /&gt;
+  );
+}
+</code></pre>
+<h3>Q: 如何在图表中添加自定义交互？</h3>
+<p>A: 您可以使用 TaroViz 的事件系统添加自定义交互：</p>
+<pre><code class="language-jsx">import { LineChart } from &#39;@taroviz/components&#39;;
+
+function InteractiveChart() {
+  const handleTap = (event, chart) =&gt; {
+    const { x, y } = event;
+    const dataPoint = chart.getPointByPosition(x, y);
+    if (dataPoint) {
+      // 处理点击的数据点
+      console.log(&#39;Clicked point:&#39;, dataPoint);
+    }
+  };
+  
+  return &lt;LineChart {...props} onTap={handleTap} /&gt;;
+}
+</code></pre>
+<h2>调试与故障排除</h2>
+<h3>Q: 如何调试 TaroViz 渲染问题？</h3>
+<p>A: 您可以启用调试模式，显示图表的布局和边界：</p>
+<pre><code class="language-jsx">&lt;LineChart {...props} debug={true} /&gt;
+</code></pre>
+<h3>Q: 在小程序中使用 TaroViz 时报错&quot;canvas context not found&quot;，如何解决？</h3>
+<p>A: 这个错误通常是由于 Canvas 元素未正确创建或访问导致的。请确保：</p>
+<ol>
+<li>为 Canvas 组件设置了正确的 ID</li>
+<li>Canvas 组件已经渲染完成（可以在 <code>onReady</code> 生命周期中初始化图表）</li>
+<li>在某些情况下，需要延迟一小段时间再进行 Canvas 操作</li>
+</ol>
+<pre><code class="language-jsx">import { useEffect, useState } from &#39;react&#39;;
+import { Canvas } from &#39;@tarojs/components&#39;;
+import { useChart } from &#39;@taroviz/hooks&#39;;
+
+function ChartComponent() {
+  const [ready, setReady] = useState(false);
+  const { chartRef, init } = useChart();
+  
+  useEffect(() =&gt; {
+    // 延迟初始化以确保 Canvas 已准备就绪
+    const timer = setTimeout(() =&gt; {
+      setReady(true);
+    }, 100);
+  
+    return () =&gt; clearTimeout(timer);
+  }, []);
+  
+  useEffect(() =&gt; {
+    if (ready) {
+      init(&#39;chart-id&#39;); // 初始化图表
+    }
+  }, [ready, init]);
+  
+  return &lt;Canvas id=&quot;chart-id&quot; style={{ width: &#39;100%&#39;, height: &#39;300px&#39; }} /&gt;;
+}
+</code></pre>
+<h3>Q: 图表在某些Android设备上显示异常，如何解决？</h3>
+<p>A: 某些Android设备的Canvas实现存在差异，可以尝试：</p>
+<ol>
+<li>使用 <code>devicePixelRatio</code> 属性适配设备像素比</li>
+<li>避免使用复杂的渐变和阴影效果</li>
+<li>更新到最新版本的 TaroViz，我们会持续优化兼容性</li>
+</ol>
+<h2>版本与迁移</h2>
+<h3>Q: 如何从早期版本升级到最新版本？</h3>
+<p>A: 请参考<a href="./CHANGELOG.md">CHANGELOG</a>文档了解各版本的变更内容。通常的升级步骤：</p>
+<ol>
+<li>更新依赖包版本</li>
+<li>根据变更日志调整已弃用的 API</li>
+<li>测试应用确保功能正常</li>
+</ol>
+<h3>Q: TaroViz 与最新版本的 Taro 兼容吗？</h3>
+<p>A: TaroViz 会持续保持与 Taro 最新版本的兼容。我们建议同时更新 Taro 和 TaroViz 到最新版本以获得最佳体验。如遇到兼容性问题，请在 GitHub Issues 中反馈。</p>
+<h2>其他问题</h2>
+<h3>Q: 我的问题在这里没有找到答案，怎么办？</h3>
+<p>A: 您可以：</p>
+<ol>
+<li>查阅<a href="https://github.com/agions/taroviz">完整文档</a></li>
+<li>在 GitHub 上搜索或提交 Issue</li>
+<li>查看示例代码获取使用灵感</li>
+<li>加入社区交流群获取帮助</li>
+</ol>
+<h3>Q: 如何贡献代码或文档？</h3>
+<p>A: 我们非常欢迎社区贡献！请查阅<a href="./CONTRIBUTING.md">贡献指南</a>了解详细流程。</p>
+
+  </div>
+</body>
+</html>
+    

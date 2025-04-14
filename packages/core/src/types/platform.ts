@@ -1,25 +1,6 @@
 /**
  * 支持的平台类型
  */
-export type Platform =
-  | 'h5' // 标准H5/Web环境
-  | 'weapp' // 微信小程序
-  | 'alipay' // 支付宝小程序
-  | 'harmony' // 鸿蒙OS应用
-  | 'swan' // 百度智能小程序
-  | 'tt' // 字节跳动小程序
-  | 'qq' // QQ小程序
-  | 'jd' // 京东小程序
-  | 'ks' // 快手小程序
-  | 'kwai' // 快手小程序(别名)
-  | 'dd' // 钉钉小程序
-  | 'qywx' // 企业微信小程序
-  | 'lark' // 飞书小程序
-  | 'web'; // 同H5(别名)
-
-/**
- * 平台类型枚举
- */
 export enum PlatformType {
   H5 = 'h5',
   WEAPP = 'weapp', // 微信小程序
@@ -34,6 +15,14 @@ export enum PlatformType {
   LARK = 'lark', // 飞书小程序
   KWAI = 'kwai', // 快手小程序
 }
+
+// 导出平台类型字符串联合类型
+export type Platform = `${PlatformType}` | 'web' | 'ks';
+
+/**
+ * 事件处理器类型
+ */
+export type EventHandler = (params: any) => void;
 
 /**
  * 适配器通用选项
@@ -307,12 +296,12 @@ export interface Adapter {
   /**
    * 绑定事件
    */
-  on(eventName: string, handler: any, context?: object): void;
+  on(eventName: string, handler: EventHandler, context?: object): void;
 
   /**
    * 解绑事件
    */
-  off(eventName: string, handler?: Function): void;
+  off(eventName: string, handler?: EventHandler): void;
 
   /**
    * 显示加载动画
