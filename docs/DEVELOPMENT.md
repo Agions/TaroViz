@@ -1,6 +1,6 @@
-# TaroViz 开发文档
+# 开发指南
 
-该文档面向想要参与 TaroViz 开发或了解其内部实现的开发者。
+> **关键词**: TaroViz 开发, Taro 图表库, React 图表组件, ECharts Taro 开发
 
 ## 目录
 

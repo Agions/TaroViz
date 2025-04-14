@@ -78,7 +78,7 @@ import { View } from '@tarojs/components';
 import { LineChart } from 'taroviz';
 
 const Index = () => {
-  const option = {
+  const option = {% raw %}{
     xAxis: {
       type: 'category',
       data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -90,10 +90,10 @@ const Index = () => {
       data: [820, 932, 901, 934, 1290, 1330, 1320],
       type: 'line'
     }]
-  };
+  }{% endraw %};
 
   return (
-    <View style={{ height: '300px' }}>
+    <View style={% raw %}{{ height: '300px' }}{% endraw %}>
       <LineChart option={option} />
     </View>
   );
@@ -115,21 +115,21 @@ import { LineChart, BarChart, PieChart, RadarChart } from 'taroviz';
 
 const ChartDemo = () => {
   // 折线图配置
-  const lineOption = {
+  const lineOption = {% raw %}{
     xAxis: { type: 'category', data: ['A', 'B', 'C'] },
     yAxis: { type: 'value' },
     series: [{ data: [120, 200, 150], type: 'line' }]
-  };
+  }{% endraw %};
   
   // 柱状图配置
-  const barOption = {
+  const barOption = {% raw %}{
     xAxis: { type: 'category', data: ['A', 'B', 'C'] },
     yAxis: { type: 'value' },
     series: [{ data: [120, 200, 150], type: 'bar' }]
-  };
+  }{% endraw %};
   
   // 饼图配置
-  const pieOption = {
+  const pieOption = {% raw %}{
     series: [{
       type: 'pie',
       radius: '50%',
@@ -139,7 +139,7 @@ const ChartDemo = () => {
         { value: 580, name: '邮件营销' }
       ]
     }]
-  };
+  }{% endraw %};
   
   return (
     <View>
@@ -194,7 +194,7 @@ function ChartComponent() {
   // chart为图表实例，可以使用ECharts的API
   console.log('图表实例:', instance);
   
-  return <View ref={chartRef} style={{ width: '100%', height: '300px' }} />;
+  return <View ref={chartRef} style={% raw %}{{ width: '100%', height: '300px' }}{% endraw %} />;
 }
 ```
 
@@ -213,18 +213,18 @@ function DynamicChart() {
   const [count, setCount] = useState(0);
   
   // 动态选项
-  const option = {
+  const option = {% raw %}{
     xAxis: { type: 'category', data: ['A', 'B', 'C'] },
     yAxis: { type: 'value' },
     series: [{ data: [100 + count, 200 + count, 150 + count], type: 'line' }]
-  };
+  }{% endraw %};
   
   // 当option变化时，图表会自动更新
   useOption(instance, option);
   
   return (
     <View>
-      <View ref={chartRef} style={{ width: '100%', height: '300px' }} />
+      <View ref={chartRef} style={% raw %}{{ width: '100%', height: '300px' }}{% endraw %} />
       <Button onClick={() => setCount(count + 10)}>更新数据</Button>
     </View>
   );

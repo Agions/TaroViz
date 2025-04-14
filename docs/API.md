@@ -112,9 +112,9 @@ export default function ChartExample() {
         width="100%"
         height="300px"
         onChartInit={handleInit}
-        onEvents={{
+        onEvents={% raw %}{{
           click: (params) => console.log(params)
-        }}
+        }}{% endraw %}
       />
     </View>
   );
@@ -157,7 +157,7 @@ function ChartComponent() {
   
   // instance是图表实例，可以调用ECharts的API
   
-  return <View ref={chartRef} style={{ width: '100%', height: '300px' }} />;
+  return <View ref={chartRef} style={% raw %}{{ width: '100%', height: '300px' }}{% endraw %} />;
 }
 ```
 
@@ -179,7 +179,7 @@ function ChartComponent() {
   // 设置图表选项，当option变化时会自动更新
   useOption(instance, option);
   
-  return <View ref={chartRef} style={{ width: '100%', height: '300px' }} />;
+  return <View ref={chartRef} style={% raw %}{{ width: '100%', height: '300px' }}{% endraw %} />;
 }
 ```
 
@@ -197,7 +197,7 @@ function ChartComponent() {
   // 监听窗口大小变化，自动调整图表尺寸
   useResize(instance);
   
-  return <View ref={chartRef} style={{ width: '100%', height: '300px' }} />;
+  return <View ref={chartRef} style={% raw %}{{ width: '100%', height: '300px' }}{% endraw %} />;
 }
 ```
 
@@ -212,15 +212,15 @@ function ChartComponent() {
   const chartRef = useRef(null);
   const [instance] = useChart(chartRef);
   
-  const events = {
+  const events = {% raw %}{{
     click: (params) => console.log('点击了图表', params),
     mouseover: (params) => console.log('鼠标悬停', params)
-  };
+  }}{% endraw %};
   
   // 绑定事件监听
   useEvents(instance, events);
   
-  return <View ref={chartRef} style={{ width: '100%', height: '300px' }} />;
+  return <View ref={chartRef} style={% raw %}{{ width: '100%', height: '300px' }}{% endraw %} />;
 }
 ```
 
@@ -244,7 +244,7 @@ function ChartComponent() {
     fetchData().then(() => setLoading(false));
   }, []);
   
-  return <View ref={chartRef} style={{ width: '100%', height: '300px' }} />;
+  return <View ref={chartRef} style={% raw %}{{ width: '100%', height: '300px' }}{% endraw %} />;
 }
 ```
 
@@ -262,7 +262,7 @@ function ChartComponent() {
   // 设置图表主题
   useChartTheme(instance, 'dark');
   
-  return <View ref={chartRef} style={{ width: '100%', height: '300px' }} />;
+  return <View ref={chartRef} style={% raw %}{{ width: '100%', height: '300px' }}{% endraw %} />;
 }
 ```
 
@@ -285,16 +285,16 @@ function ChartComponent() {
   
   // 转换数据为图表可用格式
   const chartData = useChartData(rawData, (data) => {
-    return {
+    return {% raw %}{{
       xAxis: { data: data.map(item => item.date) },
       series: [{ data: data.map(item => item.value), type: 'line' }]
-    };
+    }}{% endraw %};
   });
   
   // 使用转换后的数据
   useOption(instance, chartData);
   
-  return <View ref={chartRef} style={{ width: '100%', height: '300px' }} />;
+  return <View ref={chartRef} style={% raw %}{{ width: '100%', height: '300px' }}{% endraw %} />;
 }
 ```
 
@@ -311,13 +311,13 @@ import { getAdapter } from '@taroviz/adapters';
 // 或者从主包导入
 // import { getAdapter } from 'taroviz';
 
-const adapter = getAdapter({
+const adapter = getAdapter({% raw %}{{
   canvasId: 'my-chart',
   width: 300,
   height: 200,
   theme: 'dark',
   autoResize: true
-});
+}}{% endraw %});
 
 // 使用适配器
 adapter.init();
@@ -340,11 +340,11 @@ import HarmonyAdapter from '@taroviz/adapters/harmony';
 import { H5Adapter, WeappAdapter } from 'taroviz';
 
 // 创建适配器实例
-const adapter = new H5Adapter({
+const adapter = new H5Adapter({% raw %}{{
   canvasId: 'my-chart',
   width: 300,
   height: 200
-});
+}}{% endraw %});
 
 // 使用适配器
 adapter.init();
@@ -360,11 +360,11 @@ adapter.setOption(option);
 ```jsx
 import { Core } from 'taroviz';
 
-Core.setGlobalOptions({
+Core.setGlobalOptions({% raw %}{{
   theme: 'dark',
   renderer: 'canvas',
   devicePixelRatio: 2
-});
+}}{% endraw %});
 ```
 
 ### 主题配置
@@ -374,11 +374,11 @@ Core.setGlobalOptions({
 ```jsx
 import { Themes } from 'taroviz';
 
-Themes.registerTheme('myTheme', {
+Themes.registerTheme('myTheme', {% raw %}{{
   color: ['#3498db', '#2ecc71', '#e74c3c'],
   backgroundColor: '#f5f5f5',
   // 其他主题配置
-});
+}}{% endraw %});
 ```
 
 ## 工具函数
@@ -391,18 +391,18 @@ TaroViz提供了一系列工具函数：
 import { Data } from 'taroviz';
 
 // 格式化数据
-const formattedData = Data.formatForChart(rawData, {
+const formattedData = Data.formatForChart(rawData, {% raw %}{{
   xKey: 'date',
   yKey: 'value',
   type: 'line'
-});
+}}{% endraw %});
 
 // 数据聚合
-const aggregatedData = Data.aggregate(rawData, {
+const aggregatedData = Data.aggregate(rawData, {% raw %}{{
   groupBy: 'category',
   measure: 'value',
   method: 'sum'
-});
+}}{% endraw %});
 ```
 
 ### 工具函数
@@ -446,17 +446,17 @@ TaroViz支持所有ECharts的事件类型：
 // 通过组件属性
 <LineChart 
   option={option}
-  onEvents={{
+  onEvents={% raw %}{{
     click: (params) => handleClick(params),
     mouseover: (params) => handleMouseOver(params)
-  }}
+  }}{% endraw %}
 />
 
 // 或者通过钩子函数
-useEvents(instance, {
+useEvents(instance, {% raw %}{{
   click: (params) => handleClick(params),
   mouseover: (params) => handleMouseOver(params)
-});
+}}{% endraw %});
 ```
 
 常用事件类型：
@@ -499,12 +499,12 @@ function handleInit(chart: ChartInstance) {
 import { LineChartProps } from '@taroviz/charts';
 
 // 使用类型
-const props: LineChartProps = {
+const props: LineChartProps = {% raw %}{{
   option: {},
   theme: 'dark',
   width: 300,
   height: 200
-};
+}}{% endraw %};
 ```
 
 ### 适配器类型
@@ -512,11 +512,11 @@ const props: LineChartProps = {
 ```typescript
 import { AdapterConfig, Adapter } from '@taroviz/adapters';
 
-const config: AdapterConfig = {
+const config: AdapterConfig = {% raw %}{{
   canvasId: 'my-chart',
   width: 300,
   height: 200
-};
+}}{% endraw %};
 
 function useAdapter(adapter: Adapter) {
   // 类型提示
@@ -533,8 +533,8 @@ import { ChartOptions, ChartInstance } from '@taroviz/hooks';
 const [instance, setInstance] = useChart<ChartInstance>(chartRef);
 
 // 指定选项类型
-const options: ChartOptions = {
+const options: ChartOptions = {% raw %}{{
   // 类型提示
-};
+}}{% endraw %};
 useOption(instance, options);
 ```

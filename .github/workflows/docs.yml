@@ -472,39 +472,11 @@ jobs:
               fs.writeFileSync(path.join('docs-dist', 'index.html'), placeholderContent);
             }
             
-            # 添加 CNAME 文件 (如果有自定义域名)
-            if [ -n "$CNAME_VALUE" ]; then
-              echo "$CNAME_VALUE" > docs-dist/CNAME
-              echo "已创建CNAME文件: $CNAME_VALUE"
-            fi
+            // 创建.nojekyll文件防止GitHub Pages使用Jekyll处理
+            fs.writeFileSync(path.join('docs-dist', '.nojekyll'), '');
+            console.log('已创建.nojekyll文件');
             
-            # 添加站点地图
-            cat > docs-dist/sitemap.xml << 'EOF'
-            <?xml version="1.0" encoding="UTF-8"?>
-            <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-              <url>
-                <loc>https://agions.github.io/taroviz/</loc>
-                <lastmod>2023-06-19</lastmod>
-                <changefreq>weekly</changefreq>
-                <priority>1.0</priority>
-              </url>
-              <url>
-                <loc>https://agions.github.io/taroviz/guides/USAGE.html</loc>
-                <changefreq>monthly</changefreq>
-                <priority>0.8</priority>
-              </url>
-              <url>
-                <loc>https://agions.github.io/taroviz/guides/API.html</loc>
-                <changefreq>monthly</changefreq>
-                <priority>0.8</priority>
-              </url>
-            </urlset>
-            EOF
-            
-            # 添加谷歌站点验证文件 (如果需要)
-            echo "google-site-verification: google123456.html" > docs-dist/google123456.html
-            
-            # 清理临时文件
+            // 清理临时文件
             try {
               if (fs.existsSync('typedoc.temp.json')) {
                 fs.unlinkSync('typedoc.temp.json');
@@ -520,6 +492,42 @@ jobs:
           
           # 运行自定义脚本
           NODE_OPTIONS=--max-old-space-size=8192 node generate-docs.js || node fallback-docs.js
+          
+          # 确保.nojekyll文件存在
+          touch docs-dist/.nojekyll
+          echo "确保.nojekyll文件存在"
+          
+          # 添加 CNAME 文件 (如果有自定义域名)
+          if [ -n "$CNAME_VALUE" ]; then
+            echo "$CNAME_VALUE" > docs-dist/CNAME
+            echo "已创建CNAME文件: $CNAME_VALUE"
+          fi
+          
+          # 添加站点地图
+          cat > docs-dist/sitemap.xml << 'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+            <url>
+              <loc>https://agions.github.io/taroviz/</loc>
+              <lastmod>2023-06-19</lastmod>
+              <changefreq>weekly</changefreq>
+              <priority>1.0</priority>
+            </url>
+            <url>
+              <loc>https://agions.github.io/taroviz/guides/USAGE.html</loc>
+              <changefreq>monthly</changefreq>
+              <priority>0.8</priority>
+            </url>
+            <url>
+              <loc>https://agions.github.io/taroviz/guides/API.html</loc>
+              <changefreq>monthly</changefreq>
+              <priority>0.8</priority>
+            </url>
+          </urlset>
+          EOF
+          
+          # 添加谷歌站点验证文件 (如果需要)
+          echo "google-site-verification: google123456.html" > docs-dist/google123456.html
 
       # 添加状态检查步骤
       - name: 检查文档生成状态
