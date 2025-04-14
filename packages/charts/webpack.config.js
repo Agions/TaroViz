@@ -78,12 +78,18 @@ module.exports = [
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
       alias: {
-        '@taroviz/core': path.resolve(rootDir, 'packages/core/src'),
-        '@taroviz/adapters': path.resolve(rootDir, 'packages/adapters/src'),
-        '@taroviz/charts': path.resolve(rootDir, 'packages/charts/src'),
-        '@taroviz/themes': path.resolve(rootDir, 'packages/themes/src'),
-        '@taroviz/data': path.resolve(rootDir, 'packages/data/src'),
-        '@taroviz/hooks': path.resolve(rootDir, 'packages/hooks/src')
+        '@agions/core': path.resolve(rootDir, 'packages/core/src'),
+        '@agions/adapters': path.resolve(rootDir, 'packages/adapters/src'),
+        '@agions/charts': path.resolve(rootDir, 'packages/charts/src'),
+        '@agions/themes': path.resolve(rootDir, 'packages/themes/src'),
+        '@agions/data': path.resolve(rootDir, 'packages/data/src'),
+        '@agions/hooks': path.resolve(rootDir, 'packages/hooks/src'),
+        '@agions/taroviz-core': path.resolve(rootDir, 'packages/core/src'),
+        '@agions/taroviz-adapters': path.resolve(rootDir, 'packages/adapters/src'),
+        '@agions/taroviz-charts': path.resolve(rootDir, 'packages/charts/src'),
+        '@agions/taroviz-themes': path.resolve(rootDir, 'packages/themes/src'),
+        '@agions/taroviz-data': path.resolve(rootDir, 'packages/data/src'),
+        '@agions/taroviz-hooks': path.resolve(rootDir, 'packages/hooks/src')
       }
     },
     optimization: {
@@ -199,12 +205,18 @@ module.exports = [
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
       alias: {
-        '@taroviz/core': path.resolve(rootDir, 'packages/core/src'),
-        '@taroviz/adapters': path.resolve(rootDir, 'packages/adapters/src'),
-        '@taroviz/charts': path.resolve(rootDir, 'packages/charts/src'),
-        '@taroviz/themes': path.resolve(rootDir, 'packages/themes/src'),
-        '@taroviz/data': path.resolve(rootDir, 'packages/data/src'),
-        '@taroviz/hooks': path.resolve(rootDir, 'packages/hooks/src')
+        '@agions/core': path.resolve(rootDir, 'packages/core/src'),
+        '@agions/adapters': path.resolve(rootDir, 'packages/adapters/src'),
+        '@agions/charts': path.resolve(rootDir, 'packages/charts/src'),
+        '@agions/themes': path.resolve(rootDir, 'packages/themes/src'),
+        '@agions/data': path.resolve(rootDir, 'packages/data/src'),
+        '@agions/hooks': path.resolve(rootDir, 'packages/hooks/src'),
+        '@agions/taroviz-core': path.resolve(rootDir, 'packages/core/src'),
+        '@agions/taroviz-adapters': path.resolve(rootDir, 'packages/adapters/src'),
+        '@agions/taroviz-charts': path.resolve(rootDir, 'packages/charts/src'),
+        '@agions/taroviz-themes': path.resolve(rootDir, 'packages/themes/src'),
+        '@agions/taroviz-data': path.resolve(rootDir, 'packages/data/src'),
+        '@agions/taroviz-hooks': path.resolve(rootDir, 'packages/hooks/src')
       }
     },
     optimization: {

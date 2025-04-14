@@ -7,43 +7,82 @@
     "declaration": true,
     "declarationDir": "./dist",
     "paths": {
-      "@taroviz/core-bundle": [
+      "@agions/core-bundle": [
         "./src"
       ],
-      "@taroviz/core": [
+      "@agions/core": [
         "../core/src"
       ],
-      "@taroviz/core/*": [
+      "@agions/core/*": [
         "../core/src/*"
       ],
-      "@taroviz/adapters": [
+      "@agions/adapters": [
         "../adapters/src"
       ],
-      "@taroviz/adapters/*": [
+      "@agions/adapters/*": [
         "../adapters/src/*"
       ],
-      "@taroviz/charts": [
+      "@agions/charts": [
         "../charts/src"
       ],
-      "@taroviz/charts/*": [
+      "@agions/charts/*": [
         "../charts/src/*"
       ],
-      "@taroviz/themes": [
+      "@agions/themes": [
         "../themes/src"
       ],
-      "@taroviz/themes/*": [
+      "@agions/themes/*": [
         "../themes/src/*"
       ],
-      "@taroviz/data": [
+      "@agions/data": [
         "../data/src"
       ],
-      "@taroviz/data/*": [
+      "@agions/data/*": [
         "../data/src/*"
       ],
-      "@taroviz/hooks": [
+      "@agions/hooks": [
         "../hooks/src"
       ],
-      "@taroviz/hooks/*": [
+      "@agions/hooks/*": [
+        "../hooks/src/*"
+      ],
+      "@agions/taroviz": [
+        "./src"
+      ],
+      "@agions/taroviz-core": [
+        "../core/src"
+      ],
+      "@agions/taroviz-core/*": [
+        "../core/src/*"
+      ],
+      "@agions/taroviz-adapters": [
+        "../adapters/src"
+      ],
+      "@agions/taroviz-adapters/*": [
+        "../adapters/src/*"
+      ],
+      "@agions/taroviz-charts": [
+        "../charts/src"
+      ],
+      "@agions/taroviz-charts/*": [
+        "../charts/src/*"
+      ],
+      "@agions/taroviz-themes": [
+        "../themes/src"
+      ],
+      "@agions/taroviz-themes/*": [
+        "../themes/src/*"
+      ],
+      "@agions/taroviz-data": [
+        "../data/src"
+      ],
+      "@agions/taroviz-data/*": [
+        "../data/src/*"
+      ],
+      "@agions/taroviz-hooks": [
+        "../hooks/src"
+      ],
+      "@agions/taroviz-hooks/*": [
         "../hooks/src/*"
       ]
     }

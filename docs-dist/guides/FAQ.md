@@ -24,13 +24,13 @@ A: 您可以使用包管理器安装 TaroViz：
 
 ```bash
 # 使用 npm
-npm install @taroviz/core @taroviz/components
+npm install @agions/core @agions/components
 
 # 使用 yarn
-yarn add @taroviz/core @taroviz/components
+yarn add @agions/core @agions/components
 
 # 使用 pnpm
-pnpm add @taroviz/core @taroviz/components
+pnpm add @agions/core @agions/components
 ```
 
 ### Q: 如何在 Taro 项目中配置 TaroViz？
@@ -55,7 +55,7 @@ const config = {
   },
   h5: {
     // ...
-    esnextModules: ['@taroviz'],
+    esnextModules: ['@agions'],
   }
 }
 ```
@@ -77,8 +77,8 @@ A: 请检查以下几点：
 A: TaroViz 提供了主题系统，您可以通过以下方式自定义主题：
 
 ```jsx
-import { ThemeProvider } from '@taroviz/core';
-import { LineChart } from '@taroviz/components';
+import { ThemeProvider } from '@agions/core';
+import { LineChart } from '@agions/components';
 
 const customTheme = {
   colors: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#DDDF6B', '#E7A97E'],
@@ -110,7 +110,7 @@ A: TaroViz 支持响应式设计，您可以：
 ```jsx
 import { useEffect, useState } from 'react';
 import Taro from '@tarojs/taro';
-import { LineChart } from '@taroviz/components';
+import { LineChart } from '@agions/components';
 
 function ResponsiveChart() {
   const [size, setSize] = useState({ width: 300, height: 200 });
@@ -149,8 +149,8 @@ A: TaroViz 采用模块化设计，您可以：
 
 ```jsx
 // 按需引入
-import { LineChart } from '@taroviz/components/LineChart';
-import { BarChart } from '@taroviz/components/BarChart';
+import { LineChart } from '@agions/components/LineChart';
+import { BarChart } from '@agions/components/BarChart';
 ```
 
 ## 功能扩展
@@ -160,8 +160,8 @@ import { BarChart } from '@taroviz/components/BarChart';
 A: TaroViz 提供了底层绘图 API，您可以基于这些 API 创建自定义图表：
 
 ```jsx
-import { useCanvas, useTheme } from '@taroviz/hooks';
-import { Chart } from '@taroviz/core';
+import { useCanvas, useTheme } from '@agions/hooks';
+import { Chart } from '@agions/core';
 
 function CustomChart(props) {
   const { data, width, height, ...rest } = props;
@@ -190,7 +190,7 @@ function CustomChart(props) {
 A: 您可以使用 TaroViz 的事件系统添加自定义交互：
 
 ```jsx
-import { LineChart } from '@taroviz/components';
+import { LineChart } from '@agions/components';
 
 function InteractiveChart() {
   const handleTap = (event, chart) => {
@@ -227,7 +227,7 @@ A: 这个错误通常是由于 Canvas 元素未正确创建或访问导致的。
 ```jsx
 import { useEffect, useState } from 'react';
 import { Canvas } from '@tarojs/components';
-import { useChart } from '@taroviz/hooks';
+import { useChart } from '@agions/hooks';
 
 function ChartComponent() {
   const [ready, setReady] = useState(false);

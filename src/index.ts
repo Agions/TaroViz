@@ -4,20 +4,20 @@
  */
 
 // 命名导出各个子包
-import * as CoreAPI from '@taroviz/core';
-import * as AdaptersAPI from '@taroviz/adapters';
-import * as ChartsAPI from '@taroviz/charts';
-import * as ThemesAPI from '@taroviz/themes';
-import * as DataAPI from '@taroviz/data';
-import * as HooksAPI from '@taroviz/hooks';
+import * as CoreAPI from '@agions/core';
+import * as AdaptersAPI from '@agions/adapters';
+import * as ChartsAPI from '@agions/charts';
+import * as ThemesAPI from '@agions/themes';
+import * as DataAPI from '@agions/data';
+import * as HooksAPI from '@agions/hooks';
 
 // 导入hooks库，用于具名导出
-import HooksDefault from '@taroviz/hooks';
+import HooksDefault from '@agions/hooks';
 
 // 便于使用的关键API导出
-export { BaseChart } from '@taroviz/core';
-export { getAdapter } from '@taroviz/adapters';
-export { LineChart, BarChart, PieChart, RadarChart } from '@taroviz/charts';
+export { BaseChart } from '@agions/core';
+export { getAdapter } from '@agions/adapters';
+export { LineChart, BarChart, PieChart, RadarChart } from '@agions/charts';
 
 // 导出所有Hooks，确保能够直接使用
 export const { 

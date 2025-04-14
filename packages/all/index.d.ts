@@ -4,22 +4,22 @@
  */
 
 // 导出核心功能
-export * from '@taroviz/core';
+export * from '@agions/core';
 
 // 导出平台适配器
-export * from '@taroviz/adapters';
+export * from '@agions/adapters';
 
 // 导出图表组件
-export * from '@taroviz/charts';
+export * from '@agions/charts';
 
 // 导出主题系统
-export * from '@taroviz/themes';
+export * from '@agions/themes';
 
 // 导出数据处理工具
-export * from '@taroviz/data';
+export * from '@agions/data';
 
 // 导出 React Hooks
-export * from '@taroviz/hooks';
+export * from '@agions/hooks';
 
 /**
  * 库信息

@@ -1,11 +1,12 @@
 import { View } from '@tarojs/components';
 import { getAdapter } from '@agions/taroviz-adapters';
-import { EChartsOption } from '@agions/taroviz-core/types';
-import { uuid } from '@agions/taroviz-core/utils';
+import { EChartsOption } from '@agions/taroviz-core';
+import { uuid } from '@agions/taroviz-core';
 import { GaugeChart as GaugeChartComponent } from 'echarts/charts';
 import { TooltipComponent, TitleComponent, LegendComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import React, { useEffect, useRef } from 'react';
+import { safeRenderAdapter } from '../utils';
 
 // 注册必要的组件
 echarts.use([GaugeChartComponent, TooltipComponent, TitleComponent, LegendComponent]);
@@ -192,7 +193,7 @@ const GaugeChart: React.FC<GaugeChartProps> = ({
       style={mergedStyle}
       ref={containerRef as any}
     >
-      {adapter.render()}
+      {safeRenderAdapter(adapter)}
     </View>
   );
 };

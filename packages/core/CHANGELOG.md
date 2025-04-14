@@ -13,4 +13,4 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.5.1](https://github.com/Agions/TaroViz/compare/v0.4.0...v0.5.1) (2025-04-11)
 
-**Note:** Version bump only for package @taroviz/core
+**Note:** Version bump only for package @agions/core

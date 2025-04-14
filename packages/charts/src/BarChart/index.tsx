@@ -1,7 +1,7 @@
 import { View } from '@tarojs/components';
 import { getAdapter } from '@agions/taroviz-adapters';
-import { EChartsOption } from '@agions/taroviz-core/types';
-import { uuid } from '@agions/taroviz-core/utils';
+import { EChartsOption } from '@agions/taroviz-core';
+import { uuid } from '@agions/taroviz-core';
 import { BarChart as BarChartComponent } from 'echarts/charts';
 import {
   GridComponent,
@@ -11,6 +11,7 @@ import {
 } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import React, { useEffect, useRef } from 'react';
+import { safeRenderAdapter } from '../utils';
 
 // 注册必要的组件
 echarts.use([BarChartComponent, GridComponent, TooltipComponent, TitleComponent, LegendComponent]);
@@ -197,7 +198,7 @@ const BarChart: React.FC<BarChartProps> = ({
       style={mergedStyle}
       ref={containerRef as any}
     >
-      {adapter.render()}
+      {safeRenderAdapter(adapter)}
     </View>
   );
 };

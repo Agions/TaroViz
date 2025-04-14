@@ -103,13 +103,13 @@ taro init my-taroviz-app
 cd my-taroviz-app
 
 # 使用 npm
-npm install @taroviz/core @taroviz/components
+npm install @agions/core @agions/components
 
 # 或使用 yarn
-yarn add @taroviz/core @taroviz/components
+yarn add @agions/core @agions/components
 
 # 或使用 pnpm
-pnpm add @taroviz/core @taroviz/components
+pnpm add @agions/core @agions/components
 </code></pre>
 <h3>步骤 3: 配置项目</h3>
 <p>在 Taro 配置文件 <code>config/index.js</code> 中添加必要的配置：</p>
@@ -130,7 +130,7 @@ const config = {
   },
   h5: {
     // ...
-    esnextModules: [&#39;@taroviz&#39;],
+    esnextModules: [&#39;@agions&#39;],
   }
 }
 </code></pre>
@@ -139,7 +139,7 @@ const config = {
 <p>在您的组件文件中（例如 <code>src/pages/index/index.jsx</code>）：</p>
 <pre><code class="language-jsx">import React from &#39;react&#39;;
 import { View } from &#39;@tarojs/components&#39;;
-import { LineChart } from &#39;@taroviz/components&#39;;
+import { LineChart } from &#39;@agions/components&#39;;
 
 export default function Index() {
   // 准备数据
@@ -195,7 +195,7 @@ npm run dev:weapp
 <p>让我们为图表添加一些交互性，例如点击响应：</p>
 <pre><code class="language-jsx">import React, { useState } from &#39;react&#39;;
 import { View, Text } from &#39;@tarojs/components&#39;;
-import { LineChart } from &#39;@taroviz/components&#39;;
+import { LineChart } from &#39;@agions/components&#39;;
 
 export default function InteractiveChart() {
   const [selectedPoint, setSelectedPoint] = useState(null);
@@ -255,8 +255,8 @@ export default function InteractiveChart() {
 <p>TaroViz 允许您轻松自定义图表的外观：</p>
 <pre><code class="language-jsx">import React from &#39;react&#39;;
 import { View } from &#39;@tarojs/components&#39;;
-import { ThemeProvider } from &#39;@taroviz/core&#39;;
-import { LineChart } from &#39;@taroviz/components&#39;;
+import { ThemeProvider } from &#39;@agions/core&#39;;
+import { LineChart } from &#39;@agions/components&#39;;
 
 export default function ThemedChart() {
   // 自定义主题
@@ -308,7 +308,7 @@ export default function ThemedChart() {
 <pre><code class="language-jsx">import React, { useEffect, useState } from &#39;react&#39;;
 import { View } from &#39;@tarojs/components&#39;;
 import Taro from &#39;@tarojs/taro&#39;;
-import { LineChart } from &#39;@taroviz/components&#39;;
+import { LineChart } from &#39;@agions/components&#39;;
 
 export default function ResponsiveChart() {
   const [size, setSize] = useState({ width: 300, height: 200 });

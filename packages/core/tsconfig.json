@@ -6,34 +6,34 @@
     "baseUrl": "./",
     "composite": true,
     "paths": {
-      "@taroviz/core": [
+      "@agions/taroviz-core": [
         "./src"
       ],
-      "@taroviz/core/*": [
+      "@agions/taroviz-core/*": [
         "./src/*"
       ],
-      "@taroviz/adapters": [
+      "@agions/taroviz-adapters": [
         "../adapters/src"
       ],
-      "@taroviz/adapters/*": [
+      "@agions/taroviz-adapters/*": [
         "../adapters/src/*"
       ],
-      "@taroviz/hooks": [
+      "@agions/taroviz-hooks": [
         "../hooks/src"
       ],
-      "@taroviz/hooks/*": [
+      "@agions/taroviz-hooks/*": [
         "../hooks/src/*"
       ],
-      "@taroviz/themes": [
+      "@agions/taroviz-themes": [
         "../themes/src"
       ],
-      "@taroviz/themes/*": [
+      "@agions/taroviz-themes/*": [
         "../themes/src/*"
       ],
-      "@taroviz/data": [
+      "@agions/taroviz-data": [
         "../data/src"
       ],
-      "@taroviz/data/*": [
+      "@agions/taroviz-data/*": [
         "../data/src/*"
       ]
     },

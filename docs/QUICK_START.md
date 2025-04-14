@@ -35,13 +35,13 @@ taro init my-taroviz-app
 cd my-taroviz-app
 
 # 使用 npm
-npm install @taroviz/core @taroviz/components
+npm install @agions/core @agions/components
 
 # 或使用 yarn
-yarn add @taroviz/core @taroviz/components
+yarn add @agions/core @agions/components
 
 # 或使用 pnpm
-pnpm add @taroviz/core @taroviz/components
+pnpm add @agions/core @agions/components
 ```
 
 ### 步骤 3: 配置项目
@@ -66,7 +66,7 @@ const config = {
   },
   h5: {
     // ...
-    esnextModules: ['@taroviz'],
+    esnextModules: ['@agions'],
   }
 }
 ```
@@ -80,7 +80,7 @@ const config = {
 ```jsx
 import React from 'react';
 import { View } from '@tarojs/components';
-import { LineChart } from '@taroviz/components';
+import { LineChart } from '@agions/components';
 
 export default function Index() {
   // 准备数据
@@ -144,7 +144,7 @@ npm run dev:weapp
 ```jsx
 import React, { useState } from 'react';
 import { View, Text } from '@tarojs/components';
-import { LineChart } from '@taroviz/components';
+import { LineChart } from '@agions/components';
 
 export default function InteractiveChart() {
   const [selectedPoint, setSelectedPoint] = useState(null);
@@ -208,8 +208,8 @@ TaroViz 允许您轻松自定义图表的外观：
 ```jsx
 import React from 'react';
 import { View } from '@tarojs/components';
-import { ThemeProvider } from '@taroviz/core';
-import { LineChart } from '@taroviz/components';
+import { ThemeProvider } from '@agions/core';
+import { LineChart } from '@agions/components';
 
 export default function ThemedChart() {
   // 自定义主题
@@ -265,7 +265,7 @@ export default function ThemedChart() {
 import React, { useEffect, useState } from 'react';
 import { View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import { LineChart } from '@taroviz/components';
+import { LineChart } from '@agions/components';
 
 export default function ResponsiveChart() {
   const [size, setSize] = useState({ width: 300, height: 200 });

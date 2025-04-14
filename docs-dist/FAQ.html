@@ -91,13 +91,13 @@
 <h3>Q: 如何安装 TaroViz？</h3>
 <p>A: 您可以使用包管理器安装 TaroViz：</p>
 <pre><code class="language-bash"># 使用 npm
-npm install @taroviz/core @taroviz/components
+npm install @agions/core @agions/components
 
 # 使用 yarn
-yarn add @taroviz/core @taroviz/components
+yarn add @agions/core @agions/components
 
 # 使用 pnpm
-pnpm add @taroviz/core @taroviz/components
+pnpm add @agions/core @agions/components
 </code></pre>
 <h3>Q: 如何在 Taro 项目中配置 TaroViz？</h3>
 <p>A: 在 Taro 项目中，需要在项目配置文件 <code>config/index.js</code> 中添加以下配置：</p>
@@ -118,7 +118,7 @@ const config = {
   },
   h5: {
     // ...
-    esnextModules: [&#39;@taroviz&#39;],
+    esnextModules: [&#39;@agions&#39;],
   }
 }
 </code></pre>
@@ -134,8 +134,8 @@ const config = {
 </ol>
 <h3>Q: 如何自定义图表主题？</h3>
 <p>A: TaroViz 提供了主题系统，您可以通过以下方式自定义主题：</p>
-<pre><code class="language-jsx">import { ThemeProvider } from &#39;@taroviz/core&#39;;
-import { LineChart } from &#39;@taroviz/components&#39;;
+<pre><code class="language-jsx">import { ThemeProvider } from &#39;@agions/core&#39;;
+import { LineChart } from &#39;@agions/components&#39;;
 
 const customTheme = {
   colors: [&#39;#FF6B6B&#39;, &#39;#4ECDC4&#39;, &#39;#45B7D1&#39;, &#39;#DDDF6B&#39;, &#39;#E7A97E&#39;],
@@ -164,7 +164,7 @@ function App() {
 </ol>
 <pre><code class="language-jsx">import { useEffect, useState } from &#39;react&#39;;
 import Taro from &#39;@tarojs/taro&#39;;
-import { LineChart } from &#39;@taroviz/components&#39;;
+import { LineChart } from &#39;@agions/components&#39;;
 
 function ResponsiveChart() {
   const [size, setSize] = useState({ width: 300, height: 200 });
@@ -198,14 +198,14 @@ function ResponsiveChart() {
 <li>如需进一步优化，可以使用 TaroViz 的按需加载功能</li>
 </ol>
 <pre><code class="language-jsx">// 按需引入
-import { LineChart } from &#39;@taroviz/components/LineChart&#39;;
-import { BarChart } from &#39;@taroviz/components/BarChart&#39;;
+import { LineChart } from &#39;@agions/components/LineChart&#39;;
+import { BarChart } from &#39;@agions/components/BarChart&#39;;
 </code></pre>
 <h2>功能扩展</h2>
 <h3>Q: 如何创建自定义图表组件？</h3>
 <p>A: TaroViz 提供了底层绘图 API，您可以基于这些 API 创建自定义图表：</p>
-<pre><code class="language-jsx">import { useCanvas, useTheme } from &#39;@taroviz/hooks&#39;;
-import { Chart } from &#39;@taroviz/core&#39;;
+<pre><code class="language-jsx">import { useCanvas, useTheme } from &#39;@agions/hooks&#39;;
+import { Chart } from &#39;@agions/core&#39;;
 
 function CustomChart(props) {
   const { data, width, height, ...rest } = props;
@@ -230,7 +230,7 @@ function CustomChart(props) {
 </code></pre>
 <h3>Q: 如何在图表中添加自定义交互？</h3>
 <p>A: 您可以使用 TaroViz 的事件系统添加自定义交互：</p>
-<pre><code class="language-jsx">import { LineChart } from &#39;@taroviz/components&#39;;
+<pre><code class="language-jsx">import { LineChart } from &#39;@agions/components&#39;;
 
 function InteractiveChart() {
   const handleTap = (event, chart) =&gt; {
@@ -259,7 +259,7 @@ function InteractiveChart() {
 </ol>
 <pre><code class="language-jsx">import { useEffect, useState } from &#39;react&#39;;
 import { Canvas } from &#39;@tarojs/components&#39;;
-import { useChart } from &#39;@taroviz/hooks&#39;;
+import { useChart } from &#39;@agions/hooks&#39;;
 
 function ChartComponent() {
   const [ready, setReady] = useState(false);

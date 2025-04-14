@@ -115,13 +115,13 @@ TaroViz 支持所有 Taro 兼容的平台，包括：
 
 ```bash
 # 使用npm
-npm install @taroviz/core @taroviz/components
+npm install @agions/core @agions/components
 
 # 使用yarn
-yarn add @taroviz/core @taroviz/components
+yarn add @agions/core @agions/components
 
 # 使用pnpm
-pnpm add @taroviz/core @taroviz/components
+pnpm add @agions/core @agions/components
 ```
 
 创建一个简单的折线图:
@@ -129,7 +129,7 @@ pnpm add @taroviz/core @taroviz/components
 ```jsx
 import React from 'react';
 import { View } from '@tarojs/components';
-import { LineChart } from '@taroviz/components';
+import { LineChart } from '@agions/components';
 
 export default function App() {
   const data = {

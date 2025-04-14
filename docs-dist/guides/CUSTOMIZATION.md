@@ -11,7 +11,7 @@ TaroViz 提供了对底层 Canvas 绘图 API 的访问，使您可以绘制任�
 ```jsx
 import React, { useEffect } from 'react';
 import { View } from '@tarojs/components';
-import { useCanvas } from '@taroviz/hooks';
+import { useCanvas } from '@agions/hooks';
 
 function CustomChart() {
   const { canvasRef, ctx, width, height } = useCanvas();
@@ -48,7 +48,7 @@ TaroViz 提供了一个基础的 `Chart` 组件，处理了常见的初始化、
 
 ```jsx
 import React from 'react';
-import { Chart } from '@taroviz/core';
+import { Chart } from '@agions/core';
 
 function CustomBarChart({ data, width, height }) {
   const renderContent = (ctx, chart) => {
@@ -120,7 +120,7 @@ function App() {
 
 ```jsx
 import React, { useState } from 'react';
-import { Chart } from '@taroviz/core';
+import { Chart } from '@agions/core';
 
 function InteractiveCustomChart({ data, width, height }) {
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -197,8 +197,8 @@ function InteractiveCustomChart({ data, width, height }) {
 
 ```jsx
 import React, { useEffect, useRef, useState } from 'react';
-import { Chart } from '@taroviz/core';
-import { useAnimationFrame } from '@taroviz/hooks';
+import { Chart } from '@agions/core';
+import { useAnimationFrame } from '@agions/hooks';
 
 function AnimatedCustomChart({ data, width, height }) {
   const [animProgress, setAnimProgress] = useState(0);
@@ -285,8 +285,8 @@ function AnimatedCustomChart({ data, width, height }) {
 
 ```jsx
 import React from 'react';
-import { LineChart } from '@taroviz/components';
-import { useTheme } from '@taroviz/hooks';
+import { LineChart } from '@agions/components';
+import { useTheme } from '@agions/hooks';
 
 // 扩展折线图添加阈值线
 function LineChartWithThreshold({ data, threshold, thresholdLabel, ...rest }) {
@@ -375,7 +375,7 @@ function App() {
 ```jsx
 import React, { useState } from 'react';
 import { View } from '@tarojs/components';
-import { LineChart, BarChart } from '@taroviz/components';
+import { LineChart, BarChart } from '@agions/components';
 
 function CompoundChart({ lineData, barData }) {
   // 共享选中状态
@@ -507,8 +507,8 @@ TaroViz 支持自定义主题，您可以创建全局主题或特定图表的主
 
 ```jsx
 import React from 'react';
-import { ThemeProvider } from '@taroviz/core';
-import { LineChart, BarChart, PieChart } from '@taroviz/components';
+import { ThemeProvider } from '@agions/core';
+import { LineChart, BarChart, PieChart } from '@agions/components';
 
 // 创建自定义主题
 const darkTheme = {
@@ -557,8 +557,8 @@ function ThemedDashboard() {
 ```jsx
 import React, { useState, useEffect } from 'react';
 import { View, Button } from '@tarojs/components';
-import { ThemeProvider } from '@taroviz/core';
-import { LineChart } from '@taroviz/components';
+import { ThemeProvider } from '@agions/core';
+import { LineChart } from '@agions/components';
 import Taro from '@tarojs/taro';
 
 // 明亮主题
@@ -688,7 +688,7 @@ function ThemeSwitchableChart() {
 ```jsx
 import React, { useEffect, useRef } from 'react';
 import { Canvas } from '@tarojs/components';
-import { useCanvas } from '@taroviz/hooks';
+import { useCanvas } from '@agions/hooks';
 
 function OptimizedCustomChart({ data }) {
   const { canvasRef, ctx, width, height } = useCanvas();

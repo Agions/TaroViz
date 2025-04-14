@@ -6,6 +6,7 @@ import { PieChart as PieChartComponent } from 'echarts/charts';
 import { TooltipComponent, TitleComponent, LegendComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import React, { useEffect, useRef } from 'react';
+import { safeRenderAdapter } from '../utils';
 
 // 注册必要的组件
 echarts.use([PieChartComponent, TooltipComponent, TitleComponent, LegendComponent]);
@@ -192,7 +193,7 @@ const PieChart: React.FC<PieChartProps> = ({
       style={mergedStyle}
       ref={containerRef as any}
     >
-      {adapter.render()}
+      {safeRenderAdapter(adapter)}
     </View>
   );
 };

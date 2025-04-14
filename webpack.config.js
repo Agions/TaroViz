@@ -61,12 +61,12 @@ const packageEntries = {
 
 // 设置路径别名
 const aliasConfig = {
-  '@taroviz/core': path.resolve(__dirname, 'packages/core/src'),
-  '@taroviz/adapters': path.resolve(__dirname, 'packages/adapters/src'),
-  '@taroviz/charts': path.resolve(__dirname, 'packages/charts/src'),
-  '@taroviz/themes': path.resolve(__dirname, 'packages/themes/src'),
-  '@taroviz/data': path.resolve(__dirname, 'packages/data/src'),
-  '@taroviz/hooks': path.resolve(__dirname, 'packages/hooks/src')
+  '@agions/core': path.resolve(__dirname, 'packages/core/src'),
+  '@agions/adapters': path.resolve(__dirname, 'packages/adapters/src'),
+  '@agions/charts': path.resolve(__dirname, 'packages/charts/src'),
+  '@agions/themes': path.resolve(__dirname, 'packages/themes/src'),
+  '@agions/data': path.resolve(__dirname, 'packages/data/src'),
+  '@agions/hooks': path.resolve(__dirname, 'packages/hooks/src')
 };
 
 // 基础webpack配置
