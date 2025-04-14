@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/Agions/TaroViz/compare/v1.0.2...v1.1.0) (2025-04-14)
+
+### Bug Fixes
+
+- 彻底解决文档构建问题，修复模块引用路径和webpack-cli依赖 ([1a10246](https://github.com/Agions/TaroViz/commit/1a10246ec49fa31d00a66039fcaad4cad787ae33))
+- 更新包版本至1.0.3并修复导入路径问题 ([4449b03](https://github.com/Agions/TaroViz/commit/4449b0352f2566b57332eee4b80fcd9aa84b7bdf))
+- 解决pnpm安装时frozen-lockfile错误，优化CI文档构建流程 ([a60f1cb](https://github.com/Agions/TaroViz/commit/a60f1cbcca5fdcc961933386727cc8d62f705d55))
+- 修复GitHub Action无法找到pnpm可执行文件的问题 ([e42181f](https://github.com/Agions/TaroViz/commit/e42181fde0939011e7f81ebf3f92defa183e516c))
+- 修复npm不支持workspace协议问题，改用pnpm处理所有依赖 ([6bc2ec9](https://github.com/Agions/TaroViz/commit/6bc2ec9fdfaf70e50af9ee4ae37d1bf62a36f5bc))
+- 修复PNPM安装依赖错误和文档生成问题，增加容错机制 ([a4c3025](https://github.com/Agions/TaroViz/commit/a4c3025af1765ed82b6fc259458dd29461282915))
+- 修复TypeDoc无法找到模块依赖的问题 ([9861264](https://github.com/Agions/TaroViz/commit/98612640da20589ef02dd56a9780b78cdf7ae0cf))
+- 移除TypeDoc不支持的skipLibCheck选项 ([0f682d2](https://github.com/Agions/TaroViz/commit/0f682d248790af6f04a998af69b2526ffa4e9955))
+
+### Features
+
+- 更新版本号到1.0.3，修复类型定义问题 ([f5afd2d](https://github.com/Agions/TaroViz/commit/f5afd2d1e71ec8e9e4d57b6ce55693c5fb6e690b))
+- 添加GitHub Pages部署所需的权限配置 ([acac0e2](https://github.com/Agions/TaroViz/commit/acac0e2cc6e9c8bfe9474b7e981036d04a413fc9))
+
 ## [1.0.3](https://github.com/Agions/TaroViz/compare/v1.0.2...v1.0.3) (2025-04-14)
 
 ### Bug Fixes

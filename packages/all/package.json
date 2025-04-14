@@ -1,6 +1,6 @@
 {
   "name": "@agions/taroviz",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "TaroViz 是一个基于 Taro 和 ECharts 的图表组件库，支持多端小程序和 H5",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -19,12 +19,12 @@
     "access": "public"
   },
   "dependencies": {
-    "@agions/taroviz-adapters": "1.0.3",
-    "@agions/taroviz-charts": "1.0.3",
-    "@agions/taroviz-core": "1.0.3",
-    "@agions/taroviz-data": "1.0.3",
-    "@agions/taroviz-hooks": "1.0.3",
-    "@agions/taroviz-themes": "1.0.3"
+    "@agions/taroviz-adapters": "1.1.0",
+    "@agions/taroviz-charts": "1.1.0",
+    "@agions/taroviz-core": "1.1.0",
+    "@agions/taroviz-data": "1.1.0",
+    "@agions/taroviz-hooks": "1.1.0",
+    "@agions/taroviz-themes": "1.1.0"
   },
   "peerDependencies": {
     "@tarojs/components": ">=3.4.0",
