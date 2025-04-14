@@ -2,8 +2,8 @@
  * TaroViz React Hooks
  * 提供与图表相关的React Hooks
  */
-import { getAdapter } from '@taroviz/adapters';
-import { EventHandler } from '@taroviz/core/types';
+import { getAdapter } from '@agions/taroviz-adapters';
+import { EventHandler } from '@agions/taroviz-core/types';
 import { useState, useEffect, useMemo } from 'react';
 
 // 通用图表配置类型

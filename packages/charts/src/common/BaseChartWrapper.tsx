@@ -1,6 +1,6 @@
 import { View } from '@tarojs/components';
-import { getAdapter } from '@taroviz/adapters';
-import { uuid } from '@taroviz/core';
+import { getAdapter } from '@agions/taroviz-adapters';
+import { uuid } from '@agions/taroviz-core';
 import * as echarts from 'echarts/core';
 import React, { useEffect, useRef, useMemo } from 'react';
 

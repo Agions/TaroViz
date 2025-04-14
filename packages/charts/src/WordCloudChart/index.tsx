@@ -1,9 +1,9 @@
 import { View } from '@tarojs/components';
 // 注意：需要单独引入词云图，这是echarts的扩展
 // import 'echarts-wordcloud';
-import { getAdapter } from '@taroviz/adapters';
-import { EChartsOption } from '@taroviz/core/types';
-import { uuid } from '@taroviz/core/utils';
+import { getAdapter } from '@agions/taroviz-adapters';
+import { EChartsOption } from '@agions/taroviz-core/types';
+import { uuid } from '@agions/taroviz-core/utils';
 import { TooltipComponent, TitleComponent, LegendComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import React, { useEffect, useRef } from 'react';
