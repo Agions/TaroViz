@@ -54,7 +54,7 @@ export {
 
 // 包信息
 export const name = '@agions/taroviz';
-export const version = '1.0.3';
+export const version = '1.1.1';
 
 // 懒加载导入API
 export const loadCore = () => import('@agions/taroviz-core');

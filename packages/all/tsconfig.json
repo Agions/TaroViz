@@ -1,47 +1,55 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "baseUrl": "./",
     "declaration": true,
+    "outDir": "./dist",
     "declarationDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@agions/taroviz": ["./src"],
-      "@agions/taroviz-core": ["../core/src"],
-      "@agions/taroviz-core/*": ["../core/src/*"],
-      "@agions/taroviz-adapters": ["../adapters/src"],
-      "@agions/taroviz-adapters/*": ["../adapters/src/*"],
-      "@agions/taroviz-charts": ["../charts/src"],
-      "@agions/taroviz-charts/*": ["../charts/src/*"],
-      "@agions/taroviz-themes": ["../themes/src"],
-      "@agions/taroviz-themes/*": ["../themes/src/*"],
-      "@agions/taroviz-data": ["../data/src"],
-      "@agions/taroviz-data/*": ["../data/src/*"],
-      "@agions/taroviz-hooks": ["../hooks/src"],
-      "@agions/taroviz-hooks/*": ["../hooks/src/*"]
+      "@agions/taroviz-core/*": [
+        "../core/src/*"
+      ],
+      "@agions/taroviz-adapters/*": [
+        "../adapters/src/*"
+      ],
+      "@agions/taroviz-charts/*": [
+        "../charts/src/*"
+      ],
+      "@agions/taroviz-themes/*": [
+        "../themes/src/*"
+      ],
+      "@agions/taroviz-data/*": [
+        "../data/src/*"
+      ],
+      "@agions/taroviz-hooks/*": [
+        "../hooks/src/*"
+      ],
+      "@agions/taroviz-core": [
+        "../core/src"
+      ],
+      "@agions/taroviz-adapters": [
+        "../adapters/src"
+      ],
+      "@agions/taroviz-charts": [
+        "../charts/src"
+      ],
+      "@agions/taroviz-themes": [
+        "../themes/src"
+      ],
+      "@agions/taroviz-data": [
+        "../data/src"
+      ],
+      "@agions/taroviz-hooks": [
+        "../hooks/src"
+      ]
     }
   },
-  "include": ["src/**/*", "index.d.ts"],
-  "exclude": ["**/__tests__/**", "**/*.test.ts", "**/*.test.tsx"],
-  "references": [
-    {
-      "path": "../core"
-    },
-    {
-      "path": "../adapters"
-    },
-    {
-      "path": "../charts"
-    },
-    {
-      "path": "../themes"
-    },
-    {
-      "path": "../data"
-    },
-    {
-      "path": "../hooks"
-    }
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
   ]
 }

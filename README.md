@@ -10,15 +10,15 @@
     <a href="https://www.npmjs.com/package/@agions/taroviz">
       <img src="https://img.shields.io/npm/dm/@agions/taroviz.svg" alt="npm downloads">
     </a>
-    <a href="https://github.com/yourusername/taroviz/blob/main/LICENSE">
+    <a href="https://github.com/agions/taroviz/blob/main/LICENSE">
       <img src="https://img.shields.io/npm/l/@agions/taroviz.svg" alt="license">
     </a>
   </p>
 </div>
 
-## 📢 最新版本 v1.1.0
+## 📢 最新版本 v1.1.1
 
-我们很高兴地宣布 TaroViz v1.1.0 已正式发布！查看 [更新日志](./CHANGELOG.md) 了解详细信息。
+我们很高兴地宣布 TaroViz v1.1.1 已正式发布！查看 [更新日志](./CHANGELOG.md) 了解详细信息。
 
 ## 📚 文档
 
@@ -79,15 +79,15 @@ const App = () => {
 
 TaroViz 采用 monorepo 管理模式，包含以下核心包：
 
-| 包名 | 版本 | 描述 |
-|------|------|------|
-| [@agions/taroviz](./packages/all) | [![npm](https://img.shields.io/npm/v/@agions/taroviz.svg)](https://www.npmjs.com/package/@agions/taroviz) | 完整功能包 |
-| [@agions/taroviz-core](./packages/core) | [![npm](https://img.shields.io/npm/v/@agions/taroviz-core.svg)](https://www.npmjs.com/package/@agions/taroviz-core) | 核心组件 |
-| [@agions/taroviz-charts](./packages/charts) | [![npm](https://img.shields.io/npm/v/@agions/taroviz-charts.svg)](https://www.npmjs.com/package/@agions/taroviz-charts) | 图表组件 |
-| [@agions/taroviz-hooks](./packages/hooks) | [![npm](https://img.shields.io/npm/v/@agions/taroviz-hooks.svg)](https://www.npmjs.com/package/@agions/taroviz-hooks) | React Hooks |
-| [@agions/taroviz-themes](./packages/themes) | [![npm](https://img.shields.io/npm/v/@agions/taroviz-themes.svg)](https://www.npmjs.com/package/@agions/taroviz-themes) | 主题系统 |
-| [@agions/taroviz-data](./packages/data) | [![npm](https://img.shields.io/npm/v/@agions/taroviz-data.svg)](https://www.npmjs.com/package/@agions/taroviz-data) | 数据处理 |
-| [@agions/taroviz-adapters](./packages/adapters) | [![npm](https://img.shields.io/npm/v/@agions/taroviz-adapters.svg)](https://www.npmjs.com/package/@agions/taroviz-adapters) | 平台适配器 |
+| 包名                                         | 版本                                                                                                                   | 描述        |
+| -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [@agions/taroviz](./packages/all)               | [![npm](https://img.shields.io/npm/v/@agions/taroviz.svg)](https://www.npmjs.com/package/@agions/taroviz)                   | 完整功能包  |
+| [@agions/taroviz-core](./packages/core)         | [![npm](https://img.shields.io/npm/v/@agions/taroviz-core.svg)](https://www.npmjs.com/package/@agions/taroviz-core)         | 核心组件    |
+| [@agions/taroviz-charts](./packages/charts)     | [![npm](https://img.shields.io/npm/v/@agions/taroviz-charts.svg)](https://www.npmjs.com/package/@agions/taroviz-charts)     | 图表组件    |
+| [@agions/taroviz-hooks](./packages/hooks)       | [![npm](https://img.shields.io/npm/v/@agions/taroviz-hooks.svg)](https://www.npmjs.com/package/@agions/taroviz-hooks)       | React Hooks |
+| [@agions/taroviz-themes](./packages/themes)     | [![npm](https://img.shields.io/npm/v/@agions/taroviz-themes.svg)](https://www.npmjs.com/package/@agions/taroviz-themes)     | 主题系统    |
+| [@agions/taroviz-data](./packages/data)         | [![npm](https://img.shields.io/npm/v/@agions/taroviz-data.svg)](https://www.npmjs.com/package/@agions/taroviz-data)         | 数据处理    |
+| [@agions/taroviz-adapters](./packages/adapters) | [![npm](https://img.shields.io/npm/v/@agions/taroviz-adapters.svg)](https://www.npmjs.com/package/@agions/taroviz-adapters) | 平台适配器  |
 
 ## 示例
 
@@ -198,4 +198,3 @@ pnpm test
 如果您在使用过程中遇到问题，可以通过以下方式获取帮助：
 
 - [GitHub Issues](https://github.com/agions/taroviz/issues)
-

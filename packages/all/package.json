@@ -1,6 +1,6 @@
 {
   "name": "@agions/taroviz",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "TaroViz 是一个基于 Taro 和 ECharts 的图表组件库，支持多端小程序和 H5",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -12,19 +12,19 @@
   ],
   "scripts": {
     "dev": "webpack --mode=development --watch",
-    "build": "npx webpack --mode=production",
+    "build": "webpack --mode=production",
     "clean": "rimraf dist"
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@agions/taroviz-adapters": "1.1.0",
-    "@agions/taroviz-charts": "1.1.0",
-    "@agions/taroviz-core": "1.1.0",
-    "@agions/taroviz-data": "1.1.0",
-    "@agions/taroviz-hooks": "1.1.0",
-    "@agions/taroviz-themes": "1.1.0"
+    "@agions/taroviz-adapters": "1.1.1",
+    "@agions/taroviz-charts": "1.1.1",
+    "@agions/taroviz-core": "1.1.1",
+    "@agions/taroviz-data": "1.1.1",
+    "@agions/taroviz-hooks": "1.1.1",
+    "@agions/taroviz-themes": "1.1.1"
   },
   "peerDependencies": {
     "@tarojs/components": ">=3.4.0",
@@ -32,5 +32,16 @@
     "echarts": ">=5.4.0",
     "react": ">=16.13.0"
   },
-  "gitHead": "08705385bf791a02d7eb7d74ffbf44f021f26b5b"
+  "gitHead": "08705385bf791a02d7eb7d74ffbf44f021f26b5b",
+  "devDependencies": {
+    "webpack": "^5.90.3",
+    "webpack-cli": "^5.1.4",
+    "webpack-node-externals": "^3.0.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "fork-ts-checker-webpack-plugin": "^9.1.0",
+    "mini-css-extract-plugin": "^2.9.2",
+    "terser-webpack-plugin": "^5.3.14",
+    "webpack-bundle-analyzer": "^4.10.2",
+    "rimraf": "^5.0.5"
+  }
 }
