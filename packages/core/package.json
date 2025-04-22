@@ -1,6 +1,6 @@
 {
   "name": "@agions/taroviz-core",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "TaroViz 核心组件和工具",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -32,6 +32,7 @@
   },
   "gitHead": "08705385bf791a02d7eb7d74ffbf44f021f26b5b",
   "devDependencies": {
-    "prettier": "^3.5.3"
+    "prettier": "^3.5.3",
+    "webpack-cli": "^6.0.1"
   }
 }

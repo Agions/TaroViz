@@ -8,34 +8,91 @@
     "declarationDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "@agions/themes": ["./src"],
-      "@agions/themes/*": ["./src/*"],
-      "@agions/core": ["../core/src"],
-      "@agions/core/*": ["../core/src/*"],
-      "@agions/adapters": ["../adapters/src"],
-      "@agions/adapters/*": ["../adapters/src/*"],
-      "@agions/hooks": ["../hooks/src"],
-      "@agions/hooks/*": ["../hooks/src/*"],
-      "@agions/data": ["../data/src"],
-      "@agions/data/*": ["../data/src/*"],
-      "@agions/charts": ["../charts/src"],
-      "@agions/charts/*": ["../charts/src/*"],
-      "@agions/taroviz-themes": ["./src"],
-      "@agions/taroviz-themes/*": ["./src/*"],
-      "@agions/taroviz-core": ["../core/src"],
-      "@agions/taroviz-core/*": ["../core/src/*"],
-      "@agions/taroviz-adapters": ["../adapters/src"],
-      "@agions/taroviz-adapters/*": ["../adapters/src/*"],
-      "@agions/taroviz-hooks": ["../hooks/src"],
-      "@agions/taroviz-hooks/*": ["../hooks/src/*"],
-      "@agions/taroviz-data": ["../data/src"],
-      "@agions/taroviz-data/*": ["../data/src/*"],
-      "@agions/taroviz-charts": ["../charts/src"],
-      "@agions/taroviz-charts/*": ["../charts/src/*"]
+      "@agions/themes": [
+        "./src"
+      ],
+      "@agions/themes/*": [
+        "./src/*"
+      ],
+      "@agions/core": [
+        "../core/src"
+      ],
+      "@agions/core/*": [
+        "../core/src/*"
+      ],
+      "@agions/adapters": [
+        "../adapters/src"
+      ],
+      "@agions/adapters/*": [
+        "../adapters/src/*"
+      ],
+      "@agions/hooks": [
+        "../hooks/src"
+      ],
+      "@agions/hooks/*": [
+        "../hooks/src/*"
+      ],
+      "@agions/data": [
+        "../data/src"
+      ],
+      "@agions/data/*": [
+        "../data/src/*"
+      ],
+      "@agions/charts": [
+        "../charts/src"
+      ],
+      "@agions/charts/*": [
+        "../charts/src/*"
+      ],
+      "@agions/taroviz-themes": [
+        "./src"
+      ],
+      "@agions/taroviz-themes/*": [
+        "./src/*"
+      ],
+      "@agions/taroviz-core": [
+        "../core/src"
+      ],
+      "@agions/taroviz-core/*": [
+        "../core/src/*"
+      ],
+      "@agions/taroviz-adapters": [
+        "../adapters/src"
+      ],
+      "@agions/taroviz-adapters/*": [
+        "../adapters/src/*"
+      ],
+      "@agions/taroviz-hooks": [
+        "../hooks/src"
+      ],
+      "@agions/taroviz-hooks/*": [
+        "../hooks/src/*"
+      ],
+      "@agions/taroviz-data": [
+        "../data/src"
+      ],
+      "@agions/taroviz-data/*": [
+        "../data/src/*"
+      ],
+      "@agions/taroviz-charts": [
+        "../charts/src"
+      ],
+      "@agions/taroviz-charts/*": [
+        "../charts/src/*"
+      ]
     }
   },
-  "include": ["src/**/*", "index.d.ts"],
-  "exclude": ["node_modules", "dist", "**/__tests__/**", "**/*.test.ts", "**/*.test.tsx"],
+  "include": [
+    "src/**/*",
+    "index.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/__tests__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ],
   "references": [
     {
       "path": "../core"

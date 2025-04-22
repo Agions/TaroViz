@@ -8,7 +8,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Bug Fixes
 
 - 彻底解决文档构建问题，修复模块引用路径和webpack-cli依赖 ([1a10246](https://github.com/Agions/TaroViz/commit/1a10246ec49fa31d00a66039fcaad4cad787ae33))
-- 更新包版本至1.0.3并修复导入路径问题 ([4449b03](https://github.com/Agions/TaroViz/commit/4449b0352f2566b57332eee4b80fcd9aa84b7bdf))
+- 更新包版本至1.1.1并修复导入路径问题 ([4449b03](https://github.com/Agions/TaroViz/commit/4449b0352f2566b57332eee4b80fcd9aa84b7bdf))
 - 解决pnpm安装时frozen-lockfile错误，优化CI文档构建流程 ([a60f1cb](https://github.com/Agions/TaroViz/commit/a60f1cbcca5fdcc961933386727cc8d62f705d55))
 - 修复GitHub Action无法找到pnpm可执行文件的问题 ([e42181f](https://github.com/Agions/TaroViz/commit/e42181fde0939011e7f81ebf3f92defa183e516c))
 - 修复npm不支持workspace协议问题，改用pnpm处理所有依赖 ([6bc2ec9](https://github.com/Agions/TaroViz/commit/6bc2ec9fdfaf70e50af9ee4ae37d1bf62a36f5bc))
@@ -25,7 +25,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-- 修复类型定义中使用`Function`类型的问题，替换为更具体的`EventHandler`类型
+- 修复类型定义中使用 `Function`类型的问题，替换为更具体的 `EventHandler`类型
 - 优化各适配器中的代码规范和类型安全性
 - 修复WeappAdapter中的组件实例类型问题
 
@@ -136,3 +136,17 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - 基础功能问题修复
 - 开发环境配置优化
 - 依赖关系调整
+
+## 1.1.1 (2025-04-22)
+
+### Bug修复
+
+- 修复了npm包构建问题，确保 `dist/index.js`等关键文件正确生成
+- 优化了构建脚本，确保所有包都能正确构建
+- 解决了webpack和webpack-cli的依赖冲突问题
+
+### 其他改进
+
+- 改进了包的构建流程，确保更加稳定可靠
+- 优化了代码组织结构，提高了包的可维护性
+- 更新了依赖版本，解决了Node.js版本兼容性问题
