@@ -1,70 +1,284 @@
-# TaroViz 项目迁移说明
+# 版本迁移指南
 
-## 迁移原因
+本文档提供了 TaroViz 各版本之间的迁移指南，帮助您从旧版本顺利升级到新版本。
 
-为了提供更好的维护和支持，TaroViz 项目已经从原来的 `@agions` 作用域迁移到 `@agions` 作用域下。这次迁移包含以下几个主要目的：
+## 从 1.1.x 迁移到 1.2.x
 
-1. **更好的维护支持**：通过个人作用域管理，可以提供更及时的更新和维护
-2. **版本统一管理**：所有包统一升级到 1.0.1 版本，建立更清晰的版本发布周期
-3. **文档完善**：提供更详细的中文文档支持
-4. **包名优化**：采用更清晰的包命名规范，便于理解和使用
+### 新增功能
 
-## 包名变更对照表
+1. **平台扩展**
 
-| 原包名               | 新包名                   | 说明         |
-| -------------------- | ------------------------ | ------------ |
-| @agions/core        | @agions/taroviz-core     | 核心功能包   |
-| @agions/adapters    | @agions/taroviz-adapters | 平台适配器   |
-| @agions/hooks       | @agions/taroviz-hooks    | React Hooks  |
-| @agions/data        | @agions/taroviz-data     | 数据处理工具 |
-| @agions/themes      | @agions/taroviz-themes   | 主题系统     |
-| @agions/core-bundle | @agions/taroviz          | 整合包       |
+   - 支持百度小程序 (swan)
+   - 支持字节跳动小程序 (tt)
+   - 支持HarmonyOS (harmony)
 
-## 迁移步骤
+2. **开发工具**
 
-1. 更新依赖声明：
+   - 性能分析工具
+   - 图表配置生成器
+   - 代码示例生成器
 
-```diff
-- "@agions/core": "^0.5.1"
-- "@agions/core-bundle": "^0.5.1"
-+ "@agions/taroviz": "^1.0.0"
-```
+3. **文档系统**
+   - API文档自动生成
+   - 在线示例
+   - 平台适配指南
 
-2. 更新导入语句：
+### 重大变更
 
-```diff
-- import { useChart } from '@agions/hooks';
-+ import { useChart } from '@agions/taroviz-hooks';
+1. **适配器 API 变更**
 
-- import { LineChart } from '@agions/core-bundle';
-+ import { LineChart } from '@agions/taroviz';
-```
+   - 适配器工厂函数从 `getEnv()` 改为 `detectPlatform()`
+   - 新增了 `dispatchAction()` 和 `getDataURL()` 方法
 
-3. 更新 TypeScript 类型引用：
+2. **配置生成器 API**
 
-```diff
-- import type { ChartOptions } from '@agions/core';
-+ import type { ChartOptions } from '@agions/taroviz-core';
-```
+   - 新增了 `generate()` 方法，支持快速生成ECharts配置
+   - 支持多种内置模板
 
-## 重要说明
+3. **性能分析 API**
+   - 新增了 `PerformanceAnalyzer` 类，支持帧率监控和内存使用分析
+   - 支持生成性能报告
 
-> **注意**：原 npm 包 [@agions](https://www.npmjs.com/package/taroviz) 和 [@agions/core-bundle](https://www.npmjs.com/package/@agions/core-bundle) 已停止维护并删除。请使用新的 `@agions` 作用域下的包。
+### 迁移步骤
 
-## 新特性
+1. **更新依赖**
 
-1. 完整的 TypeScript 类型支持
-2. 更好的文档和示例
-3. 更稳定的版本发布
-4. 持续的维护支持
+   ```bash
+   npm update @agions/taroviz
+   ```
 
-## 联系方式
+2. **更新适配器使用**
 
-如果在迁移过程中遇到任何问题，请通过以下方式联系我们：
+   ```typescript
+   // 旧版本
+   import { getEnv, getAdapter } from '@agions/taroviz/adapters';
 
-- GitHub Issues: [https://github.com/agions/taroviz/issues](https://github.com/agions/taroviz/issues)
+   // 新版本
+   import { detectPlatform, getAdapter } from '@agions/taroviz/adapters';
+   ```
 
-## 相关链接
+3. **更新图表配置**
 
-- 新版文档：[https://github.com/agions/taroviz](https://github.com/agions/taroviz)
-- 更新日志：[CHANGELOG.md](./CHANGELOG.md)
+   ```typescript
+   // 旧版本
+   const option = {
+     // ECharts配置
+   };
+
+   // 新版本 - 使用配置生成器
+   import { ConfigGenerator } from '@agions/taroviz';
+
+   const option = ConfigGenerator.generate('line', {
+     title: '销售趋势',
+     data: {
+       categories: ['1月', '2月', '3月'],
+       series: [
+         { name: '线上', data: [120, 200, 150] },
+         { name: '线下', data: [90, 150, 120] },
+       ],
+     },
+   });
+   ```
+
+4. **添加性能监控**
+
+   ```typescript
+   import { PerformanceAnalyzer } from '@agions/taroviz';
+
+   // 启用性能监控
+   const analyzer = PerformanceAnalyzer.getInstance();
+   analyzer.start();
+
+   // 生成性能报告
+   const report = analyzer.generateReport();
+   console.log(report);
+   ```
+
+## 从 1.0.x 迁移到 1.1.x
+
+### 重大变更
+
+1. **包名变更**
+
+   - 主包从 `@agions/taroviz-all` 改为 `@agions/taroviz`
+   - 所有子包统一使用 `@agions/taroviz-*` 命名
+
+2. **API 简化**
+   - 移除了冗余的 API
+   - 简化了图表组件的使用方式
+
+### 迁移步骤
+
+1. **更新包名**
+
+   ```bash
+   # 卸载旧包
+   npm uninstall @agions/taroviz-all @agions/taroviz-core @agions/taroviz-charts
+
+   # 安装新包
+   npm install @agions/taroviz
+   ```
+
+2. **更新导入语句**
+
+   ```typescript
+   // 旧版本
+   import { LineChart } from '@agions/taroviz-charts';
+   import { ThemeProvider } from '@agions/taroviz-core';
+
+   // 新版本
+   import { LineChart, ThemeProvider } from '@agions/taroviz';
+   ```
+
+3. **更新组件使用**
+
+   ```typescript
+   // 旧版本
+   <LineChart
+     chartId="chart"
+     option={option}
+     width={400}
+     height={300}
+     onChartReady={(instance) => {
+       // 图表就绪回调
+     }}
+   />
+
+   // 新版本
+   <LineChart
+     chartId="chart"
+     option={option}
+     width={400}
+     height={300}
+     onInit={(instance) => {
+       // 图表初始化回调
+     }}
+   />
+   ```
+
+## 从 0.5.x 迁移到 1.0.x
+
+### 重大变更
+
+1. **架构重构**
+
+   - 从多包架构改为单包架构
+   - 简化了依赖关系
+
+2. **API 完全重设计**
+   - 图表组件 API 重设计
+   - 主题系统重设计
+   - 数据处理 API 重设计
+
+### 迁移步骤
+
+1. **卸载旧包**
+
+   ```bash
+   npm uninstall @agions/taroviz-all @agions/taroviz-core @agions/taroviz-charts @agions/taroviz-themes @agions/taroviz-hooks @agions/taroviz-data @agions/taroviz-adapters
+   ```
+
+2. **安装新包**
+
+   ```bash
+   npm install @agions/taroviz
+   ```
+
+3. **重写图表组件**
+
+   ```typescript
+   // 旧版本
+   import { LineChart } from '@agions/taroviz-charts';
+   import { useChartData } from '@agions/taroviz-hooks';
+
+   const data = useChartData(rawData);
+
+   <LineChart
+     data={data}
+     config={{
+       title: '销售趋势',
+       xAxis: { field: 'month' },
+       yAxis: { field: 'value' }
+     }}
+   />
+
+   // 新版本
+   import { LineChart } from '@agions/taroviz';
+
+   const option = {
+     title: {
+       text: '销售趋势'
+     },
+     xAxis: {
+       type: 'category',
+       data: ['1月', '2月', '3月']
+     },
+     yAxis: {
+       type: 'value'
+     },
+     series: [
+       {
+         type: 'line',
+         data: [120, 200, 150]
+       }
+     ]
+   };
+
+   <LineChart
+     chartId="chart"
+     option={option}
+   />
+   ```
+
+## 常见问题
+
+### 1. 图表渲染失败
+
+**原因**：适配器初始化失败或配置错误
+
+**解决方案**：
+
+- 检查 `chartId` 是否唯一
+- 确保容器元素存在且有正确的尺寸
+- 检查 ECharts 配置是否正确
+- 查看控制台错误信息
+
+### 2. 性能问题
+
+**原因**：大数据集或复杂配置导致渲染缓慢
+
+**解决方案**：
+
+- 启用虚拟滚动
+- 减少数据点数量
+- 简化图表配置
+- 使用 `PerformanceAnalyzer` 分析性能瓶颈
+
+### 3. 平台兼容性问题
+
+**原因**：不同平台的 Canvas 实现差异
+
+**解决方案**：
+
+- 检查平台适配器是否正确加载
+- 查看平台适配指南
+- 针对特定平台调整配置
+
+## 寻求帮助
+
+如果您在迁移过程中遇到问题，可以：
+
+- 查看 [API 文档](./docs-api/index.html)
+- 查看 [示例项目](./examples)
+- 创建 [GitHub Issue](https://github.com/agions/taroviz/issues)
+- 联系维护者
+
+## 版本历史
+
+- [1.2.0](./CHANGELOG.md#120) - 2025-11-28
+- [1.1.1](./CHANGELOG.md#111) - 2025-04-22
+- [1.1.0](./CHANGELOG.md#110) - 2025-04-14
+- [1.0.3](./CHANGELOG.md#103) - 2025-04-14
+- [1.0.2](./CHANGELOG.md#102) - 2025-04-12
+- [1.0.1](./CHANGELOG.md#101) - 2025-04-12
+- [1.0.0](./CHANGELOG.md#100) - 2025-04-12

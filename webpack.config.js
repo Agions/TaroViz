@@ -1,255 +1,153 @@
-/* eslint-disable prettier/prettier */
-// webpack.config.js
+/**
+ * TaroViz Webpack 配置
+ * 单包构建架构，输出 CommonJS 和 ES Module 两种格式
+ */
 const path = require('path');
-
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const nodeExternals = require('webpack-node-externals');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
-// 获取当前环境
-const env = process.env.TARO_ENV || 'all';
-const isProduction = process.env.NODE_ENV === 'production';
-const shouldAnalyze = process.env.ANALYZE === 'true';
-
-// 忽略的TS错误代码
-const ignoredTsErrorCodes = [
-  6133, // 声明但未使用
-  2769, // No overload matches this call
-  2540, // Cannot assign to 'current' because it is a read-only property
-  2683, // 'this' implicitly has type 'any'
-  7030, // Not all code paths return a value
-  2554, // Expected 1 arguments, but got 0
-  2308, // Module has already exported a member named 'version'
-];
-
-// 平台特定入口
-const platformEntries =
-  env === 'all'
-    ? {
-        h5: './packages/adapters/src/h5/index.ts',
-        weapp: './packages/adapters/src/weapp/index.ts',
-        alipay: './packages/adapters/src/alipay/index.ts',
-        harmony: './packages/adapters/src/harmony/index.ts',
-        swan: './packages/adapters/src/swan/index.ts',
-      }
-    : { [env]: `./packages/adapters/src/${env}/index.ts` };
-
-// 打包分包
-const packageEntries = {
-  core: './packages/core/src/index.ts',
-  adapters: './packages/adapters/src/index.ts',
-  charts: './packages/charts/src/index.ts',
-  themes: './packages/themes/src/index.ts',
-  data: './packages/data/src/index.ts',
-  hooks: './packages/hooks/src/index.ts',
-  'core-bundle': './packages/all/src/index.ts',
-};
-
-// 设置路径别名
-const aliasConfig = {
-  '@agions/taroviz-core': path.resolve(__dirname, 'packages/core/src'),
-  '@agions/taroviz-adapters': path.resolve(__dirname, 'packages/adapters/src'),
-  '@agions/taroviz-charts': path.resolve(__dirname, 'packages/charts/src'),
-  '@agions/taroviz-themes': path.resolve(__dirname, 'packages/themes/src'),
-  '@agions/taroviz-data': path.resolve(__dirname, 'packages/data/src'),
-  '@agions/taroviz-hooks': path.resolve(__dirname, 'packages/hooks/src'),
-};
-
-// 基础webpack配置
+// 基础配置
 const baseConfig = {
-  mode: isProduction ? 'production' : 'development',
-  devtool: isProduction ? false : 'source-map',
+  entry: './src/index.ts',
+  cache: {
+    type: 'filesystem',
+    buildDependencies: {
+      config: [__filename],
+    },
+  },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
+    modules: [path.resolve(__dirname, 'node_modules')],
+    mainFiles: ['index'],
+    conditionNames: ['require', 'node', 'module'],
+  },
   module: {
     rules: [
       {
         test: /\.(ts|tsx)$/,
+        exclude: [
+          /node_modules/, 
+          /packages/, 
+          /__tests__/, 
+          /\.test\.(ts|tsx)$/,
+          /src\/main\.tsx/ // Exclude the test application entry point
+        ],
         use: [
           {
             loader: 'babel-loader',
             options: {
-              presets: [
-                [
-                  '@babel/preset-env',
-                  {
-                    targets: {
-                      browsers: ['> 1%', 'last 2 versions', 'not ie <= 11'],
-                    },
-                    useBuiltIns: 'usage',
-                    corejs: 3,
-                  },
-                ],
-                '@babel/preset-react',
-                '@babel/preset-typescript',
-              ],
-              plugins: [['@babel/plugin-proposal-decorators', { legacy: true }]],
+              cacheDirectory: true,
+              cacheCompression: false,
             },
           },
           {
             loader: 'ts-loader',
             options: {
-              configFile: path.resolve(__dirname, './tsconfig.json'),
               transpileOnly: true,
-              ignoreDiagnostics: ignoredTsErrorCodes,
+              happyPackMode: true,
+              compilerOptions: {
+                module: 'esnext',
+                target: 'es5',
+                jsx: 'react',
+              },
             },
           },
         ],
-        exclude: /node_modules/,
       },
       {
-        test: /\.(css|scss)$/,
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+      },
+      {
+        test: /\.scss$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
       },
-      {
-        test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
-        type: 'asset',
-      },
-    ],
-  },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
-    alias: aliasConfig,
-  },
-  externals: [
-    nodeExternals({
-      allowlist: [/\.css$/, /\.scss$/],
-    }),
-  ],
-  optimization: {
-    minimize: isProduction,
-    minimizer: [
-      new TerserPlugin({
-        terserOptions: {
-          compress: {
-            pure_getters: true,
-            unsafe: true,
-            unsafe_comps: true,
-            drop_console: isProduction,
-            drop_debugger: isProduction,
-            passes: 3,
-          },
-          format: {
-            comments: false,
-          },
-          mangle: {
-            properties: {
-              regex: /^_/,
-            },
-          },
-        },
-      }),
-      new CssMinimizerPlugin(),
     ],
   },
   plugins: [
     new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+    }),
+    // ForkTsCheckerWebpackPlugin for faster type checking in a separate process
     new ForkTsCheckerWebpackPlugin({
+      async: true,
       typescript: {
-        configFile: path.resolve(__dirname, './tsconfig.json'),
         diagnosticOptions: {
           semantic: true,
-          syntactic: false,
-          declaration: false,
-          global: false,
+          syntactic: true,
         },
         mode: 'write-references',
       },
     }),
-    new MiniCssExtractPlugin({
-      filename: '[name].css',
-    }),
   ],
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: true,
+            passes: 1,
+          },
+          format: {
+            comments: false,
+          },
+          // 禁用变量重复声明检查
+          ecma: 2020,
+          warnings: false,
+        },
+        extractComments: false,
+        parallel: true,
+      }),
+    ],
+    moduleIds: 'deterministic',
+    chunkIds: 'deterministic',
+    mangleExports: 'deterministic',
+    usedExports: true,
+    sideEffects: true,
+  },
+  externals: {
+    react: {
+      commonjs: 'react',
+      commonjs2: 'react',
+      amd: 'react',
+      root: 'React',
+    },
+    echarts: {
+      commonjs: 'echarts',
+      commonjs2: 'echarts',
+      amd: 'echarts',
+      root: 'echarts',
+    },
+  },
 };
 
-// 主入口
-const mainConfig = {
+// CommonJS 配置
+const cjsConfig = {
   ...baseConfig,
-  entry: {
-    index: './src/index.ts',
-  },
+  name: 'cjs',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
-    library: {
-      type: 'umd',
-      name: 'TaroViz',
-    },
-    globalObject: 'this',
-  },
-};
-
-// ESM版本配置
-const esmConfig = {
-  ...baseConfig,
-  entry: {
-    'index.esm': './src/index.ts',
-  },
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
-    library: {
-      type: 'module',
-    },
-  },
-  experiments: {
-    outputModule: true,
-  },
-};
-
-// 平台特定配置
-const platformConfigs = Object.keys(platformEntries).map(name => ({
-  ...baseConfig,
-  entry: { [name]: platformEntries[name] },
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
-    library: {
-      type: 'umd',
-      name: ['TaroViz', name],
-    },
-    globalObject: 'this',
-  },
-}));
-
-// 平台特定ESM配置
-const platformEsmConfigs = Object.keys(platformEntries).map(name => ({
-  ...baseConfig,
-  entry: { [`${name}.esm`]: platformEntries[name] },
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
-    library: {
-      type: 'module',
-    },
-  },
-  experiments: {
-    outputModule: true,
-  },
-}));
-
-// 分包配置
-const packageConfigs = Object.keys(packageEntries).map(name => ({
-  ...baseConfig,
-  entry: { [name]: packageEntries[name] },
-  output: {
-    path: path.resolve(__dirname, `dist/packages/${name}`),
     filename: 'index.js',
     library: {
-      type: 'umd',
-      name: ['TaroViz', name],
+      type: 'commonjs2',
     },
-    globalObject: 'this',
   },
-}));
+};
 
-// 分包ESM配置
-const packageEsmConfigs = Object.keys(packageEntries).map(name => ({
+// ES Module 配置
+const esmConfig = {
   ...baseConfig,
-  entry: { [name]: packageEntries[name] },
+  name: 'esm',
   output: {
-    path: path.resolve(__dirname, `dist/packages/${name}`),
+    path: path.resolve(__dirname, 'dist'),
     filename: 'index.esm.js',
     library: {
       type: 'module',
@@ -258,18 +156,94 @@ const packageEsmConfigs = Object.keys(packageEntries).map(name => ({
   experiments: {
     outputModule: true,
   },
-}));
-// 分析配置
-if (shouldAnalyze) {
-  const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-  baseConfig.plugins.push(new BundleAnalyzerPlugin());
-}
+  externals: {
+    react: 'react',
+    echarts: 'echarts',
+  },
+  optimization: {
+    minimize: false,
+  },
+};
 
-module.exports = [
-  mainConfig,
-  esmConfig,
-  ...platformConfigs,
-  ...platformEsmConfigs,
-  ...packageConfigs,
-  ...packageEsmConfigs,
-];
+// 开发环境配置
+const devConfig = {
+  ...baseConfig,
+  entry: './src/main.tsx',
+  mode: 'development',
+  devtool: 'source-map',
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(ts|tsx)$/,
+        exclude: [
+          /node_modules/, 
+          /packages/, 
+          /__tests__/, 
+          /\.test\.(ts|tsx)$/
+        ],
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              cacheDirectory: true,
+            },
+          },
+          'ts-loader',
+        ],
+      },
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+      },
+      {
+        test: /\.scss$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+      },
+    ],
+  },
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'public'),
+    },
+    compress: true,
+    port: 8080,
+    hot: true,
+    open: true,
+  },
+  plugins: [...baseConfig.plugins, new BundleAnalyzerPlugin()],
+  externals: {}, // No externals in dev mode
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
+  },
+};
+
+// 根据环境返回不同配置
+module.exports = (env, argv) => {
+  if (argv.mode === 'development') {
+    return devConfig;
+  }
+  
+  // 生成stats文件用于分析
+  if (argv.analyze) {
+    const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+    cjsConfig.plugins.push(new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      reportFilename: 'bundle-report.html',
+      openAnalyzer: false,
+    }));
+    esmConfig.plugins.push(new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      reportFilename: 'bundle-report-esm.html',
+      openAnalyzer: false,
+    }));
+  }
+  
+  return [cjsConfig, esmConfig];
+};

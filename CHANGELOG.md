@@ -3,6 +3,55 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/Agions/TaroViz/compare/v1.1.1...v1.2.0) (2025-11-28)
+
+### Bug Fixes
+
+- 修复文档生成脚本语法错误，确保API文档正确生成
+- 优化适配器工厂函数，添加错误处理和回退机制
+- 修复示例项目构建配置，确保正常构建
+
+### Features
+
+- 📱 **平台扩展**：支持百度小程序 (swan) 适配器
+- 📱 **平台扩展**：支持字节跳动小程序 (tt) 适配器
+- 📱 **平台扩展**：支持HarmonyOS (harmony) 适配器
+- ⚡ **性能优化**：实现性能分析工具，支持帧率监控和内存使用分析
+- 🛠️ **开发工具**：添加图表配置生成器，支持快速生成ECharts配置
+- 🛠️ **开发工具**：添加代码示例生成器，支持React、Vue、Vanilla框架
+- 📚 **文档系统**：重构文档网站，实现API文档自动生成
+- 📚 **文档系统**：添加在线示例和使用指南
+- 📦 **示例项目**：创建完整示例项目，包含基础和高级示例
+- 📦 **示例项目**：添加不同场景的示例和最佳实践指南
+- 🤝 **社区建设**：完善贡献指南，添加Issue和PR模板
+
+### Performance Improvements
+
+- 优化图表渲染性能，减少不必要的重绘
+- 改进适配器初始化逻辑，提高启动速度
+- 优化配置生成器，减少内存占用
+
+### Documentation
+
+- 更新API文档，添加详细的使用示例
+- 完善开发指南，添加性能优化建议
+- 添加平台适配指南
+- 更新贡献指南，添加代码审查标准
+
+# [1.1.1](https://github.com/Agions/TaroViz/compare/v1.1.0...v1.1.1) (2025-04-22)
+
+### Bug Fixes
+
+- 修复了npm包构建问题，确保 `dist/index.js`等关键文件正确生成
+- 优化了构建脚本，确保所有包都能正确构建
+- 解决了webpack和webpack-cli的依赖冲突问题
+
+### Other Improvements
+
+- 改进了包的构建流程，确保更加稳定可靠
+- 优化了代码组织结构，提高了包的可维护性
+- 更新了依赖版本，解决了Node.js版本兼容性问题
+
 # [1.1.0](https://github.com/Agions/TaroViz/compare/v1.0.2...v1.1.0) (2025-04-14)
 
 ### Bug Fixes

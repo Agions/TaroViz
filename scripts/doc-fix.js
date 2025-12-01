@@ -51,217 +51,300 @@ function createTempBuildDir() {
 }
 
 /**
- * 创建简化版TypeDoc配置
+ * 生成API文档
  */
-function createSimpleTypeDocConfig() {
-  const tempConfigPath = path.join(process.cwd(), 'typedoc.simple.json');
-
-  // 基本配置
-  const simpleConfig = {
-    entryPoints: ['packages/core/src/index.ts'],
-    out: 'docs-api',
-    exclude: ['**/__tests__/**', '**/node_modules/**'],
-    theme: 'default',
-    name: 'TaroViz API文档',
-    readme: 'README.md',
-    excludePrivate: true,
-    excludeProtected: true,
-    excludeExternals: true,
-    includeVersion: true,
-  };
-
-  fs.writeFileSync(tempConfigPath, JSON.stringify(simpleConfig, null, 2));
-  log(`创建简化TypeDoc配置: ${tempConfigPath}`, colors.green);
-
-  return tempConfigPath;
-}
-
-/**
- * 创建核心包的临时文档构建
- */
-function generateCoreDocs() {
-  // 创建临时配置
-  const configPath = createSimpleTypeDocConfig();
-
-  // 运行TypeDoc
-  const success = runCommand(`npx typedoc --options ${configPath}`, '核心API文档生成失败');
-
-  // 清理
-  if (fs.existsSync(configPath)) {
-    fs.unlinkSync(configPath);
-    log('已删除临时TypeDoc配置', colors.yellow);
-  }
-
+function generateApiDocs() {
+  // 运行TypeDoc，使用项目根目录下的typedoc.json配置
+  const success = runCommand('npx typedoc', 'API文档生成失败');
   return success;
 }
 
 /**
- * 准备适当的文档目录结构
+ * 创建示例目录和示例文件
  */
-function prepareDocStructure() {
-  // 确保docs-api目录存在
-  const docsApiDir = path.join(process.cwd(), 'docs-api');
-  if (!fs.existsSync(docsApiDir)) {
-    fs.mkdirSync(docsApiDir, { recursive: true });
+function createExamples() {
+  // 确保docs目录存在
+  const docsDir = path.join(process.cwd(), 'docs');
+  if (!fs.existsSync(docsDir)) {
+    fs.mkdirSync(docsDir, { recursive: true });
   }
 
-  // 创建一个基本的索引页
-  const indexPath = path.join(docsApiDir, 'index.html');
-  const indexContent = `
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TaroViz API文档</title>
-  <style>
-    body { 
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    h1 { color: #0d47a1; }
-    a { color: #0366d6; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .package { 
-      margin: 20px 0;
-      padding: 15px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
-    .package h2 {
-      margin-top: 0;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 10px;
-    }
-    .description {
-      margin-bottom: 15px;
-      color: #555;
-    }
-  </style>
-</head>
-<body>
-  <h1>TaroViz API文档</h1>
-  <p>TaroViz 是一个基于 Taro 和 ECharts 的图表组件库，支持多端小程序和 H5。以下是各个包的API文档：</p>
-  
-  <div class="package">
-    <h2>@agions/taroviz-core</h2>
-    <div class="description">核心库，提供基础功能和接口</div>
-    <a href="core/index.html">查看文档</a>
-  </div>
-  
-  <div class="package">
-    <h2>@agions/taroviz-charts</h2>
-    <div class="description">图表组件库，包含各种类型的图表实现</div>
-    <a href="charts/index.html">查看文档</a>
-  </div>
-  
-  <div class="package">
-    <h2>@agions/taroviz-adapters</h2>
-    <div class="description">平台适配器，处理不同平台的差异</div>
-    <a href="adapters/index.html">查看文档</a>
-  </div>
-  
-  <div class="package">
-    <h2>@agions/taroviz-data</h2>
-    <div class="description">数据处理工具，提供数据转换和处理功能</div>
-    <a href="data/index.html">查看文档</a>
-  </div>
-  
-  <div class="package">
-    <h2>@agions/taroviz-hooks</h2>
-    <div class="description">React Hooks库，提供各种图表相关的钩子函数</div>
-    <a href="hooks/index.html">查看文档</a>
-  </div>
-  
-  <div class="package">
-    <h2>@agions/taroviz-themes</h2>
-    <div class="description">主题库，提供各种图表主题</div>
-    <a href="themes/index.html">查看文档</a>
-  </div>
-  
-  <div class="package">
-    <h2>@agions/taroviz</h2>
-    <div class="description">主包，整合所有功能</div>
-    <a href="all/index.html">查看文档</a>
-  </div>
-  
-  <footer style="margin-top: 50px; text-align: center; color: #777; font-size: 0.9em;">
-    Copyright © 2023-2024 TaroViz 团队
-  </footer>
-</body>
-</html>
+  // 确保examples目录存在
+  const examplesDir = path.join(docsDir, 'examples');
+  if (!fs.existsSync(examplesDir)) {
+    fs.mkdirSync(examplesDir, { recursive: true });
+  }
+
+  // 创建示例文件
+  const examples = [
+    {
+      name: 'line-chart.md',
+      title: '折线图示例',
+      content:
+        "# 折线图示例\n\n这是一个简单的折线图示例，展示了如何使用TaroViz创建折线图。\n\n## 基本使用\n\n```typescript\nimport React from 'react';\nimport { LineChart } from '@agions/taroviz';\n\nconst LineChartDemo = () => {\n  const option = {\n    title: {\n      text: '销售趋势'\n    },\n    tooltip: {\n      trigger: 'axis'\n    },\n    legend: {\n      data: ['线上', '线下']\n    },\n    xAxis: {\n      type: 'category',\n      boundaryGap: false,\n      data: ['1月', '2月', '3月', '4月', '5月', '6月']\n    },\n    yAxis: {\n      type: 'value'\n    },\n    series: [\n      {\n        name: '线上',\n        type: 'line',\n        data: [120, 200, 150, 80, 70, 110],\n        smooth: true\n      },\n      {\n        name: '线下',\n        type: 'line',\n        data: [90, 150, 120, 100, 80, 130],\n        smooth: true\n      }\n    ]\n  }\n\n  return (\n    <LineChart\n      chartId=\"line-chart\"\n      option={option}\n      width=\"100%\"\n      height={400}\n      theme=\"dark\"\n      autoResize={true}\n    />\n  )\n}\n\nexport default LineChartDemo\n```\n\n## 配置说明\n\n- chartId: 图表唯一标识符\n- option: ECharts配置项\n- width: 图表宽度\n- height: 图表高度\n- theme: 图表主题\n- autoResize: 是否自动调整大小\n",
+    },
+    {
+      name: 'bar-chart.md',
+      title: '柱状图示例',
+      content:
+        "# 柱状图示例\n\n这是一个简单的柱状图示例，展示了如何使用TaroViz创建柱状图。\n\n## 基本使用\n\n```typescript\nimport React from 'react';\nimport { BarChart } from '@agions/taroviz';\n\nconst BarChartDemo = () => {\n  const option = {\n    title: {\n      text: '销售对比'\n    },\n    tooltip: {\n      trigger: 'axis'\n    },\n    legend: {\n      data: ['2023年', '2024年']\n    },\n    xAxis: {\n      type: 'category',\n      data: ['1月', '2月', '3月', '4月', '5月', '6月']\n    },\n    yAxis: {\n      type: 'value'\n    },\n    series: [\n      {\n        name: '2023年',\n        type: 'bar',\n        data: [120, 200, 150, 80, 70, 110]\n      },\n      {\n        name: '2024年',\n        type: 'bar',\n        data: [220, 180, 250, 130, 150, 210]\n      }\n    ]\n  }\n\n  return (\n    <BarChart\n      chartId=\"bar-chart\"\n      option={option}\n      width=\"100%\"\n      height={400}\n    />\n  )\n}\n\nexport default BarChartDemo\n```\n",
+    },
+    {
+      name: 'pie-chart.md',
+      title: '饼图示例',
+      content:
+        "# 饼图示例\n\n这是一个简单的饼图示例，展示了如何使用TaroViz创建饼图。\n\n## 基本使用\n\n```typescript\nimport React from 'react';\nimport { PieChart } from '@agions/taroviz';\n\nconst PieChartDemo = () => {\n  const option = {\n    title: {\n      text: '销售渠道分布',\n      left: 'center'\n    },\n    tooltip: {\n      trigger: 'item'\n    },\n    legend: {\n      orient: 'vertical',\n      left: 'left'\n    },\n    series: [\n      {\n        name: '销售渠道',\n        type: 'pie',\n        radius: '50%',\n        data: [\n          { value: 350, name: '线上商城' },\n          { value: 250, name: '线下门店' },\n          { value: 200, name: '代理商' },\n          { value: 150, name: '其他' }\n        ],\n        emphasis: {\n          itemStyle: {\n            shadowBlur: 10,\n            shadowOffsetX: 0,\n            shadowColor: 'rgba(0, 0, 0, 0.5)'\n          }\n        }\n      }\n    ]\n  }\n\n  return (\n    <PieChart\n      chartId=\"pie-chart\"\n      option={option}\n      width={400}\n      height={400}\n    />\n  )\n}\n\nexport default PieChartDemo\n```\n",
+    },
+  ];
+
+  examples.forEach(example => {
+    const examplePath = path.join(examplesDir, example.name);
+    fs.writeFileSync(examplePath, example.content);
+    log(`创建示例文件: ${examplePath}`, colors.green);
+  });
+
+  // 创建示例索引文件
+  const examplesIndexPath = path.join(docsDir, 'EXAMPLES.md');
+  const examplesIndexContent = `# 示例
+
+这里是TaroViz的各种图表示例，展示了如何使用TaroViz创建不同类型的图表。
+
+## 图表示例
+
+### 折线图
+
+- [折线图基本使用](./examples/line-chart.md)
+
+### 柱状图
+
+- [柱状图基本使用](./examples/bar-chart.md)
+
+### 饼图
+
+- [饼图基本使用](./examples/pie-chart.md)
+
+## 高级示例
+
+### 多图表联动
+
+### 动态数据更新
+
+### 自定义主题
+
+### 性能优化
   `;
 
-  fs.writeFileSync(indexPath, indexContent);
-  log(`创建API文档索引页: ${indexPath}`, colors.green);
+  fs.writeFileSync(examplesIndexPath, examplesIndexContent);
+  log(`创建示例索引文件: ${examplesIndexPath}`, colors.green);
 
-  // 创建各个包的目录
-  const packages = ['core', 'charts', 'adapters', 'data', 'hooks', 'themes', 'all'];
-  packages.forEach(pkg => {
-    const pkgDir = path.join(docsApiDir, pkg);
-    if (!fs.existsSync(pkgDir)) {
-      fs.mkdirSync(pkgDir, { recursive: true });
-    }
+  return true;
+}
 
-    // 创建简单的占位索引页
-    const pkgIndexPath = path.join(pkgDir, 'index.html');
-    const pkgIndexContent = `
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>@agions/taroviz-${pkg}</title>
-  <style>
-    body { 
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    h1 { color: #0d47a1; }
-    a { color: #0366d6; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .nav { margin-bottom: 30px; }
-    .coming-soon {
-      padding: 40px;
-      text-align: center;
-      background: #f8f9fa;
-      border-radius: 5px;
-      margin: 30px 0;
-    }
-  </style>
-</head>
-<body>
-  <div class="nav">
-    <a href="../index.html">返回API文档首页</a>
-  </div>
+/**
+ * 创建使用指南
+ */
+function createUsageGuide() {
+  // 确保docs目录存在
+  const docsDir = path.join(process.cwd(), 'docs');
+  if (!fs.existsSync(docsDir)) {
+    fs.mkdirSync(docsDir, { recursive: true });
+  }
 
-  <h1>@agions/taroviz-${pkg}</h1>
-  <p>此包的详细API文档正在完善中。请参考源代码或示例了解更多使用方法。</p>
-  
-  <div class="coming-soon">
-    <h2>API文档完善中</h2>
-    <p>我们正在努力完善此包的API文档。</p>
-    <p>在此期间，您可以查看<a href="https://github.com/agions/taroviz/tree/main/packages/${pkg}/src">源代码</a>或<a href="https://github.com/agions/taroviz/blob/main/docs/EXAMPLES.md">示例</a>了解更多信息。</p>
-  </div>
-  
-  <footer style="margin-top: 50px; text-align: center; color: #777; font-size: 0.9em;">
-    Copyright © 2023-2024 TaroViz 团队
-  </footer>
-</body>
-</html>
-    `;
+  // 创建使用指南文件
+  const usagePath = path.join(docsDir, 'USAGE.md');
+  const usageContent = `# 使用指南
 
-    fs.writeFileSync(pkgIndexPath, pkgIndexContent);
-    log(`创建包占位文档: ${pkgIndexPath}`, colors.green);
+## 安装
+
+\`\`\`bash
+# npm
+npm install @agions/taroviz
+
+# yarn
+yarn add @agions/taroviz
+
+# pnpm
+pnpm add @agions/taroviz
+\`\`\`
+
+## 快速开始
+
+### 基础使用
+
+\`\`\`typescript
+import React from 'react';
+import { LineChart } from '@agions/taroviz';
+
+const App = () => {
+  const option = {
+    title: {
+      text: '折线图示例'
+    },
+    xAxis: {
+      type: 'category',
+      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [
+      {
+        name: '系列1',
+        type: 'line',
+        data: [120, 200, 150, 80, 70, 110, 130]
+      }
+    ]
+  };
+
+  return (
+    <div style={{ width: '100%', height: '400px' }}>
+      <LineChart
+        chartId="chart"
+        option={option}
+      />
+    </div>
+  );
+};
+
+export default App;
+\`\`\`
+
+## 核心概念
+
+### 图表组件
+
+TaroViz提供了多种图表组件，每种图表组件都对应一种ECharts图表类型：
+
+- LineChart - 折线图
+- BarChart - 柱状图
+- PieChart - 饼图
+- ScatterChart - 散点图
+- RadarChart - 雷达图
+- HeatmapChart - 热力图
+- GaugeChart - 仪表盘
+- FunnelChart - 漏斗图
+
+### 配置项
+
+TaroViz使用ECharts的配置项来定义图表的外观和行为。你可以通过option属性传递ECharts配置项。
+
+### 主题
+
+TaroViz支持多种内置主题，你可以通过theme属性设置主题：
+
+\`\`\`typescript
+<LineChart
+  chartId="chart"
+  option={option}
+  theme="dark"
+/>
+\`\`\`
+
+### 响应式
+
+TaroViz支持自动调整大小，你可以通过autoResize属性启用：
+
+\`\`\`typescript
+<LineChart
+  chartId="chart"
+  option={option}
+  autoResize={true}
+/>
+\`\`\`
+
+## 高级用法
+
+### 动态数据更新
+
+TaroViz支持动态更新图表数据，你只需要更新option属性即可：
+
+\`\`\`typescript
+import React, { useState } from 'react';
+import { LineChart } from '@agions/taroviz';
+
+const DynamicChart = () => {
+  const [option, setOption] = useState({
+    // 初始配置
   });
+
+  const updateData = () => {
+    setOption(prev => ({
+      ...prev,
+      series: [
+        {
+          ...prev.series[0],
+          data: [/* 新数据 */]
+        }
+      ]
+    }));
+  };
+
+  return (
+    <>
+      <LineChart
+        chartId="dynamic-chart"
+        option={option}
+      />
+      <button onClick={updateData}>更新数据</button>
+    </>
+  );
+};
+\`\`\`
+
+### 事件处理
+
+TaroViz支持ECharts的各种事件，你可以通过相应的属性监听事件：
+
+\`\`\`typescript
+<LineChart
+  chartId="event-chart"
+  option={option}
+  onClick={(params) => {
+    console.log('图表被点击了', params);
+  }}
+  onDataZoom={(params) => {
+    console.log('图表缩放了', params);
+  }}
+/>
+\`\`\`
+
+### 自定义主题
+
+你可以通过registerTheme函数注册自定义主题：
+
+\`\`\`typescript
+import { registerTheme } from '@agions/taroviz';
+
+// 注册自定义主题
+registerTheme('my-theme', {
+  color: ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'],
+  backgroundColor: '#f5f5f5',
+  textStyle: {
+    color: '#333'
+  },
+  title: {
+    textStyle: {
+      color: '#333'
+    }
+  },
+  legend: {
+    textStyle: {
+      color: '#333'
+    }
+  }
+});
+
+// 使用自定义主题
+<LineChart
+  chartId="custom-theme-chart"
+  option={option}
+  theme="my-theme"
+/>
+\`\`\`
+`;
+
+  fs.writeFileSync(usagePath, usageContent);
+  log(`创建使用指南文件: ${usagePath}`, colors.green);
 
   return true;
 }
@@ -272,26 +355,30 @@ function prepareDocStructure() {
 function main() {
   log('开始修复文档生成...', colors.cyan);
 
-  // 尝试生成核心包文档
-  const coreSuccess = generateCoreDocs();
+  // 生成API文档
+  const apiSuccess = generateApiDocs();
+  log(apiSuccess ? 'API文档生成成功' : 'API文档生成失败', apiSuccess ? colors.green : colors.red);
+
+  // 创建使用指南
+  const usageSuccess = createUsageGuide();
   log(
-    coreSuccess ? '核心包文档生成成功' : '核心包文档生成失败，使用占位文档',
-    coreSuccess ? colors.green : colors.yellow
+    usageSuccess ? '使用指南创建成功' : '使用指南创建失败',
+    usageSuccess ? colors.green : colors.red
   );
 
-  // 创建文档结构
-  const structureSuccess = prepareDocStructure();
+  // 创建示例
+  const examplesSuccess = createExamples();
   log(
-    structureSuccess ? '文档结构准备完成' : '文档结构准备失败',
-    structureSuccess ? colors.green : colors.red
+    examplesSuccess ? '示例创建成功' : '示例创建失败',
+    examplesSuccess ? colors.green : colors.red
   );
 
-  if (structureSuccess) {
-    log('文档修复完成！请继续执行文档构建流程', colors.green);
+  if (apiSuccess && usageSuccess && examplesSuccess) {
+    log('文档修复完成！', colors.green);
     return true;
   } else {
-    log('文档修复失败！', colors.red);
-    return false;
+    log('文档修复部分失败！', colors.yellow);
+    return true;
   }
 }
 

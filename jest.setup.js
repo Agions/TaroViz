@@ -1,6 +1,6 @@
 // jest setup file
-import '@testing-library/jest-dom';
-import 'whatwg-fetch';
+require('@testing-library/jest-dom');
+require('whatwg-fetch');
 
 // 模拟 Taro 环境
 global.wx = {};

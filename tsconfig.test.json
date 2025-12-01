@@ -5,7 +5,7 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "packages/*/src/**/*",
-    "packages/*/src/**/__tests__/**/*"
+    "src/**/*",
+    "src/**/__tests__/**/*"
   ]
-} 
+}
