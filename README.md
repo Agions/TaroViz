@@ -16,28 +16,32 @@
   </p>
 </div>
 
-## 📢 最新版本 v1.1.1
+## 📢 最新版本 v1.2.0
 
-我们很高兴地宣布 TaroViz v1.1.1 已正式发布！查看 [更新日志](./CHANGELOG.md) 了解详细信息。
+我们很高兴地宣布 TaroViz v1.2.0 已正式发布！查看 [更新日志](./CHANGELOG.md) 了解详细信息。
 
 ## 📚 文档
 
-- [API文档](./docs-api/index.html)
-- [使用指南](./docs/USAGE.md)
-- [开发指南](./docs/DEVELOPMENT.md)
-- [示例](./docs/EXAMPLE.md)
-- [FAQ](./docs/FAQ.md)
+- [在线文档](https://agions.github.io/TaroViz/)
+- [快速开始](https://agions.github.io/TaroViz/guide/)
+- [API文档](https://agions.github.io/TaroViz/api/)
+- [示例](https://agions.github.io/TaroViz/examples/)
+- [迁移指南](https://agions.github.io/TaroViz/migration/)
 
 ## 特性
 
 - 📊 **丰富的图表类型** - 支持折线图、柱状图、饼图、散点图、雷达图、热力图、仪表盘、漏斗图等多种图表类型
-- 📱 **多端适配支持** - 支持微信小程序、支付宝小程序、百度小程序、字节跳动小程序和 H5
+- 📱 **多端适配支持** - 支持微信小程序、支付宝小程序、百度小程序、字节跳动小程序、HarmonyOS 和 H5
 - 🎨 **灵活的主题定制** - 内置多种主题，支持自定义主题
 - 📦 **单包架构设计** - 简化依赖管理，方便使用
 - 🚀 **高性能渲染** - 基于 ECharts 优化，确保流畅渲染
+- ⚡ **性能分析工具** - 支持帧率监控和内存使用分析
 - 🛠️ **强大的数据处理能力** - 内置数据处理工具，支持复杂数据转换
 - 🎯 **易用的 React Hooks** - 提供便捷的 Hooks 简化开发
 - 📖 **完善的类型定义** - 完整的 TypeScript 类型支持，提升开发体验
+- 🛠️ **图表配置生成器** - 支持快速生成 ECharts 配置
+- 🛠️ **代码示例生成器** - 支持 React、Vue、Vanilla 框架
+- 📚 **完善的文档系统** - 包含在线示例和使用指南
 
 ## 快速开始
 
@@ -97,29 +101,29 @@ export default App;
 
 TaroViz 支持以下图表类型：
 
-| 图表类型 | 描述 | 组件名 |
-|---------|------|--------|
-| 折线图 | 用于展示数据随时间或类别变化的趋势 | `LineChart` |
-| 柱状图 | 用于比较不同类别的数据大小 | `BarChart` |
-| 饼图 | 用于展示数据占比关系 | `PieChart` |
-| 散点图 | 用于展示两个变量之间的关系 | `ScatterChart` |
-| 雷达图 | 用于展示多维度数据 | `RadarChart` |
-| 热力图 | 用于展示数据密度和分布 | `HeatmapChart` |
-| 仪表盘 | 用于展示单一指标的进度或状态 | `GaugeChart` |
-| 漏斗图 | 用于展示流程中各阶段的数据转化 | `FunnelChart` |
+| 图表类型 | 描述                               | 组件名         |
+| -------- | ---------------------------------- | -------------- |
+| 折线图   | 用于展示数据随时间或类别变化的趋势 | `LineChart`    |
+| 柱状图   | 用于比较不同类别的数据大小         | `BarChart`     |
+| 饼图     | 用于展示数据占比关系               | `PieChart`     |
+| 散点图   | 用于展示两个变量之间的关系         | `ScatterChart` |
+| 雷达图   | 用于展示多维度数据                 | `RadarChart`   |
+| 热力图   | 用于展示数据密度和分布             | `HeatmapChart` |
+| 仪表盘   | 用于展示单一指标的进度或状态       | `GaugeChart`   |
+| 漏斗图   | 用于展示流程中各阶段的数据转化     | `FunnelChart`  |
 
 ## 架构说明
 
 TaroViz 采用单包架构设计，包含以下核心模块：
 
-| 模块           | 描述                |
-| -------------- | ------------------- |
-| core           | 核心功能和类型定义  |
-| adapters       | 多平台适配器，处理不同平台的差异 |
-| charts         | 各种图表组件的实现 |
-| hooks          | React Hooks，提供便捷的状态管理 |
-| themes         | 主题系统，支持多种内置主题和自定义主题 |
-| utils          | 工具函数和数据处理工具 |
+| 模块     | 描述                                   |
+| -------- | -------------------------------------- |
+| core     | 核心功能和类型定义                     |
+| adapters | 多平台适配器，处理不同平台的差异       |
+| charts   | 各种图表组件的实现                     |
+| hooks    | React Hooks，提供便捷的状态管理        |
+| themes   | 主题系统，支持多种内置主题和自定义主题 |
+| utils    | 工具函数和数据处理工具                 |
 
 ## 详细示例
 
@@ -316,14 +320,15 @@ pnpm run docs:api
 
 ## 兼容性
 
-| 平台 | 支持情况 |
-|------|----------|
-| 微信小程序 | ✅ 支持 |
-| 支付宝小程序 | ✅ 支持 |
-| 百度小程序 | ✅ 支持 |
-| 字节跳动小程序 | ✅ 支持 |
-| H5 | ✅ 支持 |
-| React Native | ⚠️ 部分支持 |
+| 平台           | 支持情况    |
+| -------------- | ----------- |
+| 微信小程序     | ✅ 支持     |
+| 支付宝小程序   | ✅ 支持     |
+| 百度小程序     | ✅ 支持     |
+| 字节跳动小程序 | ✅ 支持     |
+| HarmonyOS      | ✅ 支持     |
+| H5             | ✅ 支持     |
+| React Native   | ⚠️ 部分支持 |
 
 ## 贡献指南
 
@@ -350,8 +355,9 @@ pnpm run docs:api
 如果您在使用过程中遇到问题，可以通过以下方式获取帮助：
 
 - [GitHub Issues](https://github.com/agions/taroviz/issues) - 提交问题和建议
-- [文档](./docs) - 查看详细文档
-- [示例](./docs/EXAMPLE.md) - 参考使用示例
+- [在线文档](https://agions.github.io/TaroViz/) - 查看详细文档
+- [示例](https://agions.github.io/TaroViz/examples/) - 参考使用示例
+- [贡献指南](https://agions.github.io/TaroViz/contributing/) - 了解如何贡献代码
 
 ## 致谢
 
