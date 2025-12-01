@@ -61,7 +61,6 @@ export default defineConfig({
   },
 
   base: '/taroviz/',
-  outDir: '../docs-dist',
   build: {
     assetsDir: 'assets'
   }
