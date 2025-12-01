@@ -179,8 +179,8 @@ npx taroviz-migrate migrate --source ./src --target ./src
 如果在迁移过程中遇到问题，可以通过以下方式获取支持：
 
 - [GitHub Issues](https://github.com/agions/taroviz/issues) - 提交问题和建议
-- [文档](./docs) - 查看详细文档
-- [示例](./docs/EXAMPLES.md) - 参考使用示例
+- [在线文档](https://agions.github.io/TaroViz/) - 查看详细文档
+- [示例](https://agions.github.io/TaroViz/examples/) - 参考使用示例
 
 ## 7. 版本支持策略
 
