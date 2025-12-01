@@ -12,6 +12,7 @@
     "resolveJsonModule": true,
     "declaration": true,
     "declarationDir": "dist",
+    "ignoreDeprecations": "6.0",
     "outDir": "dist",
     "sourceMap": true,
     "baseUrl": ".",
