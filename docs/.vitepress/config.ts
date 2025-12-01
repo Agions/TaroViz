@@ -61,7 +61,9 @@ export default defineConfig({
   },
 
   base: '/TaroViz/',
-  build: {
-    assetsDir: 'assets'
+  vite: {
+    build: {
+      assetsDir: 'assets'
+    }
   }
 })
