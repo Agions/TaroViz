@@ -2,14 +2,15 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   moduleNameMapper: {
-    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    '\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    '^@/(.*)$': '<rootDir>/src/$1',
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  testMatch: ['<rootDir>/packages/**/__tests__/**/*.(spec|test).(ts|tsx)'],
+  testMatch: ['<rootDir>/src/**/__tests__/**/*.(spec|test).(ts|tsx)'],
   collectCoverageFrom: [
-    'packages/*/src/**/*.(ts|tsx)',
-    '!packages/*/src/**/*.d.ts',
-    '!packages/*/src/**/index.(ts|tsx)',
+    'src/**/*.(ts|tsx)',
+    '!src/**/*.d.ts',
+    '!src/**/index.(ts|tsx)',
   ],
   coverageThreshold: {
     global: {
@@ -20,8 +21,12 @@ module.exports = {
     },
   },
   transform: {
-    '^.+\\.(ts|tsx)$': ['ts-jest', {
+    '^.+\.(ts|tsx)$': ['ts-jest', {
       tsconfig: 'tsconfig.test.json',
     }],
   },
+  testPathIgnorePatterns: ['/dist/', '/packages/'],
+  transformIgnorePatterns: [
+    '/node_modules/(?!(echarts|zrender)/)',
+  ],
 };

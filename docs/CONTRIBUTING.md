@@ -1,167 +1,243 @@
-# TaroViz 贡献指南
+# 贡献指南
 
-感谢您对TaroViz的关注！我们非常欢迎社区贡献，无论是功能开发、问题修复、文档完善还是使用反馈。本指南将帮助您了解如何参与TaroViz的开发和改进。
+我们欢迎任何形式的贡献，包括但不限于：
 
-## 行为准则
+- 提交问题和建议
+- 改进文档
+- 修复 bug
+- 添加新功能
+- 优化性能
 
-参与TaroViz项目意味着您同意遵守我们的行为准则：
+## 1. 提交问题和建议
 
-- 尊重所有参与者，不论经验水平、性别、性取向、残疾状况、种族或宗教信仰
-- 使用友善和包容的语言
-- 对不同观点和经验持开放态度
-- 优雅地接受建设性批评
-- 关注对社区最有利的事情
+如果您在使用 TaroViz 时遇到问题，或者有任何建议，可以通过以下方式提交：
 
-## 如何贡献
+1. [GitHub Issues](https://github.com/agions/taroviz/issues) - 提交问题和建议
+2. [GitHub Discussions](https://github.com/agions/taroviz/discussions) - 参与讨论
 
-### 报告Bug
+### 1.1 提交问题
 
-如果您发现了Bug，请在GitHub Issues中创建一个新的Issue，并包含以下信息：
+在提交问题时，请提供以下信息：
 
-1. Bug的清晰描述
-2. 复现步骤（越详细越好）
-3. 预期行为与实际行为
-4. TaroViz版本、Taro版本和运行环境（如微信开发者工具版本、操作系统等）
-5. 可能的解决方案（如果有）
+- TaroViz 版本
+- Taro 版本
+- 运行平台
+- 完整的错误信息
+- 复现步骤
+- 预期行为
+- 实际行为
+- 代码示例（如果可能）
 
-### 提出新功能
+### 1.2 提交建议
 
-1. 在提交Pull Request前，先创建一个Issue讨论您的想法
-2. 清晰地描述该功能的用途和价值
-3. 如有可能，提供使用示例或设计方案
+在提交建议时，请提供以下信息：
 
-### 提交Pull Request
+- 建议的功能或改进
+- 功能的用途和价值
+- 实现思路（如果有）
+- 相关参考（如果有）
 
-1. Fork项目仓库
-2. 创建您的特性分支：`git checkout -b feature/your-feature`
-3. 提交您的更改：`git commit -am 'feat: add some feature'`
-4. 推送到分支：`git push origin feature/your-feature`
-5. 提交Pull Request
+## 2. 开发流程
 
-## 开发流程
+### 2.1 Fork 仓库
 
-### 1. 环境搭建
+首先，您需要 Fork TaroViz 仓库到您的 GitHub 账号：
+
+1. 访问 [TaroViz 仓库](https://github.com/agions/taroviz)
+2. 点击右上角的 "Fork" 按钮
+
+### 2.2 克隆仓库
+
+将 Fork 后的仓库克隆到本地：
 
 ```bash
-# 克隆项目
-git clone https://github.com/yourusername/taroviz.git
+git clone https://github.com/your-username/taroviz.git
 cd taroviz
+```
 
-# 安装依赖
+### 2.3 安装依赖
+
+使用 pnpm 安装依赖：
+
+```bash
 pnpm install
-
-# 链接本地包
-pnpm run bootstrap
 ```
 
-### 2. 开发规范
+### 2.4 创建分支
 
-#### 代码风格
-
-本项目使用ESLint和Prettier进行代码风格检查和格式化，请确保您的代码符合项目规范：
+创建一个新的分支用于开发：
 
 ```bash
-# 检查代码风格
-pnpm run lint
-
-# 自动修复
-pnpm run lint:fix
+git checkout -b feature/your-feature-name
 ```
 
-#### 提交规范
+### 2.5 开发
 
-我们使用[约定式提交](https://www.conventionalcommits.org/zh-hans/)规范，提交信息格式如下：
+开始开发，确保遵循以下规则：
 
-```
-<类型>[可选的作用域]: <描述>
+1. 遵循代码风格指南
+2. 编写测试用例
+3. 更新文档
+4. 确保构建通过
 
-[可选的正文]
+### 2.6 运行测试
 
-[可选的脚注]
-```
-
-常用的提交类型：
-
-- `feat`: 新功能
-- `fix`: 修复Bug
-- `docs`: 文档变更
-- `style`: 代码格式变更（不影响代码运行的变动）
-- `refactor`: 重构（既不是新增功能，也不是修复Bug的代码变动）
-- `perf`: 性能优化
-- `test`: 增加测试
-- `chore`: 构建过程或辅助工具的变动
-- `ci`: 持续集成相关的改动
-
-示例：
-
-```
-feat(charts): 添加雷达图组件
-
-- 支持基本雷达图配置
-- 支持自定义样式
-- 支持交互事件
-
-关联 #123
-```
-
-### 3. 测试
-
-添加或修改功能后，请确保添加相应的测试用例：
+在提交代码之前，确保所有测试都通过：
 
 ```bash
-# 运行测试
-pnpm run test
+# 运行单元测试
+pnpm test
 
-# 查看测试覆盖率
-pnpm run test:coverage
+# 运行端到端测试
+pnpm test:e2e
+
+# 运行类型检查
+pnpm type-check
+
+# 运行 lint 检查
+pnpm lint
 ```
 
-### 4. 文档
+### 2.7 构建
 
-如果您添加了新功能或修改了现有功能，请同时更新相应的文档：
+确保项目可以正常构建：
 
 ```bash
-# 生成API文档
-pnpm run docs:api
-
-# 预览文档
-pnpm run docs:serve
+pnpm build
 ```
 
-## 项目结构
+### 2.8 提交代码
 
-```
-taroviz/
-├── packages/              # 核心包
-│   ├── core/              # 核心渲染引擎
-│   ├── components/        # 图表组件
-│   ├── hooks/             # React Hooks
-│   └── adapters/          # 平台适配器
-├── examples/              # 示例项目
-├── docs/                  # 文档
-├── scripts/               # 构建和开发脚本
-├── tests/                 # 测试
-└── package.json           # 项目配置
+提交代码，确保提交信息遵循 [Conventional Commits](https://www.conventionalcommits.org/) 规范：
+
+```bash
+git add .
+git commit -m "feat: 添加新功能"
+git push origin feature/your-feature-name
 ```
 
-## 版本发布
+### 2.9 创建 Pull Request
 
-TaroViz使用语义化版本控制，版本号格式为：`主版本号.次版本号.修订号`
+创建 Pull Request 到 TaroViz 仓库：
 
-- 主版本号：做了不兼容的API修改
-- 次版本号：做了向下兼容的功能性新增
-- 修订号：做了向下兼容的问题修正
+1. 访问您 Fork 的仓库
+2. 点击 "Compare & pull request" 按钮
+3. 填写 Pull Request 标题和描述
+4. 点击 "Create pull request" 按钮
 
-维护者会根据PR的内容决定下一个版本号。
+## 3. 代码风格指南
 
-## 获取帮助
+### 3.1 TypeScript 风格
 
-如果您在贡献过程中遇到任何问题，可以通过以下方式获取帮助：
+1. 使用 TypeScript strict 模式
+2. 避免使用 `any` 类型
+3. 使用接口定义对象类型
+4. 使用类型别名定义复杂类型
+5. 使用枚举定义常量
 
-- GitHub Issues
-- 项目讨论区
-- 联系维护者
+### 3.2 命名规范
 
-## 致谢
+1. 类名使用 PascalCase
+2. 函数名使用 camelCase
+3. 变量名使用 camelCase
+4. 常量名使用 UPPER_SNAKE_CASE
+5. 接口名使用 PascalCase，以 `I` 开头（可选）
+6. 类型别名使用 PascalCase
+7. 枚举名使用 PascalCase
 
-再次感谢您对TaroViz的贡献！您的参与对于项目的发展至关重要。
+### 3.3 代码格式
+
+1. 使用 Prettier 格式化代码
+2. 缩进使用 2 个空格
+3. 行宽限制为 120 个字符
+4. 使用单引号
+5. 结尾不使用分号
+6. 使用 `===` 和 `!==` 进行比较
+7. 使用模板字符串代替字符串拼接
+
+### 3.4 注释
+
+1. 使用 JSDoc 注释
+2. 为公共 API 添加注释
+3. 为复杂逻辑添加注释
+4. 为测试用例添加注释
+
+## 4. 测试指南
+
+### 4.1 单元测试
+
+1. 使用 Jest 编写单元测试
+2. 测试文件放在 `__tests__` 目录下
+3. 测试文件名使用 `.test.ts` 或 `.test.tsx` 后缀
+4. 为每个功能模块编写测试
+5. 测试覆盖率目标：90% 以上
+
+### 4.2 端到端测试
+
+1. 使用 Cypress 编写端到端测试
+2. 测试文件放在 `cypress/e2e` 目录下
+3. 测试文件名使用 `.cy.ts` 后缀
+4. 测试核心功能和常见场景
+5. 测试跨平台兼容性
+
+## 5. 文档指南
+
+### 5.1 API 文档
+
+1. 使用 JSDoc 注释生成 API 文档
+2. 为每个公共 API 添加详细的注释
+3. 包括参数、返回值、示例等
+4. 使用 `npm run docs:api` 生成 API 文档
+
+### 5.2 使用指南
+
+1. 编写清晰、简洁的使用指南
+2. 包括快速开始、基础使用、高级使用等
+3. 提供完整的代码示例
+4. 解释核心概念和最佳实践
+
+### 5.3 示例
+
+1. 提供丰富的示例
+2. 包括基础示例、高级示例、平台特定示例等
+3. 示例代码应该可运行、可复用
+4. 示例应该覆盖常见使用场景
+
+## 6. 发布流程
+
+### 6.1 版本号规则
+
+使用 [Semantic Versioning](https://semver.org/) 版本号规则：
+
+- `MAJOR` 版本：不兼容的 API 变化
+- `MINOR` 版本：向后兼容的功能添加
+- `PATCH` 版本：向后兼容的 bug 修复
+
+### 6.2 发布步骤
+
+1. 更新 `package.json` 中的版本号
+2. 更新 `CHANGELOG.md`
+3. 运行测试和构建
+4. 提交代码
+5. 创建 GitHub Release
+6. 发布到 npm
+
+## 7. 行为准则
+
+我们期望所有贡献者遵循以下行为准则：
+
+1. 尊重他人
+2. 包容不同观点
+3. 保持专业
+4. 关注社区利益
+5. 遵守法律法规
+
+## 8. 贡献者列表
+
+感谢所有为 TaroViz 做出贡献的开发者！
+
+- [Contributors](https://github.com/agions/taroviz/graphs/contributors)
+
+## 9. 许可证
+
+TaroViz 使用 [MIT License](https://github.com/agions/taroviz/blob/main/LICENSE)。
