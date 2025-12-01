@@ -1,0 +1,1 @@
+import{_ as a,c as s,o as t,ag as e}from"./chunks/framework.BMsI9gvp.js";const c=JSON.parse('{"title":"迁移指南","description":"","frontmatter":{},"headers":[],"relativePath":"migration.md","filePath":"migration.md"}'),l={name:"migration.md"};function n(h,i,r,d,p,o){return t(),s("div",null,[...i[0]||(i[0]=[e("",61)])])}const E=a(l,[["render",n]]);export{c as __pageData,E as default};
