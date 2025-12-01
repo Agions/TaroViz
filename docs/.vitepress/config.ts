@@ -60,7 +60,7 @@ export default defineConfig({
     }
   },
 
-  base: '/taroviz/',
+  base: '/TaroViz/',
   build: {
     assetsDir: 'assets'
   }
