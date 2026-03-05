@@ -8,198 +8,108 @@ import { PlatformType } from '../core';
 import type { AdapterOptions, Adapter } from './types';
 
 /**
+ * 平台配置映射
+ */
+interface PlatformConfig {
+  name: string;
+  requireComponent?: boolean;
+}
+
+const PLATFORM_CONFIGS: Record<PlatformType, PlatformConfig> = {
+  [PlatformType.H5]: { name: 'H5' },
+  [PlatformType.WEAPP]: { name: 'Wechat', requireComponent: true },
+  [PlatformType.ALIPAY]: { name: 'Alipay', requireComponent: true },
+  [PlatformType.SWAN]: { name: 'Baidu', requireComponent: true },
+  [PlatformType.TT]: { name: 'ByteDance', requireComponent: true },
+  [PlatformType.QQ]: { name: 'QQ', requireComponent: true },
+  [PlatformType.JD]: { name: 'JD', requireComponent: true },
+  [PlatformType.DD]: { name: 'DingTalk', requireComponent: true },
+  [PlatformType.QYWX]: { name: 'QiyeWechat' },
+  [PlatformType.LARK]: { name: 'Lark' },
+  [PlatformType.HARMONY]: { name: 'HarmonyOS', requireComponent: true },
+};
+
+/**
  * 检测当前运行的平台环境
- * @returns 当前平台类型
  */
 export function detectPlatform(): PlatformType {
-  // 服务端渲染环境
   if (typeof window === 'undefined') {
-    return PlatformType.H5; // 默认返回H5，实际并不会在服务端渲染图表
+    return PlatformType.H5;
   }
 
-  // 微信小程序
-  if (
-    typeof window !== 'undefined' &&
-    'wx' in window &&
-    typeof (window as any).wx.getSystemInfoSync === 'function'
-  ) {
-    return PlatformType.WEAPP;
+  const checks: Array<{ test: () => boolean; platform: PlatformType }> = [
+    { test: () => 'wx' in window && (window as any).wx?.getSystemInfoSync && !(window as any).wx?.qy, platform: PlatformType.WEAPP },
+    { test: () => 'my' in window && (window as any).my?.getSystemInfoSync, platform: PlatformType.ALIPAY },
+    { test: () => 'swan' in window && (window as any).swan?.getSystemInfoSync, platform: PlatformType.SWAN },
+    { test: () => 'tt' in window && (window as any).tt?.getSystemInfoSync, platform: PlatformType.TT },
+    { test: () => 'qq' in window && (window as any).qq?.getSystemInfoSync, platform: PlatformType.QQ },
+    { test: () => 'jd' in window && (window as any).jd?.getSystemInfoSync, platform: PlatformType.JD },
+    { test: () => 'dd' in window && (window as any).dd?.getSystemInfoSync, platform: PlatformType.DD },
+    { test: () => 'wx' in window && (window as any).wx?.qy, platform: PlatformType.QYWX },
+    { test: () => 'tt' in window && (window as any).tt?.env?.appName === 'lark', platform: PlatformType.LARK },
+    { test: () => navigator.userAgent.includes('HarmonyOS'), platform: PlatformType.HARMONY },
+  ];
+
+  for (const check of checks) {
+    if (check.test()) {
+      return check.platform;
+    }
   }
 
-  // 支付宝小程序
-  if (
-    typeof window !== 'undefined' &&
-    'my' in window &&
-    typeof (window as any).my.getSystemInfoSync === 'function'
-  ) {
-    return PlatformType.ALIPAY;
-  }
-
-  // 百度小程序
-  if (
-    typeof window !== 'undefined' &&
-    'swan' in window &&
-    typeof (window as any).swan.getSystemInfoSync === 'function'
-  ) {
-    return PlatformType.SWAN;
-  }
-
-  // 字节跳动小程序
-  if (
-    typeof window !== 'undefined' &&
-    'tt' in window &&
-    typeof (window as any).tt.getSystemInfoSync === 'function'
-  ) {
-    return PlatformType.TT;
-  }
-
-  // QQ小程序
-  if (
-    typeof window !== 'undefined' &&
-    'qq' in window &&
-    typeof (window as any).qq.getSystemInfoSync === 'function'
-  ) {
-    return PlatformType.QQ;
-  }
-
-  // 京东小程序
-  if (
-    typeof window !== 'undefined' &&
-    'jd' in window &&
-    typeof (window as any).jd.getSystemInfoSync === 'function'
-  ) {
-    return PlatformType.JD;
-  }
-
-  // 钉钉小程序
-  if (
-    typeof window !== 'undefined' &&
-    'dd' in window &&
-    typeof (window as any).dd.getSystemInfoSync === 'function'
-  ) {
-    return PlatformType.DD;
-  }
-
-  // 企业微信小程序
-  if (typeof window !== 'undefined' && 'wx' in window && 'qy' in (window as any).wx) {
-    return PlatformType.QYWX;
-  }
-
-  // 飞书小程序
-  if (
-    typeof window !== 'undefined' &&
-    'tt' in window &&
-    typeof (window as any).tt.getSystemInfoSync === 'function' &&
-    (window as any).tt.env?.appName === 'lark'
-  ) {
-    return PlatformType.LARK;
-  }
-
-  // 鸿蒙OS（通过UserAgent判断）
-  if (typeof navigator !== 'undefined' && navigator.userAgent.includes('HarmonyOS')) {
-    return PlatformType.HARMONY;
-  }
-
-  // 默认为H5
   return PlatformType.H5;
 }
 
 /**
  * 判断运行环境
- * @returns 当前环境类型 ('h5' | 'weapp' | 'unknown')
  */
 export function getEnv(): 'h5' | 'weapp' | 'unknown' {
   if (typeof window !== 'undefined' && typeof document !== 'undefined') {
     return 'h5';
-  } else if (
-    typeof global !== 'undefined' &&
-    typeof (global as any)['wx'] !== 'undefined' &&
-    typeof (global as any)['wx'].getSystemInfoSync === 'function'
-  ) {
+  }
+  if (typeof global !== 'undefined' && (global as any)?.wx?.getSystemInfoSync) {
     return 'weapp';
   }
   return 'unknown';
 }
 
 /**
+ * 创建适配器实例
+ */
+function createAdapterInstance(platform: PlatformType, options: AdapterOptions): Adapter {
+  const adapters: Record<PlatformType, () => Adapter> = {
+    [PlatformType.H5]: () => require('./h5').default.create(options),
+    [PlatformType.WEAPP]: () => require('./weapp').default.create(options),
+    [PlatformType.SWAN]: () => require('./swan').default.create(options),
+    [PlatformType.TT]: () => require('./tt').default.create(options),
+    [PlatformType.HARMONY]: () => require('./harmony').default.create(options),
+    [PlatformType.ALIPAY]: () => require('./h5').default.create(options),
+    [PlatformType.QQ]: () => require('./h5').default.create(options),
+    [PlatformType.JD]: () => require('./h5').default.create(options),
+    [PlatformType.DD]: () => require('./h5').default.create(options),
+    [PlatformType.QYWX]: () => require('./h5').default.create(options),
+    [PlatformType.LARK]: () => require('./h5').default.create(options),
+  };
+
+  return adapters[platform]();
+}
+
+/**
  * 获取适配器
- * @param options 适配器选项
- * @returns 适配器实例
  */
 export function getAdapter(options: AdapterOptions): Adapter {
   const platform = detectPlatform();
+  const config = PLATFORM_CONFIGS[platform];
+
+  // 检查是否需要 component 属性
+  if (config?.requireComponent && !('component' in options)) {
+    console.warn(`[TaroViz] ${config.name}Adapter requires component property, fallback to H5Adapter`);
+  }
 
   try {
-    switch (platform) {
-      case PlatformType.H5: {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const H5Adapter = require('./h5').default;
-        return H5Adapter.create(options) as Adapter;
-      }
-      case PlatformType.WEAPP: {
-        // 微信小程序环境需要component属性
-        // 如果提供了component，则使用WeappAdapter
-        // 否则回退到H5Adapter
-        if ('component' in options) {
-          // eslint-disable-next-line @typescript-eslint/no-var-requires
-          const WeappAdapter = require('./weapp').default;
-          return WeappAdapter.create(options as any) as Adapter;
-        }
-        console.error('[TaroViz] WeappAdapter requires component property, fallback to H5Adapter');
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const FallbackH5Adapter = require('./h5').default;
-        return FallbackH5Adapter.create(options) as Adapter;
-      }
-      case PlatformType.SWAN: {
-        // 百度小程序环境需要component属性
-        if ('component' in options) {
-          // eslint-disable-next-line @typescript-eslint/no-var-requires
-          const SwanAdapter = require('./swan').default;
-          return SwanAdapter.create(options as any) as Adapter;
-        }
-        console.error('[TaroViz] SwanAdapter requires component property, fallback to H5Adapter');
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const FallbackH5Adapter = require('./h5').default;
-        return FallbackH5Adapter.create(options) as Adapter;
-      }
-      case PlatformType.TT: {
-        // 字节跳动小程序环境需要component属性
-        if ('component' in options) {
-          // eslint-disable-next-line @typescript-eslint/no-var-requires
-          const TTAdapter = require('./tt').default;
-          return TTAdapter.create(options as any) as Adapter;
-        }
-        console.error('[TaroViz] TTAdapter requires component property, fallback to H5Adapter');
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const FallbackH5Adapter = require('./h5').default;
-        return FallbackH5Adapter.create(options) as Adapter;
-      }
-      case PlatformType.HARMONY: {
-        // HarmonyOS环境需要component属性
-        if ('component' in options) {
-          // eslint-disable-next-line @typescript-eslint/no-var-requires
-          const HarmonyAdapter = require('./harmony').default;
-          return HarmonyAdapter.create(options as any) as Adapter;
-        }
-        console.error(
-          '[TaroViz] HarmonyAdapter requires component property, fallback to H5Adapter'
-        );
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const FallbackH5Adapter = require('./h5').default;
-        return FallbackH5Adapter.create(options) as Adapter;
-      }
-      default: {
-        console.warn(`[TaroViz] Platform '${platform}' not supported, fallback to H5Adapter`);
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const DefaultH5Adapter = require('./h5').default;
-        return DefaultH5Adapter.create(options) as Adapter;
-      }
-    }
+    return createAdapterInstance(platform, options);
   } catch (error) {
     console.error(`[TaroViz] Failed to load adapter for platform '${platform}':`, error);
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const DefaultH5Adapter = require('./h5').default;
-    return DefaultH5Adapter.create(options) as Adapter;
+    return require('./h5').default.create(options);
   }
 }
 
@@ -213,7 +123,7 @@ export { default as HarmonyAdapter } from './harmony';
 /**
  * 版本信息
  */
-export const version = '1.1.1';
+export const version = '1.2.0';
 
 export * from './types';
 
@@ -221,14 +131,9 @@ export default {
   getAdapter,
   getEnv,
   detectPlatform,
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   h5: require('./h5').default,
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   weapp: require('./weapp').default,
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   swan: require('./swan').default,
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   tt: require('./tt').default,
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   harmony: require('./harmony').default,
 };
