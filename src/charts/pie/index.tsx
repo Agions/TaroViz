@@ -1,16 +1,13 @@
 /**
  * 饼图组件
  */
-import { PieChart as PieChartComponent } from 'echarts/charts';
-import { TooltipComponent, TitleComponent, LegendComponent } from 'echarts/components';
-import * as echarts from 'echarts/core';
 import React from 'react';
 
 import BaseChartWrapper from '../common/BaseChartWrapper';
 import { BaseChartProps } from '../types';
 
-// 注册必要的组件
-echarts.use([PieChartComponent, TooltipComponent, TitleComponent, LegendComponent]);
+// 导入统一注册的 echarts
+import '@/core/echarts';
 
 /**
  * 饼图组件

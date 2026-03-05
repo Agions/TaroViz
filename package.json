@@ -121,6 +121,7 @@
   },
   "overrides": {
     "ajv": "^8.18.0",
+    "ajv-formats": "^3.0.0",
     "brace-expansion": "^3.0.1",
     "esbuild": "^0.24.2",
     "systeminformation": "^5.22.0",
