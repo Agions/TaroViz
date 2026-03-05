@@ -134,7 +134,7 @@ const cjsConfig = {
   ...baseConfig,
   name: 'cjs',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist/cjs'),
     filename: 'index.js',
     library: {
       type: 'commonjs2',
@@ -147,8 +147,8 @@ const esmConfig = {
   ...baseConfig,
   name: 'esm',
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'index.esm.js',
+    path: path.resolve(__dirname, 'dist/esm'),
+    filename: 'index.js',
     library: {
       type: 'module',
     },
