@@ -50,6 +50,7 @@
     "@types/testing-library__jest-dom": "^5.14.9",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.1.0",
+    "ajv": "^8.18.0",
     "babel-loader": "^10.0.0",
     "clean-webpack-plugin": "^4.0.0",
     "core-js": "3.41.0",
@@ -117,5 +118,13 @@
   "homepage": "https://agions.github.io/taroviz/",
   "bugs": {
     "url": "https://github.com/agions/taroviz/issues"
+  },
+  "overrides": {
+    "ajv": "^8.18.0",
+    "brace-expansion": "^3.0.1",
+    "esbuild": "^0.24.2",
+    "systeminformation": "^5.22.0",
+    "ws": "^8.18.0",
+    "path-scurry": "^1.11.0"
   }
 }
