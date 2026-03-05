@@ -12,8 +12,11 @@ export * from './utils';
 // 核心组件
 export type { ChartProps } from './components/BaseChart';
 
+// ECharts 统一导出
+export { default as echarts } from './echarts';
+
 /**
  * 库信息
  */
 export const name = 'taroviz';
-export const version = '1.1.1';
+export const version = '1.2.0';
