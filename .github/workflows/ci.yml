@@ -1,4 +1,4 @@
-name: CI
+name: CI & Release
 
 on:
   push:
@@ -67,6 +67,7 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    needs: [lint, typecheck, test]
     steps:
       - uses: actions/checkout@v4
 
@@ -81,20 +82,34 @@ jobs:
 
       - name: Build
         run: pnpm build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 1
 
   release:
     name: Release
-    needs: [lint, typecheck, test, build]
-    if: github.ref == 'refs/heads/main'
+    needs: [build]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -102,9 +117,44 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: Release
-        if: github.event_name == 'push'
+      - name: Release with release-it
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: pnpm release
+
+  release-conda:
+    name: Release to Conda
+    needs: [release]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Publish to Conda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniforge-version: latest
+          activate-environment: builder
+
+      - name: Install dependencies
+        run: |
+          conda install -c conda-forge conda-build anaconda-client
+
+      - name: Build Conda package
+        shell: bash -l {0}
+        run: |
+          # Build conda package (requires recipe)
+          echo "Conda packaging not configured yet"
+
+      - name: Upload to Anaconda Cloud
+        if: false
+        shell: bash -l {0}
+        run: |
+          anaconda upload dist/*.tar.bz2
+        env:
+          ANACONDA_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
