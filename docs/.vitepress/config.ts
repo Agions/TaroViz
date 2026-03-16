@@ -41,6 +41,7 @@ export default defineConfig({
       ],
       '/examples/': [
         { text: '基础示例', link: '/examples/' },
+        { text: '交互式示例', link: '/examples/interactive' },
         { text: '折线图', link: '/examples/line-chart' },
         { text: '柱状图', link: '/examples/bar-chart' },
         { text: '饼图', link: '/examples/pie-chart' },
