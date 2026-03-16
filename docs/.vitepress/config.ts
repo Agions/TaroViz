@@ -4,15 +4,21 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "TaroViz",
   description: "基于 Taro 和 ECharts 的多端图表组件库",
+  
+  head: [
+    ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
+    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
+    ['link', { href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap', rel: 'stylesheet' }]
+  ],
+
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '首页', link: '/' },
       { text: '指南', link: '/guide/' },
-      { text: 'API', link: '/api/' },
       { text: '示例', link: '/examples/' },
-      { text: '迁移', link: '/migration/' },
-      { text: '贡献', link: '/contributing/' }
+      { text: 'API', link: '/api/' },
+      { text: 'Playground', link: '/playground' }
     ],
 
     sidebar: {
@@ -21,6 +27,7 @@ export default defineConfig({
         { text: '安装', link: '/guide/installation' },
         { text: '基础使用', link: '/guide/basic-usage' },
         { text: '图表类型', link: '/guide/chart-types' },
+        { text: '主题预览', link: '/guide/themes' },
         { text: '主题定制', link: '/guide/theming' },
         { text: '性能优化', link: '/guide/performance' },
         { text: '跨平台开发', link: '/guide/cross-platform' }
@@ -57,6 +64,20 @@ export default defineConfig({
 
     search: {
       provider: 'local'
+    },
+
+    outline: {
+      level: [2, 3],
+      label: '目录'
+    },
+
+    docFooter: {
+      prev: '上一页',
+      next: '下一页'
+    },
+
+    lastUpdated: {
+      text: '最后更新'
     }
   },
 
@@ -64,6 +85,13 @@ export default defineConfig({
   vite: {
     build: {
       assetsDir: 'assets'
+    },
+    optimizeDeps: {
+      include: ['echarts']
     }
+  },
+
+  markdown: {
+    lineNumbers: true
   }
 })
