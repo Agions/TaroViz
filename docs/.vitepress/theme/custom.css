@@ -1,0 +1,151 @@
+/* TaroViz Custom Theme - Editorial/Refined Aesthetic */
+
+:root {
+  /* Primary palette - Deep slate with warm undertones */
+  --vp-c-brand-1: #2d5a5a;
+  --vp-c-brand-2: #3d7a7a;
+  --vp-c-brand-3: #1a4040;
+  --vp-c-brand-soft: rgba(45, 90, 90, 0.14);
+
+  /* Background - Warm off-white */
+  --vp-c-bg: #faf9f7;
+  --vp-c-bg-alt: #f3f1ee;
+  --vp-c-bg-soft: #f0ede8;
+
+  /* Text - Refined grays */
+  --vp-c-text-1: #1a1a1a;
+  --vp-c-text-2: #4a4a4a;
+  --vp-c-text-3: #7a7a7a;
+
+  /* Border - Subtle warm */
+  --vp-c-border: #e5e2dc;
+  --vp-c-divider: #ebe8e2;
+
+  /* Accent colors for charts */
+  --chart-blue: #4a90d9;
+  --chart-teal: #2d8a8a;
+  --chart-coral: #e07a5f;
+  --chart-amber: #d4a056;
+  --chart-purple: #7c6a9b;
+
+  /* Typography */
+  --vp-font-family-base: 'Noto Sans SC', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --vp-font-family-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Shadows - Soft and layered */
+  --vp-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.03);
+  --vp-shadow-2: 0 4px 12px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.04);
+
+  /* Border radius */
+  --vp-button-brand-border-radius: 6px;
+  --vp-button-alt-border-radius: 6px;
+}
+
+/* Dark mode */
+.dark {
+  --vp-c-bg: #141414;
+  --vp-c-bg-alt: #1a1a1a;
+  --vp-c-bg-soft: #222222;
+  --vp-c-text-1: #f5f5f5;
+  --vp-c-text-2: #b0b0b0;
+  --vp-c-text-3: #707070;
+  --vp-c-border: #2a2a2a;
+  --vp-c-divider: #222222;
+  --vp-c-brand-1: #5aabab;
+  --vp-c-brand-2: #7acccc;
+  --vp-c-brand-3: #3d8a8a;
+  --vp-c-brand-soft: rgba(90, 171, 171, 0.2);
+}
+
+/* Hero section enhancements */
+.VPHero .VPImage {
+  border-radius: 12px;
+  box-shadow: var(--vp-shadow-2);
+}
+
+.VPButton.brand {
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: all 0.25s ease;
+}
+
+.VPButton.brand:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--vp-shadow-2);
+}
+
+/* Feature cards */
+.vp-doc div[class*='features'] {
+  gap: 24px;
+}
+
+.vp-doc div[class*='features'] > div {
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-border);
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+
+.vp-doc div[class*='features'] > div:hover {
+  border-color: var(--vp-c-brand-2);
+  transform: translateY(-2px);
+  box-shadow: var(--vp-shadow-1);
+}
+
+.vp-doc div[class*='features'] > div h3 {
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+  margin-bottom: 8px;
+}
+
+.vp-doc div[class*='features'] > div p {
+  color: var(--vp-c-text-2);
+  line-height: 1.6;
+}
+
+/* Sidebar enhancements */
+.VPSidebar {
+  background: var(--vp-c-bg-alt);
+  border-right: 1px solid var(--vp-c-divider);
+}
+
+.VPSidebarItem.is-active > .item > .link {
+  color: var(--vp-c-brand-1);
+  font-weight: 500;
+}
+
+/* Navbar */
+.VPNavBar {
+  border-bottom: 1px solid var(--vp-c-divider);
+  backdrop-filter: blur(12px);
+  background: rgba(250, 249, 247, 0.85) !important;
+}
+
+.dark .VPNavBar {
+  background: rgba(20, 20, 20, 0.85) !important;
+}
+
+/* Code blocks */
+.vp-doc div[class*='language-'] {
+  border-radius: 8px;
+  border: 1px solid var(--vp-c-border);
+}
+
+/* Smooth transitions globally */
+* {
+  transition-property: background-color, border-color, color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+
+/* Custom container styles */
+.vp-doc .custom-container.tip {
+  border-color: var(--chart-teal);
+  background: rgba(45, 138, 138, 0.08);
+}
+
+.vp-doc .custom-container.warning {
+  border-color: var(--chart-amber);
+  background: rgba(212, 160, 86, 0.08);
+}
