@@ -34,23 +34,23 @@ export type BuiltinTheme =
   | 'ocean'
   | 'cyber'
   | 'retro'
-  | 'elegant'
+  | 'elegant';
 
 /**
  * 主题模式
  */
-export type ThemeMode = 'light' | 'dark' | 'auto'
+export type ThemeMode = 'light' | 'dark' | 'auto';
 
 /**
  * 主题渐变类型
  */
 export interface ThemeGradient {
   /** 渐变起始色 */
-  start: string
+  start: string;
   /** 渐变结束色 */
-  end: string
+  end: string;
   /** 渐变角度 */
-  angle?: number
+  angle?: number;
 }
 
 /**
@@ -58,19 +58,19 @@ export interface ThemeGradient {
  */
 export interface ThemeEffects {
   /** 是否启用阴影 */
-  shadows?: boolean
+  shadows?: boolean;
   /** 阴影颜色 */
-  shadowColor?: string
+  shadowColor?: string;
   /** 是否启用渐变 */
-  gradients?: boolean
+  gradients?: boolean;
   /** 自定义渐变 */
-  customGradients?: ThemeGradient[]
+  customGradients?: ThemeGradient[];
   /** 是否启用玻璃态 */
-  glassmorphism?: boolean
+  glassmorphism?: boolean;
   /** 玻璃态模糊度 */
-  blur?: number
+  blur?: number;
   /** 圆角风格 */
-  borderRadius?: 'none' | 'small' | 'medium' | 'large' | 'pill'
+  borderRadius?: 'none' | 'small' | 'medium' | 'large' | 'pill';
 }
 
 /**
@@ -78,67 +78,67 @@ export interface ThemeEffects {
  */
 export interface ThemeOptions {
   /** 主题名称/键名 */
-  theme?: BuiltinTheme | Record<string, unknown>
+  theme?: BuiltinTheme | Record<string, unknown>;
 
   /** 是否启用深色模式 */
-  darkMode?: boolean
+  darkMode?: boolean;
 
   /** 主题模式 */
-  mode?: ThemeMode
+  mode?: ThemeMode;
 
   /** 颜色列表 */
-  colors?: string[]
+  colors?: string[];
 
   /** 背景色 */
-  backgroundColor?: string
+  backgroundColor?: string;
 
   /** 背景渐变 */
-  backgroundGradient?: ThemeGradient
+  backgroundGradient?: ThemeGradient;
 
   /** 文本颜色 */
-  textColor?: string
+  textColor?: string;
 
   /** 次要文本颜色 */
-  textColorSecondary?: string
+  textColorSecondary?: string;
 
   /** 边框颜色 */
-  borderColor?: string
+  borderColor?: string;
 
   /** 分割线颜色 */
-  dividerColor?: string
+  dividerColor?: string;
 
   /** 字体 */
-  fontFamily?: string
+  fontFamily?: string;
 
   /** 标题字体 */
-  fontFamilyTitle?: string
+  fontFamilyTitle?: string;
 
   /** 正文字体 */
-  fontFamilyBody?: string
+  fontFamilyBody?: string;
 
   /** 主题名称(显示用) */
-  name?: string
+  name?: string;
 
   /** 主题描述 */
-  description?: string
+  description?: string;
 
   /** 主题作者 */
-  author?: string
+  author?: string;
 
   /** 主题版本 */
-  version?: string
+  version?: string;
 
   /** 主题类型 */
-  type?: ThemeMode
+  type?: ThemeMode;
 
   /** 主题标签 */
-  tags?: string[]
+  tags?: string[];
 
   /** 效果配置 */
-  effects?: ThemeEffects
+  effects?: ThemeEffects;
 
   /** 图表特定配置 */
-  chart?: ChartThemeConfig
+  chart?: ChartThemeConfig;
 }
 
 /**
@@ -146,82 +146,82 @@ export interface ThemeOptions {
  */
 export interface ChartThemeConfig {
   /** 图例配置 */
-  legend?: LegendThemeConfig
+  legend?: LegendThemeConfig;
   /** 坐标轴配置 */
-  axis?: AxisThemeConfig
+  axis?: AxisThemeConfig;
   /** 提示框配置 */
-  tooltip?: TooltipThemeConfig
+  tooltip?: TooltipThemeConfig;
   /** 标题配置 */
-  title?: TitleThemeConfig
+  title?: TitleThemeConfig;
   /** 网格配置 */
-  grid?: GridThemeConfig
+  grid?: GridThemeConfig;
   /** 数据区域缩放配置 */
-  dataZoom?: DataZoomThemeConfig
+  dataZoom?: DataZoomThemeConfig;
   /** 时间线配置 */
-  timeline?: TimelineThemeConfig
+  timeline?: TimelineThemeConfig;
 }
 
 /** 图例主题配置 */
 export interface LegendThemeConfig {
-  textColor?: string
-  backgroundColor?: string
-  borderColor?: string
-  borderRadius?: number | number[]
-  padding?: number | number[]
+  textColor?: string;
+  backgroundColor?: string;
+  borderColor?: string;
+  borderRadius?: number | number[];
+  padding?: number | number[];
 }
 
 /** 坐标轴主题配置 */
 export interface AxisThemeConfig {
-  textColor?: string
-  lineColor?: string
-  tickColor?: string
-  splitLineColor?: string
-  splitAreaColor?: string
+  textColor?: string;
+  lineColor?: string;
+  tickColor?: string;
+  splitLineColor?: string;
+  splitAreaColor?: string;
 }
 
 /** 提示框主题配置 */
 export interface TooltipThemeConfig {
-  textColor?: string
-  backgroundColor?: string
-  borderColor?: string
-  borderRadius?: number
-  shadowColor?: string
+  textColor?: string;
+  backgroundColor?: string;
+  borderColor?: string;
+  borderRadius?: number;
+  shadowColor?: string;
 }
 
 /** 标题主题配置 */
 export interface TitleThemeConfig {
-  textColor?: string
-  subTextColor?: string
+  textColor?: string;
+  subTextColor?: string;
 }
 
 /** 网格主题配置 */
 export interface GridThemeConfig {
-  backgroundColor?: string
-  borderColor?: string
+  backgroundColor?: string;
+  borderColor?: string;
 }
 
 /** 数据区域缩放主题配置 */
 export interface DataZoomThemeConfig {
-  backgroundColor?: string
-  fillerColor?: string
-  borderColor?: string
-  textColor?: string
+  backgroundColor?: string;
+  fillerColor?: string;
+  borderColor?: string;
+  textColor?: string;
 }
 
 /** 时间线主题配置 */
 export interface TimelineThemeConfig {
-  backgroundColor?: string
-  borderColor?: string
-  textColor?: string
-  lineColor?: string
-  controlColor?: string
+  backgroundColor?: string;
+  borderColor?: string;
+  textColor?: string;
+  lineColor?: string;
+  controlColor?: string;
 }
 
 // ============================================================================
 // 主题注册表
 // ============================================================================
 
-const themeRegistry = new Map<string, ThemeOptions>()
+const themeRegistry = new Map<string, ThemeOptions>();
 
 // ============================================================================
 // 内置主题定义
@@ -276,7 +276,7 @@ export const defaultTheme: ThemeOptions = {
       subTextColor: '#666666',
     },
   },
-}
+};
 
 /** 深色主题 */
 export const darkTheme: ThemeOptions = {
@@ -327,7 +327,7 @@ export const darkTheme: ThemeOptions = {
       subTextColor: '#a0a0a0',
     },
   },
-}
+};
 
 /** Neon 霓虹主题 */
 export const neonTheme: ThemeOptions = {
@@ -369,7 +369,7 @@ export const neonTheme: ThemeOptions = {
       shadowColor: 'rgba(0, 255, 245, 0.3)',
     },
   },
-}
+};
 
 /** Glass 玻璃态主题 */
 export const glassTheme: ThemeOptions = {
@@ -417,7 +417,7 @@ export const glassTheme: ThemeOptions = {
       borderRadius: 12,
     },
   },
-}
+};
 
 /** Pastel 粉彩主题 */
 export const pastelTheme: ThemeOptions = {
@@ -453,7 +453,7 @@ export const pastelTheme: ThemeOptions = {
       borderRadius: 8,
     },
   },
-}
+};
 
 /** Sunset 日落主题 */
 export const sunsetTheme: ThemeOptions = {
@@ -492,7 +492,7 @@ export const sunsetTheme: ThemeOptions = {
     shadowColor: 'rgba(255, 107, 107, 0.2)',
     borderRadius: 'medium',
   },
-}
+};
 
 /** Ocean 海洋主题 */
 export const oceanTheme: ThemeOptions = {
@@ -530,7 +530,7 @@ export const oceanTheme: ThemeOptions = {
     shadows: true,
     shadowColor: 'rgba(0, 119, 182, 0.15)',
   },
-}
+};
 
 /** Cyber 赛博主题 */
 export const cyberTheme: ThemeOptions = {
@@ -573,7 +573,7 @@ export const cyberTheme: ThemeOptions = {
       shadowColor: 'rgba(0, 245, 255, 0.4)',
     },
   },
-}
+};
 
 /** Retro 复古主题 */
 export const retroTheme: ThemeOptions = {
@@ -605,7 +605,7 @@ export const retroTheme: ThemeOptions = {
     shadows: false,
     borderRadius: 'small',
   },
-}
+};
 
 /** Elegant 雅致主题 */
 export const elegantTheme: ThemeOptions = {
@@ -638,7 +638,7 @@ export const elegantTheme: ThemeOptions = {
     shadowColor: 'rgba(0, 0, 0, 0.08)',
     borderRadius: 'medium',
   },
-}
+};
 
 // ============================================================================
 // 主题管理函数
@@ -651,22 +651,22 @@ export const elegantTheme: ThemeOptions = {
  */
 export function getTheme(options?: Partial<ThemeOptions>): ThemeOptions {
   if (!options) {
-    return defaultTheme
+    return defaultTheme;
   }
 
-  let baseTheme: ThemeOptions
+  let baseTheme: ThemeOptions;
   if (options.theme && typeof options.theme === 'string') {
-    const registeredTheme = themeRegistry.get(options.theme)
+    const registeredTheme = themeRegistry.get(options.theme);
     if (registeredTheme) {
-      baseTheme = registeredTheme
+      baseTheme = registeredTheme;
     } else {
-      baseTheme = options.darkMode ? darkTheme : defaultTheme
+      baseTheme = options.darkMode ? darkTheme : defaultTheme;
     }
   } else {
-    baseTheme = options.darkMode ? darkTheme : defaultTheme
+    baseTheme = options.darkMode ? darkTheme : defaultTheme;
   }
 
-  return { ...baseTheme, ...options }
+  return { ...baseTheme, ...options };
 }
 
 /**
@@ -675,7 +675,7 @@ export function getTheme(options?: Partial<ThemeOptions>): ThemeOptions {
  * @param theme 主题配置
  */
 export function registerTheme(name: string, theme: ThemeOptions): void {
-  themeRegistry.set(name, { ...theme, name })
+  themeRegistry.set(name, { ...theme, name });
 }
 
 /**
@@ -683,7 +683,7 @@ export function registerTheme(name: string, theme: ThemeOptions): void {
  * @returns 主题列表
  */
 export function getRegisteredThemes(): ThemeOptions[] {
-  return Array.from(themeRegistry.values())
+  return Array.from(themeRegistry.values());
 }
 
 /**
@@ -692,7 +692,7 @@ export function getRegisteredThemes(): ThemeOptions[] {
  * @returns 主题配置
  */
 export function getThemeByName(name: string): ThemeOptions | undefined {
-  return themeRegistry.get(name)
+  return themeRegistry.get(name);
 }
 
 /**
@@ -700,7 +700,7 @@ export function getThemeByName(name: string): ThemeOptions | undefined {
  * @param name 主题名称
  */
 export function unregisterTheme(name: string): void {
-  themeRegistry.delete(name)
+  themeRegistry.delete(name);
 }
 
 /**
@@ -709,30 +709,27 @@ export function unregisterTheme(name: string): void {
  * @param callback 切换完成后的回调函数
  * @returns 主题配置
  */
-export function switchTheme(
-  theme: string | ThemeOptions,
-  callback?: () => void
-): ThemeOptions {
-  let themeConfig: ThemeOptions
+export function switchTheme(theme: string | ThemeOptions, callback?: () => void): ThemeOptions {
+  let themeConfig: ThemeOptions;
 
   if (typeof theme === 'string') {
-    const registeredTheme = themeRegistry.get(theme)
-    themeConfig = registeredTheme || defaultTheme
+    const registeredTheme = themeRegistry.get(theme);
+    themeConfig = registeredTheme || defaultTheme;
   } else {
-    themeConfig = theme
+    themeConfig = theme;
     if (theme.name) {
-      registerTheme(theme.name, theme)
+      registerTheme(theme.name, theme);
     }
   }
 
   // 触发主题切换事件
   if (typeof window !== 'undefined') {
-    window.dispatchEvent(new CustomEvent('themeChange', { detail: themeConfig }))
+    window.dispatchEvent(new CustomEvent('themeChange', { detail: themeConfig }));
   }
 
-  callback?.()
+  callback?.();
 
-  return themeConfig
+  return themeConfig;
 }
 
 /**
@@ -741,7 +738,7 @@ export function switchTheme(
  * @returns 主题列表
  */
 export function getThemesByTag(tag: string): ThemeOptions[] {
-  return getRegisteredThemes().filter((t) => t.tags?.includes(tag))
+  return getRegisteredThemes().filter((t) => t.tags?.includes(tag));
 }
 
 /**
@@ -749,7 +746,7 @@ export function getThemesByTag(tag: string): ThemeOptions[] {
  * @returns 浅色主题列表
  */
 export function getLightThemes(): ThemeOptions[] {
-  return getRegisteredThemes().filter((t) => !t.darkMode)
+  return getRegisteredThemes().filter((t) => !t.darkMode);
 }
 
 /**
@@ -757,7 +754,7 @@ export function getLightThemes(): ThemeOptions[] {
  * @returns 深色主题列表
  */
 export function getDarkThemes(): ThemeOptions[] {
-  return getRegisteredThemes().filter((t) => t.darkMode)
+  return getRegisteredThemes().filter((t) => t.darkMode);
 }
 
 // ============================================================================
@@ -772,14 +769,7 @@ const builtinThemes = {
     theme: 'walden',
     name: 'Walden',
     description: '清新自然风格',
-    colors: [
-      '#0a437a',
-      '#3a84c4',
-      '#22a783',
-      '#48b591',
-      '#7fcdbb',
-      '#c9e4ca',
-    ],
+    colors: ['#0a437a', '#3a84c4', '#22a783', '#48b591', '#7fcdbb', '#c9e4ca'],
     backgroundColor: '#f0f8f5',
     textColor: '#2c5042',
   },
@@ -788,13 +778,7 @@ const builtinThemes = {
     theme: 'chalk',
     name: 'Chalk',
     description: '粉笔风格',
-    colors: [
-      '#2e8de5',
-      '#f0805a',
-      '#5ab1ef',
-      '#91d5ff',
-      '#faad14',
-    ],
+    colors: ['#2e8de5', '#f0805a', '#5ab1ef', '#91d5ff', '#faad14'],
     backgroundColor: '#ffffff',
     textColor: '#000000',
   },
@@ -803,13 +787,7 @@ const builtinThemes = {
     theme: 'purple-passion',
     name: 'Purple Passion',
     description: '紫色浪漫',
-    colors: [
-      '#9c27b0',
-      '#e91e63',
-      '#ff5722',
-      '#ff9800',
-      '#ffc107',
-    ],
+    colors: ['#9c27b0', '#e91e63', '#ff5722', '#ff9800', '#ffc107'],
     backgroundColor: '#f5f5f5',
     textColor: '#333333',
   },
@@ -818,13 +796,7 @@ const builtinThemes = {
     theme: 'blue-green',
     name: 'Blue Green',
     description: '蓝绿清新',
-    colors: [
-      '#00838f',
-      '#00acc1',
-      '#03a9f4',
-      '#29b6f6',
-      '#4fc3f7',
-    ],
+    colors: ['#00838f', '#00acc1', '#03a9f4', '#29b6f6', '#4fc3f7'],
     backgroundColor: '#e0f7fa',
     textColor: '#006064',
   },
@@ -833,13 +805,7 @@ const builtinThemes = {
     theme: 'golden',
     name: 'Golden',
     description: '金色奢华',
-    colors: [
-      '#ffd700',
-      '#ffed4e',
-      '#f9a825',
-      '#ffc107',
-      '#ffb300',
-    ],
+    colors: ['#ffd700', '#ffed4e', '#f9a825', '#ffc107', '#ffb300'],
     backgroundColor: '#fff8e1',
     textColor: '#ff6f00',
   },
@@ -848,13 +814,7 @@ const builtinThemes = {
     theme: 'forest',
     name: 'Forest',
     description: '森林绿色',
-    colors: [
-      '#2e7d32',
-      '#388e3c',
-      '#43a047',
-      '#4caf50',
-      '#66bb6a',
-    ],
+    colors: ['#2e7d32', '#388e3c', '#43a047', '#4caf50', '#66bb6a'],
     backgroundColor: '#f1f8e9',
     textColor: '#1b5e20',
   },
@@ -866,12 +826,12 @@ const builtinThemes = {
   cyber: cyberTheme,
   retro: retroTheme,
   elegant: elegantTheme,
-}
+};
 
 // 注册所有内置主题
 Object.entries(builtinThemes).forEach(([name, theme]) => {
-  themeRegistry.set(name, theme as ThemeOptions)
-})
+  themeRegistry.set(name, theme as ThemeOptions);
+});
 
 // ============================================================================
 // 导出
@@ -897,4 +857,4 @@ export default {
   getThemesByTag,
   getLightThemes,
   getDarkThemes,
-}
+};

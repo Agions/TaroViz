@@ -264,7 +264,7 @@ export class ConfigGenerator {
    * 根据图表类型获取模板
    */
   public getTemplatesByChartType(chartType: ChartType): ChartConfigTemplate[] {
-    return Array.from(this.templates.values()).filter(template =>
+    return Array.from(this.templates.values()).filter((template) =>
       template.chartTypes.includes(chartType)
     );
   }
@@ -410,7 +410,7 @@ export class ConfigGenerator {
   private generateSeriesConfig(options: ConfigGeneratorOptions): EChartsOption {
     const series = options.series.map((seriesConfig, index) => {
       // 处理数据，转换为ECharts支持的格式
-      const processedData = seriesConfig.data.map(item => {
+      const processedData = seriesConfig.data.map((item) => {
         if (typeof item.value === 'number') {
           return { name: item.name, value: item.value };
         }
@@ -445,7 +445,7 @@ export class ConfigGenerator {
     // 处理X轴配置
     if (options.xAxis) {
       axisConfig.xAxis = Array.isArray(options.xAxis)
-        ? options.xAxis.map(axis => this.normalizeAxisConfig(axis))
+        ? options.xAxis.map((axis) => this.normalizeAxisConfig(axis))
         : this.normalizeAxisConfig(options.xAxis);
     } else if (this.needsAxis(options.chartType)) {
       // 为需要坐标轴的图表类型生成默认X轴
@@ -455,7 +455,7 @@ export class ConfigGenerator {
     // 处理Y轴配置
     if (options.yAxis) {
       axisConfig.yAxis = Array.isArray(options.yAxis)
-        ? options.yAxis.map(axis => this.normalizeAxisConfig(axis))
+        ? options.yAxis.map((axis) => this.normalizeAxisConfig(axis))
         : this.normalizeAxisConfig(options.yAxis);
     } else if (this.needsAxis(options.chartType)) {
       // 为需要坐标轴的图表类型生成默认Y轴
@@ -565,7 +565,7 @@ export class ConfigGenerator {
    */
   private emit(eventType: ConfigGeneratorEventType, data?: any): void {
     const handlers = this.eventHandlers.get(eventType);
-    handlers?.forEach(handler => {
+    handlers?.forEach((handler) => {
       try {
         handler({ type: eventType, data });
       } catch (error) {

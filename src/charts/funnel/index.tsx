@@ -11,7 +11,7 @@ import '@/core/echarts';
 /**
  * 漏斗图组件
  */
-const FunnelChart: React.FC<FunnelChartProps> = props => (
+const FunnelChart: React.FC<FunnelChartProps> = (props) => (
   <BaseChartWrapper {...props} chartType="funnel-chart" />
 );
 

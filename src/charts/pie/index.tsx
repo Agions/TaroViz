@@ -12,7 +12,7 @@ import '@/core/echarts';
 /**
  * 饼图组件
  */
-const PieChart: React.FC<BaseChartProps> = props => (
+const PieChart: React.FC<BaseChartProps> = (props) => (
   <BaseChartWrapper {...props} chartType="pie-chart" />
 );
 

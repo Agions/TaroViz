@@ -38,15 +38,40 @@ export function detectPlatform(): PlatformType {
   }
 
   const checks: Array<{ test: () => boolean; platform: PlatformType }> = [
-    { test: () => 'wx' in window && (window as any).wx?.getSystemInfoSync && !(window as any).wx?.qy, platform: PlatformType.WEAPP },
-    { test: () => 'my' in window && (window as any).my?.getSystemInfoSync, platform: PlatformType.ALIPAY },
-    { test: () => 'swan' in window && (window as any).swan?.getSystemInfoSync, platform: PlatformType.SWAN },
-    { test: () => 'tt' in window && (window as any).tt?.getSystemInfoSync, platform: PlatformType.TT },
-    { test: () => 'qq' in window && (window as any).qq?.getSystemInfoSync, platform: PlatformType.QQ },
-    { test: () => 'jd' in window && (window as any).jd?.getSystemInfoSync, platform: PlatformType.JD },
-    { test: () => 'dd' in window && (window as any).dd?.getSystemInfoSync, platform: PlatformType.DD },
+    {
+      test: () =>
+        'wx' in window && (window as any).wx?.getSystemInfoSync && !(window as any).wx?.qy,
+      platform: PlatformType.WEAPP,
+    },
+    {
+      test: () => 'my' in window && (window as any).my?.getSystemInfoSync,
+      platform: PlatformType.ALIPAY,
+    },
+    {
+      test: () => 'swan' in window && (window as any).swan?.getSystemInfoSync,
+      platform: PlatformType.SWAN,
+    },
+    {
+      test: () => 'tt' in window && (window as any).tt?.getSystemInfoSync,
+      platform: PlatformType.TT,
+    },
+    {
+      test: () => 'qq' in window && (window as any).qq?.getSystemInfoSync,
+      platform: PlatformType.QQ,
+    },
+    {
+      test: () => 'jd' in window && (window as any).jd?.getSystemInfoSync,
+      platform: PlatformType.JD,
+    },
+    {
+      test: () => 'dd' in window && (window as any).dd?.getSystemInfoSync,
+      platform: PlatformType.DD,
+    },
     { test: () => 'wx' in window && (window as any).wx?.qy, platform: PlatformType.QYWX },
-    { test: () => 'tt' in window && (window as any).tt?.env?.appName === 'lark', platform: PlatformType.LARK },
+    {
+      test: () => 'tt' in window && (window as any).tt?.env?.appName === 'lark',
+      platform: PlatformType.LARK,
+    },
     { test: () => navigator.userAgent.includes('HarmonyOS'), platform: PlatformType.HARMONY },
   ];
 
@@ -102,7 +127,9 @@ export function getAdapter(options: AdapterOptions): Adapter {
 
   // 检查是否需要 component 属性
   if (config?.requireComponent && !('component' in options)) {
-    console.warn(`[TaroViz] ${config.name}Adapter requires component property, fallback to H5Adapter`);
+    console.warn(
+      `[TaroViz] ${config.name}Adapter requires component property, fallback to H5Adapter`
+    );
   }
 
   try {

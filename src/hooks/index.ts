@@ -2,9 +2,9 @@
  * TaroViz React Hooks - 增强版
  * 提供与图表相关的 React Hooks
  */
-import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
-import { getAdapter } from '../adapters'
-import type { EChartsOption } from 'echarts'
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { getAdapter } from '../adapters';
+import type { EChartsOption } from 'echarts';
 
 // ============================================================================
 // 类型定义
@@ -12,59 +12,63 @@ import type { EChartsOption } from 'echarts'
 
 /** 图表实例类型 */
 export interface ChartInstance {
-  setOption: (option: EChartsOption, notMerge?: boolean, lazyUpdate?: boolean) => void
-  getOption: () => EChartsOption
-  resize: (option?: { width?: number | string; height?: number | string }) => void
-  on: (event: string, handler: EventHandler) => void
-  off: (event: string, handler?: EventHandler) => void
-  showLoading: (opts?: LoadingOptions) => void
-  hideLoading: () => void
-  dispose: () => void
-  isDisposed: () => boolean
-  getWidth: () => number
-  getHeight: () => number
-  getDom: () => HTMLElement
-  getDataURL?: (options?: { type?: string; pixelRatio?: number; backgroundColor?: string }) => string
-  getSvgData?: () => string
-  getCompressedDataURL?: (options?: { seriesIndex?: number; dimension?: number }) => string
-  clear?: () => void
-  dispatchAction?: (action: { type: string; [key: string]: unknown }) => void
-  [key: string]: any
+  setOption: (option: EChartsOption, notMerge?: boolean, lazyUpdate?: boolean) => void;
+  getOption: () => EChartsOption;
+  resize: (option?: { width?: number | string; height?: number | string }) => void;
+  on: (event: string, handler: EventHandler) => void;
+  off: (event: string, handler?: EventHandler) => void;
+  showLoading: (opts?: LoadingOptions) => void;
+  hideLoading: () => void;
+  dispose: () => void;
+  isDisposed: () => boolean;
+  getWidth: () => number;
+  getHeight: () => number;
+  getDom: () => HTMLElement;
+  getDataURL?: (options?: {
+    type?: string;
+    pixelRatio?: number;
+    backgroundColor?: string;
+  }) => string;
+  getSvgData?: () => string;
+  getCompressedDataURL?: (options?: { seriesIndex?: number; dimension?: number }) => string;
+  clear?: () => void;
+  dispatchAction?: (action: { type: string; [key: string]: unknown }) => void;
+  [key: string]: any;
 }
 
 /** 事件处理器 */
-export type EventHandler = (params?: unknown) => void
+export type EventHandler = (params?: unknown) => void;
 
 /** 加载选项 */
 export interface LoadingOptions {
-  text?: string
-  color?: string
-  textColor?: string
-  maskColor?: string
-  zlevel?: number
+  text?: string;
+  color?: string;
+  textColor?: string;
+  maskColor?: string;
+  zlevel?: number;
 }
 
 /** 图表配置 */
 export interface ChartConfig {
-  width?: number | string
-  height?: number | string
-  renderer?: 'canvas' | 'svg'
-  theme?: string | Record<string, unknown>
+  width?: number | string;
+  height?: number | string;
+  renderer?: 'canvas' | 'svg';
+  theme?: string | Record<string, unknown>;
 }
 
 /** 数据转换器 */
-export type DataTransformer<T = unknown> = (data: T) => EChartsOption
+export type DataTransformer<T = unknown> = (data: T) => EChartsOption;
 
 /** 响应式断点 */
-export type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+export type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 /** 断点配置 */
 export interface BreakpointConfig {
-  width: number
+  width: number;
 }
 
 /** 主题切换回调 */
-export type ThemeChangeCallback = (theme: string | Record<string, unknown>) => void
+export type ThemeChangeCallback = (theme: string | Record<string, unknown>) => void;
 
 // ============================================================================
 // Hooks
@@ -80,42 +84,42 @@ export function useChart(
   chartRef: React.RefObject<HTMLElement>,
   config?: ChartConfig
 ): [ChartInstance | null, React.Dispatch<React.SetStateAction<ChartInstance | null>>, boolean] {
-  const [instance, setInstance] = useState<ChartInstance | null>(null)
-  const [initialized, setInitialized] = useState(false)
-  const configRef = useRef(config)
-  configRef.current = config
+  const [instance, setInstance] = useState<ChartInstance | null>(null);
+  const [initialized, setInitialized] = useState(false);
+  const configRef = useRef(config);
+  configRef.current = config;
 
   useEffect(() => {
     if (!chartRef.current || instance) {
-      return
+      return;
     }
 
     try {
-      const adapter = getAdapter(configRef.current || {})
-      const chartInstance = adapter as unknown as ChartInstance
-      setInstance(chartInstance)
-      setInitialized(true)
+      const adapter = getAdapter(configRef.current || {});
+      const chartInstance = adapter as unknown as ChartInstance;
+      setInstance(chartInstance);
+      setInitialized(true);
     } catch (error) {
-      console.error('Failed to initialize chart:', error)
+      console.error('Failed to initialize chart:', error);
     }
 
     return () => {
       if (instance) {
         try {
-          const inst = instance as any
+          const inst = instance as any;
           if (!inst.isDisposed?.()) {
-            inst.dispose()
+            inst.dispose();
           }
         } catch (e) {
-          console.warn('Failed to dispose chart instance:', e)
+          console.warn('Failed to dispose chart instance:', e);
         }
-        setInstance(null)
-        setInitialized(false)
+        setInstance(null);
+        setInitialized(false);
       }
-    }
-  }, [chartRef])
+    };
+  }, [chartRef]);
 
-  return [instance, setInstance, initialized]
+  return [instance, setInstance, initialized];
 }
 
 /**
@@ -129,26 +133,26 @@ export function useOption(
   option: EChartsOption | null,
   options?: {
     /** 是否不合并 */
-    notMerge?: boolean
+    notMerge?: boolean;
     /** 是否延迟更新 */
-    lazyUpdate?: boolean
+    lazyUpdate?: boolean;
     /** 是否在数据变化时替换 */
-    replaceMerge?: string[]
+    replaceMerge?: string[];
     /** 依赖数组 */
-    deps?: unknown[]
+    deps?: unknown[];
   }
 ) {
-  const { notMerge = false, lazyUpdate = false, replaceMerge, deps = [] } = options || {}
+  const { notMerge = false, lazyUpdate = false, replaceMerge, deps = [] } = options || {};
 
   useEffect(() => {
     if (instance && option) {
       try {
-        instance.setOption(option, notMerge, lazyUpdate)
+        instance.setOption(option, notMerge, lazyUpdate);
       } catch (e) {
-        console.warn('Failed to set chart option:', e)
+        console.warn('Failed to set chart option:', e);
       }
     }
-  }, [instance, option, notMerge, lazyUpdate, replaceMerge, ...deps])
+  }, [instance, option, notMerge, lazyUpdate, replaceMerge, ...deps]);
 }
 
 /**
@@ -160,62 +164,62 @@ export function useResize(
   instance: ChartInstance | null,
   options?: {
     /** 延迟时间 (ms) */
-    delay?: number
+    delay?: number;
     /** 最小宽度 */
-    minWidth?: number
+    minWidth?: number;
     /** 最小高度 */
-    minHeight?: number
+    minHeight?: number;
     /** 是否启用 */
-    enabled?: boolean
+    enabled?: boolean;
   }
 ) {
-  const { delay = 300, minWidth, minHeight, enabled = true } = options || {}
-  const timeoutRef = useRef<NodeJS.Timeout>()
+  const { delay = 300, minWidth, minHeight, enabled = true } = options || {};
+  const timeoutRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
     if (!instance || !enabled) {
-      return
+      return;
     }
 
     const handleResize = () => {
       if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current)
+        clearTimeout(timeoutRef.current);
       }
 
       timeoutRef.current = setTimeout(() => {
         try {
-          const dom = instance.getDom?.()
+          const dom = instance.getDom?.();
           if (dom) {
-            const { clientWidth, clientHeight } = dom
-            if (minWidth && clientWidth < minWidth) return
-            if (minHeight && clientHeight < minHeight) return
+            const { clientWidth, clientHeight } = dom;
+            if (minWidth && clientWidth < minWidth) return;
+            if (minHeight && clientHeight < minHeight) return;
           }
-          instance.resize?.()
+          instance.resize?.();
         } catch (e) {
-          console.warn('Failed to resize chart:', e)
+          console.warn('Failed to resize chart:', e);
         }
-      }, delay)
-    }
+      }, delay);
+    };
 
-    window.addEventListener('resize', handleResize)
+    window.addEventListener('resize', handleResize);
 
     // 创建一个 ResizeObserver 来监听容器大小变化
-    const dom = instance.getDom?.()
+    const dom = instance.getDom?.();
     if (dom && typeof ResizeObserver !== 'undefined') {
-      const observer = new ResizeObserver(handleResize)
-      observer.observe(dom)
+      const observer = new ResizeObserver(handleResize);
+      observer.observe(dom);
       return () => {
-        observer.disconnect()
-        window.removeEventListener('resize', handleResize)
-        if (timeoutRef.current) clearTimeout(timeoutRef.current)
-      }
+        observer.disconnect();
+        window.removeEventListener('resize', handleResize);
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      };
     }
 
     return () => {
-      window.removeEventListener('resize', handleResize)
-      if (timeoutRef.current) clearTimeout(timeoutRef.current)
-    }
-  }, [instance, delay, minWidth, minHeight, enabled])
+      window.removeEventListener('resize', handleResize);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, [instance, delay, minWidth, minHeight, enabled]);
 }
 
 /**
@@ -223,37 +227,34 @@ export function useResize(
  * @param instance 图表实例
  * @param events 事件对象
  */
-export function useEvents(
-  instance: ChartInstance | null,
-  events: Record<string, EventHandler>
-) {
+export function useEvents(instance: ChartInstance | null, events: Record<string, EventHandler>) {
   useEffect(() => {
     if (!instance || !events) {
-      return
+      return;
     }
 
-    const eventEntries = Object.entries(events)
+    const eventEntries = Object.entries(events);
 
     // 绑定事件
     eventEntries.forEach(([eventName, handler]) => {
       try {
-        instance.on(eventName, handler)
+        instance.on(eventName, handler);
       } catch (e) {
-        console.warn(`Failed to bind event ${eventName}:`, e)
+        console.warn(`Failed to bind event ${eventName}:`, e);
       }
-    })
+    });
 
     // 清理事件
     return () => {
       eventEntries.forEach(([eventName, handler]) => {
         try {
-          instance.off(eventName, handler)
+          instance.off(eventName, handler);
         } catch (e) {
-          console.warn(`Failed to unbind event ${eventName}:`, e)
+          console.warn(`Failed to unbind event ${eventName}:`, e);
         }
-      })
-    }
-  }, [instance, events])
+      });
+    };
+  }, [instance, events]);
 }
 
 /**
@@ -269,19 +270,19 @@ export function useLoading(
 ) {
   useEffect(() => {
     if (!instance) {
-      return
+      return;
     }
 
     try {
       if (loading) {
-        instance.showLoading(options)
+        instance.showLoading(options);
       } else {
-        instance.hideLoading()
+        instance.hideLoading();
       }
     } catch (e) {
-      console.warn('Failed to set chart loading state:', e)
+      console.warn('Failed to set chart loading state:', e);
     }
-  }, [instance, loading, options])
+  }, [instance, loading, options]);
 }
 
 /**
@@ -290,22 +291,19 @@ export function useLoading(
  * @param darkMode 是否为暗色模式
  * @returns 处理后的主题
  */
-export function useChartTheme(
-  theme: string | Record<string, unknown>,
-  darkMode = false
-) {
+export function useChartTheme(theme: string | Record<string, unknown>, darkMode = false) {
   return useMemo(() => {
     if (typeof theme === 'string') {
       // 如果是字符串，尝试获取内置主题
       try {
-        const builtinTheme = getTheme(theme)
-        return builtinTheme || (darkMode ? 'dark' : theme)
+        const builtinTheme = getTheme(theme);
+        return builtinTheme || (darkMode ? 'dark' : theme);
       } catch {
-        return darkMode ? 'dark' : theme
+        return darkMode ? 'dark' : theme;
       }
     }
-    return theme
-  }, [theme, darkMode])
+    return theme;
+  }, [theme, darkMode]);
 }
 
 /**
@@ -314,16 +312,13 @@ export function useChartTheme(
  * @param transformer 数据转换函数
  * @returns 转换后的图表选项
  */
-export function useChartData<T = unknown>(
-  data: T | null,
-  transformer: DataTransformer<T>
-) {
+export function useChartData<T = unknown>(data: T | null, transformer: DataTransformer<T>) {
   return useMemo(() => {
     if (!data) {
-      return {}
+      return {};
     }
-    return transformer(data)
-  }, [data, transformer])
+    return transformer(data);
+  }, [data, transformer]);
 }
 
 /**
@@ -333,37 +328,38 @@ export function useChartData<T = unknown>(
  */
 export function useResponsive(config?: {
   /** 断点配置 */
-  breakpoints?: Record<Breakpoint, number>
+  breakpoints?: Record<Breakpoint, number>;
   /** 默认断点 */
-  defaultBreakpoint?: Breakpoint
+  defaultBreakpoint?: Breakpoint;
 }) {
-  const { breakpoints = { xs: 0, sm: 576, md: 768, lg: 992, xl: 1200 }, defaultBreakpoint = 'md' } = config || {}
+  const { breakpoints = { xs: 0, sm: 576, md: 768, lg: 992, xl: 1200 }, defaultBreakpoint = 'md' } =
+    config || {};
 
-  const [breakpoint, setBreakpoint] = useState<Breakpoint>(defaultBreakpoint)
-  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
+  const [breakpoint, setBreakpoint] = useState<Breakpoint>(defaultBreakpoint);
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
     const handleResize = () => {
-      const width = window.innerWidth
-      setWindowSize({ width, height: window.innerHeight })
+      const width = window.innerWidth;
+      setWindowSize({ width, height: window.innerHeight });
 
       // 确定当前断点
-      let current: Breakpoint = 'xs'
-      if (width >= breakpoints.xl) current = 'xl'
-      else if (width >= breakpoints.lg) current = 'lg'
-      else if (width >= breakpoints.md) current = 'md'
-      else if (width >= breakpoints.sm) current = 'sm'
+      let current: Breakpoint = 'xs';
+      if (width >= breakpoints.xl) current = 'xl';
+      else if (width >= breakpoints.lg) current = 'lg';
+      else if (width >= breakpoints.md) current = 'md';
+      else if (width >= breakpoints.sm) current = 'sm';
 
-      setBreakpoint(current)
-    }
+      setBreakpoint(current);
+    };
 
-    handleResize()
-    window.addEventListener('resize', handleResize)
+    handleResize();
+    window.addEventListener('resize', handleResize);
 
-    return () => window.removeEventListener('resize', handleResize)
-  }, [breakpoints])
+    return () => window.removeEventListener('resize', handleResize);
+  }, [breakpoints]);
 
-  return { breakpoint, windowSize }
+  return { breakpoint, windowSize };
 }
 
 /**
@@ -372,22 +368,22 @@ export function useResponsive(config?: {
  * @returns [当前主题, 切换主题函数]
  */
 export function useThemeSwitcher(initialTheme = 'default') {
-  const [theme, setTheme] = useState<string | Record<string, unknown>>(initialTheme)
-  const [isDark, setIsDark] = useState(false)
+  const [theme, setTheme] = useState<string | Record<string, unknown>>(initialTheme);
+  const [isDark, setIsDark] = useState(false);
 
   const switchTheme = useCallback((newTheme: string | Record<string, unknown>) => {
-    setTheme(newTheme)
+    setTheme(newTheme);
     if (typeof newTheme === 'string') {
-      setIsDark(newTheme === 'dark' || newTheme.includes('dark'))
+      setIsDark(newTheme === 'dark' || newTheme.includes('dark'));
     }
-  }, [])
+  }, []);
 
   const toggleDark = useCallback(() => {
-    setIsDark(prev => !prev)
-    setTheme(prev => (prev === 'dark' ? 'default' : 'dark'))
-  }, [])
+    setIsDark((prev) => !prev);
+    setTheme((prev) => (prev === 'dark' ? 'default' : 'dark'));
+  }, []);
 
-  return { theme, isDark, switchTheme, toggleDark, setTheme }
+  return { theme, isDark, switchTheme, toggleDark, setTheme };
 }
 
 /**
@@ -400,62 +396,62 @@ export function useDataPolling<T>(
   fetchFn: () => Promise<T>,
   options?: {
     /** 轮询间隔 (ms) */
-    interval?: number
+    interval?: number;
     /** 是否自动开始 */
-    autoStart?: boolean
+    autoStart?: boolean;
     /** 错误重试次数 */
-    retryCount?: number
+    retryCount?: number;
     /** 重试延迟 (ms) */
-    retryDelay?: number
+    retryDelay?: number;
   }
 ) {
-  const { interval = 5000, autoStart = false, retryCount = 3, retryDelay = 1000 } = options || {}
+  const { interval = 5000, autoStart = false, retryCount = 3, retryDelay = 1000 } = options || {};
 
-  const [data, setData] = useState<T | null>(null)
-  const [loading, setLoading] = useState(autoStart)
-  const [error, setError] = useState<Error | null>(null)
-  const [refreshIndex, setRefreshIndex] = useState(0)
+  const [data, setData] = useState<T | null>(null);
+  const [loading, setLoading] = useState(autoStart);
+  const [error, setError] = useState<Error | null>(null);
+  const [refreshIndex, setRefreshIndex] = useState(0);
 
   const fetchData = useCallback(async () => {
-    let retries = retryCount
-    setLoading(true)
-    setError(null)
+    let retries = retryCount;
+    setLoading(true);
+    setError(null);
 
     while (retries >= 0) {
       try {
-        const result = await fetchFn()
-        setData(result)
-        setLoading(false)
-        return
+        const result = await fetchFn();
+        setData(result);
+        setLoading(false);
+        return;
       } catch (e) {
-        retries--
+        retries--;
         if (retries < 0) {
-          setError(e as Error)
-          setLoading(false)
+          setError(e as Error);
+          setLoading(false);
         } else {
-          await new Promise(resolve => setTimeout(resolve, retryDelay))
+          await new Promise((resolve) => setTimeout(resolve, retryDelay));
         }
       }
     }
-  }, [fetchFn, retryCount, retryDelay])
+  }, [fetchFn, retryCount, retryDelay]);
 
   useEffect(() => {
     if (autoStart) {
-      fetchData()
+      fetchData();
     }
 
     if (interval > 0) {
-      const timer = setInterval(fetchData, interval)
-      return () => clearInterval(timer)
+      const timer = setInterval(fetchData, interval);
+      return () => clearInterval(timer);
     }
-  }, [interval, autoStart, fetchData, refreshIndex])
+  }, [interval, autoStart, fetchData, refreshIndex]);
 
   const refresh = useCallback(() => {
-    setRefreshIndex(prev => prev + 1)
-    fetchData()
-  }, [fetchData])
+    setRefreshIndex((prev) => prev + 1);
+    fetchData();
+  }, [fetchData]);
 
-  return { data, loading, error, refresh }
+  return { data, loading, error, refresh };
 }
 
 /**
@@ -464,32 +460,32 @@ export function useDataPolling<T>(
  * @returns [是否全屏, 进入/退出全屏函数]
  */
 export function useFullscreen(chartRef: React.RefObject<HTMLElement>) {
-  const [isFullscreen, setIsFullscreen] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const toggle = useCallback(() => {
-    if (!chartRef.current) return
+    if (!chartRef.current) return;
 
     if (!isFullscreen) {
       if (chartRef.current.requestFullscreen) {
-        chartRef.current.requestFullscreen()
+        chartRef.current.requestFullscreen();
       }
     } else {
       if (document.exitFullscreen) {
-        document.exitFullscreen()
+        document.exitFullscreen();
       }
     }
-  }, [chartRef, isFullscreen])
+  }, [chartRef, isFullscreen]);
 
   useEffect(() => {
     const handleChange = () => {
-      setIsFullscreen(!!document.fullscreenElement)
-    }
+      setIsFullscreen(!!document.fullscreenElement);
+    };
 
-    document.addEventListener('fullscreenchange', handleChange)
-    return () => document.removeEventListener('fullscreenchange', handleChange)
-  }, [])
+    document.addEventListener('fullscreenchange', handleChange);
+    return () => document.removeEventListener('fullscreenchange', handleChange);
+  }, []);
 
-  return { isFullscreen, toggle }
+  return { isFullscreen, toggle };
 }
 
 /**
@@ -498,24 +494,30 @@ export function useFullscreen(chartRef: React.RefObject<HTMLElement>) {
  * @returns 导出函数
  */
 export function useExport(instance: ChartInstance | null) {
-  const inst = instance as any
-  const exportImage = useCallback((options?: { type?: 'png' | 'jpeg'; pixelRatio?: number; backgroundColor?: string }) => {
-    if (!inst) return null
-    const { type = 'png', pixelRatio = 2, backgroundColor } = options || {}
-    return inst.getDataURL?.({ type, pixelRatio, backgroundColor })
-  }, [inst])
+  const inst = instance as any;
+  const exportImage = useCallback(
+    (options?: { type?: 'png' | 'jpeg'; pixelRatio?: number; backgroundColor?: string }) => {
+      if (!inst) return null;
+      const { type = 'png', pixelRatio = 2, backgroundColor } = options || {};
+      return inst.getDataURL?.({ type, pixelRatio, backgroundColor });
+    },
+    [inst]
+  );
 
   const exportSVG = useCallback(() => {
-    if (!inst) return null
-    return inst.getSvgData?.()
-  }, [inst])
+    if (!inst) return null;
+    return inst.getSvgData?.();
+  }, [inst]);
 
-  const exportCSV = useCallback((options?: { seriesIndex?: number; dimension?: number }) => {
-    if (!inst) return null
-    return inst.getCompressedDataURL?.(options)
-  }, [inst])
+  const exportCSV = useCallback(
+    (options?: { seriesIndex?: number; dimension?: number }) => {
+      if (!inst) return null;
+      return inst.getCompressedDataURL?.(options);
+    },
+    [inst]
+  );
 
-  return { exportImage, exportSVG, exportCSV }
+  return { exportImage, exportSVG, exportCSV };
 }
 
 /**
@@ -524,45 +526,54 @@ export function useExport(instance: ChartInstance | null) {
  * @returns 工具函数
  */
 export function useChartTools(instance: ChartInstance | null) {
-  const inst = instance as any
-  const getInstance = useCallback(() => instance, [instance])
+  const inst = instance as any;
+  const getInstance = useCallback(() => instance, [instance]);
 
   const clear = useCallback(() => {
-    inst?.clear?.()
-  }, [inst])
+    inst?.clear?.();
+  }, [inst]);
 
   const repaint = useCallback(() => {
-    inst?.resize?.()
-  }, [inst])
+    inst?.resize?.();
+  }, [inst]);
 
-  const dispatchAction = useCallback((action: { type: string; [key: string]: unknown }) => {
-    inst?.dispatchAction?.(action)
-  }, [inst])
+  const dispatchAction = useCallback(
+    (action: { type: string; [key: string]: unknown }) => {
+      inst?.dispatchAction?.(action);
+    },
+    [inst]
+  );
 
-  const showTip = useCallback((seriesIndex?: number, dataIndex?: number) => {
-    inst?.dispatchAction?.({ type: 'showTip', seriesIndex, dataIndex })
-  }, [inst])
+  const showTip = useCallback(
+    (seriesIndex?: number, dataIndex?: number) => {
+      inst?.dispatchAction?.({ type: 'showTip', seriesIndex, dataIndex });
+    },
+    [inst]
+  );
 
   const hideTip = useCallback(() => {
-    inst?.dispatchAction?.({ type: 'hideTip' })
-  }, [inst])
+    inst?.dispatchAction?.({ type: 'hideTip' });
+  }, [inst]);
 
-  const zoom = useCallback((start?: number, end?: number) => {
-    inst?.dispatchAction?.({
-      type: 'dataZoom',
-      start: start ?? 0,
-      end: end ?? 100
-    })
-  }, [inst])
+  const zoom = useCallback(
+    (start?: number, end?: number) => {
+      inst?.dispatchAction?.({
+        type: 'dataZoom',
+        start: start ?? 0,
+        end: end ?? 100,
+      });
+    },
+    [inst]
+  );
 
-  return { getInstance, clear, repaint, dispatchAction, showTip, hideTip, zoom }
+  return { getInstance, clear, repaint, dispatchAction, showTip, hideTip, zoom };
 }
 
 // ============================================================================
 // 导出
 // ============================================================================
 
-export const version = '1.2.0'
+export const version = '1.2.0';
 
 const hooks = {
   useChart,
@@ -578,6 +589,6 @@ const hooks = {
   useFullscreen,
   useExport,
   useChartTools,
-}
+};
 
-export default hooks
+export default hooks;

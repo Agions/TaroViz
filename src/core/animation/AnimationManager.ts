@@ -156,7 +156,7 @@ export class AnimationManager {
    * 批量注册动画预设
    */
   public registerPresets(presets: AnimationPreset[]): void {
-    presets.forEach(preset => this.registerPreset(preset));
+    presets.forEach((preset) => this.registerPreset(preset));
   }
 
   /**
@@ -325,7 +325,7 @@ export class AnimationManager {
   public emit(eventType: AnimationEventType, data: any): void {
     const handlers = this.eventHandlers.get(eventType);
     if (handlers) {
-      handlers.forEach(handler => {
+      handlers.forEach((handler) => {
         try {
           handler(data);
         } catch (error) {

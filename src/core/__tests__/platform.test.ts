@@ -34,7 +34,7 @@ describe('Platform Core Tests', () => {
       ];
 
       const actualPlatforms = Object.values(PlatformType);
-      expectedPlatforms.forEach(platform => {
+      expectedPlatforms.forEach((platform) => {
         expect(actualPlatforms).toContain(platform);
       });
     });

@@ -57,7 +57,7 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
 
         // 绑定事件
         if (onEvents) {
-          Object.keys(onEvents).forEach(eventName => {
+          Object.keys(onEvents).forEach((eventName) => {
             instance.on(eventName, onEvents[eventName]);
           });
         }
@@ -83,7 +83,7 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
       if (chartInstance.current) {
         // 解绑事件
         if (onEvents) {
-          Object.keys(onEvents).forEach(eventName => {
+          Object.keys(onEvents).forEach((eventName) => {
             chartInstance.current?.off(eventName);
           });
         }

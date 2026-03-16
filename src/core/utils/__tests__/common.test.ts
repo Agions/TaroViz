@@ -20,7 +20,7 @@ describe('Common Utils', () => {
   });
 
   describe('debounce', () => {
-    it('should debounce a function call', done => {
+    it('should debounce a function call', (done) => {
       let count = 0;
       const debouncedFn = debounce(() => {
         count++;

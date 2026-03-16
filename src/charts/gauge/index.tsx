@@ -11,7 +11,7 @@ import '@/core/echarts';
 /**
  * 仪表盘组件
  */
-const GaugeChart: React.FC<GaugeChartProps> = props => (
+const GaugeChart: React.FC<GaugeChartProps> = (props) => (
   <BaseChartWrapper {...props} chartType="gauge-chart" />
 );
 
