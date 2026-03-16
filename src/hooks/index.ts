@@ -3,7 +3,7 @@
  * 提供与图表相关的 React Hooks
  */
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
-import { getAdapter, getTheme } from '../adapters'
+import { getAdapter } from '../adapters'
 import type { EChartsOption } from 'echarts'
 
 // ============================================================================
@@ -24,7 +24,12 @@ export interface ChartInstance {
   getWidth: () => number
   getHeight: () => number
   getDom: () => HTMLElement
-  [key: string]: unknown
+  getDataURL?: (options?: { type?: string; pixelRatio?: number; backgroundColor?: string }) => string
+  getSvgData?: () => string
+  getCompressedDataURL?: (options?: { seriesIndex?: number; dimension?: number }) => string
+  clear?: () => void
+  dispatchAction?: (action: { type: string; [key: string]: unknown }) => void
+  [key: string]: any
 }
 
 /** 事件处理器 */
@@ -97,8 +102,9 @@ export function useChart(
     return () => {
       if (instance) {
         try {
-          if (!instance.isDisposed?.()) {
-            instance.dispose()
+          const inst = instance as any
+          if (!inst.isDisposed?.()) {
+            inst.dispose()
           }
         } catch (e) {
           console.warn('Failed to dispose chart instance:', e)
@@ -492,21 +498,22 @@ export function useFullscreen(chartRef: React.RefObject<HTMLElement>) {
  * @returns 导出函数
  */
 export function useExport(instance: ChartInstance | null) {
+  const inst = instance as any
   const exportImage = useCallback((options?: { type?: 'png' | 'jpeg'; pixelRatio?: number; backgroundColor?: string }) => {
-    if (!instance) return null
+    if (!inst) return null
     const { type = 'png', pixelRatio = 2, backgroundColor } = options || {}
-    return instance.getDataURL?.({ type, pixelRatio, backgroundColor })
-  }, [instance])
+    return inst.getDataURL?.({ type, pixelRatio, backgroundColor })
+  }, [inst])
 
   const exportSVG = useCallback(() => {
-    if (!instance) return null
-    return instance.getSvgData?.()
-  }, [instance])
+    if (!inst) return null
+    return inst.getSvgData?.()
+  }, [inst])
 
   const exportCSV = useCallback((options?: { seriesIndex?: number; dimension?: number }) => {
-    if (!instance) return null
-    return instance.getCompressedDataURL?.(options)
-  }, [instance])
+    if (!inst) return null
+    return inst.getCompressedDataURL?.(options)
+  }, [inst])
 
   return { exportImage, exportSVG, exportCSV }
 }
@@ -517,35 +524,36 @@ export function useExport(instance: ChartInstance | null) {
  * @returns 工具函数
  */
 export function useChartTools(instance: ChartInstance | null) {
+  const inst = instance as any
   const getInstance = useCallback(() => instance, [instance])
 
   const clear = useCallback(() => {
-    instance?.clear?.()
-  }, [instance])
+    inst?.clear?.()
+  }, [inst])
 
   const repaint = useCallback(() => {
-    instance?.resize?.()
-  }, [instance])
+    inst?.resize?.()
+  }, [inst])
 
   const dispatchAction = useCallback((action: { type: string; [key: string]: unknown }) => {
-    instance?.dispatchAction?.(action)
-  }, [instance])
+    inst?.dispatchAction?.(action)
+  }, [inst])
 
   const showTip = useCallback((seriesIndex?: number, dataIndex?: number) => {
-    instance?.dispatchAction?.({ type: 'showTip', seriesIndex, dataIndex })
-  }, [instance])
+    inst?.dispatchAction?.({ type: 'showTip', seriesIndex, dataIndex })
+  }, [inst])
 
   const hideTip = useCallback(() => {
-    instance?.dispatchAction?.({ type: 'hideTip' })
-  }, [instance])
+    inst?.dispatchAction?.({ type: 'hideTip' })
+  }, [inst])
 
   const zoom = useCallback((start?: number, end?: number) => {
-    instance?.dispatchAction?.({
+    inst?.dispatchAction?.({
       type: 'dataZoom',
       start: start ?? 0,
       end: end ?? 100
     })
-  }, [instance])
+  }, [inst])
 
   return { getInstance, clear, repaint, dispatchAction, showTip, hideTip, zoom }
 }

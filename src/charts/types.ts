@@ -2,7 +2,7 @@
  * TaroViz Charts 类型定义 - 增强版
  */
 import type { CSSProperties, ReactNode } from 'react'
-import type { EChartsOption, ECharts, EChartsCoreOption } from 'echarts/core'
+import type { EChartsOption, ECharts } from 'echarts'
 
 // ============================================================================
 // 基础类型定义
