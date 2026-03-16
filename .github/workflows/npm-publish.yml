@@ -52,18 +52,17 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: Check version
+      - name: Get version
         id: version
         run: |
-          if [ -n "${{ github.event.inputs.version }}" ]; then
-            VERSION="${{ github.event.inputs.version }}"
-          else
-            VERSION=$(node -p "require('./package.json').version")
-          fi
+          VERSION=$(node -p "require('./package.json').version")
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           echo "Publishing version: $VERSION"
 
       - name: Publish to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: pnpm publish --no-git-checks --access public
+        run: |
+          # 使用 OTP 模式发布（适用于开启 2FA 的账户）
+          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > .npmrc
+          pnpm publish --access public --otp=0 || pnpm publish --access public
