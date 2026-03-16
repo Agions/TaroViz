@@ -870,7 +870,7 @@ const builtinThemes = {
 
 // 注册所有内置主题
 Object.entries(builtinThemes).forEach(([name, theme]) => {
-  themeRegistry.set(name, theme)
+  themeRegistry.set(name, theme as ThemeOptions)
 })
 
 // ============================================================================
