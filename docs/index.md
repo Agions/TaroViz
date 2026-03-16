@@ -14,9 +14,6 @@ hero:
       text: 快速开始 →
       link: /guide/installation
     - theme: alt
-      text: 在线 Playground
-      link: /playground
-    - theme: alt
       text: 查看示例
       link: /examples/
 
