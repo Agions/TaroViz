@@ -446,7 +446,7 @@ export interface ChartProps {
  * @description 基础图表组件，所有具体图表组件的基类
  * 负责处理图表的初始化、事件绑定、主题设置等核心逻辑
  */
-const BaseChart: React.FC<ChartProps> = props => {
+const BaseChart: React.FC<ChartProps> = (props) => {
   const {
     chartId,
     option,
@@ -726,7 +726,7 @@ const BaseChart: React.FC<ChartProps> = props => {
       return data;
     }
 
-    return data.filter(item => {
+    return data.filter((item) => {
       // 遍历所有筛选条件
       for (const [key, value] of Object.entries(filters)) {
         // 检查数据项是否满足筛选条件
@@ -934,7 +934,7 @@ const BaseChart: React.FC<ChartProps> = props => {
 
           // 点击联动
           if (linkageConfig.enableClickLinkage && chartId && linkageConfig.linkedChartIds) {
-            linkageConfig.linkedChartIds.forEach(linkedChartId => {
+            linkageConfig.linkedChartIds.forEach((linkedChartId) => {
               const linkedChart = getChart(linkedChartId);
               if (linkedChart) {
                 // 这里可以根据需要实现点击联动逻辑
@@ -968,7 +968,7 @@ const BaseChart: React.FC<ChartProps> = props => {
 
           // 缩放联动
           if (linkageConfig.enableZoomLinkage && chartId && linkageConfig.linkedChartIds) {
-            linkageConfig.linkedChartIds.forEach(linkedChartId => {
+            linkageConfig.linkedChartIds.forEach((linkedChartId) => {
               const linkedChart = getChart(linkedChartId);
               if (linkedChart) {
                 linkedChart.dispatchAction({
@@ -1023,7 +1023,7 @@ const BaseChart: React.FC<ChartProps> = props => {
 
           // 图例联动
           if (linkageConfig.enableLegendLinkage && chartId && linkageConfig.linkedChartIds) {
-            linkageConfig.linkedChartIds.forEach(linkedChartId => {
+            linkageConfig.linkedChartIds.forEach((linkedChartId) => {
               const linkedChart = getChart(linkedChartId);
               if (linkedChart) {
                 linkedChart.setOption({ legend: { selected } });
@@ -1035,7 +1035,7 @@ const BaseChart: React.FC<ChartProps> = props => {
           if (legendInteractionMode === 'single') {
             // 单选模式：只显示当前选中项
             const newSelected: Record<string, boolean> = {};
-            Object.keys(selected).forEach(key => {
+            Object.keys(selected).forEach((key) => {
               newSelected[key] = key === name;
             });
             instance.setOption({ legend: { selected: newSelected } });

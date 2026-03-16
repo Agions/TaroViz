@@ -42,7 +42,7 @@ export class PerformanceAnalyzer {
     };
 
     // 初始化指标存储
-    this.config.metrics?.forEach(metricType => {
+    this.config.metrics?.forEach((metricType) => {
       this.metrics.set(metricType, []);
     });
 
@@ -100,7 +100,7 @@ export class PerformanceAnalyzer {
    */
   private emit(eventType: PerformanceEventType, data?: any): void {
     const handlers = this.eventHandlers.get(eventType);
-    handlers?.forEach(handler => {
+    handlers?.forEach((handler) => {
       try {
         handler({ type: eventType, data });
       } catch (error) {
@@ -325,10 +325,10 @@ export class PerformanceAnalyzer {
       averages[metricType] = parseFloat((sum / metricList.length).toFixed(2));
 
       // 计算最大值
-      maxValues[metricType] = Math.max(...metricList.map(metric => metric.value));
+      maxValues[metricType] = Math.max(...metricList.map((metric) => metric.value));
 
       // 计算最小值
-      minValues[metricType] = Math.min(...metricList.map(metric => metric.value));
+      minValues[metricType] = Math.min(...metricList.map((metric) => metric.value));
     });
 
     // 计算性能评分和建议
@@ -518,7 +518,7 @@ export class PerformanceAnalyzer {
       <div class="suggestions">
         <h2>性能建议</h2>
         <ul>`;
-      result.suggestions.forEach(suggestion => {
+      result.suggestions.forEach((suggestion) => {
         html += `
           <li>${suggestion}</li>`;
       });

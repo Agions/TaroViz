@@ -163,7 +163,7 @@ const TestApp = () => {
         <select
           id="theme"
           value={darkMode ? 'dark' : 'light'}
-          onChange={e => setDarkMode(e.target.value === 'dark')}
+          onChange={(e) => setDarkMode(e.target.value === 'dark')}
         >
           <option value="light">Light</option>
           <option value="dark">Dark</option>

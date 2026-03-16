@@ -31,7 +31,7 @@ export function processAdapterConfig(config: {
 
   // 复制其他可能存在的属性
   const result: Record<string, any> = { ...processedConfig };
-  Object.keys(config).forEach(key => {
+  Object.keys(config).forEach((key) => {
     if (!(key in processedConfig)) {
       result[key] = config[key];
     }

@@ -11,7 +11,7 @@ import '@/core/echarts';
 /**
  * 散点图组件
  */
-const ScatterChart: React.FC<ScatterChartProps> = props => (
+const ScatterChart: React.FC<ScatterChartProps> = (props) => (
   <BaseChartWrapper {...props} chartType="scatter-chart" />
 );
 

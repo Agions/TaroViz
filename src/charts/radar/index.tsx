@@ -11,7 +11,7 @@ import '@/core/echarts';
 /**
  * 雷达图组件
  */
-const RadarChart: React.FC<RadarChartProps> = props => (
+const RadarChart: React.FC<RadarChartProps> = (props) => (
   <BaseChartWrapper {...props} chartType="radar-chart" />
 );
 

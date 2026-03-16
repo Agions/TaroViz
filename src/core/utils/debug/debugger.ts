@@ -216,7 +216,7 @@ class DebugManager {
   private emitEvent(eventType: string, data: any): void {
     const handlers = this.eventHandlers.get(eventType);
     if (handlers) {
-      handlers.forEach(handler => {
+      handlers.forEach((handler) => {
         try {
           handler(data);
         } catch (error) {

@@ -71,7 +71,7 @@ const ThemeEditor: React.FC<ThemeEditorProps> = ({
   // 当选中主题变化时，更新当前主题
   useEffect(() => {
     if (selectedTheme) {
-      const theme = themes.find(t => t.name === selectedTheme);
+      const theme = themes.find((t) => t.name === selectedTheme);
       if (theme) {
         setCurrentTheme(theme);
         setColors(theme.colors || []);
@@ -197,7 +197,7 @@ const ThemeEditor: React.FC<ThemeEditorProps> = ({
       <div style={{ marginBottom: '20px' }}>
         <h4>选择主题</h4>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '10px' }}>
-          {themes.map(theme => (
+          {themes.map((theme) => (
             <button
               key={theme.name}
               onClick={() => handleThemeSelect(theme)}
@@ -249,7 +249,7 @@ const ThemeEditor: React.FC<ThemeEditorProps> = ({
             <input
               type="text"
               value={newThemeName}
-              onChange={e => setNewThemeName(e.target.value)}
+              onChange={(e) => setNewThemeName(e.target.value)}
               disabled={disabled}
               style={{
                 padding: '8px',
@@ -297,7 +297,7 @@ const ThemeEditor: React.FC<ThemeEditorProps> = ({
               <input
                 type="color"
                 value={color}
-                onChange={e => handleColorChange(index, e.target.value)}
+                onChange={(e) => handleColorChange(index, e.target.value)}
                 disabled={disabled}
                 style={{
                   width: '50px',
@@ -310,7 +310,7 @@ const ThemeEditor: React.FC<ThemeEditorProps> = ({
               <input
                 type="text"
                 value={color}
-                onChange={e => handleColorChange(index, e.target.value)}
+                onChange={(e) => handleColorChange(index, e.target.value)}
                 disabled={disabled}
                 style={{
                   width: '80px',
@@ -351,7 +351,7 @@ const ThemeEditor: React.FC<ThemeEditorProps> = ({
             <input
               type="color"
               value={backgroundColor}
-              onChange={e => handleBackgroundColorChange(e.target.value)}
+              onChange={(e) => handleBackgroundColorChange(e.target.value)}
               disabled={disabled}
               style={{
                 width: '50px',
@@ -364,7 +364,7 @@ const ThemeEditor: React.FC<ThemeEditorProps> = ({
             <input
               type="text"
               value={backgroundColor}
-              onChange={e => handleBackgroundColorChange(e.target.value)}
+              onChange={(e) => handleBackgroundColorChange(e.target.value)}
               disabled={disabled}
               style={{
                 width: '120px',
@@ -384,7 +384,7 @@ const ThemeEditor: React.FC<ThemeEditorProps> = ({
             <input
               type="color"
               value={textColor}
-              onChange={e => handleTextColorChange(e.target.value)}
+              onChange={(e) => handleTextColorChange(e.target.value)}
               disabled={disabled}
               style={{
                 width: '50px',
@@ -397,7 +397,7 @@ const ThemeEditor: React.FC<ThemeEditorProps> = ({
             <input
               type="text"
               value={textColor}
-              onChange={e => handleTextColorChange(e.target.value)}
+              onChange={(e) => handleTextColorChange(e.target.value)}
               disabled={disabled}
               style={{
                 width: '120px',

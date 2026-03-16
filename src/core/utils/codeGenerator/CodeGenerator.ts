@@ -70,7 +70,7 @@ export class CodeGenerator {
    */
   private emit(eventType: CodeGeneratorEventType, data?: any): void {
     const handlers = this.eventHandlers.get(eventType);
-    handlers?.forEach(handler => {
+    handlers?.forEach((handler) => {
       try {
         handler({ type: eventType, data });
       } catch (error) {
@@ -448,7 +448,7 @@ export default chart;`,
    * 根据框架获取模板
    */
   public getTemplatesByFramework(framework: FrameworkType): CodeExampleTemplate[] {
-    return Array.from(this.templates.values()).filter(template =>
+    return Array.from(this.templates.values()).filter((template) =>
       template.frameworks.includes(framework)
     );
   }

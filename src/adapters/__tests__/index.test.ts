@@ -68,7 +68,7 @@ describe('Adapter Functions', () => {
       // 确保所有平台的适配器都有相同的方法接口
       const requiredMethods = ['init', 'setOption', 'resize', 'dispose'];
 
-      requiredMethods.forEach(method => {
+      requiredMethods.forEach((method) => {
         expect(typeof adapter[method as keyof typeof adapter]).toBe('function');
       });
     });
@@ -82,7 +82,7 @@ describe('Adapter Functions', () => {
         { renderer: 'svg' as const },
       ];
 
-      testOptions.forEach(options => {
+      testOptions.forEach((options) => {
         const adapter = getAdapter(options);
         expect(adapter).toBeDefined();
       });

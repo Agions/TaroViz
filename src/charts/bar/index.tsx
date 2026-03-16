@@ -11,7 +11,7 @@ import '@/core/echarts';
 /**
  * 柱状图组件
  */
-const BarChart: React.FC<BarChartProps> = props => (
+const BarChart: React.FC<BarChartProps> = (props) => (
   <BaseChartWrapper {...props} chartType="bar-chart" />
 );
 
