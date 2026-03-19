@@ -100,7 +100,6 @@ const baseConfig = {
           format: {
             comments: false,
           },
-          // 禁用变量重复声明检查
           ecma: 2020,
           warnings: false,
         },
@@ -113,20 +112,24 @@ const baseConfig = {
     mangleExports: 'deterministic',
     usedExports: true,
     sideEffects: true,
+    // 添加代码分割 - 仅用于分析，不实际分割输出
+    // splitChunks 配置保留用于优化 webpack 内部处理
   },
-  externals: {
-    react: {
-      commonjs: 'react',
-      commonjs2: 'react',
-      amd: 'react',
-      root: 'React',
-    },
-    echarts: {
-      commonjs: 'echarts',
-      commonjs2: 'echarts',
-      amd: 'echarts',
-      root: 'echarts',
-    },
+  externals: (context, request, callback) => {
+    // 将 echarts, react, zrender 等外部化
+    if (
+      request === 'react' ||
+      request === 'react-dom' ||
+      request === 'echarts' ||
+      request === 'echarts/core' ||
+      request === 'echarts/charts' ||
+      request === 'echarts/components' ||
+      request === 'echarts/renderers' ||
+      request === 'zrender'
+    ) {
+      return callback(null, 'commonjs ' + request);
+    }
+    callback();
   },
 };
 
@@ -157,9 +160,21 @@ const esmConfig = {
   experiments: {
     outputModule: true,
   },
-  externals: {
-    react: 'react',
-    echarts: 'echarts',
+  externals: (context, request, callback) => {
+    // 将 echarts, react, zrender 等外部化
+    if (
+      request === 'react' ||
+      request === 'react-dom' ||
+      request === 'echarts' ||
+      request === 'echarts/core' ||
+      request === 'echarts/charts' ||
+      request === 'echarts/components' ||
+      request === 'echarts/renderers' ||
+      request === 'zrender'
+    ) {
+      return callback(null, 'commonjs ' + request);
+    }
+    callback();
   },
   optimization: {
     minimize: false,

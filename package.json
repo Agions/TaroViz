@@ -6,6 +6,28 @@
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    },
+    "./charts/*": {
+      "types": "./dist/charts/*.d.ts",
+      "import": "./dist/esm/charts/*.js",
+      "require": "./dist/cjs/charts/*.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks.d.ts",
+      "import": "./dist/esm/hooks.js",
+      "require": "./dist/cjs/hooks.js"
+    },
+    "./themes": {
+      "types": "./dist/themes.d.ts",
+      "import": "./dist/esm/themes.js",
+      "require": "./dist/cjs/themes.js"
+    }
+  },
   "files": [
     "dist",
     "src",
@@ -117,15 +139,23 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.28.4",
-    "echarts": "^5.4.3",
-    "react": "^18.2.0",
-    "tslib": "^2.8.1",
-    "zrender": "^6.0.0"
+    "tslib": "^2.8.1"
   },
   "peerDependencies": {
     "@tarojs/components": "^3.6.0",
     "@tarojs/runtime": "^3.6.0",
-    "@tarojs/taro": "^3.6.0"
+    "@tarojs/taro": "^3.6.0",
+    "echarts": "^5.4.3",
+    "react": "^18.2.0",
+    "zrender": "^6.0.0"
+  },
+  "peerDependenciesMeta": {
+    "echarts": {
+      "optional": true
+    },
+    "zrender": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">=16.0.0"
