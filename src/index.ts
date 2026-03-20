@@ -1,6 +1,6 @@
 /**
  * TaroViz - 基于 Taro 和 ECharts 的多端图表组件库
- * @version 1.1.1
+ * @version 1.2.1
  */
 
 // 核心组件
@@ -45,17 +45,79 @@ export { default as HeatmapChart } from './charts/heatmap';
 export { default as GaugeChart } from './charts/gauge';
 export { default as FunnelChart } from './charts/funnel';
 
+// 扩展图表组件 (新增)
+export { default as TreeMapChart } from './charts/treemap';
+export { default as SunburstChart } from './charts/sunburst';
+export { default as SankeyChart } from './charts/sankey';
+
 // 适配器
 export { getAdapter, detectPlatform, getEnv } from './adapters';
 export { default as H5Adapter } from './adapters/h5';
 export { default as WeappAdapter } from './adapters/weapp';
 
-// 主题
+// 主题系统
 export type { BuiltinTheme, ThemeOptions } from './themes';
-export { defaultTheme, darkTheme, getTheme, registerTheme } from './themes';
+export {
+  defaultTheme,
+  darkTheme,
+  getTheme,
+  registerTheme,
+  switchTheme,
+  getRegisteredThemes,
+  getThemeByName,
+  getLightThemes,
+  getDarkThemes,
+  getThemesByTag,
+} from './themes';
+
+// 主题管理器 (新增)
+export {
+  themeManager,
+  PRESET_THEMES,
+  type ThemeConfig,
+  type ThemeVariables,
+  type PresetThemeName,
+} from './core/themes/ThemeManager';
 
 // 编辑器
 export { ThemeEditor } from './editor';
+
+// 错误边界组件 (新增)
+export { ErrorBoundary, withErrorBoundary, type ErrorBoundaryProps } from './core/components/ErrorBoundary';
+
+// 懒加载组件 (新增)
+export {
+  withLazyLoad,
+  preloadChart,
+  preloadAllCharts,
+  createLazyChart,
+  LazyChartRegistry,
+} from './core/components/LazyChart';
+
+// 标注系统 (新增)
+export {
+  useAnnotation,
+  convertAnnotationToMarkLine,
+  convertAnnotationToMarkArea,
+  convertAnnotationToScatter,
+  AnnotationPresets,
+  createCompositeAnnotation,
+  type AnnotationProps,
+  type AnnotationType,
+  type MarkLineConfig,
+  type MarkAreaConfig,
+  type ScatterAnnotationConfig,
+} from './core/components/Annotation';
+
+// 导出工具 (新增)
+export {
+  exportChart,
+  type ExportImageOptions,
+  type ExportSVGOptions,
+  type ExportPDFOptions,
+  type BatchExportOptions,
+  type ExportResult,
+} from './core/utils/export/ExportUtils';
 
 // Hooks
 export {
@@ -66,10 +128,16 @@ export {
   useLoading,
   useChartTheme,
   useChartData,
+  useResponsive,
+  useThemeSwitcher,
+  useDataPolling,
+  useFullscreen,
+  useExport,
+  useChartTools,
 } from './hooks';
 
 /**
  * 库信息
  */
 export const name = 'taroviz';
-export const version = '1.1.1';
+export const version = '1.2.1';

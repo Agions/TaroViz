@@ -583,6 +583,264 @@ export interface SunburstChartProps extends BaseChartProps {
   levelGap?: number;
 }
 
+/**
+ * 矩形树图属性
+ * 用于展示带有层级结构的数据，通过矩形面积表示数据大小
+ */
+export interface TreeMapChartProps extends BaseChartProps {
+  /** 矩形树图类型 */
+  type?: 'treemap' | 'quasitree';
+
+  /** 父节点名称 */
+  name?: string;
+
+  /** 数据值 */
+  value?: number;
+
+  /** 子节点数据 */
+  children?: TreeMapChartProps[];
+
+  /** 是否显示标签 */
+  showLabel?: boolean;
+
+  /** 标签位置 */
+  labelPosition?: 'inside' | 'top' | 'left' | 'bottom' | 'right';
+
+  /** 标签格式化 */
+  labelFormatter?: Record<string, unknown>;
+
+  /** 上限阈值 */
+  upperLabel?: Record<string, unknown>;
+
+  /** 视觉映射配置 */
+  visualMin?: number;
+  visualMax?: number;
+  visualRange?: number[];
+
+  /** 节点间隙 */
+  gap?: number;
+
+  /** 层级间距 */
+  levelGap?: number;
+
+  /** 是否可视化 */
+  visual?: boolean;
+
+  /** 是否显示breadcrumb */
+  showBreadcrumb?: boolean;
+
+  /** itemStyle配置 */
+  itemStyle?: Record<string, unknown>;
+
+  /** emphasis配置 */
+  emphasis?: Record<string, unknown>;
+
+  /** 区域样式 */
+  areaColor?: string | string[];
+
+  /** 渐变区域颜色 */
+  colorSaturation?: number;
+
+  /** 最小扇区角度 */
+  minSectorAngle?: number;
+
+  /** 最小叶子节点面积比例 */
+  minLeafNodeAreaRatio?: number;
+
+  /** 视口配置 */
+  leafDepth?: number;
+  drillDown?: boolean;
+}
+
+/**
+ * 桑基图属性
+ * 用于展示数据流向和转移关系
+ */
+export interface SankeyChartProps extends BaseChartProps {
+  /** 桑基图节点数据 */
+  nodes?: Array<{
+    name: string;
+    [key: string]: unknown;
+  }>;
+
+  /** 桑基图链接/边数据 */
+  links?: Array<{
+    source: string | number;
+    target: string | number;
+    value: number;
+    [key: string]: unknown;
+  }>;
+
+  /** 节点对齐方式 */
+  nodeAlign?: 'left' | 'right' | 'justify' | 'center';
+
+  /** 节点间距 */
+  nodeGap?: number;
+
+  /** 节点宽度 */
+  nodeWidth?: number;
+
+  /** 节点排序方式 */
+  nodeSort?: 'ascending' | 'descending' | 'none' | ((a: any, b: any) => number);
+
+  /** 边的曲度 */
+  linkCurveness?: number;
+
+  /** 边方向 */
+  orient?: 'horizontal' | 'vertical';
+
+  /** 是否显示标签 */
+  showLabel?: boolean;
+
+  /** 标签配置 */
+  label?: Record<string, unknown>;
+
+  /** 节点样式 */
+  nodeStyle?: Record<string, unknown>;
+
+  /** 边样式 */
+  linkStyle?: Record<string, unknown>;
+
+  /** 强调状态配置 */
+  emphasis?: {
+    focus?: 'adjacency' | 'ancestor' | 'descendant' | string;
+    itemStyle?: Record<string, unknown>;
+    lineStyle?: Record<string, unknown>;
+  };
+}
+
+/**
+ * 箱线图属性
+ * 用于展示数据的分布情况
+ */
+export interface BoxplotChartProps extends BaseChartProps {
+  /** 图表类型 */
+  type?: 'boxplot';
+
+  /** 数据数组，每个箱子由5个数字组成 [min, Q1, median, Q3, max] */
+  data?: number[][];
+
+  /** 数据的维度索引 */
+  dimensions?: string[];
+
+  /** 批量数据 */
+  batchData?: Array<{
+    name: string;
+    data: number[][];
+  }>;
+
+  /** 柱条宽度 */
+  boxWidth?: number | [number, number];
+
+  /** 异常值配置 */
+  outlier?: Record<string, unknown>;
+
+  /** 是否平滑 */
+  smooth?: boolean;
+}
+
+/**
+ * K线图/股票图属性
+ * 用于展示股票、外汇等金融数据
+ */
+export interface CandlestickChartProps extends BaseChartProps {
+  /** K线数据数组，每项为 [open, close, lowest, highest] */
+  data?: number[][];
+
+  /** X轴数据 */
+  xAxisData?: (string | number)[];
+
+  /** 数据对应的维度名 */
+  dimensions?: string[];
+
+  /** 批量数据 */
+  batchData?: Array<{
+    name: string;
+    data: number[][];
+  }>;
+
+  /** K线柱条样式 */
+  itemStyle?: Record<string, unknown>;
+
+  /** 强调状态 */
+  emphasis?: Record<string, unknown>;
+
+  /** 是否平滑曲线 */
+  smooth?: boolean;
+
+  /** 是否显示MA线 */
+  ma?: Array<{
+    period: number;
+    color?: string;
+  }>;
+
+  /** 是否显示成交量 */
+  showVolume?: boolean;
+
+  /** 成交量柱子样式 */
+  volumeBar?: Record<string, unknown>;
+}
+
+/**
+ * 关系图属性
+ * 用于展示节点之间的关系
+ */
+export interface GraphChartProps extends BaseChartProps {
+  /** 关系图节点数据 */
+  nodes?: Array<{
+    id: string | number;
+    name: string;
+    value?: number | number[];
+    category?: number;
+    symbol?: string;
+    symbolSize?: number | number[];
+    [key: string]: unknown;
+  }>;
+
+  /** 关系图边/链接数据 */
+  links?: Array<{
+    source: string | number;
+    target: string | number;
+    value?: number;
+    lineStyle?: Record<string, unknown>;
+    [key: string]: unknown;
+  }>;
+
+  /** 关系图类型 */
+  layout?: 'none' | 'circular' | 'force';
+
+  /** 力导向布局配置 */
+  force?: Record<string, unknown>;
+
+  /** 是否启用draggable */
+  draggable?: boolean;
+
+  /** 类别数据 */
+  categories?: Array<{
+    name: string;
+    itemStyle?: Record<string, unknown>;
+  }>;
+
+  /** 是否显示标签 */
+  showLabel?: boolean;
+
+  /** 标签配置 */
+  label?: Record<string, unknown>;
+
+  /** 边标签配置 */
+  edgeLabel?: Record<string, unknown>;
+
+  /** 箭头配置 */
+  arrow?: Record<string, unknown>;
+
+  /** 强调状态 */
+  emphasis?: {
+    focus?: 'adjacency' | 'ancestor' | 'descendant';
+    itemStyle?: Record<string, unknown>;
+    lineStyle?: Record<string, unknown>;
+  };
+}
+
 // ============================================================================
 // 组件Slots (用于 React 19+)
 // ============================================================================
