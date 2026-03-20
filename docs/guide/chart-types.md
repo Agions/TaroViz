@@ -4,16 +4,19 @@ TaroViz 支持多种图表类型，每种图表类型都有其特定的用途和
 
 ## 支持的图表类型
 
-| 图表类型 | 描述                               | 组件名         |
-| -------- | ---------------------------------- | -------------- |
-| 折线图   | 用于展示数据随时间或类别变化的趋势 | `LineChart`    |
-| 柱状图   | 用于比较不同类别的数据大小         | `BarChart`     |
-| 饼图     | 用于展示数据占比关系               | `PieChart`     |
-| 散点图   | 用于展示两个变量之间的关系         | `ScatterChart` |
-| 雷达图   | 用于展示多维度数据                 | `RadarChart`   |
-| 热力图   | 用于展示数据密度和分布             | `HeatmapChart` |
-| 仪表盘   | 用于展示单一指标的进度或状态       | `GaugeChart`   |
-| 漏斗图   | 用于展示流程中各阶段的数据转化     | `FunnelChart`  |
+| 图表类型 | 描述                               | 组件名           |
+| -------- | ---------------------------------- | ---------------- |
+| 折线图   | 用于展示数据随时间或类别变化的趋势 | `LineChart`      |
+| 柱状图   | 用于比较不同类别的数据大小         | `BarChart`       |
+| 饼图     | 用于展示数据占比关系               | `PieChart`       |
+| 散点图   | 用于展示两个变量之间的关系         | `ScatterChart`   |
+| 雷达图   | 用于展示多维度数据                 | `RadarChart`     |
+| 热力图   | 用于展示数据密度和分布             | `HeatmapChart`   |
+| 仪表盘   | 用于展示单一指标的进度或状态       | `GaugeChart`     |
+| 漏斗图   | 用于展示流程中各阶段的数据转化     | `FunnelChart`    |
+| 矩形树图 | 用于展示带有层级结构的数据         | `TreeMapChart`   |
+| 旭日图   | 用于展示多层级数据的占比关系       | `SunburstChart`  |
+| 桑基图   | 用于展示数据流向和转移关系         | `SankeyChart`    |
 
 ## 折线图
 
@@ -485,6 +488,185 @@ const FunnelChartDemo = () => {
   return (
     <FunnelChart
       chartId="funnel-chart"
+      option={option}
+      width="100%"
+      height={400}
+    />
+  );
+};
+```
+
+## 矩形树图
+
+### 用途
+
+用于展示带有层级结构的数据，通过矩形面积表示数据大小。
+
+### 基本用法
+
+```typescript
+import { TreeMapChart } from '@agions/taroviz';
+
+const TreeMapChartDemo = () => {
+  const option = {
+    title: {
+      text: '文件目录结构'
+    },
+    series: [
+      {
+        type: 'treemap',
+        data: [
+          {
+            name: 'src',
+            children: [
+              { name: 'components', value: 30 },
+              { name: 'hooks', value: 20 },
+              { name: 'utils', value: 15 },
+              { name: 'pages', value: 35 }
+            ]
+          },
+          {
+            name: 'docs',
+            children: [
+              { name: 'guide', value: 25 },
+              { name: 'api', value: 20 },
+              { name: 'examples', value: 15 }
+            ]
+          }
+        ]
+      }
+    ]
+  };
+
+  return (
+    <TreeMapChart
+      chartId="treemap-chart"
+      option={option}
+      width="100%"
+      height={400}
+    />
+  );
+};
+```
+
+## 旭日图
+
+### 用途
+
+用于展示多层级数据的占比关系，以同心圆的形式呈现。
+
+### 基本用法
+
+```typescript
+import { SunburstChart } from '@agions/taroviz';
+
+const SunburstChartDemo = () => {
+  const option = {
+    title: {
+      text: '销售分布'
+    },
+    series: [
+      {
+        type: 'sunburst',
+        data: [
+          {
+            name: '华东',
+            value: 40,
+            children: [
+              { name: '上海', value: 15 },
+              { name: '杭州', value: 12 },
+              { name: '南京', value: 8 },
+              { name: '苏州', value: 5 }
+            ]
+          },
+          {
+            name: '华南',
+            value: 35,
+            children: [
+              { name: '深圳', value: 15 },
+              { name: '广州', value: 12 },
+              { name: '厦门', value: 8 }
+            ]
+          },
+          {
+            name: '华北',
+            value: 25,
+            children: [
+              { name: '北京', value: 15 },
+              { name: '天津', value: 10 }
+            ]
+          }
+        ],
+        radius: [0, '90%'],
+        label: {
+          rotate: 'radial'
+        }
+      }
+    ]
+  };
+
+  return (
+    <SunburstChart
+      chartId="sunburst-chart"
+      option={option}
+      width="100%"
+      height={400}
+    />
+  );
+};
+```
+
+## 桑基图
+
+### 用途
+
+用于展示数据流向和转移关系。
+
+### 基本用法
+
+```typescript
+import { SankeyChart } from '@agions/taroviz';
+
+const SankeyChartDemo = () => {
+  const option = {
+    title: {
+      text: '用户行为流向'
+    },
+    series: [
+      {
+        type: 'sankey',
+        layout: 'none',
+        emphasis: {
+          focus: 'adjacency'
+        },
+        nodeAlign: 'left',
+        nodeGap: 12,
+        nodeWidth: 20,
+        lineStyle: {
+          curveness: 0.5
+        },
+        data: [
+          { name: '首页' },
+          { name: '商品列表' },
+          { name: '商品详情' },
+          { name: '加入购物车' },
+          { name: '提交订单' },
+          { name: '支付成功' }
+        ],
+        links: [
+          { source: '首页', target: '商品列表', value: 100 },
+          { source: '商品列表', target: '商品详情', value: 60 },
+          { source: '商品详情', target: '加入购物车', value: 40 },
+          { source: '加入购物车', target: '提交订单', value: 30 },
+          { source: '提交订单', target: '支付成功', value: 25 }
+        ]
+      }
+    ]
+  };
+
+  return (
+    <SankeyChart
+      chartId="sankey-chart"
       option={option}
       width="100%"
       height={400}
