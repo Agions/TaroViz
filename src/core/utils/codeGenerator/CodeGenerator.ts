@@ -80,6 +80,20 @@ export class CodeGenerator {
   }
 
   /**
+   * 转义代码生成用的字符串，防止 XSS
+   */
+  private escapeForCode(str: string): string {
+    if (!str) return '';
+    // 转义特殊字符防止代码注入
+    return str
+      .replace(/\\/g, '\\\\')
+      .replace(/`/g, '\\`')
+      .replace(/\$/g, '\\$')
+      .replace(/\{/g, '\\{')
+      .replace(/\}/g, '\\}');
+  }
+
+  /**
    * 初始化内置模板
    */
   private initBuiltinTemplates(): void {
@@ -511,15 +525,15 @@ export default chart;`,
     // 替换模板变量
     let code = template.content;
 
-    // 替换组件名称
-    const componentName = options.componentName || 'ChartComponent';
+    // 替换组件名称（转义防止XSS）
+    const componentName = this.escapeForCode(options.componentName || 'ChartComponent');
     code = code.replace(/\{componentName\}/g, componentName);
 
-    // 替换图表ID
-    const chartId = options.chartId || 'chart';
+    // 替换图表ID（转义防止XSS）
+    const chartId = this.escapeForCode(options.chartId || 'chart');
     code = code.replace(/\{chartId\}/g, chartId);
 
-    // 替换选项
+    // 替换选项（JSON.stringify已处理转义，但模板变量要转义）
     const optionStr = JSON.stringify(option, null, 2);
     code = code.replace(/\{\s*option\s*\}/g, optionStr);
 

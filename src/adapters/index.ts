@@ -26,6 +26,7 @@ const PLATFORM_CONFIGS: Record<PlatformType, PlatformConfig> = {
   [PlatformType.DD]: { name: 'DingTalk', requireComponent: true },
   [PlatformType.QYWX]: { name: 'QiyeWechat' },
   [PlatformType.LARK]: { name: 'Lark' },
+  [PlatformType.KWAI]: { name: 'Kwai', requireComponent: true },
   [PlatformType.HARMONY]: { name: 'HarmonyOS', requireComponent: true },
 };
 
@@ -99,24 +100,39 @@ export function getEnv(): 'h5' | 'weapp' | 'unknown' {
 
 /**
  * 创建适配器实例
+ * 使用静态导入避免动态 require 的 ESM 问题
  */
 function createAdapterInstance(platform: PlatformType, options: AdapterOptions): Adapter {
-  const adapters: Record<PlatformType, () => Adapter> = {
-    [PlatformType.H5]: () => require('./h5').default.create(options),
-    [PlatformType.WEAPP]: () => require('./weapp').default.create(options),
-    [PlatformType.SWAN]: () => require('./swan').default.create(options),
-    [PlatformType.TT]: () => require('./tt').default.create(options),
-    [PlatformType.HARMONY]: () => require('./harmony').default.create(options),
-    [PlatformType.ALIPAY]: () => require('./h5').default.create(options),
-    [PlatformType.QQ]: () => require('./h5').default.create(options),
-    [PlatformType.JD]: () => require('./h5').default.create(options),
-    [PlatformType.DD]: () => require('./h5').default.create(options),
-    [PlatformType.QYWX]: () => require('./h5').default.create(options),
-    [PlatformType.LARK]: () => require('./h5').default.create(options),
-  };
-
-  return adapters[platform]();
+  // 预加载所有适配器（编译时解析，支持 tree-shaking）
+  switch (platform) {
+    case PlatformType.H5:
+    case PlatformType.ALIPAY:
+    case PlatformType.QQ:
+    case PlatformType.JD:
+    case PlatformType.DD:
+    case PlatformType.QYWX:
+    case PlatformType.LARK:
+    case PlatformType.KWAI:
+      return h5Adapter.create(options);
+    case PlatformType.WEAPP:
+      return weappAdapter.create(options);
+    case PlatformType.SWAN:
+      return swanAdapter.create(options);
+    case PlatformType.TT:
+      return ttAdapter.create(options);
+    case PlatformType.HARMONY:
+      return harmonyAdapter.create(options);
+    default:
+      return h5Adapter.create(options);
+  }
 }
+
+// 静态导入适配器
+import h5Adapter from './h5';
+import weappAdapter from './weapp';
+import swanAdapter from './swan';
+import ttAdapter from './tt';
+import harmonyAdapter from './harmony';
 
 /**
  * 获取适配器
@@ -136,7 +152,7 @@ export function getAdapter(options: AdapterOptions): Adapter {
     return createAdapterInstance(platform, options);
   } catch (error) {
     console.error(`[TaroViz] Failed to load adapter for platform '${platform}':`, error);
-    return require('./h5').default.create(options);
+    return h5Adapter.create(options);
   }
 }
 
@@ -158,9 +174,4 @@ export default {
   getAdapter,
   getEnv,
   detectPlatform,
-  h5: require('./h5').default,
-  weapp: require('./weapp').default,
-  swan: require('./swan').default,
-  tt: require('./tt').default,
-  harmony: require('./harmony').default,
 };

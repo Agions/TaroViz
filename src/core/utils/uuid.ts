@@ -4,11 +4,15 @@
  * @returns 唯一标识符字符串
  */
 export function uuid(): string {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    const r = (Math.random() * 16) | 0;
-    const v = c === 'x' ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
+  // 使用 crypto API 生成加密安全的 UUID
+  if (typeof globalThis.crypto?.randomUUID === 'function') {
+    return globalThis.crypto.randomUUID();
+  }
+  
+  // 回退：使用 Math.random() + 时间戳混合
+  const timestamp = Date.now().toString(36);
+  const randomPart = Math.random().toString(36).substring(2, 15);
+  return `${timestamp}-${randomPart}-${Math.random().toString(36).substring(2, 10)}`;
 }
 
 /**

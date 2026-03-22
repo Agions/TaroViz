@@ -8,7 +8,7 @@ import React, { useEffect, useRef, useMemo } from 'react';
 import { getAdapter } from '../../adapters';
 import { uuid } from '../../core/utils';
 import { BaseChartProps } from '../types';
-import { processAdapterConfig, safeRenderAdapter } from '../utils';
+import { processAdapterConfig } from '../utils';
 
 /**
  * 基础图表包装组件
@@ -118,18 +118,12 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
     ...style,
   };
 
-  // 使用带有处理的适配器配置创建适配器实例
-  const adapter = getAdapter(adapterConfig);
-
   return (
     <div
       className={`taroviz-${chartType} ${className}`}
       style={mergedStyle}
       ref={containerRef as React.RefObject<HTMLDivElement>}
-    >
-      {/* 安全地渲染适配器 */}
-      {safeRenderAdapter(adapter)}
-    </div>
+    />
   );
 };
 

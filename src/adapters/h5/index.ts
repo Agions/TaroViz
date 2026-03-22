@@ -76,9 +76,7 @@ class H5Adapter implements Adapter {
     // 获取容器元素
     const container = this.containerRef?.current || document.getElementById(this.canvasId);
     if (!container) {
-      console.error('[TaroViz] H5Adapter: container not found');
-      // 如果容器未找到，返回一个空对象
-      return {} as EChartsType;
+      throw new Error(`[TaroViz] H5Adapter: container not found (canvasId: ${this.canvasId})`);
     }
 
     // 初始化图表
