@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.1](https://github.com/Agions/TaroViz/compare/v1.3.0...v1.3.1) (2026-03-22)
+
+### Security
+
+- 🔒 **代码生成器 XSS 防护**：转义用户输入防止代码注入
+- 🔒 **UUID 生成安全**：使用 crypto.randomUUID() 替代 Math.random()
+- 🔒 **图表实例管理**：添加 ID 冲突检测，防止内存泄漏
+
+### Bug Fixes
+
+- 修复 BaseChartWrapper 重复创建 adapter 实例的问题
+- 修复 H5Adapter 初始化失败时返回空对象的问题
+- 修复 useDataPolling 竞态条件问题
+- 修复 ESM/CommonJS 混用问题，统一使用静态导入
+
+### Code Quality
+
+- 添加 KWAI (快手小程序) 平台适配支持
+- 优化代码模板生成器安全性
+
 # [1.2.0](https://github.com/Agions/TaroViz/compare/v1.1.1...v1.2.0) (2025-11-28)
 
 ### Bug Fixes

@@ -410,23 +410,35 @@ export function useDataPolling<T>(
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(autoStart);
   const [error, setError] = useState<Error | null>(null);
-  const [refreshIndex, setRefreshIndex] = useState(0);
+  
+  // 用于取消进行中的请求
+  const abortRef = useRef<{ cancelled: boolean }>({ cancelled: false });
 
   const fetchData = useCallback(async () => {
+    // 取消之前的请求
+    abortRef.current.cancelled = true;
+    // 创建新的取消标记
+    abortRef.current = { cancelled: false };
+    const currentAbort = abortRef.current;
+    
     let retries = retryCount;
     setLoading(true);
     setError(null);
 
-    while (retries >= 0) {
+    while (retries >= 0 && !currentAbort.cancelled) {
       try {
         const result = await fetchFn();
-        setData(result);
-        setLoading(false);
+        if (!currentAbort.cancelled) {
+          setData(result);
+          setLoading(false);
+        }
         return;
       } catch (e) {
         retries--;
-        if (retries < 0) {
-          setError(e as Error);
+        if (retries < 0 || currentAbort.cancelled) {
+          if (!currentAbort.cancelled) {
+            setError(e as Error);
+          }
           setLoading(false);
         } else {
           await new Promise((resolve) => setTimeout(resolve, retryDelay));
@@ -442,12 +454,18 @@ export function useDataPolling<T>(
 
     if (interval > 0) {
       const timer = setInterval(fetchData, interval);
-      return () => clearInterval(timer);
+      return () => {
+        clearInterval(timer);
+        abortRef.current.cancelled = true;
+      };
     }
-  }, [interval, autoStart, fetchData, refreshIndex]);
+    
+    return () => {
+      abortRef.current.cancelled = true;
+    };
+  }, [interval, autoStart, fetchData]);
 
   const refresh = useCallback(() => {
-    setRefreshIndex((prev) => prev + 1);
     fetchData();
   }, [fetchData]);
 
