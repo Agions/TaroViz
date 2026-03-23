@@ -20,7 +20,7 @@ const LazySankeyChart = lazy(() => import('../../charts/sankey'));
 /**
  * 懒加载图表包装器
  */
-interface LazyChartWrapperProps {
+interface _LazyChartWrapperProps {
   children?: React.ReactNode;
   fallback?: React.ReactNode;
   loading?: boolean;

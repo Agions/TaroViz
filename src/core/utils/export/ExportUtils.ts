@@ -103,7 +103,7 @@ function dataURLToBlob(dataURL: string): Blob {
 /**
  * 下载文件
  */
-function downloadFile(data: string | Blob, filename: string, mimeType: string): void {
+function downloadFile(data: string | Blob, filename: string, _mimeType: string): void {
   const blob = typeof data === 'string' ? dataURLToBlob(data) : data;
   const url = URL.createObjectURL(blob);
 
@@ -297,7 +297,7 @@ class ChartExporter {
     charts: Array<{ name: string; chart: ECharts }>,
     options: BatchExportOptions
   ): Promise<ExportResult[]> {
-    const { format, filenamePrefix = 'chart', compress } = options;
+    const { format, filenamePrefix: _filenamePrefix = 'chart', compress } = options;
 
     const results: ExportResult[] = [];
 
