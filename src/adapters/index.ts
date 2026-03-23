@@ -1,7 +1,7 @@
 /**
  * TaroViz 平台适配器
  * 自动检测并加载适合当前平台的适配器
- * 
+ *
  * 使用动态导入实现按需加载，减少包体积
  */
 
@@ -104,7 +104,10 @@ export function getEnv(): 'h5' | 'weapp' | 'unknown' {
  * 创建适配器实例
  * 使用动态导入实现按需加载，减少包体积
  */
-async function createAdapterInstance(platform: PlatformType, options: AdapterOptions): Promise<Adapter> {
+async function createAdapterInstance(
+  platform: PlatformType,
+  options: AdapterOptions
+): Promise<Adapter> {
   // 动态导入适配器，按需加载
   switch (platform) {
     case PlatformType.H5:

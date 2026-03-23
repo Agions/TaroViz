@@ -96,10 +96,10 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
 
     // 执行异步初始化并获取清理函数
     const cleanupPromise = initChart();
-    
+
     // 返回清理函数
     return () => {
-      cleanupPromise.then(cleanup => cleanup?.());
+      cleanupPromise.then((cleanup) => cleanup?.());
     };
   }, [adapterConfig, onChartInit, onChartReady, onEvents]);
 

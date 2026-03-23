@@ -33,16 +33,18 @@ jest.mock('echarts/components', () => ({
 }));
 
 jest.mock('../adapters', () => ({
-  getAdapter: jest.fn(() => Promise.resolve({
-    init: jest.fn(),
-    setOption: jest.fn(),
-    resize: jest.fn(),
-    dispose: jest.fn(),
-    on: jest.fn(),
-    off: jest.fn(),
-    showLoading: jest.fn(),
-    hideLoading: jest.fn(),
-  })),
+  getAdapter: jest.fn(() =>
+    Promise.resolve({
+      init: jest.fn(),
+      setOption: jest.fn(),
+      resize: jest.fn(),
+      dispose: jest.fn(),
+      on: jest.fn(),
+      off: jest.fn(),
+      showLoading: jest.fn(),
+      hideLoading: jest.fn(),
+    })
+  ),
 }));
 
 jest.mock('../charts/common/BaseChartWrapper', () => ({

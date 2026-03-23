@@ -13,16 +13,18 @@ import {
 
 // Mock dependencies
 jest.mock('../../adapters', () => ({
-  getAdapter: jest.fn(() => Promise.resolve({
-    setComponent: jest.fn(),
-    setOption: jest.fn(),
-    resize: jest.fn(),
-    on: jest.fn(),
-    off: jest.fn(),
-    showLoading: jest.fn(),
-    hideLoading: jest.fn(),
-    dispose: jest.fn(),
-  })),
+  getAdapter: jest.fn(() =>
+    Promise.resolve({
+      setComponent: jest.fn(),
+      setOption: jest.fn(),
+      resize: jest.fn(),
+      on: jest.fn(),
+      off: jest.fn(),
+      showLoading: jest.fn(),
+      hideLoading: jest.fn(),
+      dispose: jest.fn(),
+    })
+  ),
 }));
 
 describe('React Hooks', () => {

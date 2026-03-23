@@ -165,7 +165,7 @@ export class PerformanceAnalyzer {
     this.metrics.clear();
     this.eventHandlers.clear();
     this.frameRateHistory = [];
-    
+
     // 如果是当前单例，清除单例引用
     if (PerformanceAnalyzer.instance === this) {
       PerformanceAnalyzer.instance = null;
