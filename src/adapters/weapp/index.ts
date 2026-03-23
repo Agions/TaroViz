@@ -2,7 +2,6 @@
  * TaroViz 微信小程序适配器
  * 基于微信小程序canvas组件实现图表渲染
  */
-import * as React from 'react';
 
 import { Adapter, WeappAdapterOptions } from '../types';
 
@@ -126,14 +125,34 @@ class WeappAdapter implements Adapter {
    * 获取图表宽度
    */
   getWidth(): number {
-    return 0;
+    if (this.config.width) {
+      if (typeof this.config.width === 'number') {
+        return this.config.width;
+      }
+      // 如果是字符串，尝试解析为像素值
+      const parsed = parseInt(this.config.width as string, 10);
+      if (!isNaN(parsed)) {
+        return parsed;
+      }
+    }
+    return 300; // 默认宽度
   }
 
   /**
    * 获取图表高度
    */
   getHeight(): number {
-    return 0;
+    if (this.config.height) {
+      if (typeof this.config.height === 'number') {
+        return this.config.height;
+      }
+      // 如果是字符串，尝试解析为像素值
+      const parsed = parseInt(this.config.height as string, 10);
+      if (!isNaN(parsed)) {
+        return parsed;
+      }
+    }
+    return 300; // 默认高度
   }
 
   /**
@@ -219,18 +238,6 @@ class WeappAdapter implements Adapter {
    */
   setComponent(component: any): void {
     this.component = component;
-  }
-
-  /**
-   * 渲染图表组件
-   */
-  render(): JSX.Element {
-    const { canvasId = 'ec-canvas', width = '100%', height = '300px', style = {} } = this.config;
-    // 注意：这里需要根据实际使用的Taro版本和组件库来调整
-    return React.createElement('view', {
-      id: canvasId,
-      style: { width, height, ...style },
-    });
   }
 }
 

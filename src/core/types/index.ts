@@ -230,9 +230,9 @@ export interface Adapter {
   convertToDataURL?(opts?: any): string | undefined;
 
   /**
-   * 渲染图表
+   * 渲染图表（仅 H5 环境需要，小程序适配器不需要）
    */
-  render(): JSX.Element;
+  render?(): JSX.Element | null;
 }
 
 /**

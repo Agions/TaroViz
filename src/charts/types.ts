@@ -713,7 +713,7 @@ export interface SankeyChartProps extends BaseChartProps {
  * 箱线图属性
  * 用于展示数据的分布情况
  */
-export interface BoxplotChartProps extends BaseChartProps {
+export interface BoxplotChartProps extends Omit<BaseChartProps, 'data'> {
   /** 图表类型 */
   type?: 'boxplot';
 
@@ -743,7 +743,7 @@ export interface BoxplotChartProps extends BaseChartProps {
  * K线图/股票图属性
  * 用于展示股票、外汇等金融数据
  */
-export interface CandlestickChartProps extends BaseChartProps {
+export interface CandlestickChartProps extends Omit<BaseChartProps, 'data'> {
   /** K线数据数组，每项为 [open, close, lowest, highest] */
   data?: number[][];
 
@@ -874,4 +874,7 @@ export interface ChartBuilderOptions<T extends BaseChartProps = BaseChartProps> 
 }
 
 // 重新导出 ECharts 类型
-export type { EChartsOption, ECharts, EChartsCoreOption };
+export type { EChartsOption, ECharts } from 'echarts';
+
+// EChartsCoreOption 是 ECBasicOption 的别名
+export type { ECBasicOption as EChartsCoreOption } from 'echarts/types/dist/shared';

@@ -209,7 +209,9 @@ export function convertAnnotationToMarkArea(config: MarkAreaConfig): EChartsOpti
 /**
  * 将散点标注配置转换为 ECharts 格式
  */
-export function convertAnnotationToScatter(config: ScatterAnnotationConfig): EChartsOption['series'] {
+export function convertAnnotationToScatter(
+  config: ScatterAnnotationConfig
+): EChartsOption['series'] {
   const { data, symbol, symbolSize, itemStyle, label } = config;
 
   return [
@@ -227,7 +229,7 @@ export function convertAnnotationToScatter(config: ScatterAnnotationConfig): ECh
         },
         data,
       },
-    },
+    } as any,
   ];
 }
 
@@ -239,18 +241,22 @@ export function useAnnotation(props: AnnotationProps): EChartsOption {
   const { type, markLine, markArea, scatter } = props;
 
   return useMemo(() => {
-    const series: EChartsOption['series'] = [];
+    // 使用 any 避免类型复杂性问题
+    const series: any[] = [];
 
     if (type === 'line' && markLine) {
-      series.push(...convertAnnotationToMarkLine(markLine));
+      const markLineResult = convertAnnotationToMarkLine(markLine);
+      series.push(...(Array.isArray(markLineResult) ? markLineResult : [markLineResult]));
     }
 
     if (type === 'area' && markArea) {
-      series.push(...convertAnnotationToMarkArea(markArea));
+      const markAreaResult = convertAnnotationToMarkArea(markArea);
+      series.push(...(Array.isArray(markAreaResult) ? markAreaResult : [markAreaResult]));
     }
 
     if (type === 'scatter' && scatter) {
-      series.push(...convertAnnotationToScatter(scatter));
+      const scatterResult = convertAnnotationToScatter(scatter);
+      series.push(...(Array.isArray(scatterResult) ? scatterResult : [scatterResult]));
     }
 
     return { series };
@@ -263,46 +269,42 @@ export function useAnnotation(props: AnnotationProps): EChartsOption {
 export const AnnotationPresets = {
   /** 平均线 */
   averageLine: (color = '#1890ff'): MarkLineConfig => ({
-    data: [{ type: 'average', name: '平均值' }],
+    data: [{ type: 'average', name: '平均值' }] as any,
     lineStyle: { color, type: 'dashed', width: 2 },
     label: { show: true, position: 'end', color },
   }),
 
   /** 最大值线 */
   maxLine: (color = '#f5222d'): MarkLineConfig => ({
-    data: [{ type: 'max', name: '最大值' }],
+    data: [{ type: 'max', name: '最大值' }] as any,
     lineStyle: { color, type: 'dashed', width: 2 },
     label: { show: true, position: 'end', color },
   }),
 
   /** 最小值线 */
   minLine: (color = '#52c41a'): MarkLineConfig => ({
-    data: [{ type: 'min', name: '最小值' }],
+    data: [{ type: 'min', name: '最小值' }] as any,
     lineStyle: { color, type: 'dashed', width: 2 },
     label: { show: true, position: 'end', color },
   }),
 
   /** 警戒线 */
   thresholdLine: (value: number, color = '#faad14'): MarkLineConfig => ({
-    data: [{ yAxis: value, name: '警戒线' }],
+    data: [{ yAxis: value, name: '警戒线' }] as any,
     lineStyle: { color, type: 'solid', width: 2 },
     label: { show: true, position: 'start', color },
   }),
 
   /** 目标区域 */
   targetArea: (min: number, max: number, color = 'rgba(82, 196, 26, 0.1)'): MarkAreaConfig => ({
-    data: [
-      [{ yAxis: min }, { yAxis: max }],
-    ],
+    data: [[{ yAxis: min }, { yAxis: max }]],
     style: { color, opacity: 0.3 },
     label: { show: true, position: 'inside', color: '#52c41a' },
   }),
 
   /** 预警区域 */
   warningArea: (min: number, max: number, color = 'rgba(250, 173, 20, 0.1)'): MarkAreaConfig => ({
-    data: [
-      [{ yAxis: min }, { yAxis: max }],
-    ],
+    data: [[{ yAxis: min }, { yAxis: max }]],
     style: { color, opacity: 0.3 },
     label: { show: true, position: 'inside', color: '#faad14' },
   }),
@@ -319,17 +321,20 @@ export function createCompositeAnnotation(
     scatter?: ScatterAnnotationConfig;
   }>
 ): EChartsOption {
-  const allSeries: EChartsOption['series'] = [];
+  const allSeries: any[] = [];
 
   annotations.forEach((annotation) => {
     if (annotation.type === 'line' && annotation.markLine) {
-      allSeries.push(...convertAnnotationToMarkLine(annotation.markLine));
+      const result = convertAnnotationToMarkLine(annotation.markLine);
+      allSeries.push(...(Array.isArray(result) ? result : [result]));
     }
     if (annotation.type === 'area' && annotation.markArea) {
-      allSeries.push(...convertAnnotationToMarkArea(annotation.markArea));
+      const result = convertAnnotationToMarkArea(annotation.markArea);
+      allSeries.push(...(Array.isArray(result) ? result : [result]));
     }
     if (annotation.type === 'scatter' && annotation.scatter) {
-      allSeries.push(...convertAnnotationToScatter(annotation.scatter));
+      const result = convertAnnotationToScatter(annotation.scatter);
+      allSeries.push(...(Array.isArray(result) ? result : [result]));
     }
   });
 

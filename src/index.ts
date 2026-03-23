@@ -83,7 +83,11 @@ export {
 export { ThemeEditor } from './editor';
 
 // 错误边界组件 (新增)
-export { ErrorBoundary, withErrorBoundary, type ErrorBoundaryProps } from './core/components/ErrorBoundary';
+export {
+  ErrorBoundary,
+  withErrorBoundary,
+  type ErrorBoundaryProps,
+} from './core/components/ErrorBoundary';
 
 // 懒加载组件 (新增)
 export {

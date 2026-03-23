@@ -73,22 +73,22 @@ const DefaultLoadingFallback: React.FC<{ text?: string }> = ({ text = '加载中
 export function withLazyLoad<P extends object>(
   ChartComponent: ComponentType<P>,
   loadingFallback?: ComponentType<{ text?: string }>
-): ComponentType<P & { loadingText?: string; fallback?: React.ReactNode }> {
-  const LazyWrapper: React.FC<P & { loadingText?: string; fallback?: React.ReactNode }> = ({
-    loadingText,
-    fallback,
-    ...props
-  }) => {
+): ComponentType<
+  Omit<P, 'loadingText' | 'fallback'> & { loadingText?: string; fallback?: React.ReactNode }
+> {
+  const LazyWrapper: React.FC<
+    Omit<P, 'loadingText' | 'fallback'> & { loadingText?: string; fallback?: React.ReactNode }
+  > = ({ loadingText, fallback, ...props }) => {
     const LoadingComponent = loadingFallback || DefaultLoadingFallback;
     return (
       <Suspense fallback={<LoadingComponent text={loadingText} />}>
         {fallback ? (
           <React.Fragment>
             {fallback}
-            <ChartComponent {...props} />
+            <ChartComponent {...(props as P)} />
           </React.Fragment>
         ) : (
-          <ChartComponent {...props} />
+          <ChartComponent {...(props as P)} />
         )}
       </Suspense>
     );

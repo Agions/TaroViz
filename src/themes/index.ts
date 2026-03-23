@@ -704,6 +704,18 @@ export function unregisterTheme(name: string): void {
 }
 
 /**
+ * 重置主题注册表（清除所有已注册的主题，恢复内置主题）
+ * 主要用于测试环境
+ */
+export function resetThemeRegistry(): void {
+  themeRegistry.clear();
+  // 重新注册所有内置主题
+  Object.entries(builtinThemes).forEach(([name, theme]) => {
+    themeRegistry.set(name, theme as ThemeOptions);
+  });
+}
+
+/**
  * 动态切换主题
  * @param theme 主题名称或主题配置
  * @param callback 切换完成后的回调函数
@@ -853,6 +865,7 @@ export default {
   getRegisteredThemes,
   getThemeByName,
   unregisterTheme,
+  resetThemeRegistry,
   switchTheme,
   getThemesByTag,
   getLightThemes,

@@ -145,7 +145,10 @@ export function withErrorBoundary<Props extends object>(
     </ErrorBoundary>
   );
 
-  WrappedChart.displayName = `withErrorBoundary(${ChartComponent.displayName || ChartComponent.name || 'Chart'})`;
+  const componentName = ChartComponent.displayName || ChartComponent.name;
+  WrappedChart.displayName = componentName
+    ? `withErrorBoundary(${componentName})`
+    : 'withErrorBoundary(WrappedChart)';
 
   return WrappedChart;
 }
