@@ -2,7 +2,7 @@
  * TaroViz 图表标注组件
  * 支持在图表上添加标记线、标记区域、散点等标注
  */
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import type { EChartsOption } from 'echarts';
 
 /**

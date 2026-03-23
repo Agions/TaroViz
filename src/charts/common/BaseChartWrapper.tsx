@@ -2,7 +2,6 @@
  * 基础图表包装组件
  * 提供统一的图表初始化、渲染和生命周期管理
  */
-import * as echarts from 'echarts/core';
 import React, { useEffect, useRef, useMemo } from 'react';
 
 import { getAdapter } from '../../adapters';
@@ -46,7 +45,7 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
       renderer,
       option,
     });
-  }, [width, height, theme, autoResize, renderer, option, chartType]);
+  }, [width, height, theme, autoResize, renderer, option]);
 
   // 处理图表初始化
   useEffect(() => {

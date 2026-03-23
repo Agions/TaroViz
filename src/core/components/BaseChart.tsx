@@ -1140,6 +1140,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
 
     // 执行异步初始化
     initChart();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     chartRef,
     width,
@@ -1244,6 +1245,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
         oldOptionRef.current = option;
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [option, onDataUpdate, dataUpdateOptions]);
 
   /**
