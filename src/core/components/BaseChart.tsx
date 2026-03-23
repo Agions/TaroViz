@@ -1126,9 +1126,9 @@ const BaseChart: React.FC<ChartProps> = (props) => {
           removeChart(chartId);
         }
 
-        // 停止性能监控
+        // 停止性能监控并释放资源
         if (performanceAnalyzerRef.current) {
-          performanceAnalyzerRef.current.stop();
+          performanceAnalyzerRef.current.dispose();
           performanceAnalyzerRef.current = null;
         }
 

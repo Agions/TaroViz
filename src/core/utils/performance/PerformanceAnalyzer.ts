@@ -157,6 +157,22 @@ export class PerformanceAnalyzer {
   }
 
   /**
+   * 释放资源
+   * 完全清理性能分析器，包括单例实例
+   */
+  public dispose(): void {
+    this.stop();
+    this.metrics.clear();
+    this.eventHandlers.clear();
+    this.frameRateHistory = [];
+    
+    // 如果是当前单例，清除单例引用
+    if (PerformanceAnalyzer.instance === this) {
+      PerformanceAnalyzer.instance = null;
+    }
+  }
+
+  /**
    * RAF 动画帧 ID，用于取消
    */
   private rafId: number | null = null;
@@ -174,10 +190,12 @@ export class PerformanceAnalyzer {
       const deltaTime = currentTime - this.lastFrameTime;
       const frameRate = deltaTime > 0 ? Math.round(1000 / deltaTime) : 0;
 
-      this.frameRateHistory.push(frameRate);
-      if (this.frameRateHistory.length > 60) {
+      // 使用 config.maxSamples 限制历史记录长度
+      const maxSamples = this.config.maxSamples ?? 100;
+      if (this.frameRateHistory.length >= maxSamples) {
         this.frameRateHistory.shift();
       }
+      this.frameRateHistory.push(frameRate);
 
       this.lastFrameTime = currentTime;
       this.rafId = requestAnimationFrame(updateFrameRate);
