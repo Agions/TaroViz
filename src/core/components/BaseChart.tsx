@@ -842,7 +842,10 @@ const BaseChart: React.FC<ChartProps> = (props) => {
    * 负责图表的创建、事件绑定和清理工作
    */
   useEffect(() => {
-    if (chartRef.current) {
+    // 异步初始化图表
+    const initChart = async () => {
+      if (!chartRef.current) return;
+
       // 处理调试配置
       const debugConfig = processDebugConfig();
       debugConfigRef.current = debugConfig;
@@ -865,8 +868,8 @@ const BaseChart: React.FC<ChartProps> = (props) => {
       // 处理虚拟滚动
       const processedOption = processVirtualScroll(option as EChartsOption);
 
-      // 获取适配器实例
-      const chartAdapter = getAdapter({
+      // 获取适配器实例（异步动态导入）
+      const chartAdapter = await getAdapter({
         width,
         height,
         theme,
@@ -1116,7 +1119,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
       // 结束记录初始化时间
       recordPerformance('init');
 
-      // 清理函数
+      // 返回清理函数
       return () => {
         // 移除图表实例
         if (chartId) {
@@ -1133,7 +1136,10 @@ const BaseChart: React.FC<ChartProps> = (props) => {
           chartAdapter.dispose();
         }
       };
-    }
+    };
+
+    // 执行异步初始化
+    initChart();
   }, [
     chartRef,
     width,

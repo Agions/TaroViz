@@ -33,14 +33,14 @@ describe('Adapter Functions', () => {
   });
 
   describe('getAdapter', () => {
-    it('should return adapter instance for browser environment', () => {
-      const adapter = getAdapter({});
+    it('should return adapter instance for browser environment', async () => {
+      const adapter = await getAdapter({});
       expect(adapter).toBeDefined();
       expect(typeof adapter.init).toBe('function');
       expect(typeof adapter.setOption).toBe('function');
     });
 
-    it('should return adapter instance with custom options', () => {
+    it('should return adapter instance with custom options', async () => {
       const mockOptions = {
         width: 500,
         height: 300,
@@ -48,7 +48,7 @@ describe('Adapter Functions', () => {
         renderer: 'canvas' as const,
       };
 
-      const adapter = getAdapter(mockOptions);
+      const adapter = await getAdapter(mockOptions);
       expect(adapter).toBeDefined();
       expect(typeof adapter.init).toBe('function');
     });
@@ -62,8 +62,8 @@ describe('Adapter Functions', () => {
   });
 
   describe('Cross-Platform Compatibility', () => {
-    it('should have consistent interface across all platforms', () => {
-      const adapter = getAdapter({});
+    it('should have consistent interface across all platforms', async () => {
+      const adapter = await getAdapter({});
 
       // 确保所有平台的适配器都有相同的方法接口
       const requiredMethods = ['init', 'setOption', 'resize', 'dispose'];
@@ -73,7 +73,7 @@ describe('Adapter Functions', () => {
       });
     });
 
-    it('should handle different option types across platforms', () => {
+    it('should handle different option types across platforms', async () => {
       // 测试不同类型的选项
       const testOptions = [
         { width: 500, height: 300 },
@@ -82,10 +82,10 @@ describe('Adapter Functions', () => {
         { renderer: 'svg' as const },
       ];
 
-      testOptions.forEach((options) => {
-        const adapter = getAdapter(options);
+      for (const options of testOptions) {
+        const adapter = await getAdapter(options);
         expect(adapter).toBeDefined();
-      });
+      }
     });
   });
 });

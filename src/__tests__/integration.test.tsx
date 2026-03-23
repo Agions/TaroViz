@@ -33,7 +33,7 @@ jest.mock('echarts/components', () => ({
 }));
 
 jest.mock('../adapters', () => ({
-  getAdapter: jest.fn(() => ({
+  getAdapter: jest.fn(() => Promise.resolve({
     init: jest.fn(),
     setOption: jest.fn(),
     resize: jest.fn(),

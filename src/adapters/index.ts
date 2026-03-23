@@ -1,6 +1,8 @@
 /**
  * TaroViz 平台适配器
  * 自动检测并加载适合当前平台的适配器
+ * 
+ * 使用动态导入实现按需加载，减少包体积
  */
 
 import { PlatformType } from '../core';
@@ -100,10 +102,10 @@ export function getEnv(): 'h5' | 'weapp' | 'unknown' {
 
 /**
  * 创建适配器实例
- * 使用静态导入避免动态 require 的 ESM 问题
+ * 使用动态导入实现按需加载，减少包体积
  */
-function createAdapterInstance(platform: PlatformType, options: AdapterOptions): Adapter {
-  // 预加载所有适配器（编译时解析，支持 tree-shaking）
+async function createAdapterInstance(platform: PlatformType, options: AdapterOptions): Promise<Adapter> {
+  // 动态导入适配器，按需加载
   switch (platform) {
     case PlatformType.H5:
     case PlatformType.ALIPAY:
@@ -112,32 +114,38 @@ function createAdapterInstance(platform: PlatformType, options: AdapterOptions):
     case PlatformType.DD:
     case PlatformType.QYWX:
     case PlatformType.LARK:
-    case PlatformType.KWAI:
+    case PlatformType.KWAI: {
+      const { default: h5Adapter } = await import('./h5');
       return h5Adapter.create(options);
-    case PlatformType.WEAPP:
+    }
+    case PlatformType.WEAPP: {
+      const { default: weappAdapter } = await import('./weapp');
       return weappAdapter.create(options);
-    case PlatformType.SWAN:
+    }
+    case PlatformType.SWAN: {
+      const { default: swanAdapter } = await import('./swan');
       return swanAdapter.create(options);
-    case PlatformType.TT:
+    }
+    case PlatformType.TT: {
+      const { default: ttAdapter } = await import('./tt');
       return ttAdapter.create(options);
-    case PlatformType.HARMONY:
+    }
+    case PlatformType.HARMONY: {
+      const { default: harmonyAdapter } = await import('./harmony');
       return harmonyAdapter.create(options);
-    default:
+    }
+    default: {
+      const { default: h5Adapter } = await import('./h5');
       return h5Adapter.create(options);
+    }
   }
 }
 
-// 静态导入适配器
-import h5Adapter from './h5';
-import weappAdapter from './weapp';
-import swanAdapter from './swan';
-import ttAdapter from './tt';
-import harmonyAdapter from './harmony';
-
 /**
  * 获取适配器
+ * 返回 Promise 以支持动态导入
  */
-export function getAdapter(options: AdapterOptions): Adapter {
+export async function getAdapter(options: AdapterOptions): Promise<Adapter> {
   const platform = detectPlatform();
   const config = PLATFORM_CONFIGS[platform];
 
@@ -149,9 +157,11 @@ export function getAdapter(options: AdapterOptions): Adapter {
   }
 
   try {
-    return createAdapterInstance(platform, options);
+    return await createAdapterInstance(platform, options);
   } catch (error) {
     console.error(`[TaroViz] Failed to load adapter for platform '${platform}':`, error);
+    // 降级到 H5 适配器
+    const { default: h5Adapter } = await import('./h5');
     return h5Adapter.create(options);
   }
 }
