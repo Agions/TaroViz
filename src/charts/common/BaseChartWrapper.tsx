@@ -50,46 +50,56 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
 
   // 处理图表初始化
   useEffect(() => {
-    const initConfig = processAdapterConfig({
-      ...adapterConfig,
-      onInit: (instance: any) => {
-        chartInstance.current = instance;
+    const initChart = async () => {
+      const initConfig = processAdapterConfig({
+        ...adapterConfig,
+        onInit: (instance: any) => {
+          chartInstance.current = instance;
 
-        // 绑定事件
-        if (onEvents) {
-          Object.keys(onEvents).forEach((eventName) => {
-            instance.on(eventName, (onEvents as any)[eventName]);
-          });
+          // 绑定事件
+          if (onEvents) {
+            Object.keys(onEvents).forEach((eventName) => {
+              instance.on(eventName, (onEvents as any)[eventName]);
+            });
+          }
+
+          // 初始化回调
+          if (onChartInit) {
+            onChartInit(instance);
+          }
+
+          // 准备好回调
+          if (onChartReady) {
+            onChartReady(instance);
+          }
+        },
+      });
+
+      // 获取适配器并初始化（异步动态导入）
+      const adapter = await getAdapter(initConfig);
+      adapter.init();
+
+      // 返回清理函数
+      return () => {
+        if (chartInstance.current) {
+          // 解绑事件
+          if (onEvents) {
+            Object.keys(onEvents).forEach((eventName) => {
+              chartInstance.current?.off(eventName);
+            });
+          }
+          chartInstance.current.dispose();
+          chartInstance.current = null;
         }
+      };
+    };
 
-        // 初始化回调
-        if (onChartInit) {
-          onChartInit(instance);
-        }
-
-        // 准备好回调
-        if (onChartReady) {
-          onChartReady(instance);
-        }
-      },
-    });
-
-    // 获取适配器并初始化
-    const adapter = getAdapter(initConfig);
-    adapter.init();
-
-    // 组件卸载时清理
+    // 执行异步初始化并获取清理函数
+    const cleanupPromise = initChart();
+    
+    // 返回清理函数
     return () => {
-      if (chartInstance.current) {
-        // 解绑事件
-        if (onEvents) {
-          Object.keys(onEvents).forEach((eventName) => {
-            chartInstance.current?.off(eventName);
-          });
-        }
-        chartInstance.current.dispose();
-        chartInstance.current = null;
-      }
+      cleanupPromise.then(cleanup => cleanup?.());
     };
   }, [adapterConfig, onChartInit, onChartReady, onEvents]);
 

@@ -95,14 +95,18 @@ export function useChart(
       return;
     }
 
-    try {
-      const adapter = getAdapter(configRef.current || {});
-      const chartInstance = adapter as unknown as ChartInstance;
-      setInstance(chartInstance);
-      setInitialized(true);
-    } catch (error) {
-      console.error('Failed to initialize chart:', error);
-    }
+    const initAdapter = async () => {
+      try {
+        const adapter = await getAdapter(configRef.current || {});
+        const chartInstance = adapter as unknown as ChartInstance;
+        setInstance(chartInstance);
+        setInitialized(true);
+      } catch (error) {
+        console.error('Failed to initialize chart:', error);
+      }
+    };
+
+    initAdapter();
 
     return () => {
       if (instance) {

@@ -13,7 +13,7 @@ import {
 
 // Mock dependencies
 jest.mock('../../adapters', () => ({
-  getAdapter: jest.fn(() => ({
+  getAdapter: jest.fn(() => Promise.resolve({
     setComponent: jest.fn(),
     setOption: jest.fn(),
     resize: jest.fn(),
