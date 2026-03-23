@@ -14,7 +14,9 @@ export function registerChart(id: string, instance: EChartsType): void {
   // 如果已存在同名ID，先释放旧实例防止内存泄漏
   if (CHART_INSTANCES[id]) {
     try {
-      console.warn(`[TaroViz] Chart instance '${id}' already exists, replacing and disposing old instance`);
+      console.warn(
+        `[TaroViz] Chart instance '${id}' already exists, replacing and disposing old instance`
+      );
       CHART_INSTANCES[id].dispose();
     } catch (e) {
       console.warn(`Failed to dispose old chart instance: ${id}`, e);

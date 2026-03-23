@@ -8,7 +8,7 @@ export function uuid(): string {
   if (typeof globalThis.crypto?.randomUUID === 'function') {
     return globalThis.crypto.randomUUID();
   }
-  
+
   // 回退：使用 Math.random() + 时间戳混合
   const timestamp = Date.now().toString(36);
   const randomPart = Math.random().toString(36).substring(2, 15);

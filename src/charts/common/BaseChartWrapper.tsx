@@ -31,7 +31,7 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
   chartType = 'chart',
 }) => {
   const chartId = useRef<string>(`${chartType}-${uuid()}`);
-  const chartInstance = useRef<echarts.ECharts | null>(null);
+  const chartInstance = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // 使用 useMemo 缓存适配器配置，并处理类型问题
@@ -52,13 +52,13 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
   useEffect(() => {
     const initConfig = processAdapterConfig({
       ...adapterConfig,
-      onInit: (instance: echarts.ECharts) => {
+      onInit: (instance: any) => {
         chartInstance.current = instance;
 
         // 绑定事件
         if (onEvents) {
           Object.keys(onEvents).forEach((eventName) => {
-            instance.on(eventName, onEvents[eventName]);
+            instance.on(eventName, (onEvents as any)[eventName]);
           });
         }
 
@@ -95,7 +95,7 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
 
   // 更新配置
   useEffect(() => {
-    if (chartInstance.current) {
+    if (chartInstance.current && option) {
       chartInstance.current.setOption(option, true);
     }
   }, [option]);

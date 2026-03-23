@@ -141,6 +141,9 @@ export class AnimationManager {
   public static getInstance(config?: AnimationManagerConfig): AnimationManager {
     if (!AnimationManager.instance) {
       AnimationManager.instance = new AnimationManager(config);
+    } else if (config) {
+      // 如果传入了新配置，更新配置
+      AnimationManager.instance.updateConfig(config);
     }
     return AnimationManager.instance;
   }
@@ -343,6 +346,18 @@ export class AnimationManager {
       ...this.performanceConfig,
       ...config,
     };
+  }
+
+  /**
+   * 更新配置
+   */
+  public updateConfig(config: AnimationManagerConfig): void {
+    if (config.defaultConfig) {
+      this.defaultConfig = config.defaultConfig;
+    }
+    if (config.performance) {
+      this.updatePerformanceConfig(config.performance);
+    }
   }
 
   /**

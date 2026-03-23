@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import type { ChartOptions, EChartsType } from './core/types';
+import type { EChartsType } from './core/types';
 
 import { BaseChart, LineChart, BarChart, PieChart } from './index';
 
-// Type assertion helper
-const asChartOptions = <T extends Record<string, any>>(options: T): ChartOptions => {
-  return options as ChartOptions;
+// Type assertion helper - use any to bypass complex type mismatches
+const asChartOptions = <T extends Record<string, any>>(options: T): any => {
+  return options;
 };
 
 // Example data for various chart types

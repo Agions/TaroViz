@@ -79,7 +79,17 @@ export interface ThemeVariables {
 /**
  * 预设主题
  */
-export type PresetThemeName = 'default' | 'dark' | 'vintage' | 'macarons' | 'infographic' | 'helianthus' | 'blue' | 'red' | 'green' | 'purple';
+export type PresetThemeName =
+  | 'default'
+  | 'dark'
+  | 'vintage'
+  | 'macarons'
+  | 'infographic'
+  | 'helianthus'
+  | 'blue'
+  | 'red'
+  | 'green'
+  | 'purple';
 
 // ============================================================================
 // 预设主题配置
@@ -112,7 +122,8 @@ const PRESET_THEMES: Record<PresetThemeName, ThemeConfig> = {
       '--tv-chart-color-6': '#3ba272',
       '--tv-chart-color-7': '#fc8452',
       '--tv-chart-color-8': '#9a60b4',
-      '--tv-font-family': '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      '--tv-font-family':
+        '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
       '--tv-font-size': '14px',
       '--tv-font-size-small': '12px',
       '--tv-font-size-large': '16px',
@@ -147,7 +158,8 @@ const PRESET_THEMES: Record<PresetThemeName, ThemeConfig> = {
       '--tv-chart-color-6': '#3ba272',
       '--tv-chart-color-7': '#fc8452',
       '--tv-chart-color-8': '#9a60b4',
-      '--tv-font-family': '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      '--tv-font-family':
+        '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
       '--tv-font-size': '14px',
       '--tv-font-size-small': '12px',
       '--tv-font-size-large': '16px',
@@ -182,7 +194,8 @@ const PRESET_THEMES: Record<PresetThemeName, ThemeConfig> = {
       '--tv-chart-color-6': '#c9b8d4',
       '--tv-chart-color-7': '#a8c4d4',
       '--tv-chart-color-8': '#d4c49a',
-      '--tv-font-family': '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      '--tv-font-family':
+        '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
       '--tv-font-size': '14px',
       '--tv-font-size-small': '12px',
       '--tv-font-size-large': '16px',
@@ -217,7 +230,8 @@ const PRESET_THEMES: Record<PresetThemeName, ThemeConfig> = {
       '--tv-chart-color-6': '#a8e6cf',
       '--tv-chart-color-7': '#ffd3b6',
       '--tv-chart-color-8': '#ffaaa5',
-      '--tv-font-family': '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      '--tv-font-family':
+        '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
       '--tv-font-size': '14px',
       '--tv-font-size-small': '12px',
       '--tv-font-size-large': '16px',
@@ -252,7 +266,8 @@ const PRESET_THEMES: Record<PresetThemeName, ThemeConfig> = {
       '--tv-chart-color-6': '#e8352e',
       '--tv-chart-color-7': '#b02ad3',
       '--tv-chart-color-8': '#6475d4',
-      '--tv-font-family': '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      '--tv-font-family':
+        '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
       '--tv-font-size': '14px',
       '--tv-font-size-small': '12px',
       '--tv-font-size-large': '16px',
@@ -287,7 +302,8 @@ const PRESET_THEMES: Record<PresetThemeName, ThemeConfig> = {
       '--tv-chart-color-6': '#f5a623',
       '--tv-chart-color-7': '#6dd3ce',
       '--tv-chart-color-8': '#d4778b',
-      '--tv-font-family': '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      '--tv-font-family':
+        '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
       '--tv-font-size': '14px',
       '--tv-font-size-small': '12px',
       '--tv-font-size-large': '16px',
@@ -322,7 +338,8 @@ const PRESET_THEMES: Record<PresetThemeName, ThemeConfig> = {
       '--tv-chart-color-6': '#3ba272',
       '--tv-chart-color-7': '#fc8452',
       '--tv-chart-color-8': '#9a60b4',
-      '--tv-font-family': '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      '--tv-font-family':
+        '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
       '--tv-font-size': '14px',
       '--tv-font-size-small': '12px',
       '--tv-font-size-large': '16px',
@@ -357,7 +374,8 @@ const PRESET_THEMES: Record<PresetThemeName, ThemeConfig> = {
       '--tv-chart-color-6': '#52c41a',
       '--tv-chart-color-7': '#faad14',
       '--tv-chart-color-8': '#8b5cf6',
-      '--tv-font-family': '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      '--tv-font-family':
+        '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
       '--tv-font-size': '14px',
       '--tv-font-size-small': '12px',
       '--tv-font-size-large': '16px',
@@ -392,7 +410,8 @@ const PRESET_THEMES: Record<PresetThemeName, ThemeConfig> = {
       '--tv-chart-color-6': '#13c2c2',
       '--tv-chart-color-7': '#fa8c16',
       '--tv-chart-color-8': '#eb2f96',
-      '--tv-font-family': '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      '--tv-font-family':
+        '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
       '--tv-font-size': '14px',
       '--tv-font-size-small': '12px',
       '--tv-font-size-large': '16px',
@@ -427,7 +446,8 @@ const PRESET_THEMES: Record<PresetThemeName, ThemeConfig> = {
       '--tv-chart-color-6': '#ff4d4f',
       '--tv-chart-color-7': '#13c2c2',
       '--tv-chart-color-8': '#fa8c16',
-      '--tv-font-family': '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      '--tv-font-family':
+        '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
       '--tv-font-size': '14px',
       '--tv-font-size-small': '12px',
       '--tv-font-size-large': '16px',
@@ -618,9 +638,6 @@ class ThemeManager {
 
 // 导出单例实例
 export const themeManager = ThemeManager.getInstance();
-
-// 导出类型
-export type { ThemeConfig, ThemeVariables, PresetThemeName };
 
 // 导出预设主题
 export { PRESET_THEMES };

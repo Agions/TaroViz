@@ -112,9 +112,9 @@ const baseConfig = {
     mangleExports: 'deterministic',
     usedExports: true,
     sideEffects: true,
-    // 添加代码分割 - 仅用于分析，不实际分割输出
-    // splitChunks 配置保留用于优化 webpack 内部处理
   },
+  // 对于库构建，禁用性能警告（库本身带依赖是正常的）
+  performance: false,
   externals: (context, request, callback) => {
     // 将 echarts, react, zrender 等外部化
     if (

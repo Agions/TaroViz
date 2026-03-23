@@ -4,6 +4,7 @@
  */
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { getAdapter } from '../adapters';
+import { getThemeByName } from '../themes';
 import type { EChartsOption } from 'echarts';
 
 // ============================================================================
@@ -294,9 +295,9 @@ export function useLoading(
 export function useChartTheme(theme: string | Record<string, unknown>, darkMode = false) {
   return useMemo(() => {
     if (typeof theme === 'string') {
-      // 如果是字符串，尝试获取内置主题
+      // 如果是字符串，尝试获取内置主题配置
       try {
-        const builtinTheme = getTheme(theme);
+        const builtinTheme = getThemeByName(theme);
         return builtinTheme || (darkMode ? 'dark' : theme);
       } catch {
         return darkMode ? 'dark' : theme;
@@ -410,7 +411,7 @@ export function useDataPolling<T>(
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(autoStart);
   const [error, setError] = useState<Error | null>(null);
-  
+
   // 用于取消进行中的请求
   const abortRef = useRef<{ cancelled: boolean }>({ cancelled: false });
 
@@ -420,7 +421,7 @@ export function useDataPolling<T>(
     // 创建新的取消标记
     abortRef.current = { cancelled: false };
     const currentAbort = abortRef.current;
-    
+
     let retries = retryCount;
     setLoading(true);
     setError(null);
@@ -459,7 +460,7 @@ export function useDataPolling<T>(
         abortRef.current.cancelled = true;
       };
     }
-    
+
     return () => {
       abortRef.current.cancelled = true;
     };

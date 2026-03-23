@@ -1134,8 +1134,44 @@ const BaseChart: React.FC<ChartProps> = (props) => {
         }
       };
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chartRef, width, height, theme, option, onInit, onClick, onDataZoom, chartId, linkageConfig]);
+  }, [
+    chartRef,
+    width,
+    height,
+    theme,
+    option,
+    onInit,
+    onClick,
+    onDataZoom,
+    onZoom,
+    chartId,
+    linkageConfig,
+    autoResize,
+    enableZoom,
+    virtualScroll,
+    virtualScrollPageSize,
+    virtualScrollPreloadSize,
+    enablePerformanceMonitoring,
+    onPerformance,
+    enableDataFiltering,
+    filters,
+    onDataFiltered,
+    enableLegendInteraction,
+    legendInteractionMode,
+    onLegendSelect,
+    onLegendUnselect,
+    enableCustomTooltip,
+    customTooltipContent,
+    customTooltipStyle,
+    onTooltipShow,
+    onTooltipHide,
+    onExport,
+    onDataUpdate,
+    dataUpdateOptions,
+    style,
+    className,
+    children,
+  ]);
 
   /**
    * 更新图表尺寸的 useEffect
@@ -1254,7 +1290,9 @@ const BaseChart: React.FC<ChartProps> = (props) => {
    * @returns {JSX.Element} - 返回渲染后的 JSX 元素
    * @description 渲染图表容器，并将 chartRef 绑定到容器上
    */
-  const debugConfig = processDebugConfig();
+  // 使用 ref 中缓存的 debug 配置，避免重复计算
+  // 注意：首次渲染时 ref 为空，使用 processDebugConfig 计算
+  const renderDebugConfig = debugConfigRef.current ?? processDebugConfig();
 
   // 渲染图表容器
   const chartContainer = React.createElement(
@@ -1268,13 +1306,13 @@ const BaseChart: React.FC<ChartProps> = (props) => {
   );
 
   // 如果启用了调试面板，渲染调试面板
-  if (debugConfig?.enabled) {
+  if (renderDebugConfig?.enabled) {
     return React.createElement(
       React.Fragment,
       null,
       chartContainer,
       React.createElement(DebugPanel, {
-        options: debugConfig,
+        options: renderDebugConfig,
         debugInfo: {
           instance: {
             id: chartId,

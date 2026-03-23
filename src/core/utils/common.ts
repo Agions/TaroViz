@@ -20,7 +20,20 @@ export const isBrowser = typeof window !== 'undefined' && typeof document !== 'u
  * 是否为NodeJS环境
  * @returns 是否为NodeJS环境
  */
-export const isNode = typeof process !== 'undefined' && process.versions && process.versions.node;
+export const isNode = (() => {
+  // 更可靠的环境检测：检查是否是真正的 Node.js 环境
+  // 而不是打包后的代码（如 webpack 定义的 process.env）
+  try {
+    return (
+      typeof process !== 'undefined' &&
+      process.versions &&
+      process.versions.node &&
+      Object.prototype.toString.call(globalThis.process) === '[object process]'
+    );
+  } catch {
+    return false;
+  }
+})();
 
 /**
  * 是否为React Native环境

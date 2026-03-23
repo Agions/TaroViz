@@ -157,6 +157,11 @@ export class PerformanceAnalyzer {
   }
 
   /**
+   * RAF 动画帧 ID，用于取消
+   */
+  private rafId: number | null = null;
+
+  /**
    * 开始帧率监控
    */
   private startFrameRateMonitoring(): void {
@@ -175,17 +180,21 @@ export class PerformanceAnalyzer {
       }
 
       this.lastFrameTime = currentTime;
-      requestAnimationFrame(updateFrameRate);
+      this.rafId = requestAnimationFrame(updateFrameRate);
     };
 
-    requestAnimationFrame(updateFrameRate);
+    this.rafId = requestAnimationFrame(updateFrameRate);
   }
 
   /**
    * 停止帧率监控
    */
   private stopFrameRateMonitoring(): void {
-    // requestAnimationFrame 会自动停止，不需要额外清理
+    // 取消 RAF 循环，防止继续运行
+    if (this.rafId !== null) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
     this.frameRateHistory = [];
   }
 
