@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.2](https://github.com/Agions/TaroViz/compare/v1.4.1...v1.4.2) (2026-03-24)
+
+### Bug Fixes
+
+- 修复所有 lint warnings
+- 修复 PerformanceAnalyzer 内存泄漏问题
+- 优化适配器动态导入
+
+# [1.4.1](https://github.com/Agions/TaroViz/compare/v1.4.0...v1.4.1) (2026-03-23)
+
+### Bug Fixes
+
+- 修复适配器动态导入优化
+- 修复 CI lint errors
+
 # [1.3.1](https://github.com/Agions/TaroViz/compare/v1.3.0...v1.3.1) (2026-03-22)
 
 ### Security
