@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.3](https://github.com/Agions/TaroViz/compare/v1.4.2...v1.4.3) (2026-03-25)
+
+### Refactoring
+
+- 拆分 BaseChart 为独立 hooks（useChartInit/useChartEvents/useVirtualScroll/usePerformance）
+- 创建 BaseAdapter 基类精简 weapp/swan/tt 适配器
+- 修复平台检测类型安全问题
+
 # [1.4.2](https://github.com/Agions/TaroViz/compare/v1.4.1...v1.4.2) (2026-03-24)
 
 ### Bug Fixes
