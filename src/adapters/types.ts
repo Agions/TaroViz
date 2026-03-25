@@ -135,6 +135,42 @@ export interface DDAdapterOptions extends AdapterOptions {
 }
 
 /**
+ * 抖音小程序适配器选项
+ */
+export interface TTAdapterOptions extends AdapterOptions {
+  /**
+   * 抖音小程序特有属性
+   */
+}
+
+/**
+ * QQ小程序适配器选项
+ */
+export interface QQAdapterOptions extends AdapterOptions {
+  /**
+   * QQ小程序特有属性
+   */
+}
+
+/**
+ * 京东小程序适配器选项
+ */
+export interface JDAdapterOptions extends AdapterOptions {
+  /**
+   * 京东小程序特有属性
+   */
+}
+
+/**
+ * 快手小程序适配器选项
+ */
+export interface KwaiAdapterOptions extends AdapterOptions {
+  /**
+   * 快手小程序特有属性
+   */
+}
+
+/**
  * 企业微信小程序适配器选项
  */
 export interface QywxAdapterOptions extends AdapterOptions {
