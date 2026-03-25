@@ -6,7 +6,6 @@
  */
 
 import { PlatformType } from '../core';
-
 import type { AdapterOptions, Adapter } from './types';
 
 /**
@@ -40,41 +39,26 @@ export function detectPlatform(): PlatformType {
     return PlatformType.H5;
   }
 
+  const win = window as Window & {
+    wx?: { getSystemInfoSync?: unknown; qy?: unknown };
+    my?: { getSystemInfoSync?: unknown };
+    swan?: { getSystemInfoSync?: unknown };
+    tt?: { getSystemInfoSync?: unknown; env?: { appName?: string } };
+    qq?: { getSystemInfoSync?: unknown };
+    jd?: { getSystemInfoSync?: unknown };
+    dd?: { getSystemInfoSync?: unknown };
+  };
+
   const checks: Array<{ test: () => boolean; platform: PlatformType }> = [
-    {
-      test: () =>
-        'wx' in window && (window as any).wx?.getSystemInfoSync && !(window as any).wx?.qy,
-      platform: PlatformType.WEAPP,
-    },
-    {
-      test: () => 'my' in window && (window as any).my?.getSystemInfoSync,
-      platform: PlatformType.ALIPAY,
-    },
-    {
-      test: () => 'swan' in window && (window as any).swan?.getSystemInfoSync,
-      platform: PlatformType.SWAN,
-    },
-    {
-      test: () => 'tt' in window && (window as any).tt?.getSystemInfoSync,
-      platform: PlatformType.TT,
-    },
-    {
-      test: () => 'qq' in window && (window as any).qq?.getSystemInfoSync,
-      platform: PlatformType.QQ,
-    },
-    {
-      test: () => 'jd' in window && (window as any).jd?.getSystemInfoSync,
-      platform: PlatformType.JD,
-    },
-    {
-      test: () => 'dd' in window && (window as any).dd?.getSystemInfoSync,
-      platform: PlatformType.DD,
-    },
-    { test: () => 'wx' in window && (window as any).wx?.qy, platform: PlatformType.QYWX },
-    {
-      test: () => 'tt' in window && (window as any).tt?.env?.appName === 'lark',
-      platform: PlatformType.LARK,
-    },
+    { test: () => !!win.wx?.getSystemInfoSync && !win.wx?.qy, platform: PlatformType.WEAPP },
+    { test: () => !!win.my?.getSystemInfoSync, platform: PlatformType.ALIPAY },
+    { test: () => !!win.swan?.getSystemInfoSync, platform: PlatformType.SWAN },
+    { test: () => !!win.tt?.getSystemInfoSync, platform: PlatformType.TT },
+    { test: () => !!win.qq?.getSystemInfoSync, platform: PlatformType.QQ },
+    { test: () => !!win.jd?.getSystemInfoSync, platform: PlatformType.JD },
+    { test: () => !!win.dd?.getSystemInfoSync, platform: PlatformType.DD },
+    { test: () => !!win.wx?.qy, platform: PlatformType.QYWX },
+    { test: () => win.tt?.env?.appName === 'lark', platform: PlatformType.LARK },
     { test: () => navigator.userAgent.includes('HarmonyOS'), platform: PlatformType.HARMONY },
   ];
 
@@ -94,54 +78,13 @@ export function getEnv(): 'h5' | 'weapp' | 'unknown' {
   if (typeof window !== 'undefined' && typeof document !== 'undefined') {
     return 'h5';
   }
-  if (typeof global !== 'undefined' && (global as any)?.wx?.getSystemInfoSync) {
+  if (
+    typeof global !== 'undefined' &&
+    (global as Global & { wx?: { getSystemInfoSync?: unknown } })?.wx?.getSystemInfoSync
+  ) {
     return 'weapp';
   }
   return 'unknown';
-}
-
-/**
- * 创建适配器实例
- * 使用动态导入实现按需加载，减少包体积
- */
-async function createAdapterInstance(
-  platform: PlatformType,
-  options: AdapterOptions
-): Promise<Adapter> {
-  // 动态导入适配器，按需加载
-  switch (platform) {
-    case PlatformType.H5:
-    case PlatformType.ALIPAY:
-    case PlatformType.QQ:
-    case PlatformType.JD:
-    case PlatformType.DD:
-    case PlatformType.QYWX:
-    case PlatformType.LARK:
-    case PlatformType.KWAI: {
-      const { default: h5Adapter } = await import('./h5');
-      return h5Adapter.create(options);
-    }
-    case PlatformType.WEAPP: {
-      const { default: weappAdapter } = await import('./weapp');
-      return weappAdapter.create(options);
-    }
-    case PlatformType.SWAN: {
-      const { default: swanAdapter } = await import('./swan');
-      return swanAdapter.create(options);
-    }
-    case PlatformType.TT: {
-      const { default: ttAdapter } = await import('./tt');
-      return ttAdapter.create(options);
-    }
-    case PlatformType.HARMONY: {
-      const { default: harmonyAdapter } = await import('./harmony');
-      return harmonyAdapter.create(options);
-    }
-    default: {
-      const { default: h5Adapter } = await import('./h5');
-      return h5Adapter.create(options);
-    }
-  }
 }
 
 /**
@@ -160,7 +103,40 @@ export async function getAdapter(options: AdapterOptions): Promise<Adapter> {
   }
 
   try {
-    return await createAdapterInstance(platform, options);
+    // 根据平台加载对应的适配器
+    switch (platform) {
+      case PlatformType.H5:
+      case PlatformType.ALIPAY:
+      case PlatformType.QQ:
+      case PlatformType.JD:
+      case PlatformType.DD:
+      case PlatformType.QYWX:
+      case PlatformType.LARK:
+      case PlatformType.KWAI: {
+        const { default: h5Adapter } = await import('./h5');
+        return h5Adapter.create(options);
+      }
+      case PlatformType.WEAPP: {
+        const { default: weappAdapter } = await import('./weapp');
+        return weappAdapter.create(options);
+      }
+      case PlatformType.SWAN: {
+        const { default: swanAdapter } = await import('./swan');
+        return swanAdapter.create(options);
+      }
+      case PlatformType.TT: {
+        const { default: ttAdapter } = await import('./tt');
+        return ttAdapter.create(options);
+      }
+      case PlatformType.HARMONY: {
+        const { default: harmonyAdapter } = await import('./harmony');
+        return harmonyAdapter.create(options);
+      }
+      default: {
+        const { default: h5Adapter } = await import('./h5');
+        return h5Adapter.create(options);
+      }
+    }
   } catch (error) {
     console.error(`[TaroViz] Failed to load adapter for platform '${platform}':`, error);
     // 降级到 H5 适配器
