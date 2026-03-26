@@ -20,14 +20,16 @@ describe('CandlestickChart', () => {
   it('renders with stock data', () => {
     const option = {
       xAxis: { data: ['2024-01', '2024-02', '2024-03'] },
-      series: [{
-        type: 'candlestick',
-        data: [
-          [20, 30, 15, 35],  // [open, close, lowest, highest]
-          [25, 35, 20, 40],
-          [30, 25, 20, 35],
-        ],
-      }],
+      series: [
+        {
+          type: 'candlestick',
+          data: [
+            [20, 30, 15, 35], // [open, close, lowest, highest]
+            [25, 35, 20, 40],
+            [30, 25, 20, 35],
+          ],
+        },
+      ],
     };
     const { container } = render(<CandlestickChart option={option} />);
     expect(container).toBeTruthy();

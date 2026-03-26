@@ -2,7 +2,7 @@
  * useDataTransform - 数据转换 Hook
  * 提供便捷的数据转换功能，将原始数据转换为 ECharts 配置
  */
-import { useMemo, useCallback } from 'react';
+import { useMemo } from 'react';
 import type { EChartsOption } from 'echarts';
 
 // ============================================================================
@@ -157,19 +157,17 @@ export function useTableTransform(options: TableTransformOptions): EChartsOption
     }
 
     const firstRow = data[0];
-    const fields = columns.length > 0
-      ? columns.map(c => c.field)
-      : Object.keys(firstRow);
+    const fields = columns.length > 0 ? columns.map((c) => c.field) : Object.keys(firstRow);
 
-    const categories = transpose ? fields : data.map(row => String(row[fields[0]] || ''));
+    const categories = transpose ? fields : data.map((row) => String(row[fields[0]] || ''));
 
     const seriesData = transpose ? data : fields.slice(1);
-    const series = seriesData.map((item: string | Record<string, unknown>, index: number) => {
+    const series = seriesData.map((item: string | Record<string, unknown>, _index: number) => {
       const fieldName = typeof item === 'string' ? item : '';
-      const colConfig = columns.find(c => c.field === fieldName);
+      const colConfig = columns.find((c) => c.field === fieldName);
       const values = transpose
-        ? data.map(row => Number(row[fieldName as keyof typeof row]) || 0)
-        : data.map(row => Number(row[fieldName as keyof typeof row]) || 0);
+        ? data.map((row) => Number(row[fieldName as keyof typeof row]) || 0)
+        : data.map((row) => Number(row[fieldName as keyof typeof row]) || 0);
 
       return {
         name: colConfig?.label || fieldName,
@@ -215,18 +213,23 @@ export function useTimeSeriesTransform(options: TimeSeriesTransformOptions): ECh
 
     if (groupField) {
       // 多系列
-      const groups = new Set(data.map(d => String(d[groupField])));
-      const series = Array.from(groups).map(group => {
-        const groupValues = categories.map(date => {
-          const items = groupedData[date]?.filter(d => String(d[groupField]) === group) || [];
+      const groups = new Set(data.map((d) => String(d[groupField])));
+      const series = Array.from(groups).map((group) => {
+        const groupValues = categories.map((date) => {
+          const items = groupedData[date]?.filter((d) => String(d[groupField]) === group) || [];
           return aggregateValues(items, valueField, aggregation);
         });
         return { name: group, type: 'line', data: groupValues, smooth: true };
       });
-      return { xAxis: { type: 'category', data: categories }, yAxis: { type: 'value' }, series, ...extraConfig };
+      return {
+        xAxis: { type: 'category', data: categories },
+        yAxis: { type: 'value' },
+        series,
+        ...extraConfig,
+      };
     } else {
       // 单系列
-      const values = categories.map(date =>
+      const values = categories.map((date) =>
         aggregateValues(groupedData[date] || [], valueField, aggregation)
       );
       return {
@@ -252,12 +255,12 @@ function transformLineOrBar(
 ): EChartsOption {
   const { xField = 'name', yField = 'value', seriesField } = mapping || {};
 
-  const categories = data.categories || data.rows?.map(r => String(r[xField])) || [];
-  let seriesData = data.series || data.rows || [];
+  const categories = data.categories || data.rows?.map((r) => String(r[xField])) || [];
+  const seriesData = data.series || data.rows || [];
 
   if (seriesField) {
     const groups = new Map<string, DataItem[]>();
-    seriesData.forEach(item => {
+    seriesData.forEach((item) => {
       const key = String((item as Record<string, unknown>)[seriesField] || 'default');
       if (!groups.has(key)) groups.set(key, []);
       groups.get(key)!.push(item);
@@ -265,17 +268,29 @@ function transformLineOrBar(
     const series = Array.from(groups.entries()).map(([name, items]) => ({
       name,
       type: chartType,
-      data: items.map(item => (item as Record<string, unknown>)[yField] ?? 0),
+      data: items.map((item) => (item as Record<string, unknown>)[yField] ?? 0),
     }));
-    return { xAxis: { type: 'category', data: categories }, yAxis: { type: 'value' }, series, ...extraConfig };
+    return {
+      xAxis: { type: 'category', data: categories },
+      yAxis: { type: 'value' },
+      series,
+      ...extraConfig,
+    };
   }
 
-  const series = [{
-    type: chartType,
-    data: seriesData.map(item => (item as Record<string, unknown>)[yField] ?? 0),
-  }];
+  const series = [
+    {
+      type: chartType,
+      data: seriesData.map((item) => (item as Record<string, unknown>)[yField] ?? 0),
+    },
+  ];
 
-  return { xAxis: { type: 'category', data: categories }, yAxis: { type: 'value' }, series, ...extraConfig };
+  return {
+    xAxis: { type: 'category', data: categories },
+    yAxis: { type: 'value' },
+    series,
+    ...extraConfig,
+  };
 }
 
 function transformPie(
@@ -286,10 +301,12 @@ function transformPie(
 ): EChartsOption {
   const { nameField = 'name', valueField = 'value' } = mapping || {};
 
-  const seriesData: Array<{ name: string; value: number }> = (data.series || data.rows || []).map(item => ({
-    name: String((item as Record<string, unknown>)[nameField] || ''),
-    value: Number((item as Record<string, unknown>)[valueField]) || 0,
-  }));
+  const seriesData: Array<{ name: string; value: number }> = (data.series || data.rows || []).map(
+    (item) => ({
+      name: String((item as Record<string, unknown>)[nameField] || ''),
+      value: Number((item as Record<string, unknown>)[valueField]) || 0,
+    })
+  );
 
   return {
     series: [{ type: 'pie', radius: '60%', data: seriesData }],
@@ -305,7 +322,7 @@ function transformScatter(
 ): EChartsOption {
   const { xField = 'x', yField = 'y', sizeField } = mapping || {};
 
-  const seriesData = (data.series || data.rows || []).map(item => {
+  const seriesData = (data.series || data.rows || []).map((item) => {
     const record = item as Record<string, unknown>;
     const point: (number | string)[] = [Number(record[xField]) || 0, Number(record[yField]) || 0];
     if (sizeField) point.push(Number(record[sizeField]) || 1);
@@ -328,7 +345,7 @@ function transformRadar(
 ): EChartsOption {
   const { nameField = 'name', valueField = 'value' } = mapping || {};
 
-  const indicators = (data.series || data.rows || []).map(item => {
+  const indicators = (data.series || data.rows || []).map((item) => {
     const record = item as Record<string, unknown>;
     return {
       name: String(record[nameField] || ''),
@@ -336,8 +353,8 @@ function transformRadar(
     };
   });
 
-  const values = (data.series || data.rows || []).map(item =>
-    Number((item as Record<string, unknown>)[valueField]) || 0
+  const values = (data.series || data.rows || []).map(
+    (item) => Number((item as Record<string, unknown>)[valueField]) || 0
   );
 
   return {
@@ -355,10 +372,18 @@ function transformHeatmap(
 ): EChartsOption {
   const { xField = 'x', yField = 'y', valueField = 'value' } = mapping || {};
 
-  const xCategories = [...new Set((data.series || data.rows || []).map(d => String((d as Record<string, unknown>)[xField])))];
-  const yCategories = [...new Set((data.series || data.rows || []).map(d => String((d as Record<string, unknown>)[yField])))];
+  const xCategories = [
+    ...new Set(
+      (data.series || data.rows || []).map((d) => String((d as Record<string, unknown>)[xField]))
+    ),
+  ];
+  const yCategories = [
+    ...new Set(
+      (data.series || data.rows || []).map((d) => String((d as Record<string, unknown>)[yField]))
+    ),
+  ];
 
-  const seriesData = (data.series || data.rows || []).map(item => {
+  const seriesData = (data.series || data.rows || []).map((item) => {
     const record = item as Record<string, unknown>;
     const xIndex = xCategories.indexOf(String(record[xField]));
     const yIndex = yCategories.indexOf(String(record[yField]));
@@ -374,36 +399,44 @@ function transformHeatmap(
   };
 }
 
-function groupByTime(data: DataItem[], dateField: string, period: TimePeriod): Record<string, DataItem[]> {
-  return data.reduce((acc, item) => {
-    const date = new Date(String((item as Record<string, unknown>)[dateField]));
-    let key: string;
+function groupByTime(
+  data: DataItem[],
+  dateField: string,
+  period: TimePeriod
+): Record<string, DataItem[]> {
+  return data.reduce(
+    (acc, item) => {
+      const date = new Date(String((item as Record<string, unknown>)[dateField]));
+      let key: string;
 
-    switch (period) {
-      case 'day':
-        key = date.toISOString().split('T')[0];
-        break;
-      case 'week':
-        const week = getWeekNumber(date);
-        key = `${date.getFullYear()}-W${week}`;
-        break;
-      case 'month':
-        key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-        break;
-      case 'quarter':
-        key = `${date.getFullYear()}-Q${Math.ceil((date.getMonth() + 1) / 3)}`;
-        break;
-      case 'year':
-        key = String(date.getFullYear());
-        break;
-      default:
-        key = date.toISOString().split('T')[0];
-    }
+      switch (period) {
+        case 'day':
+          key = date.toISOString().split('T')[0];
+          break;
+        case 'week': {
+          const week = getWeekNumber(date);
+          key = `${date.getFullYear()}-W${week}`;
+          break;
+        }
+        case 'month':
+          key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+          break;
+        case 'quarter':
+          key = `${date.getFullYear()}-Q${Math.ceil((date.getMonth() + 1) / 3)}`;
+          break;
+        case 'year':
+          key = String(date.getFullYear());
+          break;
+        default:
+          key = date.toISOString().split('T')[0];
+      }
 
-    if (!acc[key]) acc[key] = [];
-    acc[key].push(item);
-    return acc;
-  }, {} as Record<string, DataItem[]>);
+      if (!acc[key]) acc[key] = [];
+      acc[key].push(item);
+      return acc;
+    },
+    {} as Record<string, DataItem[]>
+  );
 }
 
 function getWeekNumber(date: Date): number {
@@ -411,12 +444,12 @@ function getWeekNumber(date: Date): number {
   const dayNum = d.getUTCDay() || 7;
   d.setUTCDate(d.getUTCDate() + 4 - dayNum);
   const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
+  return Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
 }
 
 function aggregateValues(items: DataItem[], field: string, method: AggregationType): number {
   if (items.length === 0) return 0;
-  const values = items.map(item => Number((item as Record<string, unknown>)[field]) || 0);
+  const values = items.map((item) => Number((item as Record<string, unknown>)[field]) || 0);
 
   switch (method) {
     case 'sum':
