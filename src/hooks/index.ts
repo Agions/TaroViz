@@ -596,7 +596,7 @@ export function useChartTools(instance: ChartInstance | null) {
 // 导出
 // ============================================================================
 
-export const version = '1.2.0';
+export const version = '1.4.0';
 
 const hooks = {
   useChart,
@@ -613,5 +613,13 @@ const hooks = {
   useExport,
   useChartTools,
 };
+
+// 新增数据转换 hooks
+export {
+  useDataTransform,
+  useTableTransform,
+  useTimeSeriesTransform,
+  useTransform,
+} from './useDataTransform';
 
 export default hooks;

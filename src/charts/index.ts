@@ -17,10 +17,15 @@ export { default as TreeMapChart } from './treemap';
 export { default as SunburstChart } from './sunburst';
 export { default as SankeyChart } from './sankey';
 
+// 导出新增图表组件
+export { default as GraphChart } from './graph';
+export { default as CandlestickChart } from './candlestick';
+export { default as WordCloudChart } from './wordcloud';
+
 // 导出类型定义
 export * from './types';
 
 /**
  * 版本信息
  */
-export const version = '1.2.1';
+export const version = '1.4.0';
