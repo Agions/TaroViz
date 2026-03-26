@@ -878,3 +878,44 @@ export type { EChartsOption, ECharts } from 'echarts';
 
 // EChartsCoreOption 是 ECBasicOption 的别名
 export type { ECBasicOption as EChartsCoreOption } from 'echarts/types/dist/shared';
+
+/**
+ * 词云图属性
+ * 用于展示文本数据的词频分布
+ */
+export interface WordCloudChartProps extends BaseChartProps {
+  /** 词云数据 */
+  data?: Array<{
+    name: string;
+    value: number;
+    textStyle?: Record<string, unknown>;
+    emphasis?: Record<string, unknown>;
+  }>;
+
+  /** 词云形状 */
+  shape?: 'circle' | 'cardioid' | 'diamond' | 'triangle' | 'star' | 'pentagon' | 'square';
+
+  /** 字体大小范围 */
+  sizeRange?: [number, number];
+
+  /** 词云旋转角度范围 */
+  rotationRange?: [number, number];
+
+  /** 旋转步长 */
+  rotationStep?: number;
+
+  /** 词云间距 */
+  gridSize?: number;
+
+  /** 是否绘制词云轮廓 */
+  drawOutOfBound?: boolean;
+
+  /** 文字样式 */
+  textStyle?: Record<string, unknown>;
+
+  /** 强调状态 */
+  emphasis?: {
+    focus?: 'self' | 'adjacency';
+    textStyle?: Record<string, unknown>;
+  };
+}

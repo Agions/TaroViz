@@ -50,6 +50,11 @@ export { default as TreeMapChart } from './charts/treemap';
 export { default as SunburstChart } from './charts/sunburst';
 export { default as SankeyChart } from './charts/sankey';
 
+// 新增图表组件
+export { default as GraphChart } from './charts/graph';
+export { default as CandlestickChart } from './charts/candlestick';
+export { default as WordCloudChart } from './charts/wordcloud';
+
 // 适配器
 export { getAdapter, detectPlatform, getEnv } from './adapters';
 export { default as H5Adapter } from './adapters/h5';
@@ -138,10 +143,14 @@ export {
   useFullscreen,
   useExport,
   useChartTools,
+  // 新增数据转换 hooks
+  useDataTransform,
+  useTableTransform,
+  useTimeSeriesTransform,
 } from './hooks';
 
 /**
  * 库信息
  */
 export const name = 'taroviz';
-export const version = '1.2.1';
+export const version = '1.4.0';
