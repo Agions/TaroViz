@@ -21,7 +21,7 @@ describe('WordCloudChart', () => {
     const option = {
       series: [
         {
-          type: 'wordCloud',
+          type: 'wordCloud' as const,
           data: [
             { name: 'JavaScript', value: 10000 },
             { name: 'TypeScript', value: 8000 },
@@ -29,7 +29,7 @@ describe('WordCloudChart', () => {
           ],
         },
       ],
-    };
+    } as any;
     const { container } = render(<WordCloudChart option={option} />);
     expect(container).toBeTruthy();
   });

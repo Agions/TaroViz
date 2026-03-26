@@ -26,7 +26,7 @@ describe('GraphChart', () => {
     const option = {
       series: [
         {
-          type: 'graph',
+          type: 'graph' as const,
           nodes: [
             { id: '1', name: 'Node 1' },
             { id: '2', name: 'Node 2' },
