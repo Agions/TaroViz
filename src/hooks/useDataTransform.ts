@@ -280,7 +280,7 @@ function transformLineOrBar(
 
   const series = [
     {
-      type: chartType,
+      type: chartType as 'line' | 'bar',
       data: seriesData.map((item) => (item as Record<string, unknown>)[yField] ?? 0),
     },
   ];

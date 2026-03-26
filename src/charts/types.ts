@@ -745,7 +745,7 @@ export interface BoxplotChartProps extends Omit<BaseChartProps, 'data'> {
  */
 export interface CandlestickChartProps extends Omit<BaseChartProps, 'data'> {
   /** K线数据数组，每项为 [open, close, lowest, highest] */
-  data?: number[][];
+  candlestickData?: number[][];
 
   /** X轴数据 */
   xAxisData?: (string | number)[];
@@ -884,8 +884,8 @@ export type { ECBasicOption as EChartsCoreOption } from 'echarts/types/dist/shar
  * 用于展示文本数据的词频分布
  */
 export interface WordCloudChartProps extends BaseChartProps {
-  /** 词云数据 */
-  data?: Array<{
+  /** 词云数据 - 也可以通过 option.series[0].data 传入 */
+  wordCloudData?: Array<{
     name: string;
     value: number;
     textStyle?: Record<string, unknown>;
