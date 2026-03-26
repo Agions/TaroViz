@@ -452,14 +452,35 @@ function aggregateValues(items: DataItem[], field: string, method: AggregationTy
   const values = items.map((item) => Number((item as Record<string, unknown>)[field]) || 0);
 
   switch (method) {
-    case 'sum':
-      return values.reduce((a, b) => a + b, 0);
-    case 'average':
-      return values.reduce((a, b) => a + b, 0) / values.length;
-    case 'max':
-      return Math.max(...values);
-    case 'min':
-      return Math.min(...values);
+    case 'sum': {
+      let sum = 0;
+      for (let i = 0; i < values.length; i++) {
+        sum += values[i];
+      }
+      return sum;
+    }
+    case 'average': {
+      if (values.length === 0) return 0;
+      let sum = 0;
+      for (let i = 0; i < values.length; i++) {
+        sum += values[i];
+      }
+      return sum / values.length;
+    }
+    case 'max': {
+      let max = values[0];
+      for (let i = 1; i < values.length; i++) {
+        if (values[i] > max) max = values[i];
+      }
+      return max;
+    }
+    case 'min': {
+      let min = values[0];
+      for (let i = 1; i < values.length; i++) {
+        if (values[i] < min) min = values[i];
+      }
+      return min;
+    }
     case 'count':
       return values.length;
     case 'first':
