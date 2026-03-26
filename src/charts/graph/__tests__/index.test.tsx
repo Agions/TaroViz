@@ -24,16 +24,16 @@ describe('GraphChart', () => {
 
   it('renders with basic option', () => {
     const option = {
-      series: [{
-        type: 'graph',
-        nodes: [
-          { id: '1', name: 'Node 1' },
-          { id: '2', name: 'Node 2' },
-        ],
-        links: [
-          { source: '1', target: '2' },
-        ],
-      }],
+      series: [
+        {
+          type: 'graph',
+          nodes: [
+            { id: '1', name: 'Node 1' },
+            { id: '2', name: 'Node 2' },
+          ],
+          links: [{ source: '1', target: '2' }],
+        },
+      ],
     };
     const { container } = render(<GraphChart option={option} />);
     expect(container).toBeTruthy();
