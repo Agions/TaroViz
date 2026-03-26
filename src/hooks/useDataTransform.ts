@@ -159,19 +159,23 @@ export function useTableTransform(options: TableTransformOptions): EChartsOption
     const firstRow = data[0];
     const fields = columns.length > 0 ? columns.map((c) => c.field) : Object.keys(firstRow);
 
+    // Build columns map for O(1) lookup instead of O(n) find
+    const columnsMap = new Map(columns.map((c) => [c.field, c]));
+
     const categories = transpose ? fields : data.map((row) => String(row[fields[0]] || ''));
 
-    const seriesData = transpose ? data : fields.slice(1);
-    const series = seriesData.map((item: string | Record<string, unknown>, _index: number) => {
-      const fieldName = typeof item === 'string' ? item : '';
-      const colConfig = columns.find((c) => c.field === fieldName);
-      const values = transpose
-        ? data.map((row) => Number(row[fieldName as keyof typeof row]) || 0)
-        : data.map((row) => Number(row[fieldName as keyof typeof row]) || 0);
+    // For non-transpose, we skip the first field (it's used for categories)
+    const seriesFields = transpose ? fields : fields.slice(1);
+
+    const series = seriesFields.map((fieldName: string | Record<string, unknown>) => {
+      const key = typeof fieldName === 'string' ? fieldName : '';
+      const colConfig = columnsMap.get(key);
+      // values calculation is the same regardless of transpose
+      const values = data.map((row) => Number(row[key as keyof typeof row]) || 0);
 
       return {
-        name: colConfig?.label || fieldName,
-        type: 'bar',
+        name: colConfig?.label || key,
+        type: 'bar' as const,
         data: values,
         itemStyle: colConfig?.color ? { color: colConfig.color } : undefined,
       };

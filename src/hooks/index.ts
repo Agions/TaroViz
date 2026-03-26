@@ -598,7 +598,15 @@ export function useChartTools(instance: ChartInstance | null) {
 
 export const version = '1.4.0';
 
-const hooks = {
+// 新增数据转换 hooks
+export {
+  useDataTransform,
+  useTableTransform,
+  useTimeSeriesTransform,
+  useTransform,
+} from './useDataTransform';
+
+export default {
   useChart,
   useOption,
   useResize,
@@ -613,13 +621,3 @@ const hooks = {
   useExport,
   useChartTools,
 };
-
-// 新增数据转换 hooks
-export {
-  useDataTransform,
-  useTableTransform,
-  useTimeSeriesTransform,
-  useTransform,
-} from './useDataTransform';
-
-export default hooks;
