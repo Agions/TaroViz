@@ -430,7 +430,7 @@ export function useDataPolling<T>(
     setLoading(true);
     setError(null);
 
-    while (retries >= 0 && !currentAbort.cancelled) {
+    while (retries > 0 && !currentAbort.cancelled) {
       try {
         const result = await fetchFn();
         if (!currentAbort.cancelled) {
@@ -440,15 +440,39 @@ export function useDataPolling<T>(
         return;
       } catch (e) {
         retries--;
-        if (retries < 0 || currentAbort.cancelled) {
+        if (retries <= 0 || currentAbort.cancelled) {
           if (!currentAbort.cancelled) {
             setError(e as Error);
           }
           setLoading(false);
+          return;
         } else {
           await new Promise((resolve) => setTimeout(resolve, retryDelay));
         }
       }
+    }
+
+    // No retries configured — if fetch fails immediately, that's an error
+    if (retryCount <= 0 && !currentAbort.cancelled) {
+      try {
+        const result = await fetchFn();
+        if (!currentAbort.cancelled) {
+          setData(result);
+          setLoading(false);
+        }
+      } catch (e) {
+        if (!currentAbort.cancelled) {
+          setError(e as Error);
+          setLoading(false);
+        }
+      }
+      return;
+    }
+
+    // All retries exhausted without success (caught in loop already handled above)
+    if (!currentAbort.cancelled) {
+      setError(new Error('All retries failed'));
+      setLoading(false);
     }
   }, [fetchFn, retryCount, retryDelay]);
 
