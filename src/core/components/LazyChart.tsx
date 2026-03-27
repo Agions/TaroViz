@@ -17,15 +17,22 @@ const LazyTreeMapChart = lazy(() => import('../../charts/treemap'));
 const LazySunburstChart = lazy(() => import('../../charts/sunburst'));
 const LazySankeyChart = lazy(() => import('../../charts/sankey'));
 
-/**
- * 懒加载图表包装器
- */
-interface _LazyChartWrapperProps {
-  children?: React.ReactNode;
-  fallback?: React.ReactNode;
-  loading?: boolean;
-  loadingText?: string;
-}
+// 统一的图表类型到懒加载组件映射
+const LAZY_CHART_MODULES: Record<string, () => Promise<{ default: ComponentType<any> }>> = {
+  line: () => import('../../charts/line'),
+  bar: () => import('../../charts/bar'),
+  pie: () => import('../../charts/pie'),
+  scatter: () => import('../../charts/scatter'),
+  radar: () => import('../../charts/radar'),
+  heatmap: () => import('../../charts/heatmap'),
+  gauge: () => import('../../charts/gauge'),
+  funnel: () => import('../../charts/funnel'),
+  treemap: () => import('../../charts/treemap'),
+  sunburst: () => import('../../charts/sunburst'),
+  sankey: () => import('../../charts/sankey'),
+};
+
+export const LAZY_CHART_TYPES = Object.keys(LAZY_CHART_MODULES);
 
 /**
  * 默认加载状态组件
@@ -102,47 +109,27 @@ export function withLazyLoad<P extends object>(
 /**
  * 预加载图表组件
  * 在需要显示图表之前预先加载
+ * @param silent - 如果为 true，错误不会被打印到控制台（保持旧行为兼容）
+ * @returns Promise that resolves when loaded, rejects on error
  */
-export function preloadChart(chartType: string): void {
-  const chartModules: Record<string, () => Promise<{ default: ComponentType<any> }>> = {
-    line: () => import('../../charts/line'),
-    bar: () => import('../../charts/bar'),
-    pie: () => import('../../charts/pie'),
-    scatter: () => import('../../charts/scatter'),
-    radar: () => import('../../charts/radar'),
-    heatmap: () => import('../../charts/heatmap'),
-    gauge: () => import('../../charts/gauge'),
-    funnel: () => import('../../charts/funnel'),
-    treemap: () => import('../../charts/treemap'),
-    sunburst: () => import('../../charts/sunburst'),
-    sankey: () => import('../../charts/sankey'),
-  };
-
-  const loader = chartModules[chartType];
-  if (loader) {
-    loader().catch(console.error);
+export function preloadChart(chartType: string, silent = true): Promise<void> {
+  const loader = LAZY_CHART_MODULES[chartType];
+  if (!loader) {
+    if (silent) return Promise.resolve();
+    return Promise.reject(new Error(`Unknown chart type: ${chartType}`));
   }
+  return loader()
+    .then(() => undefined)
+    .catch((e) => {
+      if (!silent) console.error('[TaroViz] Failed to preload chart:', chartType, e);
+    });
 }
 
 /**
  * 预加载所有图表组件
  */
-export function preloadAllCharts(): void {
-  const chartTypes = [
-    'line',
-    'bar',
-    'pie',
-    'scatter',
-    'radar',
-    'heatmap',
-    'gauge',
-    'funnel',
-    'treemap',
-    'sunburst',
-    'sankey',
-  ];
-
-  chartTypes.forEach((type) => preloadChart(type));
+export function preloadAllCharts(): Promise<void[]> {
+  return Promise.all(LAZY_CHART_TYPES.map((type) => preloadChart(type)));
 }
 
 /**
@@ -176,12 +163,12 @@ export const LazyChartRegistry = {
     return createLazyChart(chartType);
   },
 
-  preload(chartType: string): void {
-    preloadChart(chartType);
+  preload(chartType: string, silent = true): Promise<void> {
+    return preloadChart(chartType, silent);
   },
 
-  preloadAll(): void {
-    preloadAllCharts();
+  preloadAll(): Promise<void[]> {
+    return preloadAllCharts();
   },
 };
 
