@@ -119,27 +119,25 @@ export function useDataTransform(options: TransformOptions): EChartsOption {
   const { data, chartType, mapping = {}, extraConfig = {} } = options;
 
   return useMemo(() => {
-    const baseOption: EChartsOption = {};
-
     switch (chartType) {
       case 'line':
       case 'bar':
-        return transformLineOrBar(data, chartType, mapping, baseOption, extraConfig);
+        return transformLineOrBar(data, chartType, mapping, extraConfig);
 
       case 'pie':
-        return transformPie(data, mapping, baseOption, extraConfig);
+        return transformPie(data, mapping, extraConfig);
 
       case 'scatter':
-        return transformScatter(data, mapping, baseOption, extraConfig);
+        return transformScatter(data, mapping, extraConfig);
 
       case 'radar':
-        return transformRadar(data, mapping, baseOption, extraConfig);
+        return transformRadar(data, mapping, extraConfig);
 
       case 'heatmap':
-        return transformHeatmap(data, mapping, baseOption, extraConfig);
+        return transformHeatmap(data, mapping, extraConfig);
 
       default:
-        return baseOption;
+        return {};
     }
   }, [data, chartType, mapping, extraConfig]);
 }
@@ -221,7 +219,7 @@ export function useTimeSeriesTransform(options: TimeSeriesTransformOptions): ECh
       const series = Array.from(groups).map((group) => {
         const groupValues = categories.map((date) => {
           const items = groupedData[date]?.filter((d) => String(d[groupField]) === group) || [];
-          return aggregateValues(items, valueField, aggregation);
+          return aggregateValues(items, valueField, aggregation, fillMissing);
         });
         return { name: group, type: 'line', data: groupValues, smooth: true };
       });
@@ -234,7 +232,7 @@ export function useTimeSeriesTransform(options: TimeSeriesTransformOptions): ECh
     } else {
       // 单系列
       const values = categories.map((date) =>
-        aggregateValues(groupedData[date] || [], valueField, aggregation)
+        aggregateValues(groupedData[date] || [], valueField, aggregation, fillMissing)
       );
       return {
         xAxis: { type: 'category', data: categories },
@@ -254,7 +252,6 @@ function transformLineOrBar(
   data: DataSource,
   chartType: 'line' | 'bar',
   mapping: TransformOptions['mapping'],
-  baseOption: EChartsOption,
   extraConfig: Partial<EChartsOption>
 ): EChartsOption {
   const { xField = 'name', yField = 'value', seriesField } = mapping || {};
@@ -300,7 +297,6 @@ function transformLineOrBar(
 function transformPie(
   data: DataSource,
   mapping: TransformOptions['mapping'],
-  baseOption: EChartsOption,
   extraConfig: Partial<EChartsOption>
 ): EChartsOption {
   const { nameField = 'name', valueField = 'value' } = mapping || {};
@@ -321,7 +317,6 @@ function transformPie(
 function transformScatter(
   data: DataSource,
   mapping: TransformOptions['mapping'],
-  baseOption: EChartsOption,
   extraConfig: Partial<EChartsOption>
 ): EChartsOption {
   const { xField = 'x', yField = 'y', sizeField } = mapping || {};
@@ -344,7 +339,6 @@ function transformScatter(
 function transformRadar(
   data: DataSource,
   mapping: TransformOptions['mapping'],
-  baseOption: EChartsOption,
   extraConfig: Partial<EChartsOption>
 ): EChartsOption {
   const { nameField = 'name', valueField = 'value' } = mapping || {};
@@ -371,7 +365,6 @@ function transformRadar(
 function transformHeatmap(
   data: DataSource,
   mapping: TransformOptions['mapping'],
-  baseOption: EChartsOption,
   extraConfig: Partial<EChartsOption>
 ): EChartsOption {
   const { xField = 'x', yField = 'y', valueField = 'value' } = mapping || {};
@@ -451,38 +444,39 @@ function getWeekNumber(date: Date): number {
   return Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
 }
 
-function aggregateValues(items: DataItem[], field: string, method: AggregationType): number {
-  if (items.length === 0) return 0;
+function aggregateValues(
+  items: DataItem[],
+  field: string,
+  method: AggregationType,
+  fillMissing?: 'zero' | 'forward' | 'interpolate'
+): number {
+  if (items.length === 0) {
+    if (fillMissing === 'zero') return 0;
+    return NaN;
+  }
+
   const values = items.map((item) => Number((item as Record<string, unknown>)[field]) || 0);
 
   switch (method) {
     case 'sum': {
       let sum = 0;
-      for (let i = 0; i < values.length; i++) {
-        sum += values[i];
-      }
+      for (let i = 0; i < values.length; i++) sum += values[i];
       return sum;
     }
     case 'average': {
       if (values.length === 0) return 0;
       let sum = 0;
-      for (let i = 0; i < values.length; i++) {
-        sum += values[i];
-      }
+      for (let i = 0; i < values.length; i++) sum += values[i];
       return sum / values.length;
     }
     case 'max': {
       let max = values[0];
-      for (let i = 1; i < values.length; i++) {
-        if (values[i] > max) max = values[i];
-      }
+      for (let i = 1; i < values.length; i++) if (values[i] > max) max = values[i];
       return max;
     }
     case 'min': {
       let min = values[0];
-      for (let i = 1; i < values.length; i++) {
-        if (values[i] < min) min = values[i];
-      }
+      for (let i = 1; i < values.length; i++) if (values[i] < min) min = values[i];
       return min;
     }
     case 'count':
