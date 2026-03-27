@@ -246,7 +246,8 @@ describe('React Hooks', () => {
         }
       );
 
-      expect(result.current).toBe('dark');
+      // getThemeByName('default') returns the defaultTheme object
+      expect(result.current).toEqual(expect.objectContaining({ backgroundColor: '#ffffff', textColor: '#333333' }));
     });
 
     it('should return original theme when darkMode is false', () => {

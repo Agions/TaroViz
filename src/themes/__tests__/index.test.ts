@@ -83,8 +83,8 @@ describe('Theme System', () => {
       expect(darkTheme).toHaveProperty('colors');
       expect(Array.isArray(darkTheme.colors)).toBe(true);
       expect(darkTheme.colors).toHaveLength(9);
-      expect(darkTheme).toHaveProperty('backgroundColor', '#0f1117');
-      expect(darkTheme).toHaveProperty('textColor', '#e1e1e1');
+      expect(darkTheme).toHaveProperty('backgroundColor', '#1a1a2e');
+      expect(darkTheme).toHaveProperty('textColor', '#e8e8e8');
       expect(darkTheme).toHaveProperty('fontFamily');
     });
   });

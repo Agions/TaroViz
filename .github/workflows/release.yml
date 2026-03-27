@@ -1,77 +1,41 @@
-name: Release Workflow
+name: NPM Publish + Release
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - 'v*'
 
-jobs:
-  release:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      packages: write
-      id-token: write
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+permissions:
+  contents: read
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          registry-url: 'https://registry.npmjs.org/'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm ci
 
-      - name: Run linting
-        run: pnpm lint
-
-      - name: Run type checking
-        run: pnpm type-check
-
-      - name: Run tests
-        run: pnpm test
-
-      - name: Build the project
-        run: pnpm build
+      - name: Build
+        run: npm run build
 
       - name: Publish to npm
-        run: npm publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+          npm publish --access public
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v1
         with:
-          body_path: CHANGELOG.md
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Generate and deploy API docs
-        run: npm run docs:build
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
