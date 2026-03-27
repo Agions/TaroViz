@@ -1,18 +1,14 @@
 /**
- * 雷达图组件
+ * RadarChart组件
  */
-import React from 'react';
-
+import React, { memo } from 'react';
 import BaseChartWrapper from '../common/BaseChartWrapper';
 import { RadarChartProps } from '../types';
-
 import '@/core/echarts';
 
-/**
- * 雷达图组件
- */
-const RadarChart: React.FC<RadarChartProps> = (props) => (
+const RadarChart: React.FC<RadarChartProps> = memo((props) => (
   <BaseChartWrapper {...props} chartType="radar-chart" />
-);
+));
+RadarChart.displayName = 'RadarChart';
 
 export default RadarChart;

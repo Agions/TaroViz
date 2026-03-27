@@ -1,17 +1,13 @@
 /**
- * 词云图组件
- * 用于展示文本数据的词频分布
+ * WordCloudChart组件
  */
-import React from 'react';
-
+import React, { memo } from 'react';
 import BaseChartWrapper from '../common/BaseChartWrapper';
 import { WordCloudChartProps } from '../types';
 
-/**
- * 词云图组件
- */
-const WordCloudChart: React.FC<WordCloudChartProps> = (props) => (
+const WordCloudChart: React.FC<WordCloudChartProps> = memo((props) => (
   <BaseChartWrapper {...props} chartType="wordcloud-chart" />
-);
+));
+WordCloudChart.displayName = 'WordCloudChart';
 
 export default WordCloudChart;

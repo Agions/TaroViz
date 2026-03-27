@@ -1,18 +1,14 @@
 /**
- * 柱状图组件
+ * BarChart组件
  */
-import React from 'react';
-
+import React, { memo } from 'react';
 import BaseChartWrapper from '../common/BaseChartWrapper';
 import { BarChartProps } from '../types';
-
 import '@/core/echarts';
 
-/**
- * 柱状图组件
- */
-const BarChart: React.FC<BarChartProps> = (props) => (
+const BarChart: React.FC<BarChartProps> = memo((props) => (
   <BaseChartWrapper {...props} chartType="bar-chart" />
-);
+));
+BarChart.displayName = 'BarChart';
 
 export default BarChart;

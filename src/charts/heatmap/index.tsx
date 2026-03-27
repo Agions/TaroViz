@@ -1,18 +1,14 @@
 /**
- * 热力图组件
+ * HeatmapChart组件
  */
-import React from 'react';
-
+import React, { memo } from 'react';
 import BaseChartWrapper from '../common/BaseChartWrapper';
 import { HeatmapChartProps } from '../types';
-
 import '@/core/echarts';
 
-/**
- * 热力图组件
- */
-const HeatmapChart: React.FC<HeatmapChartProps> = (props) => (
+const HeatmapChart: React.FC<HeatmapChartProps> = memo((props) => (
   <BaseChartWrapper {...props} chartType="heatmap-chart" />
-);
+));
+HeatmapChart.displayName = 'HeatmapChart';
 
 export default HeatmapChart;
