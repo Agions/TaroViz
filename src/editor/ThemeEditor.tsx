@@ -103,27 +103,22 @@ const ThemeEditor: React.FC<ThemeEditorProps> = ({
   const handleColorChange = (index: number, color: string) => {
     const newColors = [...colors];
     newColors[index] = color;
-    setColors(newColors);
     updateCurrentTheme({ colors: newColors });
   };
 
   // 处理背景色变化
   const handleBackgroundColorChange = (color: string) => {
-    setBackgroundColor(color);
     updateCurrentTheme({ backgroundColor: color });
   };
 
   // 处理文本颜色变化
   const handleTextColorChange = (color: string) => {
-    setTextColor(color);
     updateCurrentTheme({ textColor: color });
   };
 
   // 处理深色模式切换
   const handleDarkModeToggle = () => {
-    const newDarkMode = !darkMode;
-    setDarkMode(newDarkMode);
-    updateCurrentTheme({ darkMode: newDarkMode });
+    updateCurrentTheme({ darkMode: !darkMode });
   };
 
   // 更新当前主题
