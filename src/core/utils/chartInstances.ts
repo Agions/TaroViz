@@ -40,16 +40,21 @@ export function getChart(id: string): EChartsType | undefined {
  */
 export function removeChart(id: string): void {
   if (CHART_INSTANCES[id]) {
+    try {
+      CHART_INSTANCES[id].dispose();
+    } catch (e) {
+      console.warn(`Failed to dispose chart on removal: ${id}`, e);
+    }
     delete CHART_INSTANCES[id];
   }
 }
 
 /**
  * 获取所有图表实例
- * @returns 所有图表实例
+ * @returns 所有图表实例的浅拷贝
  */
 export function getAllCharts(): Record<string, EChartsType> {
-  return CHART_INSTANCES;
+  return { ...CHART_INSTANCES };
 }
 
 /**
