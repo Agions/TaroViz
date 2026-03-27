@@ -174,14 +174,6 @@ const BaseChart: React.FC<ChartProps> = (props) => {
       : { enabled: true, ...debug };
   }, [debug]);
 
-  // Build onEvents from individual callbacks
-  onEventsUnused = useMemo(() => {
-    const evts: Record<string, any> = {};
-    if (onClick) evts.click = onClick;
-    if (onDataZoom) evts.datazoom = onDataZoom;
-    return evts;
-  }, [onClick, onDataZoom]);
-
   // Wrapper option that applies virtual scroll + data filtering
   const wrappedOption = useMemo(() => {
     if (!option) return undefined;
@@ -217,7 +209,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
     // Apply animation config
     const dataLength = calculateDataLength(processed);
     const animConfig = generateEChartsAnimationConfig(animation, dataLength);
-    return { ...processed, ...animConfig };
+    return { ...processed, ...animConfig } as EChartsOption;
   }, [
     option,
     animation,
@@ -353,8 +345,8 @@ const BaseChart: React.FC<ChartProps> = (props) => {
           config: wrappedOption,
           data: {
             series: Array.isArray(wrappedOption?.series) ? wrappedOption.series : [],
-            totalDataCount: calculateDataLength(wrappedOption as EChartsOption),
-            currentDataCount: calculateDataLength(wrappedOption as EChartsOption),
+            totalDataCount: calculateDataLength(wrappedOption),
+            currentDataCount: calculateDataLength(wrappedOption),
           },
           performance: {
             initTime: 0,
@@ -430,7 +422,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
   };
 
   const wrapperProps: BaseChartProps & { chartType: string } = {
-    option: wrappedOption,
+    option: wrappedOption as any,
     width,
     height,
     theme: typeof theme === 'string' ? theme : (theme as Record<string, unknown>),
@@ -462,8 +454,8 @@ const BaseChart: React.FC<ChartProps> = (props) => {
             config: option,
             data: {
               series: Array.isArray(option?.series) ? option.series : [],
-              totalDataCount: calculateDataLength(option as EChartsOption),
-              currentDataCount: calculateDataLength(option as EChartsOption),
+              totalDataCount: calculateDataLength(option),
+              currentDataCount: calculateDataLength(option),
             },
             performance: {
               initTime: performanceRef.current.initEndTime - performanceRef.current.initStartTime,
