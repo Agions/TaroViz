@@ -14,7 +14,8 @@ export function normalizeSize(value: number | string | undefined, fallback: stri
 /**
  * Calculate total data points in an ECharts option for animation optimization
  */
-export function calculateDataLength(option: EChartsOption): number {
+export function calculateDataLength(option: { series?: unknown } | undefined): number {
+  if (!option) return 0;
   let count = 0;
   if (option.series) {
     const series = Array.isArray(option.series) ? option.series : [option.series];
