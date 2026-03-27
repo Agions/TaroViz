@@ -1,17 +1,13 @@
 /**
- * 关系图组件
- * 用于展示节点之间的关系，如社交网络、知识图谱等
+ * GraphChart组件
  */
-import React from 'react';
-
+import React, { memo } from 'react';
 import BaseChartWrapper from '../common/BaseChartWrapper';
 import { GraphChartProps } from '../types';
 
-/**
- * 关系图组件
- */
-const GraphChart: React.FC<GraphChartProps> = (props) => (
+const GraphChart: React.FC<GraphChartProps> = memo((props) => (
   <BaseChartWrapper {...props} chartType="graph-chart" />
-);
+));
+GraphChart.displayName = 'GraphChart';
 
 export default GraphChart;

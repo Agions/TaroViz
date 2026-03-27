@@ -1,18 +1,14 @@
 /**
- * 仪表盘组件
+ * GaugeChart组件
  */
-import React from 'react';
-
+import React, { memo } from 'react';
 import BaseChartWrapper from '../common/BaseChartWrapper';
 import { GaugeChartProps } from '../types';
-
 import '@/core/echarts';
 
-/**
- * 仪表盘组件
- */
-const GaugeChart: React.FC<GaugeChartProps> = (props) => (
+const GaugeChart: React.FC<GaugeChartProps> = memo((props) => (
   <BaseChartWrapper {...props} chartType="gauge-chart" />
-);
+));
+GaugeChart.displayName = 'GaugeChart';
 
 export default GaugeChart;

@@ -1,18 +1,14 @@
 /**
- * 散点图组件
+ * ScatterChart组件
  */
-import React from 'react';
-
+import React, { memo } from 'react';
 import BaseChartWrapper from '../common/BaseChartWrapper';
 import { ScatterChartProps } from '../types';
-
 import '@/core/echarts';
 
-/**
- * 散点图组件
- */
-const ScatterChart: React.FC<ScatterChartProps> = (props) => (
+const ScatterChart: React.FC<ScatterChartProps> = memo((props) => (
   <BaseChartWrapper {...props} chartType="scatter-chart" />
-);
+));
+ScatterChart.displayName = 'ScatterChart';
 
 export default ScatterChart;

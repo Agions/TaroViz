@@ -1,18 +1,14 @@
 /**
- * 漏斗图组件
+ * FunnelChart组件
  */
-import React from 'react';
-
+import React, { memo } from 'react';
 import BaseChartWrapper from '../common/BaseChartWrapper';
 import { FunnelChartProps } from '../types';
-
 import '@/core/echarts';
 
-/**
- * 漏斗图组件
- */
-const FunnelChart: React.FC<FunnelChartProps> = (props) => (
+const FunnelChart: React.FC<FunnelChartProps> = memo((props) => (
   <BaseChartWrapper {...props} chartType="funnel-chart" />
-);
+));
+FunnelChart.displayName = 'FunnelChart';
 
 export default FunnelChart;
