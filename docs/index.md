@@ -1,5 +1,4 @@
 ---
-# https://vitepress.dev/reference/default-theme-home-page
 layout: home
 
 hero:
@@ -47,161 +46,116 @@ footer:
   copyright: Copyright © 2025-present TaroViz Team
 ---
 
-<div class="hero-stats">
+## 项目数据
 
-::: stats
 | 图表组件 | 小程序平台 | 月下载量 |
 |:---:|:---:|:---:|
 | **11+** | **6+** | **10k+** |
-:::
 
-</div>
-
-::: why-section
 ## 为什么选择 TaroViz？
 
-TaroViz 专为跨端场景设计，兼顾小程序性能和 Web 灵活性。在Taro生态下，你无需在不同平台间做权衡 — 同一套 API，同一份代码，天然支持所有平台。
-:::
+TaroViz 专为跨端场景设计，兼顾小程序性能和 Web 灵活性。在 Taro 生态下，你无需在不同平台间做权衡 — 同一套 API，同一份代码，天然支持所有平台。
 
-<div class="logo-cloud">
+## 已支持的平台
 
-<div class="logo-cloud-title">已支持的平台</div>
-
-<div class="logo-cloud-items">
-  <span>微信小程序</span>
-  <span>支付宝小程序</span>
-  <span>百度小程序</span>
-  <span>字节跳动小程序</span>
-  <span>H5</span>
-</div>
-
-</div>
+<span class="platform-tag">微信小程序</span>
+<span class="platform-tag">支付宝小程序</span>
+<span class="platform-tag">百度小程序</span>
+<span class="platform-tag">字节跳动小程序</span>
+<span class="platform-tag">H5</span>
 
 <style>
-
-.hero-stats {
-  margin-top: 48px;
-  display: flex;
-  justify-content: center;
-}
-
-.stats {
-  display: inline-flex;
-  gap: 40px;
-  padding: 24px 40px;
-  background: var(--vp-c-bg);
-  border: 1px solid var(--vp-c-border);
-  border-radius: 16px;
-  box-shadow: var(--vp-shadow-2);
-}
-
-.stats table {
-  border: none;
-  background: transparent;
-}
-
-.stats td {
-  padding: 8px 28px;
-  text-align: center;
-  border: none;
-}
-
-.stats td:first-child {
-  color: var(--vp-c-text-3);
-  font-size: 14px;
-}
-
-.stats td:nth-child(2) {
-  color: var(--vp-c-text-3);
-  font-size: 14px;
-}
-
-.stats td:last-child {
-  color: var(--vp-c-brand-1);
-  font-weight: 700;
-  font-size: 22px;
-}
-
-.stats td:not(:first-child):not(:last-child) {
-  border-left: 1px solid var(--vp-c-divider);
-  border-right: 1px solid var(--vp-c-divider);
-}
-
 .VPHero .VPImage {
   max-height: 120px !important;
 }
 
-.why-section {
-  margin: 48px auto;
-  padding: 40px;
-  background: linear-gradient(135deg, var(--vp-c-bg) 0%, var(--vp-c-bg-soft) 100%);
+h2:not(.VPHero h2) {
+  font-size: 1.4rem !important;
+  font-weight: 700 !important;
+  text-align: center !important;
+  margin: 48px 0 24px !important;
+  color: var(--vp-c-text-1) !important;
+}
+
+table {
+  display: inline-table !important;
+  margin: 0 auto !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  border: 1px solid var(--vp-c-border) !important;
+  box-shadow: var(--vp-shadow-2) !important;
+}
+
+table th {
+  background: linear-gradient(135deg, #0d9488, #14b8a6) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  padding: 12px 24px !important;
+  border: none !important;
+  text-align: center !important;
+}
+
+table td {
+  padding: 10px 24px !important;
+  border: none !important;
+  border-bottom: 1px solid var(--vp-c-divider) !important;
+  text-align: center !important;
+}
+
+table tr:last-child td {
+  border-bottom: none !important;
+}
+
+table tr:hover td {
+  background: var(--vp-c-bg-soft) !important;
+}
+
+table td:first-child {
+  color: var(--vp-c-text-2) !important;
+  font-size: 0.875rem !important;
+}
+
+table td:last-child {
+  color: #0d9488 !important;
+  font-weight: 700 !important;
+  font-size: 1.25rem !important;
+}
+
+table td:not(:first-child):not(:last-child) {
+  border-left: 1px solid var(--vp-c-divider) !important;
+  border-right: 1px solid var(--vp-c-divider) !important;
+}
+
+p {
+  text-align: center !important;
+  color: var(--vp-c-text-2) !important;
+  max-width: 600px !important;
+  margin: 0 auto 48px auto !important;
+  line-height: 1.8 !important;
+}
+
+.platform-tag {
+  display: inline-block;
+  margin: 0 24px 16px 0;
+  padding: 6px 16px;
+  background: var(--vp-c-bg-soft);
   border: 1px solid var(--vp-c-border);
-  border-radius: 16px;
-  text-align: center;
-  max-width: 800px;
-}
-
-.why-section h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--vp-c-text-1);
-  margin-bottom: 16px;
-  letter-spacing: -0.02em;
-}
-
-.why-section p {
+  border-radius: 8px;
+  font-size: 0.875rem;
   color: var(--vp-c-text-2);
-  line-height: 1.8;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.logo-cloud {
-  margin: 48px 0;
-  text-align: center;
-}
-
-.logo-cloud-title {
-  font-size: 12px;
-  color: var(--vp-c-text-3);
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  margin-bottom: 24px;
   font-weight: 500;
 }
 
-.logo-cloud-items {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 48px;
-  flex-wrap: wrap;
-  opacity: 0.7;
-}
-
-.logo-cloud-items span {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--vp-c-text-2);
-  white-space: nowrap;
-}
-
-@media (max-width: 768px) {
-  .stats {
-    flex-direction: column;
-    gap: 12px;
+@media (max-width: 640px) {
+  table {
+    display: block !important;
+    overflow-x: auto !important;
   }
-  
-  .stats td:not(:first-child):not(:last-child) {
-    border-left: none;
-    border-right: none;
-    border-top: 1px solid var(--vp-c-divider);
-    border-bottom: 1px solid var(--vp-c-divider);
-  }
-  
-  .logo-cloud-items {
-    gap: 24px;
+
+  .platform-tag {
+    margin: 0 8px 12px 0;
+    padding: 4px 12px;
+    font-size: 0.75rem;
   }
 }
-
 </style>
