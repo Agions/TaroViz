@@ -60,13 +60,13 @@ describe('BoxplotChart', () => {
 
   describe('Basic Rendering', () => {
     it('should render without crashing', () => {
-      render(<BoxplotChart option={basicOption} />);
-      expect(screen.getByTestId('boxplot-chart')).toBeInTheDocument();
+      const { getByTestId } = render(<BoxplotChart option={basicOption} />);
+      expect(getByTestId('boxplot-chart')).toBeInTheDocument();
     });
 
     it('should render with custom width and height', () => {
-      render(<BoxplotChart option={basicOption} width={600} height={500} />);
-      expect(screen.getByTestId('boxplot-chart')).toBeInTheDocument();
+      const { getByTestId } = render(<BoxplotChart option={basicOption} width={600} height={500} />);
+      expect(getByTestId('boxplot-chart')).toBeInTheDocument();
     });
 
     it('should have correct display name', () => {
@@ -74,31 +74,30 @@ describe('BoxplotChart', () => {
     });
 
     it('should pass option to wrapper', () => {
-      render(<BoxplotChart option={basicOption} />);
-      expect(screen.getByTestId('chart-option')).toHaveTextContent('箱线图测试');
+      const { getByTestId } = render(<BoxplotChart option={basicOption} />);
+      expect(getByTestId('chart-option')).toHaveTextContent('箱线图测试');
     });
   });
 
   describe('Props', () => {
     it('should accept className prop', () => {
-      render(<BoxplotChart option={basicOption} className="test-class" />);
-      expect(screen.getByTestId('boxplot-chart')).toHaveClass('test-class');
+      const { getByTestId } = render(<BoxplotChart option={basicOption} className="test-class" />);
+      expect(getByTestId('boxplot-chart')).toHaveClass('test-class');
     });
 
     it('should accept style prop', () => {
-      const style = { padding: '10px' };
-      render(<BoxplotChart option={basicOption} style={style} />);
-      expect(screen.getByTestId('boxplot-chart')).toBeInTheDocument();
+      const { getByTestId } = render(<BoxplotChart option={basicOption} style={{ padding: '10px' }} />);
+      expect(getByTestId('boxplot-chart')).toBeInTheDocument();
     });
 
     it('should accept loading prop', () => {
-      render(<BoxplotChart option={basicOption} loading={true} />);
-      expect(screen.getByTestId('boxplot-chart')).toBeInTheDocument();
+      const { getByTestId } = render(<BoxplotChart option={basicOption} loading={true} />);
+      expect(getByTestId('boxplot-chart')).toBeInTheDocument();
     });
 
     it('should accept theme prop', () => {
-      render(<BoxplotChart option={basicOption} theme="dark" />);
-      expect(screen.getByTestId('boxplot-chart')).toBeInTheDocument();
+      const { getByTestId } = render(<BoxplotChart option={basicOption} theme="dark" />);
+      expect(getByTestId('boxplot-chart')).toBeInTheDocument();
     });
   });
 
@@ -111,8 +110,8 @@ describe('BoxplotChart', () => {
           { type: 'boxplot' as const, name: '2025', data: [[920, 1000, 1050, 1150, 1200]] },
         ],
       };
-      render(<BoxplotChart option={multiOption} />);
-      expect(screen.getByTestId('boxplot-chart')).toBeInTheDocument();
+      const { getByTestId } = render(<BoxplotChart option={multiOption} />);
+      expect(getByTestId('boxplot-chart')).toBeInTheDocument();
     });
 
     it('should render with custom itemStyle', () => {
@@ -124,8 +123,8 @@ describe('BoxplotChart', () => {
           itemStyle: { color: '#1890ff', borderColor: '#000' },
         }],
       };
-      render(<BoxplotChart option={optionWithStyle} />);
-      expect(screen.getByTestId('boxplot-chart')).toBeInTheDocument();
+      const { getByTestId } = render(<BoxplotChart option={optionWithStyle} />);
+      expect(getByTestId('boxplot-chart')).toBeInTheDocument();
     });
   });
 });
