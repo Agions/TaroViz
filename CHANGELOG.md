@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/Agions/TaroViz/compare/v1.5.0...v1.6.0) (2026-03-31)
+
+### Features
+
+- **新增箱线图 (BoxplotChart)**：支持展示数据分布，包含最小值、Q1、中位数、Q3、最大值
+- **新增平行坐标图 (ParallelChart)**：支持展示高维数据各维度之间的关系
+- **增强版主题编辑器 (EnhancedThemeEditor)**：
+  - 实时预览功能
+  - 预设主题选择（科技蓝、活力橙、森林绿、神秘紫、商务灰）
+  - JSON/CSS 导入导出
+  - Tab 切换界面
+
+### Code Quality
+
+- 优化类型定义
+- 统一代码风格
+
+# [1.5.0](https://github.com/Agions/TaroViz/compare/v1.4.3...v1.5.0) (2026-03-27)
+
+### Features
+
+- 新增图表组件：GraphChart, CandlestickChart, WordCloudChart
+- 完善主题系统
+- 性能优化
+
 # [1.4.3](https://github.com/Agions/TaroViz/compare/v1.4.2...v1.4.3) (2026-03-25)
 
 ### Refactoring

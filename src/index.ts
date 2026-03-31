@@ -1,6 +1,6 @@
 /**
  * TaroViz - 基于 Taro 和 ECharts 的多端图表组件库
- * @version 1.2.1
+ * @version 1.6.0
  */
 
 // 核心组件
@@ -45,7 +45,7 @@ export { default as HeatmapChart } from './charts/heatmap';
 export { default as GaugeChart } from './charts/gauge';
 export { default as FunnelChart } from './charts/funnel';
 
-// 扩展图表组件 (新增)
+// 扩展图表组件
 export { default as TreeMapChart } from './charts/treemap';
 export { default as SunburstChart } from './charts/sunburst';
 export { default as SankeyChart } from './charts/sankey';
@@ -54,6 +54,10 @@ export { default as SankeyChart } from './charts/sankey';
 export { default as GraphChart } from './charts/graph';
 export { default as CandlestickChart } from './charts/candlestick';
 export { default as WordCloudChart } from './charts/wordcloud';
+
+// v1.6.0 新增图表组件
+export { default as BoxplotChart } from './charts/boxplot';
+export { default as ParallelChart } from './charts/parallel';
 
 // 适配器
 export { getAdapter, detectPlatform, getEnv } from './adapters';
@@ -75,7 +79,7 @@ export {
   getThemesByTag,
 } from './themes';
 
-// 主题管理器 (新增)
+// 主题管理器
 export {
   themeManager,
   PRESET_THEMES,
@@ -86,15 +90,17 @@ export {
 
 // 编辑器
 export { ThemeEditor } from './editor';
+export { default as EnhancedThemeEditor } from './editor/EnhancedThemeEditor';
+export type { EnhancedThemeEditorProps, ThemeExportOptions } from './editor/EnhancedThemeEditor';
 
-// 错误边界组件 (新增)
+// 错误边界组件
 export {
   ErrorBoundary,
   withErrorBoundary,
   type ErrorBoundaryProps,
 } from './core/components/ErrorBoundary';
 
-// 懒加载组件 (新增)
+// 懒加载组件
 export {
   withLazyLoad,
   preloadChart,
@@ -103,7 +109,7 @@ export {
   LazyChartRegistry,
 } from './core/components/LazyChart';
 
-// 标注系统 (新增)
+// 标注系统
 export {
   useAnnotation,
   convertAnnotationToMarkLine,
@@ -118,7 +124,7 @@ export {
   type ScatterAnnotationConfig,
 } from './core/components/Annotation';
 
-// 导出工具 (新增)
+// 导出工具
 export {
   exportChart,
   type ExportImageOptions,
@@ -143,7 +149,6 @@ export {
   useFullscreen,
   useExport,
   useChartTools,
-  // 新增数据转换 hooks
   useDataTransform,
   useTableTransform,
   useTimeSeriesTransform,
@@ -153,4 +158,4 @@ export {
  * 库信息
  */
 export const name = 'taroviz';
-export const version = '1.4.0';
+export const version = '1.6.0';
