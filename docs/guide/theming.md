@@ -335,6 +335,81 @@ const ResponsiveThemeExample = () => {
 
 有关 ECharts 主题配置的详细说明，请参考 [ECharts 主题配置文档](https://echarts.apache.org/zh/option.html#color)。
 
+## 增强版主题编辑器
+
+TaroViz 提供了增强版主题编辑器 `EnhancedThemeEditor`，支持可视化编辑主题、实时预览、导入导出等功能。
+
+### 基本用法
+
+```tsx
+import React, { useState } from 'react';
+import { EnhancedThemeEditor } from '@agions/taroviz';
+
+const ThemeEditorDemo = () => {
+  const [currentTheme, setCurrentTheme] = useState('default');
+
+  return (
+    <EnhancedThemeEditor
+      selectedTheme={currentTheme}
+      onThemeChange={(theme) => {
+        console.log('Theme changed:', theme);
+        setCurrentTheme(theme.name || 'default');
+      }}
+      onThemeSave={(theme) => {
+        console.log('Theme saved:', theme);
+      }}
+      enableLivePreview={true}
+      enableImportExport={true}
+      enablePresets={true}
+    />
+  );
+};
+```
+
+### 功能特性
+
+| 功能 | 说明 |
+|------|------|
+| 实时预览 | 编辑时即时看到图表效果 |
+| 预设主题 | 5 种预设主题快速选择 |
+| 导入导出 | 支持 JSON/CSS 格式 |
+| Tab 切换 | 基础配置/高级配置/预设主题 |
+
+### 预设主题
+
+编辑器内置了 5 种预设主题：
+
+| 主题 | 风格 |
+|------|------|
+| 科技蓝 | 深色背景，蓝色系 |
+| 活力橙 | 浅色背景，橙色系 |
+| 森林绿 | 浅色背景，绿色系 |
+| 神秘紫 | 浅色背景，紫色系 |
+| 商务灰 | 浅色背景，灰度系 |
+
+### 导入导出
+
+```tsx
+// 导出为 JSON
+<EnhancedThemeEditor
+  enableImportExport={true}
+  // 用户点击"导出 JSON"按钮即可下载
+/>
+
+// 导入主题
+<label>
+  导入 JSON
+  <input
+    type="file"
+    accept=".json"
+    onChange={(e) => {
+      const file = e.target.files?.[0];
+      // 处理文件...
+    }}
+  />
+</label>
+```
+
 ## 下一步
 
 继续阅读 [性能优化](./performance.md) 指南，了解如何优化 TaroViz 图表的性能。
