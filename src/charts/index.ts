@@ -22,10 +22,14 @@ export { default as GraphChart } from './graph';
 export { default as CandlestickChart } from './candlestick';
 export { default as WordCloudChart } from './wordcloud';
 
+// 导出 v1.6.0 新增图表组件
+export { default as BoxplotChart } from './boxplot';
+export { default as ParallelChart } from './parallel';
+
 // 导出类型定义
 export * from './types';
 
 /**
  * 版本信息
  */
-export const version = '1.4.0';
+export const version = '1.6.0';
