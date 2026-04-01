@@ -5,7 +5,7 @@
 ## 基本用法
 
 ```tsx
-import { RadarChart } from 'taroviz';
+import { RadarChart } from '@agions/taroviz';
 
 const data = {
   series: [
@@ -48,7 +48,7 @@ function App() {
 ## 多系列雷达图
 
 ```tsx
-import { RadarChart } from 'taroviz';
+import { RadarChart } from '@agions/taroviz';
 
 const data = {
   series: [

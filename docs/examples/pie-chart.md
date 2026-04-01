@@ -5,7 +5,7 @@
 ## 基本用法
 
 ```tsx
-import { PieChart } from 'taroviz';
+import { PieChart } from '@agions/taroviz';
 
 const data = {
   series: [
@@ -44,7 +44,7 @@ function App() {
 ## 环形图
 
 ```tsx
-import { PieChart } from 'taroviz';
+import { PieChart } from '@agions/taroviz';
 
 const data = {
   series: [

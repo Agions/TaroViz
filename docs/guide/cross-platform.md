@@ -41,7 +41,7 @@ TaroViz 采用了平台适配器架构，通过不同的适配器处理各平台
 在 Taro 项目中安装 TaroViz：
 
 ```bash
-npm install taroviz
+npm install @agions/taroviz
 ```
 
 ### 3.2 配置项目
@@ -217,7 +217,7 @@ H5 支持 canvas 和 svg 渲染器，根据需求选择：
 
 ```typescript
 import React, { useEffect, useRef } from 'react';
-import { LineChart, ChartRef } from 'taroviz';
+import { LineChart, ChartRef } from '@agions/taroviz';
 
 const CanvasSizeExample = () => {
   const chartRef = useRef<ChartRef>(null);
@@ -273,7 +273,7 @@ const CanvasSizeExample = () => {
 将平台特定的代码分离，使用条件编译：
 
 ```typescript
-import { LineChart } from 'taroviz';
+import { LineChart } from '@agions/taroviz';
 
 const CrossPlatformExample = () => {
   const option = {
@@ -323,7 +323,7 @@ const CrossPlatformExample = () => {
 如果需要支持新的平台，可以创建自定义适配器：
 
 ```typescript
-import { Adapter } from 'taroviz';
+import { Adapter } from '@agions/taroviz';
 
 class CustomAdapter implements Adapter {
   // 实现 Adapter 接口的方法
@@ -339,7 +339,7 @@ class CustomAdapter implements Adapter {
 }
 
 // 注册适配器
-import { registerAdapter } from 'taroviz';
+import { registerAdapter } from '@agions/taroviz';
 registerAdapter('custom', CustomAdapter);
 ```
 

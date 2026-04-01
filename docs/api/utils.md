@@ -11,7 +11,7 @@ TaroViz 提供了一系列实用工具函数，用于简化图表开发和管理
 #### 导入
 
 ```typescript
-import { registerTheme } from 'taroviz';
+import { registerTheme } from '@agions/taroviz';
 ```
 
 #### 类型定义
@@ -52,7 +52,7 @@ registerTheme('custom-theme', {
 #### 导入
 
 ```typescript
-import { getTheme } from 'taroviz';
+import { getTheme } from '@agions/taroviz';
 ```
 
 #### 类型定义
@@ -88,7 +88,7 @@ console.log('默认主题:', theme);
 #### 导入
 
 ```typescript
-import { getAllThemes } from 'taroviz';
+import { getAllThemes } from '@agions/taroviz';
 ```
 
 #### 类型定义
@@ -119,7 +119,7 @@ console.log('所有主题:', themes);
 #### 导入
 
 ```typescript
-import { registerAdapter } from 'taroviz';
+import { registerAdapter } from '@agions/taroviz';
 ```
 
 #### 类型定义
@@ -201,7 +201,7 @@ registerAdapter('custom', CustomAdapter);
 #### 导入
 
 ```typescript
-import { getAdapter } from 'taroviz';
+import { getAdapter } from '@agions/taroviz';
 ```
 
 #### 类型定义
@@ -237,7 +237,7 @@ console.log('微信小程序适配器:', adapter);
 #### 导入
 
 ```typescript
-import { detectPlatform } from 'taroviz';
+import { detectPlatform } from '@agions/taroviz';
 ```
 
 #### 类型定义
@@ -268,7 +268,7 @@ console.log('当前平台:', platform);
 #### 导入
 
 ```typescript
-import { registerChart } from 'taroviz';
+import { registerChart } from '@agions/taroviz';
 ```
 
 #### 类型定义
@@ -298,7 +298,7 @@ registerChart('chart-1', chart);
 #### 导入
 
 ```typescript
-import { getChart } from 'taroviz';
+import { getChart } from '@agions/taroviz';
 ```
 
 #### 类型定义
@@ -336,7 +336,7 @@ if (chart) {
 #### 导入
 
 ```typescript
-import { removeChart } from 'taroviz';
+import { removeChart } from '@agions/taroviz';
 ```
 
 #### 类型定义
@@ -364,7 +364,7 @@ removeChart('chart-1');
 #### 导入
 
 ```typescript
-import { getAllCharts } from 'taroviz';
+import { getAllCharts } from '@agions/taroviz';
 ```
 
 #### 类型定义
@@ -395,7 +395,7 @@ console.log('所有图表实例:', charts);
 #### 导入
 
 ```typescript
-import { generateChartConfig } from 'taroviz';
+import { generateChartConfig } from '@agions/taroviz';
 ```
 
 #### 类型定义
@@ -480,7 +480,7 @@ console.log('生成的配置:', config);
 #### 导入
 
 ```typescript
-import { generateCodeExample } from 'taroviz';
+import { generateCodeExample } from '@agions/taroviz';
 ```
 
 #### 类型定义
@@ -566,7 +566,7 @@ console.log('生成的代码:', code);
 #### 导入
 
 ```typescript
-import { PerformanceAnalyzer } from 'taroviz';
+import { PerformanceAnalyzer } from '@agions/taroviz';
 ```
 
 #### 类型定义
@@ -635,7 +635,7 @@ console.log('性能报告:', report);
 #### 导入
 
 ```typescript
-import { uuid } from 'taroviz';
+import { uuid } from '@agions/taroviz';
 ```
 
 #### 类型定义
@@ -664,7 +664,7 @@ console.log('生成的ID:', id);
 #### 导入
 
 ```typescript
-import { deepMerge } from 'taroviz';
+import { deepMerge } from '@agions/taroviz';
 ```
 
 #### 类型定义
@@ -702,7 +702,7 @@ console.log('合并后的对象:', merged);
 #### 导入
 
 ```typescript
-import { throttle } from 'taroviz';
+import { throttle } from '@agions/taroviz';
 ```
 
 #### 类型定义
@@ -742,7 +742,7 @@ const throttledFunction = throttle(() => {
 #### 导入
 
 ```typescript
-import { debounce } from 'taroviz';
+import { debounce } from '@agions/taroviz';
 ```
 
 #### 类型定义
@@ -784,7 +784,7 @@ const debouncedFunction = debounce(() => {
 #### 导入
 
 ```typescript
-import { formatNumber } from 'taroviz';
+import { formatNumber } from '@agions/taroviz';
 ```
 
 #### 类型定义
@@ -846,7 +846,7 @@ console.log('格式化后的数字:', formatted);
 #### 导入
 
 ```typescript
-import { Platform } from 'taroviz';
+import { Platform } from '@agions/taroviz';
 ```
 
 #### 类型定义
@@ -882,7 +882,7 @@ console.log(Platform.HARMONY); // 'harmony'
 #### 导入
 
 ```typescript
-import { version } from 'taroviz';
+import { version } from '@agions/taroviz';
 ```
 
 #### 类型定义

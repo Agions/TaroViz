@@ -56,7 +56,7 @@ export default defineConfig({
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/agions/taroviz' },
-      { icon: 'npm', link: 'https://www.npmjs.com/package/taroviz' }
+      { icon: 'npm', link: 'https://www.npmjs.com/package/@agions/taroviz' }
     ],
 
     footer: {

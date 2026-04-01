@@ -29,7 +29,7 @@ TaroViz 支持 16 种图表类型，每种图表都有其特定的使用场景�
 :::
 
 ```typescript
-import { LineChart } from 'taroviz';
+import { LineChart } from '@agions/taroviz';
 
 const option = {
   title: { text: '销售趋势' },
@@ -59,7 +59,7 @@ const option = {
 :::
 
 ```typescript
-import { BarChart } from 'taroviz';
+import { BarChart } from '@agions/taroviz';
 
 const option = {
   title: { text: '产品销量对比' },
@@ -85,7 +85,7 @@ const option = {
 :::
 
 ```typescript
-import { PieChart } from 'taroviz';
+import { PieChart } from '@agions/taroviz';
 
 const option = {
   title: { text: '销售渠道分布', left: 'center' },
@@ -118,7 +118,7 @@ const option = {
 :::
 
 ```typescript
-import { ScatterChart } from 'taroviz';
+import { ScatterChart } from '@agions/taroviz';
 
 const option = {
   title: { text: '身高体重分布' },
@@ -145,7 +145,7 @@ const option = {
 :::
 
 ```typescript
-import { RadarChart } from 'taroviz';
+import { RadarChart } from '@agions/taroviz';
 
 const option = {
   title: { text: '产品性能评估' },
@@ -179,7 +179,7 @@ const option = {
 :::
 
 ```typescript
-import { HeatmapChart } from 'taroviz';
+import { HeatmapChart } from '@agions/taroviz';
 
 const option = {
   title: { text: '24小时访问热力图' },
@@ -205,7 +205,7 @@ const option = {
 :::
 
 ```typescript
-import { GaugeChart } from 'taroviz';
+import { GaugeChart } from '@agions/taroviz';
 
 const option = {
   series: [{
@@ -227,7 +227,7 @@ const option = {
 :::
 
 ```typescript
-import { FunnelChart } from 'taroviz';
+import { FunnelChart } from '@agions/taroviz';
 
 const option = {
   title: { text: '销售漏斗' },
@@ -257,7 +257,7 @@ const option = {
 :::
 
 ```typescript
-import { TreeMapChart } from 'taroviz';
+import { TreeMapChart } from '@agions/taroviz';
 
 const option = {
   title: { text: '文件目录结构' },
@@ -285,7 +285,7 @@ const option = {
 :::
 
 ```typescript
-import { SunburstChart } from 'taroviz';
+import { SunburstChart } from '@agions/taroviz';
 
 const option = {
   title: { text: '销售分布' },
@@ -316,7 +316,7 @@ const option = {
 :::
 
 ```typescript
-import { SankeyChart } from 'taroviz';
+import { SankeyChart } from '@agions/taroviz';
 
 const option = {
   title: { text: '用户行为流向' },
@@ -349,7 +349,7 @@ const option = {
 :::
 
 ```typescript
-import { BoxplotChart } from 'taroviz';
+import { BoxplotChart } from '@agions/taroviz';
 
 const option = {
   title: { text: '班级成绩分布' },
@@ -377,7 +377,7 @@ const option = {
 :::
 
 ```typescript
-import { ParallelChart } from 'taroviz';
+import { ParallelChart } from '@agions/taroviz';
 
 const option = {
   title: { text: '产品多维度评估' },
@@ -411,7 +411,7 @@ const option = {
 :::
 
 ```typescript
-import { GraphChart } from 'taroviz';
+import { GraphChart } from '@agions/taroviz';
 
 const option = {
   title: { text: '组织关系图' },
@@ -456,7 +456,7 @@ const option = {
 :::
 
 ```typescript
-import { CandlestickChart } from 'taroviz';
+import { CandlestickChart } from '@agions/taroviz';
 
 const option = {
   title: { text: '股票K线图' },
@@ -496,7 +496,7 @@ const option = {
 :::
 
 ```typescript
-import { WordCloudChart } from 'taroviz';
+import { WordCloudChart } from '@agions/taroviz';
 
 const option = {
   title: { text: '用户评论关键词' },

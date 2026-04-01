@@ -9,14 +9,14 @@ TaroViz 提供了多种图表组件，每种图表组件都继承自 BaseChart�
 ### 导入
 
 ```typescript
-import { LineChart } from 'taroviz';
+import { LineChart } from '@agions/taroviz';
 ```
 
 ### 示例
 
 ```typescript
 import React from 'react';
-import { LineChart } from 'taroviz';
+import { LineChart } from '@agions/taroviz';
 
 const LineChartDemo = () => {
   const option = {
@@ -64,14 +64,14 @@ export default LineChartDemo;
 ### 导入
 
 ```typescript
-import { BarChart } from 'taroviz';
+import { BarChart } from '@agions/taroviz';
 ```
 
 ### 示例
 
 ```typescript
 import React from 'react';
-import { BarChart } from 'taroviz';
+import { BarChart } from '@agions/taroviz';
 
 const BarChartDemo = () => {
   const option = {
@@ -114,14 +114,14 @@ export default BarChartDemo;
 ### 导入
 
 ```typescript
-import { PieChart } from 'taroviz';
+import { PieChart } from '@agions/taroviz';
 ```
 
 ### 示例
 
 ```typescript
 import React from 'react';
-import { PieChart } from 'taroviz';
+import { PieChart } from '@agions/taroviz';
 
 const PieChartDemo = () => {
   const option = {
@@ -171,14 +171,14 @@ export default PieChartDemo;
 ### 导入
 
 ```typescript
-import { ScatterChart } from 'taroviz';
+import { ScatterChart } from '@agions/taroviz';
 ```
 
 ### 示例
 
 ```typescript
 import React from 'react';
-import { ScatterChart } from 'taroviz';
+import { ScatterChart } from '@agions/taroviz';
 
 const ScatterChartDemo = () => {
   const option = {
@@ -232,14 +232,14 @@ export default ScatterChartDemo;
 ### 导入
 
 ```typescript
-import { RadarChart } from 'taroviz';
+import { RadarChart } from '@agions/taroviz';
 ```
 
 ### 示例
 
 ```typescript
 import React from 'react';
-import { RadarChart } from 'taroviz';
+import { RadarChart } from '@agions/taroviz';
 
 const RadarChartDemo = () => {
   const option = {
@@ -294,14 +294,14 @@ export default RadarChartDemo;
 ### 导入
 
 ```typescript
-import { HeatmapChart } from 'taroviz';
+import { HeatmapChart } from '@agions/taroviz';
 ```
 
 ### 示例
 
 ```typescript
 import React from 'react';
-import { HeatmapChart } from 'taroviz';
+import { HeatmapChart } from '@agions/taroviz';
 
 const HeatmapChartDemo = () => {
   const option = {
@@ -374,14 +374,14 @@ export default HeatmapChartDemo;
 ### 导入
 
 ```typescript
-import { GaugeChart } from 'taroviz';
+import { GaugeChart } from '@agions/taroviz';
 ```
 
 ### 示例
 
 ```typescript
 import React from 'react';
-import { GaugeChart } from 'taroviz';
+import { GaugeChart } from '@agions/taroviz';
 
 const GaugeChartDemo = () => {
   const option = {
@@ -425,14 +425,14 @@ export default GaugeChartDemo;
 ### 导入
 
 ```typescript
-import { FunnelChart } from 'taroviz';
+import { FunnelChart } from '@agions/taroviz';
 ```
 
 ### 示例
 
 ```typescript
 import React from 'react';
-import { FunnelChart } from 'taroviz';
+import { FunnelChart } from '@agions/taroviz';
 
 const FunnelChartDemo = () => {
   const option = {

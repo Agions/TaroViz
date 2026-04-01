@@ -5,7 +5,7 @@
 ## 基本用法
 
 ```tsx
-import { HeatmapChart } from 'taroviz';
+import { HeatmapChart } from '@agions/taroviz';
 
 const data = {
   series: [
@@ -60,7 +60,7 @@ function App() {
 ## 时间序列热力图
 
 ```tsx
-import { HeatmapChart } from 'taroviz';
+import { HeatmapChart } from '@agions/taroviz';
 
 const data = {
   series: [

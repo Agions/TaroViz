@@ -86,7 +86,7 @@ const toggleAnimation = () => {
 
 ```tsx
 import { useState } from 'react'
-import { LineChart } from 'taroviz'
+import { LineChart } from '@agions/taroviz'
 
 function DynamicDataChart() {
   const [data, setData] = useState(initialData)
@@ -144,7 +144,7 @@ function DynamicDataChart() {
 ### 代码示例
 
 ```tsx
-import { LineChart } from 'taroviz'
+import { LineChart } from '@agions/taroviz'
 
 function ThemeChart() {
   return (
@@ -156,7 +156,7 @@ function ThemeChart() {
 }
 
 // 或使用主题对象
-import { neonTheme } from 'taroviz/themes'
+import { neonTheme } from '@agions/taroviz/themes'
 
 function ThemeChart2() {
   return (
@@ -202,8 +202,8 @@ function ThemeChart2() {
 ### 代码示例
 
 ```tsx
-import { LineChart } from 'taroviz'
-import { useTheme } from 'taroviz/hooks'
+import { LineChart } from '@agions/taroviz'
+import { useTheme } from '@agions/taroviz/hooks'
 
 function DarkModeChart() {
   const { isDark, toggleDark } = useTheme()
@@ -252,7 +252,7 @@ function DarkModeChart() {
 ### 代码示例
 
 ```tsx
-import { LineChart } from 'taroviz'
+import { LineChart } from '@agions/taroviz'
 
 function AnimatedChart() {
   return (
@@ -294,7 +294,7 @@ function AnimatedChart() {
 ### 代码示例
 
 ```tsx
-import { LineChart } from 'taroviz'
+import { LineChart } from '@agions/taroviz'
 
 function ResponsiveChart() {
   return (

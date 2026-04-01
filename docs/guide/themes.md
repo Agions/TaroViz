@@ -23,8 +23,8 @@ const selectedTheme = ref('default')
 const showCode = ref(false)
 
 const copyCode = (theme) => {
-  const code = `import { Chart } from 'taroviz'
-import { ${theme.charAt(0).toUpperCase() + theme.slice(1)}Theme } from 'taroviz/themes'
+  const code = `import { Chart } from '@agions/taroviz'
+import { ${theme.charAt(0).toUpperCase() + theme.slice(1)}Theme } from '@agions/taroviz/themes'
 
 export default function App() {
   return (
@@ -79,7 +79,7 @@ TaroViz 内置 **10+** 精美主题，满足不同场景的视觉需求。
 <div v-if="!showCode" class="code-block">
 
 ```tsx
-import { LineChart } from 'taroviz'
+import { LineChart } from '@agions/taroviz'
 
 export default function App() {
   return (
@@ -96,7 +96,7 @@ export default function App() {
 <div v-else class="code-block">
 
 ```tsx
-import { LineChart, ${selectedTheme.charAt(0).toUpperCase() + selectedTheme.slice(1)}Theme } from 'taroviz'
+import { LineChart, ${selectedTheme.charAt(0).toUpperCase() + selectedTheme.slice(1)}Theme } from '@agions/taroviz'
 
 export default function App() {
   return (

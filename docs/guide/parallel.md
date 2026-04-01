@@ -7,7 +7,7 @@
 ## 基本用法
 
 ```tsx
-import { ParallelChart } from 'taroviz';
+import { ParallelChart } from '@agions/taroviz';
 
 const App = () => {
   const option = {
