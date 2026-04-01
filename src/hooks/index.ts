@@ -6,6 +6,9 @@ import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { getAdapter } from '../adapters';
 import { getThemeByName } from '../themes';
 import type { EChartsOption } from 'echarts';
+import { useDataZoom } from './useDataZoom';
+import { useChartConnect } from './useChartConnect';
+import { useChartDownload } from './useChartDownload';
 
 // ============================================================================
 // 类型定义
@@ -617,10 +620,41 @@ export function useChartTools(instance: ChartInstance | null) {
 }
 
 // ============================================================================
+// v1.7.0 新增 Hooks
+// ============================================================================
+
+// 数据缩放 Hook
+export {
+  useDataZoom,
+  type UseDataZoomOptions,
+  type UseDataZoomReturn,
+  type DataZoomType,
+  type ZoomRange,
+} from './useDataZoom';
+
+// 图表联动 Hook
+export {
+  useChartConnect,
+  type UseChartConnectOptions,
+  type UseChartConnectReturn,
+  type ConnectEventType,
+} from './useChartConnect';
+
+// 图表下载 Hook
+export {
+  useChartDownload,
+  type UseChartDownloadOptions,
+  type UseChartDownloadReturn,
+  type DownloadFormat,
+  type DownloadImageOptions,
+  type DownloadDataOptions,
+} from './useChartDownload';
+
+// ============================================================================
 // 导出
 // ============================================================================
 
-export const version = '1.4.0';
+export const version = '1.7.0';
 
 // 新增数据转换 hooks
 export {
@@ -644,4 +678,8 @@ export default {
   useFullscreen,
   useExport,
   useChartTools,
+  // v1.7.0 新增
+  useDataZoom,
+  useChartConnect,
+  useChartDownload,
 };

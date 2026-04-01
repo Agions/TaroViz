@@ -871,3 +871,6 @@ export default {
   getLightThemes,
   getDarkThemes,
 };
+
+export { useAutoTheme } from './useAutoTheme';
+export type { UseAutoThemeOptions } from './useAutoTheme';
