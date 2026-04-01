@@ -15,15 +15,15 @@ TaroViz 支持多种包管理器，本指南将帮助您完成环境搭建。
 ::: code-group
 
 ```bash [npm]
-npm install @agions/taroviz
+npm install taroviz
 ```
 
 ```bash [yarn]
-yarn add @agions/taroviz
+yarn add taroviz
 ```
 
 ```bash [pnpm]
-pnpm add @agions/taroviz
+pnpm add taroviz
 ```
 
 :::
@@ -35,7 +35,7 @@ pnpm add @agions/taroviz
 ```bash
 npx @tarojs/cli init my-chart-app
 cd my-chart-app
-npm install @agions/taroviz
+npm install taroviz
 ```
 
 ::: warning 小程序限流
@@ -74,7 +74,7 @@ export default defineAppConfig({
 安装完成后，可以通过以下方式验证：
 
 ```typescript
-import { version } from '@agions/taroviz';
+import { version } from 'taroviz';
 
 console.log('TaroViz version:', version);
 // 输出: TaroViz version: x.x.x
@@ -96,7 +96,7 @@ console.log('TaroViz version:', version);
 
 3. **使用 pnpm**
    ```bash
-   pnpm install @agions/taroviz
+   pnpm install taroviz
    ```
 
 :::
@@ -105,10 +105,10 @@ console.log('TaroViz version:', version);
 
 ```bash
 # 查看当前版本
-npm list @agions/taroviz
+npm list taroviz
 
 # 安装指定版本
-npm install @agions/taroviz@1.2.0
+npm install taroviz@1.2.0
 ```
 
 :::

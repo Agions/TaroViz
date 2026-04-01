@@ -5,7 +5,7 @@
 ## 基本用法
 
 ```tsx
-import { BarChart } from '@agions/taroviz';
+import { BarChart } from 'taroviz';
 
 const data = {
   categories: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
@@ -39,7 +39,7 @@ function App() {
 ## 堆叠柱状图
 
 ```tsx
-import { BarChart } from '@agions/taroviz';
+import { BarChart } from 'taroviz';
 
 const data = {
   categories: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],

@@ -44,7 +44,7 @@ TaroViz 提供丰富的示例，涵盖基础用法、高级技巧和平台特定
 
 ```typescript
 import React from 'react';
-import { LineChart } from '@agions/taroviz';
+import { LineChart } from 'taroviz';
 
 const option = {
   title: { text: '销售趋势' },
@@ -67,7 +67,7 @@ export default function App() {
 
 ```typescript
 import React from 'react';
-import { BarChart } from '@agions/taroviz';
+import { BarChart } from 'taroviz';
 
 const option = {
   title: { text: '产品销量' },
@@ -89,7 +89,7 @@ export default function App() {
 
 ```typescript
 import React, { useState, useEffect } from 'react';
-import { LineChart } from '@agions/taroviz';
+import { LineChart } from 'taroviz';
 
 function DynamicChart() {
   const [option, setOption] = useState({
@@ -120,7 +120,7 @@ function DynamicChart() {
 
 ```typescript
 import React, { useState } from 'react';
-import { LineChart, BarChart } from '@agions/taroviz';
+import { LineChart, BarChart } from 'taroviz';
 
 function LinkedCharts() {
   const [year, setYear] = useState('2024');
@@ -146,7 +146,7 @@ function LinkedCharts() {
 ### 自定义主题
 
 ```typescript
-import { registerTheme } from '@agions/taroviz';
+import { registerTheme } from 'taroviz';
 
 registerTheme('my-theme', {
   color: ['#5470c6', '#91cc75', '#fac858'],
@@ -166,7 +166,7 @@ registerTheme('my-theme', {
 ```typescript
 import React from 'react';
 import { View } from '@tarojs/components';
-import { LineChart } from '@agions/taroviz';
+import { LineChart } from 'taroviz';
 
 function WeappChart() {
   return (
@@ -187,7 +187,7 @@ function WeappChart() {
 
 ```typescript
 import React from 'react';
-import { LineChart } from '@agions/taroviz';
+import { LineChart } from 'taroviz';
 
 function H5Chart() {
   return (
@@ -212,7 +212,7 @@ function H5Chart() {
 ### 大数据集处理
 
 ```typescript
-import { LineChart } from '@agions/taroviz';
+import { LineChart } from 'taroviz';
 
 // 数据采样
 const sampleData = (data: number[], size: number) => {
