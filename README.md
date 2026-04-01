@@ -4,14 +4,14 @@
   <h1>TaroViz</h1>
   <p>基于 Taro 和 ECharts 的多端图表组件库</p>
   <p>
-    <a href="https://www.npmjs.com/package/taroviz">
-      <img src="https://img.shields.io/npm/v/taroviz.svg" alt="npm package">
+    <a href="https://www.npmjs.com/package/@agions/taroviz">
+      <img src="https://img.shields.io/npm/v/@agions/taroviz.svg" alt="npm package">
     </a>
-    <a href="https://www.npmjs.com/package/taroviz">
-      <img src="https://img.shields.io/npm/dm/taroviz.svg" alt="npm downloads">
+    <a href="https://www.npmjs.com/package/@agions/taroviz">
+      <img src="https://img.shields.io/npm/dm/@agions/taroviz.svg" alt="npm downloads">
     </a>
-    <a href="https://github.com/agions/taroviz/blob/main/LICENSE">
-      <img src="https://img.shields.io/npm/l/taroviz.svg" alt="license">
+    <a href="https://github.com/agions/@agions/taroviz/blob/main/LICENSE">
+      <img src="https://img.shields.io/npm/l/@agions/taroviz.svg" alt="license">
     </a>
   </p>
 </div>
@@ -52,20 +52,20 @@
 
 ```bash
 # npm
-npm install taroviz
+npm install @agions/taroviz
 
 # yarn
-yarn add taroviz
+yarn add @agions/taroviz
 
 # pnpm
-pnpm add taroviz
+pnpm add @agions/taroviz
 ```
 
 ### 基础使用
 
 ```typescript
 import React from 'react';
-import { LineChart } from 'taroviz';
+import { LineChart } from '@agions/taroviz';
 
 const App = () => {
   // ECharts 配置项
@@ -137,7 +137,7 @@ TaroViz 采用单包架构设计，包含以下核心模块：
 
 ```typescript
 import React from 'react';
-import { LineChart } from 'taroviz';
+import { LineChart } from '@agions/taroviz';
 
 const LineChartDemo = () => {
   const option = {
@@ -192,7 +192,7 @@ export default LineChartDemo;
 
 ```typescript
 import React from 'react';
-import { PieChart } from 'taroviz';
+import { PieChart } from '@agions/taroviz';
 
 const PieChartDemo = () => {
   const option = {
@@ -245,7 +245,7 @@ export default PieChartDemo;
 
 ```typescript
 import React from 'react';
-import { ScatterChart } from 'taroviz';
+import { ScatterChart } from '@agions/taroviz';
 
 const ScatterChartDemo = () => {
   const option = {
@@ -295,7 +295,7 @@ export default ScatterChartDemo;
 
 ```bash
 # 克隆仓库
-git clone https://github.com/agions/taroviz.git
+git clone https://github.com/agions/@agions/taroviz.git
 
 # 安装依赖
 pnpm install
@@ -360,7 +360,7 @@ pnpm run docs:api
 
 如果您在使用过程中遇到问题，可以通过以下方式获取帮助：
 
-- [GitHub Issues](https://github.com/agions/taroviz/issues) - 提交问题和建议
+- [GitHub Issues](https://github.com/agions/@agions/taroviz/issues) - 提交问题和建议
 - [在线文档](https://agions.github.io/TaroViz/) - 查看详细文档
 - [示例](https://agions.github.io/TaroViz/examples/) - 参考使用示例
 - [贡献指南](https://agions.github.io/TaroViz/contributing/) - 了解如何贡献代码
@@ -373,5 +373,5 @@ pnpm run docs:api
 
 - [Taro 官网](https://taro.jd.com/)
 - [ECharts 官网](https://echarts.apache.org/zh/index.html)
-- [GitHub 仓库](https://github.com/agions/taroviz)
-- [npm 包](https://www.npmjs.com/package/taroviz)
+- [GitHub 仓库](https://github.com/agions/@agions/taroviz)
+- [npm 包](https://www.npmjs.com/package/@agions/taroviz)

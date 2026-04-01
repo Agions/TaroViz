@@ -103,8 +103,8 @@ export class CodeGenerator {
       description: 'React ESM TypeScript 代码示例模板',
       frameworks: ['react'],
       content: `import React from 'react';
-import { BaseChart } from 'taroviz';
-import { EChartsOption } from 'taroviz/types';
+import { BaseChart } from '@agions/taroviz';
+import { EChartsOption } from '@agions/taroviz/types';
 
 const { componentName } = options;
 const chartId = options.chartId || 'chart';
@@ -161,7 +161,7 @@ export default {componentName};`,
       description: 'React ESM JavaScript 代码示例模板',
       frameworks: ['react'],
       content: `import React from 'react';
-import { BaseChart } from 'taroviz';
+import { BaseChart } from '@agions/taroviz';
 
 const { componentName } = options;
 const chartId = options.chartId || 'chart';
@@ -225,8 +225,8 @@ export default {componentName};`,
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { BaseChart } from 'taroviz';
-import { EChartsOption } from 'taroviz/types';
+import { BaseChart } from '@agions/taroviz';
+import { EChartsOption } from '@agions/taroviz/types';
 
 const chartId = options.chartId || 'chart';
 
@@ -277,7 +277,7 @@ const option: EChartsOption = ref({
 
 <script setup>
 import { ref } from 'vue';
-import { BaseChart } from 'taroviz';
+import { BaseChart } from '@agions/taroviz';
 
 const chartId = options.chartId || 'chart';
 
@@ -320,8 +320,8 @@ const option = ref({
       name: 'vanilla-esm-ts',
       description: 'Vanilla ESM TypeScript 代码示例模板',
       frameworks: ['vanilla'],
-      content: `import { BaseChart } from 'taroviz';
-import { EChartsOption } from 'taroviz/types';
+      content: `import { BaseChart } from '@agions/taroviz';
+import { EChartsOption } from '@agions/taroviz/types';
 
 const chartId = options.chartId || 'chart';
 const container = document.getElementById(chartId);
@@ -381,7 +381,7 @@ export default chart;`,
       name: 'vanilla-esm-js',
       description: 'Vanilla ESM JavaScript 代码示例模板',
       frameworks: ['vanilla'],
-      content: `import { BaseChart } from 'taroviz';
+      content: `import { BaseChart } from '@agions/taroviz';
 
 const chartId = options.chartId || 'chart';
 const container = document.getElementById(chartId);

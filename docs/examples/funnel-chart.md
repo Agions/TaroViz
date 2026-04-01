@@ -5,7 +5,7 @@
 ## 基本用法
 
 ```tsx
-import { FunnelChart } from 'taroviz';
+import { FunnelChart } from '@agions/taroviz';
 
 const data = {
   series: [
@@ -44,7 +44,7 @@ function App() {
 ## 自定义漏斗图
 
 ```tsx
-import { FunnelChart } from 'taroviz';
+import { FunnelChart } from '@agions/taroviz';
 
 const data = {
   series: [

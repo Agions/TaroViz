@@ -5,7 +5,7 @@
 ## 基本用法
 
 ```tsx
-import { LineChart } from 'taroviz';
+import { LineChart } from '@agions/taroviz';
 
 const data = {
   categories: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
@@ -39,7 +39,7 @@ function App() {
 ## 多系列折线图
 
 ```tsx
-import { LineChart } from 'taroviz';
+import { LineChart } from '@agions/taroviz';
 
 const data = {
   categories: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],

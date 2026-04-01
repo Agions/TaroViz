@@ -5,7 +5,7 @@
 ## 基本用法
 
 ```tsx
-import { GaugeChart } from 'taroviz';
+import { GaugeChart } from '@agions/taroviz';
 
 const data = {
   series: [
@@ -43,7 +43,7 @@ function App() {
 ## 自定义仪表盘
 
 ```tsx
-import { GaugeChart } from 'taroviz';
+import { GaugeChart } from '@agions/taroviz';
 
 const data = {
   series: [

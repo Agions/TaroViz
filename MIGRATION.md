@@ -44,17 +44,17 @@
 1. **更新依赖**
 
    ```bash
-   npm update taroviz
+   npm update @agions/taroviz
    ```
 
 2. **更新适配器使用**
 
    ```typescript
    // 旧版本
-   import { getEnv, getAdapter } from 'taroviz/adapters';
+   import { getEnv, getAdapter } from '@agions/taroviz/adapters';
 
    // 新版本
-   import { detectPlatform, getAdapter } from 'taroviz/adapters';
+   import { detectPlatform, getAdapter } from '@agions/taroviz/adapters';
    ```
 
 3. **更新图表配置**
@@ -66,7 +66,7 @@
    };
 
    // 新版本 - 使用配置生成器
-   import { ConfigGenerator } from 'taroviz';
+   import { ConfigGenerator } from '@agions/taroviz';
 
    const option = ConfigGenerator.generate('line', {
      title: '销售趋势',
@@ -83,7 +83,7 @@
 4. **添加性能监控**
 
    ```typescript
-   import { PerformanceAnalyzer } from 'taroviz';
+   import { PerformanceAnalyzer } from '@agions/taroviz';
 
    // 启用性能监控
    const analyzer = PerformanceAnalyzer.getInstance();
@@ -100,8 +100,8 @@
 
 1. **包名变更**
 
-   - 主包从 `taroviz-all` 改为 `taroviz`
-   - 所有子包统一使用 `taroviz-*` 命名
+   - 主包从 `@agions/taroviz-all` 改为 `@agions/taroviz`
+   - 所有子包统一使用 `@agions/taroviz-*` 命名
 
 2. **API 简化**
    - 移除了冗余的 API
@@ -113,21 +113,21 @@
 
    ```bash
    # 卸载旧包
-   npm uninstall taroviz-all taroviz-core taroviz-charts
+   npm uninstall @agions/taroviz-all @agions/taroviz-core @agions/taroviz-charts
 
    # 安装新包
-   npm install taroviz
+   npm install @agions/taroviz
    ```
 
 2. **更新导入语句**
 
    ```typescript
    // 旧版本
-   import { LineChart } from 'taroviz-charts';
-   import { ThemeProvider } from 'taroviz-core';
+   import { LineChart } from '@agions/taroviz-charts';
+   import { ThemeProvider } from '@agions/taroviz-core';
 
    // 新版本
-   import { LineChart, ThemeProvider } from 'taroviz';
+   import { LineChart, ThemeProvider } from '@agions/taroviz';
    ```
 
 3. **更新组件使用**
@@ -175,21 +175,21 @@
 1. **卸载旧包**
 
    ```bash
-   npm uninstall taroviz-all taroviz-core taroviz-charts taroviz-themes taroviz-hooks taroviz-data taroviz-adapters
+   npm uninstall @agions/taroviz-all @agions/taroviz-core @agions/taroviz-charts @agions/taroviz-themes @agions/taroviz-hooks @agions/taroviz-data @agions/taroviz-adapters
    ```
 
 2. **安装新包**
 
    ```bash
-   npm install taroviz
+   npm install @agions/taroviz
    ```
 
 3. **重写图表组件**
 
    ```typescript
    // 旧版本
-   import { LineChart } from 'taroviz-charts';
-   import { useChartData } from 'taroviz-hooks';
+   import { LineChart } from '@agions/taroviz-charts';
+   import { useChartData } from '@agions/taroviz-hooks';
 
    const data = useChartData(rawData);
 
@@ -203,7 +203,7 @@
    />
 
    // 新版本
-   import { LineChart } from 'taroviz';
+   import { LineChart } from '@agions/taroviz';
 
    const option = {
      title: {
@@ -270,7 +270,7 @@
 
 - 查看 [API 文档](./docs-api/index.html)
 - 查看 [示例项目](./examples)
-- 创建 [GitHub Issue](https://github.com/agions/taroviz/issues)
+- 创建 [GitHub Issue](https://github.com/agions/@agions/taroviz/issues)
 - 联系维护者
 
 ## 版本历史

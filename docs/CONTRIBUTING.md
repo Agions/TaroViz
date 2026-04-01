@@ -12,8 +12,8 @@
 
 如果您在使用 TaroViz 时遇到问题，或者有任何建议，可以通过以下方式提交：
 
-1. [GitHub Issues](https://github.com/agions/taroviz/issues) - 提交问题和建议
-2. [GitHub Discussions](https://github.com/agions/taroviz/discussions) - 参与讨论
+1. [GitHub Issues](https://github.com/agions/@agions/taroviz/issues) - 提交问题和建议
+2. [GitHub Discussions](https://github.com/agions/@agions/taroviz/discussions) - 参与讨论
 
 ### 1.1 提交问题
 
@@ -43,7 +43,7 @@
 
 首先，您需要 Fork TaroViz 仓库到您的 GitHub 账号：
 
-1. 访问 [TaroViz 仓库](https://github.com/agions/taroviz)
+1. 访问 [TaroViz 仓库](https://github.com/agions/@agions/taroviz)
 2. 点击右上角的 "Fork" 按钮
 
 ### 2.2 克隆仓库
@@ -51,8 +51,8 @@
 将 Fork 后的仓库克隆到本地：
 
 ```bash
-git clone https://github.com/your-username/taroviz.git
-cd taroviz
+git clone https://github.com/your-username/@agions/taroviz.git
+cd @agions/taroviz
 ```
 
 ### 2.3 安装依赖
@@ -236,8 +236,8 @@ git push origin feature/your-feature-name
 
 感谢所有为 TaroViz 做出贡献的开发者！
 
-- [Contributors](https://github.com/agions/taroviz/graphs/contributors)
+- [Contributors](https://github.com/agions/@agions/taroviz/graphs/contributors)
 
 ## 9. 许可证
 
-TaroViz 使用 [MIT License](https://github.com/agions/taroviz/blob/main/LICENSE)。
+TaroViz 使用 [MIT License](https://github.com/agions/@agions/taroviz/blob/main/LICENSE)。
