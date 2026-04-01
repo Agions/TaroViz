@@ -101,7 +101,7 @@
 #### 旧版本
 
 ```typescript
-import { getEnv } from '@agions/taroviz';
+import { getEnv } from 'taroviz';
 
 const env = getEnv();
 console.log('当前环境:', env);
@@ -110,7 +110,7 @@ console.log('当前环境:', env);
 #### 新版本
 
 ```typescript
-import { detectPlatform } from '@agions/taroviz';
+import { detectPlatform } from 'taroviz';
 
 const platform = detectPlatform();
 console.log('当前平台:', platform);
@@ -157,7 +157,7 @@ TaroViz 提供了代码迁移脚本，可以帮助您自动迁移代码：
 
 ```bash
 # 安装迁移工具
-npm install -g @agions/taroviz-migrate
+npm install -g taroviz-migrate
 
 # 运行迁移脚本
 npx taroviz-migrate migrate --source ./src --target ./src

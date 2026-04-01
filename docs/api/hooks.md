@@ -9,7 +9,7 @@ TaroViz 提供了一系列 React Hooks，用于简化图表的开发和管理。
 ### 导入
 
 ```typescript
-import { useChart } from '@agions/taroviz';
+import { useChart } from 'taroviz';
 ```
 
 ### 类型定义
@@ -72,7 +72,7 @@ function useChart(chartId?: string | UseChartOptions): UseChartReturn;
 
 ```typescript
 import React from 'react';
-import { LineChart, useChart } from '@agions/taroviz';
+import { LineChart, useChart } from 'taroviz';
 
 const ChartComponent = () => {
   const { chartRef, chartInstance, isInitialized } = useChart('chart-id');
@@ -129,7 +129,7 @@ export default ChartComponent;
 ### 导入
 
 ```typescript
-import { useTheme } from '@agions/taroviz';
+import { useTheme } from 'taroviz';
 ```
 
 ### 类型定义
@@ -161,7 +161,7 @@ function useTheme(initialTheme?: string | object): UseThemeReturn;
 
 ```typescript
 import React from 'react';
-import { LineChart, useTheme } from '@agions/taroviz';
+import { LineChart, useTheme } from 'taroviz';
 
 const ThemeComponent = () => {
   const { theme, setTheme, themes } = useTheme('default');
@@ -216,7 +216,7 @@ export default ThemeComponent;
 ### 导入
 
 ```typescript
-import { useChartData } from '@agions/taroviz';
+import { useChartData } from 'taroviz';
 ```
 
 ### 类型定义
@@ -267,7 +267,7 @@ function useChartData(initialData?: any | UseChartDataOptions): UseChartDataRetu
 
 ```typescript
 import React from 'react';
-import { BarChart, useChartData } from '@agions/taroviz';
+import { BarChart, useChartData } from 'taroviz';
 
 const DataComponent = () => {
   const { data, updateData, isUpdating } = useChartData([120, 200, 150, 80, 70, 110, 130]);
@@ -321,7 +321,7 @@ export default DataComponent;
 ### 导入
 
 ```typescript
-import { usePerformance } from '@agions/taroviz';
+import { usePerformance } from 'taroviz';
 ```
 
 ### 类型定义
@@ -399,7 +399,7 @@ function usePerformance(options?: UsePerformanceOptions): UsePerformanceReturn;
 
 ```typescript
 import React from 'react';
-import { LineChart, usePerformance } from '@agions/taroviz';
+import { LineChart, usePerformance } from 'taroviz';
 
 const PerformanceComponent = () => {
   const { metrics, isMonitoring, startMonitoring, stopMonitoring } = usePerformance({
@@ -459,7 +459,7 @@ export default PerformanceComponent;
 ### 导入
 
 ```typescript
-import { useChartEvent } from '@agions/taroviz';
+import { useChartEvent } from 'taroviz';
 ```
 
 ### 类型定义
@@ -506,7 +506,7 @@ function useChartEvent(options?: UseChartEventOptions): UseChartEventReturn;
 
 ```typescript
 import React from 'react';
-import { PieChart, useChart, useChartEvent } from '@agions/taroviz';
+import { PieChart, useChart, useChartEvent } from 'taroviz';
 
 const EventComponent = () => {
   const { chartRef, chartInstance } = useChart('event-chart');
@@ -582,7 +582,7 @@ export default EventComponent;
 ### 导入
 
 ```typescript
-import { useResponsive } from '@agions/taroviz';
+import { useResponsive } from 'taroviz';
 ```
 
 ### 类型定义
@@ -648,7 +648,7 @@ function useResponsive(options?: UseResponsiveOptions): UseResponsiveReturn;
 
 ```typescript
 import React from 'react';
-import { LineChart, useResponsive } from '@agions/taroviz';
+import { LineChart, useResponsive } from 'taroviz';
 
 const ResponsiveComponent = () => {
   const chartRef = React.useRef<HTMLDivElement>(null);

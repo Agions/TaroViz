@@ -81,19 +81,19 @@ function createExamples() {
       name: 'line-chart.md',
       title: '折线图示例',
       content:
-        "# 折线图示例\n\n这是一个简单的折线图示例，展示了如何使用TaroViz创建折线图。\n\n## 基本使用\n\n```typescript\nimport React from 'react';\nimport { LineChart } from '@agions/taroviz';\n\nconst LineChartDemo = () => {\n  const option = {\n    title: {\n      text: '销售趋势'\n    },\n    tooltip: {\n      trigger: 'axis'\n    },\n    legend: {\n      data: ['线上', '线下']\n    },\n    xAxis: {\n      type: 'category',\n      boundaryGap: false,\n      data: ['1月', '2月', '3月', '4月', '5月', '6月']\n    },\n    yAxis: {\n      type: 'value'\n    },\n    series: [\n      {\n        name: '线上',\n        type: 'line',\n        data: [120, 200, 150, 80, 70, 110],\n        smooth: true\n      },\n      {\n        name: '线下',\n        type: 'line',\n        data: [90, 150, 120, 100, 80, 130],\n        smooth: true\n      }\n    ]\n  }\n\n  return (\n    <LineChart\n      chartId=\"line-chart\"\n      option={option}\n      width=\"100%\"\n      height={400}\n      theme=\"dark\"\n      autoResize={true}\n    />\n  )\n}\n\nexport default LineChartDemo\n```\n\n## 配置说明\n\n- chartId: 图表唯一标识符\n- option: ECharts配置项\n- width: 图表宽度\n- height: 图表高度\n- theme: 图表主题\n- autoResize: 是否自动调整大小\n",
+        "# 折线图示例\n\n这是一个简单的折线图示例，展示了如何使用TaroViz创建折线图。\n\n## 基本使用\n\n```typescript\nimport React from 'react';\nimport { LineChart } from 'taroviz';\n\nconst LineChartDemo = () => {\n  const option = {\n    title: {\n      text: '销售趋势'\n    },\n    tooltip: {\n      trigger: 'axis'\n    },\n    legend: {\n      data: ['线上', '线下']\n    },\n    xAxis: {\n      type: 'category',\n      boundaryGap: false,\n      data: ['1月', '2月', '3月', '4月', '5月', '6月']\n    },\n    yAxis: {\n      type: 'value'\n    },\n    series: [\n      {\n        name: '线上',\n        type: 'line',\n        data: [120, 200, 150, 80, 70, 110],\n        smooth: true\n      },\n      {\n        name: '线下',\n        type: 'line',\n        data: [90, 150, 120, 100, 80, 130],\n        smooth: true\n      }\n    ]\n  }\n\n  return (\n    <LineChart\n      chartId=\"line-chart\"\n      option={option}\n      width=\"100%\"\n      height={400}\n      theme=\"dark\"\n      autoResize={true}\n    />\n  )\n}\n\nexport default LineChartDemo\n```\n\n## 配置说明\n\n- chartId: 图表唯一标识符\n- option: ECharts配置项\n- width: 图表宽度\n- height: 图表高度\n- theme: 图表主题\n- autoResize: 是否自动调整大小\n",
     },
     {
       name: 'bar-chart.md',
       title: '柱状图示例',
       content:
-        "# 柱状图示例\n\n这是一个简单的柱状图示例，展示了如何使用TaroViz创建柱状图。\n\n## 基本使用\n\n```typescript\nimport React from 'react';\nimport { BarChart } from '@agions/taroviz';\n\nconst BarChartDemo = () => {\n  const option = {\n    title: {\n      text: '销售对比'\n    },\n    tooltip: {\n      trigger: 'axis'\n    },\n    legend: {\n      data: ['2023年', '2024年']\n    },\n    xAxis: {\n      type: 'category',\n      data: ['1月', '2月', '3月', '4月', '5月', '6月']\n    },\n    yAxis: {\n      type: 'value'\n    },\n    series: [\n      {\n        name: '2023年',\n        type: 'bar',\n        data: [120, 200, 150, 80, 70, 110]\n      },\n      {\n        name: '2024年',\n        type: 'bar',\n        data: [220, 180, 250, 130, 150, 210]\n      }\n    ]\n  }\n\n  return (\n    <BarChart\n      chartId=\"bar-chart\"\n      option={option}\n      width=\"100%\"\n      height={400}\n    />\n  )\n}\n\nexport default BarChartDemo\n```\n",
+        "# 柱状图示例\n\n这是一个简单的柱状图示例，展示了如何使用TaroViz创建柱状图。\n\n## 基本使用\n\n```typescript\nimport React from 'react';\nimport { BarChart } from 'taroviz';\n\nconst BarChartDemo = () => {\n  const option = {\n    title: {\n      text: '销售对比'\n    },\n    tooltip: {\n      trigger: 'axis'\n    },\n    legend: {\n      data: ['2023年', '2024年']\n    },\n    xAxis: {\n      type: 'category',\n      data: ['1月', '2月', '3月', '4月', '5月', '6月']\n    },\n    yAxis: {\n      type: 'value'\n    },\n    series: [\n      {\n        name: '2023年',\n        type: 'bar',\n        data: [120, 200, 150, 80, 70, 110]\n      },\n      {\n        name: '2024年',\n        type: 'bar',\n        data: [220, 180, 250, 130, 150, 210]\n      }\n    ]\n  }\n\n  return (\n    <BarChart\n      chartId=\"bar-chart\"\n      option={option}\n      width=\"100%\"\n      height={400}\n    />\n  )\n}\n\nexport default BarChartDemo\n```\n",
     },
     {
       name: 'pie-chart.md',
       title: '饼图示例',
       content:
-        "# 饼图示例\n\n这是一个简单的饼图示例，展示了如何使用TaroViz创建饼图。\n\n## 基本使用\n\n```typescript\nimport React from 'react';\nimport { PieChart } from '@agions/taroviz';\n\nconst PieChartDemo = () => {\n  const option = {\n    title: {\n      text: '销售渠道分布',\n      left: 'center'\n    },\n    tooltip: {\n      trigger: 'item'\n    },\n    legend: {\n      orient: 'vertical',\n      left: 'left'\n    },\n    series: [\n      {\n        name: '销售渠道',\n        type: 'pie',\n        radius: '50%',\n        data: [\n          { value: 350, name: '线上商城' },\n          { value: 250, name: '线下门店' },\n          { value: 200, name: '代理商' },\n          { value: 150, name: '其他' }\n        ],\n        emphasis: {\n          itemStyle: {\n            shadowBlur: 10,\n            shadowOffsetX: 0,\n            shadowColor: 'rgba(0, 0, 0, 0.5)'\n          }\n        }\n      }\n    ]\n  }\n\n  return (\n    <PieChart\n      chartId=\"pie-chart\"\n      option={option}\n      width={400}\n      height={400}\n    />\n  )\n}\n\nexport default PieChartDemo\n```\n",
+        "# 饼图示例\n\n这是一个简单的饼图示例，展示了如何使用TaroViz创建饼图。\n\n## 基本使用\n\n```typescript\nimport React from 'react';\nimport { PieChart } from 'taroviz';\n\nconst PieChartDemo = () => {\n  const option = {\n    title: {\n      text: '销售渠道分布',\n      left: 'center'\n    },\n    tooltip: {\n      trigger: 'item'\n    },\n    legend: {\n      orient: 'vertical',\n      left: 'left'\n    },\n    series: [\n      {\n        name: '销售渠道',\n        type: 'pie',\n        radius: '50%',\n        data: [\n          { value: 350, name: '线上商城' },\n          { value: 250, name: '线下门店' },\n          { value: 200, name: '代理商' },\n          { value: 150, name: '其他' }\n        ],\n        emphasis: {\n          itemStyle: {\n            shadowBlur: 10,\n            shadowOffsetX: 0,\n            shadowColor: 'rgba(0, 0, 0, 0.5)'\n          }\n        }\n      }\n    ]\n  }\n\n  return (\n    <PieChart\n      chartId=\"pie-chart\"\n      option={option}\n      width={400}\n      height={400}\n    />\n  )\n}\n\nexport default PieChartDemo\n```\n",
     },
   ];
 
@@ -158,13 +158,13 @@ function createUsageGuide() {
 
 \`\`\`bash
 # npm
-npm install @agions/taroviz
+npm install taroviz
 
 # yarn
-yarn add @agions/taroviz
+yarn add taroviz
 
 # pnpm
-pnpm add @agions/taroviz
+pnpm add taroviz
 \`\`\`
 
 ## 快速开始
@@ -173,7 +173,7 @@ pnpm add @agions/taroviz
 
 \`\`\`typescript
 import React from 'react';
-import { LineChart } from '@agions/taroviz';
+import { LineChart } from 'taroviz';
 
 const App = () => {
   const option = {
@@ -260,7 +260,7 @@ TaroViz支持动态更新图表数据，你只需要更新option属性即可：
 
 \`\`\`typescript
 import React, { useState } from 'react';
-import { LineChart } from '@agions/taroviz';
+import { LineChart } from 'taroviz';
 
 const DynamicChart = () => {
   const [option, setOption] = useState({
@@ -313,7 +313,7 @@ TaroViz支持ECharts的各种事件，你可以通过相应的属性监听事件
 你可以通过registerTheme函数注册自定义主题：
 
 \`\`\`typescript
-import { registerTheme } from '@agions/taroviz';
+import { registerTheme } from 'taroviz';
 
 // 注册自定义主题
 registerTheme('my-theme', {

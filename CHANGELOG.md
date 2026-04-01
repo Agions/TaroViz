@@ -148,7 +148,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [1.0.2](https://github.com/Agions/TaroViz/compare/v1.0.1...v1.0.2) (2025-04-12)
 
-**Note:** Version bump only for package @agions/taroviz
+**Note:** Version bump only for package taroviz
 
 ## [1.0.1](https://github.com/Agions/TaroViz/compare/v0.4.0...v1.0.1) (2025-04-12)
 
@@ -166,7 +166,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### 重大变更
 
-- 📦 包名更新：主包从 `@agions/taroviz-all` 改为 `@agions/taroviz`
+- 📦 包名更新：主包从 `taroviz-all` 改为 `taroviz`
 
 ### 新增
 
@@ -178,31 +178,31 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### 核心包更新
 
-#### @agions/taroviz-core@1.0.0
+#### taroviz-core@1.0.0
 
 - ✨ 基础图表组件
 - 🛠️ 工具函数库
 - 📱 多端渲染支持
 
-#### @agions/taroviz-hooks@1.0.0
+#### taroviz-hooks@1.0.0
 
 - 🎯 图表数据处理 Hooks
 - 🔄 状态管理 Hooks
 - 🎨 主题 Hooks
 
-#### @agions/taroviz-data@1.0.0
+#### taroviz-data@1.0.0
 
 - 📊 数据转换工具
 - 📈 数据聚合功能
 - 🔍 数据过滤与验证
 
-#### @agions/taroviz-themes@1.0.0
+#### taroviz-themes@1.0.0
 
 - 🎨 预设主题
 - 🛠️ 主题创建工具
 - 🔄 主题切换支持
 
-#### @agions/taroviz-adapters@1.0.0
+#### taroviz-adapters@1.0.0
 
 - 📱 多端适配器
 - 🔌 平台兼容层

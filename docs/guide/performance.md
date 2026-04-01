@@ -188,7 +188,7 @@ const NoAnimationExample = () => {
 
 ```typescript
 import React, { useEffect, useRef } from 'react';
-import { LineChart, ChartRef } from '@agions/taroviz';
+import { LineChart, ChartRef } from 'taroviz';
 
 const MemoryManagementExample = () => {
   const chartRef = useRef<ChartRef>(null);
@@ -264,7 +264,7 @@ const MemoryLeakExample = () => {
 
 ```typescript
 import React, { useState } from 'react';
-import { LineChart } from '@agions/taroviz';
+import { LineChart } from 'taroviz';
 
 // 使用 React.memo 包装图表组件
 const MemoizedLineChart = React.memo(LineChart);
@@ -296,7 +296,7 @@ const OptimizedComponentExample = () => {
 
 ```typescript
 import React, { useState, useEffect } from 'react';
-import { LineChart } from '@agions/taroviz';
+import { LineChart } from 'taroviz';
 
 const LazyLoadExample = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -336,7 +336,7 @@ const LazyLoadExample = () => {
 TaroViz 提供了性能分析工具，可以监控图表的性能：
 
 ```typescript
-import { PerformanceAnalyzer } from '@agions/taroviz';
+import { PerformanceAnalyzer } from 'taroviz';
 
 const PerformanceMonitoringExample = () => {
   const option = {

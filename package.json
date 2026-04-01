@@ -1,5 +1,5 @@
 {
-  "name": "@agions/taroviz",
+  "name": "taroviz",
   "version": "1.6.0",
   "description": "基于 Taro 和 ECharts 的多端图表组件库",
   "type": "module",

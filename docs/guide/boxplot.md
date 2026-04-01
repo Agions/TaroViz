@@ -7,7 +7,7 @@
 ## 基本用法
 
 ```tsx
-import { BoxplotChart } from '@agions/taroviz';
+import { BoxplotChart } from 'taroviz';
 
 const App = () => {
   const option = {

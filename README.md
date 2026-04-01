@@ -4,14 +4,14 @@
   <h1>TaroViz</h1>
   <p>基于 Taro 和 ECharts 的多端图表组件库</p>
   <p>
-    <a href="https://www.npmjs.com/package/@agions/taroviz">
-      <img src="https://img.shields.io/npm/v/@agions/taroviz.svg" alt="npm package">
+    <a href="https://www.npmjs.com/package/taroviz">
+      <img src="https://img.shields.io/npm/v/taroviz.svg" alt="npm package">
     </a>
-    <a href="https://www.npmjs.com/package/@agions/taroviz">
-      <img src="https://img.shields.io/npm/dm/@agions/taroviz.svg" alt="npm downloads">
+    <a href="https://www.npmjs.com/package/taroviz">
+      <img src="https://img.shields.io/npm/dm/taroviz.svg" alt="npm downloads">
     </a>
     <a href="https://github.com/agions/taroviz/blob/main/LICENSE">
-      <img src="https://img.shields.io/npm/l/@agions/taroviz.svg" alt="license">
+      <img src="https://img.shields.io/npm/l/taroviz.svg" alt="license">
     </a>
   </p>
 </div>
@@ -52,20 +52,20 @@
 
 ```bash
 # npm
-npm install @agions/taroviz
+npm install taroviz
 
 # yarn
-yarn add @agions/taroviz
+yarn add taroviz
 
 # pnpm
-pnpm add @agions/taroviz
+pnpm add taroviz
 ```
 
 ### 基础使用
 
 ```typescript
 import React from 'react';
-import { LineChart } from '@agions/taroviz';
+import { LineChart } from 'taroviz';
 
 const App = () => {
   // ECharts 配置项
@@ -137,7 +137,7 @@ TaroViz 采用单包架构设计，包含以下核心模块：
 
 ```typescript
 import React from 'react';
-import { LineChart } from '@agions/taroviz';
+import { LineChart } from 'taroviz';
 
 const LineChartDemo = () => {
   const option = {
@@ -192,7 +192,7 @@ export default LineChartDemo;
 
 ```typescript
 import React from 'react';
-import { PieChart } from '@agions/taroviz';
+import { PieChart } from 'taroviz';
 
 const PieChartDemo = () => {
   const option = {
@@ -245,7 +245,7 @@ export default PieChartDemo;
 
 ```typescript
 import React from 'react';
-import { ScatterChart } from '@agions/taroviz';
+import { ScatterChart } from 'taroviz';
 
 const ScatterChartDemo = () => {
   const option = {
@@ -374,4 +374,4 @@ pnpm run docs:api
 - [Taro 官网](https://taro.jd.com/)
 - [ECharts 官网](https://echarts.apache.org/zh/index.html)
 - [GitHub 仓库](https://github.com/agions/taroviz)
-- [npm 包](https://www.npmjs.com/package/@agions/taroviz)
+- [npm 包](https://www.npmjs.com/package/taroviz)

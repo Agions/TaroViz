@@ -5,7 +5,7 @@
 ## 基本用法
 
 ```tsx
-import { ScatterChart } from '@agions/taroviz';
+import { ScatterChart } from 'taroviz';
 
 const data = {
   series: [
@@ -50,7 +50,7 @@ function App() {
 ## 多系列散点图
 
 ```tsx
-import { ScatterChart } from '@agions/taroviz';
+import { ScatterChart } from 'taroviz';
 
 const data = {
   series: [
