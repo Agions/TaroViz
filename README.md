@@ -10,15 +10,15 @@
     <a href="https://www.npmjs.com/package/@agions/taroviz">
       <img src="https://img.shields.io/npm/dm/@agions/taroviz.svg" alt="npm downloads">
     </a>
-    <a href="https://github.com/agions/@agions/taroviz/blob/main/LICENSE">
+    <a href="https://github.com/Agions/TaroViz/blob/main/LICENSE">
       <img src="https://img.shields.io/npm/l/@agions/taroviz.svg" alt="license">
     </a>
   </p>
 </div>
 
-## 📢 最新版本 v1.3.1
+## 📢 最新版本 v1.6.0
 
-我们很高兴地宣布 TaroViz v1.3.1 已正式发布！本次更新包含安全修复和代码优化。查看 [更新日志](./CHANGELOG.md) 了解详细信息。
+我们很高兴地宣布 TaroViz v1.6.0 已正式发布！新增箱线图、平行坐标图、K线图、关系图、词云图，以及增强版主题编辑器。查看 [更新日志](./CHANGELOG.md) 了解详细信息。
 
 ## 📚 文档
 
@@ -102,21 +102,26 @@ export default App;
 
 ## 支持的图表类型
 
-TaroViz 支持以下图表类型：
+TaroViz 支持 16 种图表类型：
 
-| 图表类型 | 描述                               | 组件名           |
-| -------- | ---------------------------------- | ---------------- |
-| 折线图   | 用于展示数据随时间或类别变化的趋势 | `LineChart`      |
-| 柱状图   | 用于比较不同类别的数据大小         | `BarChart`       |
-| 饼图     | 用于展示数据占比关系               | `PieChart`       |
-| 散点图   | 用于展示两个变量之间的关系         | `ScatterChart`   |
-| 雷达图   | 用于展示多维度数据                 | `RadarChart`     |
-| 热力图   | 用于展示数据密度和分布             | `HeatmapChart`   |
-| 仪表盘   | 用于展示单一指标的进度或状态       | `GaugeChart`     |
-| 漏斗图   | 用于展示流程中各阶段的数据转化     | `FunnelChart`    |
-| 矩形树图 | 用于展示带有层级结构的数据         | `TreeMapChart`   |
-| 旭日图   | 用于展示多层级数据的占比关系       | `SunburstChart`  |
-| 桑基图   | 用于展示数据流向和转移关系         | `SankeyChart`    |
+| 图表类型 | 描述                               | 组件名              |
+| -------- | ---------------------------------- | ------------------- |
+| 折线图   | 用于展示数据随时间或类别变化的趋势 | `LineChart`         |
+| 柱状图   | 用于比较不同类别的数据大小         | `BarChart`          |
+| 饼图     | 用于展示数据占比关系               | `PieChart`          |
+| 散点图   | 用于展示两个变量之间的关系         | `ScatterChart`      |
+| 雷达图   | 用于展示多维度数据                 | `RadarChart`        |
+| 热力图   | 用于展示数据密度和分布             | `HeatmapChart`      |
+| 仪表盘   | 用于展示单一指标的进度或状态       | `GaugeChart`        |
+| 漏斗图   | 用于展示流程中各阶段的数据转化     | `FunnelChart`       |
+| 矩形树图 | 用于展示带有层级结构的数据         | `TreeMapChart`      |
+| 旭日图   | 用于展示多层级数据的占比关系       | `SunburstChart`     |
+| 桑基图   | 用于展示数据流向和转移关系         | `SankeyChart`       |
+| 箱线图   | 用于展示数据分布（统计对比）       | `BoxplotChart`      |
+| 平行坐标图 | 用于展示高维数据各维度关系       | `ParallelChart`     |
+| 关系图   | 用于展示实体之间的关系网络         | `GraphChart`        |
+| K线图    | 用于展示金融数据的 OHLC            | `CandlestickChart`  |
+| 词云图   | 用于展示文本关键词频率             | `WordCloudChart`    |
 
 ## 架构说明
 
@@ -295,7 +300,7 @@ export default ScatterChartDemo;
 
 ```bash
 # 克隆仓库
-git clone https://github.com/agions/@agions/taroviz.git
+git clone https://github.com/Agions/TaroViz.git
 
 # 安装依赖
 pnpm install
@@ -360,7 +365,7 @@ pnpm run docs:api
 
 如果您在使用过程中遇到问题，可以通过以下方式获取帮助：
 
-- [GitHub Issues](https://github.com/agions/@agions/taroviz/issues) - 提交问题和建议
+- [GitHub Issues](https://github.com/Agions/TaroViz/issues) - 提交问题和建议
 - [在线文档](https://agions.github.io/TaroViz/) - 查看详细文档
 - [示例](https://agions.github.io/TaroViz/examples/) - 参考使用示例
 - [贡献指南](https://agions.github.io/TaroViz/contributing/) - 了解如何贡献代码
@@ -373,5 +378,5 @@ pnpm run docs:api
 
 - [Taro 官网](https://taro.jd.com/)
 - [ECharts 官网](https://echarts.apache.org/zh/index.html)
-- [GitHub 仓库](https://github.com/agions/@agions/taroviz)
+- [GitHub 仓库](https://github.com/Agions/TaroViz)
 - [npm 包](https://www.npmjs.com/package/@agions/taroviz)
