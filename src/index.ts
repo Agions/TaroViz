@@ -1,6 +1,6 @@
 /**
  * TaroViz - 基于 Taro 和 ECharts 的多端图表组件库
- * @version 1.6.0
+ * @version 1.7.0
  */
 
 // 核心组件
@@ -58,6 +58,25 @@ export { default as WordCloudChart } from './charts/wordcloud';
 // v1.6.0 新增图表组件
 export { default as BoxplotChart } from './charts/boxplot';
 export { default as ParallelChart } from './charts/parallel';
+
+// v1.7.0 新增组件
+export { DataFilter, type DataFilterProps, type FilterField, type FilterValues } from './components/DataFilter';
+export {
+  createDrillDown,
+  canDrillDown,
+  buildHierarchy,
+  createRegionDrillDown,
+  createCategoryDrillDown,
+  type DrillDownConfig,
+  type DrillDownSource,
+  type DrillDownReturn,
+  type DrillDownEventParams,
+  type DrillUpEventParams,
+} from './core/utils/drillDown';
+
+// v1.7.0 新增图表组件
+export { default as LiquidChart } from './charts/liquid';
+export { default as TreeChart } from './charts/tree';
 
 // 适配器
 export { getAdapter, detectPlatform, getEnv } from './adapters';
@@ -152,10 +171,14 @@ export {
   useDataTransform,
   useTableTransform,
   useTimeSeriesTransform,
+  // v1.7.0 新增 Hooks
+  useDataZoom,
+  useChartConnect,
+  useChartDownload,
 } from './hooks';
 
 /**
  * 库信息
  */
 export const name = 'taroviz';
-export const version = '1.6.0';
+export const version = '1.7.0';

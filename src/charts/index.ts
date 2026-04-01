@@ -26,10 +26,14 @@ export { default as WordCloudChart } from './wordcloud';
 export { default as BoxplotChart } from './boxplot';
 export { default as ParallelChart } from './parallel';
 
+// 导出 v1.7.0 新增图表组件
+export { default as LiquidChart } from './liquid';
+export { default as TreeChart } from './tree';
+
 // 导出类型定义
 export * from './types';
 
 /**
  * 版本信息
  */
-export const version = '1.6.0';
+export const version = '1.7.0';
