@@ -3,7 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [1.6.0](https://github.com/Agions/TaroViz/compare/v1.5.0...v1.6.0) (2026-03-31)
+# [1.8.0](https://github.com/Agions/TaroViz/compare/v1.7.0...v1.8.0) (2026-04-02)
+
+### Features
+
+- **新增水球图示例文档 (LiquidChart)**：10个完整示例，覆盖基本用法、多层水球、自定义形状、进度展示等场景
+- **新增树图示例文档 (TreeChart)**：8个完整示例，覆盖水平/垂直/辐射布局、文件目录、思维导图等场景
+- **新增性能监控 Hook (usePerformance)**：支持实时 FPS 监控、性能指标采集、告警阈值设置
+- **新增轻量级 FPS 监控 Hook (useFpsMonitor)**：快速获取当前帧率
+- **新增动画控制 Hook (useAnimation)**：支持播放/暂停/停止/跳转/速度控制
+- **新增渐进式加载 Hook (useProgressiveLoading)**：支持大数据分批次加载动画
+- **导出工具增强**：新增 GIF 导出类型定义
+
+### Documentation
+
+- 更新 README 和首页：16种图表 → 18种图表
+- VitePress 侧边栏新增水球图和树图分组
+
+# [1.7.0](https://github.com/Agions/TaroViz/compare/v1.6.0...v1.7.0) (2026-04-02)
 
 ### Features
 
