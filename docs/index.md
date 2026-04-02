@@ -18,8 +18,8 @@ hero:
 
 features:
   - icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 9l-5-6-4 8-3-2"/></svg>
-    title: 11+ 图表类型
-    details: 折线图、柱状图、饼图、散点图、雷达图、热力图、仪表盘、漏斗图、矩形树图、旭日图、桑基图等，满足各类数据可视化需求
+    title: 16 种图表类型
+    details: 折线图、柱状图、饼图、散点图、雷达图、热力图、仪表盘、漏斗图、箱线图、平行坐标图、关系图、K线图、词云图、矩形树图、旭日图、桑基图等，满足各类数据可视化需求
 
   - icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>
     title: 真正的小程序原生
@@ -50,7 +50,7 @@ footer:
 
 | 图表组件 | 小程序平台 | 月下载量 |
 |:---:|:---:|:---:|
-| **11+** | **6+** | **10k+** |
+| **16** | **6+** | **10k+** |
 
 ## 为什么选择 TaroViz？
 

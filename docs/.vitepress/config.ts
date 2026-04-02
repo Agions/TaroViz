@@ -41,16 +41,32 @@ export default defineConfig({
         { text: '类型定义', link: '/api/types' }
       ],
       '/examples/': [
-        { text: '基础示例', link: '/examples/' },
+        { text: '示例概览', link: '/examples/' },
         { text: '交互式示例', link: '/examples/interactive' },
-        { text: '折线图', link: '/examples/line-chart' },
-        { text: '柱状图', link: '/examples/bar-chart' },
-        { text: '饼图', link: '/examples/pie-chart' },
-        { text: '散点图', link: '/examples/scatter-chart' },
-        { text: '雷达图', link: '/examples/radar-chart' },
-        { text: '热力图', link: '/examples/heatmap-chart' },
-        { text: '仪表盘', link: '/examples/gauge-chart' },
-        { text: '漏斗图', link: '/examples/funnel-chart' }
+        { text: '📈 基础图表', link: '/examples/line-chart', items: [
+          { text: '折线图', link: '/examples/line-chart' },
+          { text: '柱状图', link: '/examples/bar-chart' },
+          { text: '饼图', link: '/examples/pie-chart' },
+          { text: '散点图', link: '/examples/scatter-chart' },
+          { text: '雷达图', link: '/examples/radar-chart' }
+        ]},
+        { text: '🔥 高级图表', items: [
+          { text: '热力图', link: '/examples/heatmap-chart' },
+          { text: '仪表盘', link: '/examples/gauge-chart' },
+          { text: '漏斗图', link: '/examples/funnel-chart' },
+          { text: '矩形树图', link: '/examples/treemap-chart' },
+          { text: '旭日图', link: '/examples/sunburst-chart' },
+          { text: '桑基图', link: '/examples/sankey-chart' }
+        ]},
+        { text: '📊 统计图表', items: [
+          { text: '箱线图', link: '/examples/boxplot-chart' },
+          { text: '平行坐标图', link: '/examples/parallel-chart' }
+        ]},
+        { text: '🔗 关系图谱', items: [
+          { text: '关系图', link: '/examples/graph-chart' },
+          { text: 'K线图', link: '/examples/candlestick-chart' },
+          { text: '词云图', link: '/examples/wordcloud-chart' }
+        ]}
       ]
     },
 
