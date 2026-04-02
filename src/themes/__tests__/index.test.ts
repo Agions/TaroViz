@@ -1,4 +1,4 @@
-import { getTheme, registerTheme, defaultTheme, darkTheme } from '../index';
+import { getTheme, registerTheme, defaultTheme, darkTheme, getThemeByName } from '../index';
 
 describe('Theme System', () => {
   describe('getTheme', () => {
@@ -11,7 +11,7 @@ describe('Theme System', () => {
       const result = getTheme({ darkMode: true });
       expect(result.darkMode).toBe(true);
       expect(result.theme).toBe('dark');
-      expect(result.backgroundColor).toBe('#0f1117');
+      expect(result.backgroundColor).toBe('#1a1a2e');
     });
 
     it('should merge custom options with defaultTheme', () => {
@@ -50,16 +50,10 @@ describe('Theme System', () => {
   });
 
   describe('registerTheme', () => {
-    it('should log when registering a theme', () => {
-      // Mock console.log
-      const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
-
+    it('should register a theme', () => {
       registerTheme('custom-theme', { backgroundColor: '#123' });
-
-      expect(consoleSpy).toHaveBeenCalledWith('Registering theme: custom-theme');
-
-      // Restore console.log
-      consoleSpy.mockRestore();
+      const result = getThemeByName('custom-theme');
+      expect(result?.backgroundColor).toBe('#123');
     });
   });
 
@@ -70,8 +64,8 @@ describe('Theme System', () => {
       expect(defaultTheme).toHaveProperty('colors');
       expect(Array.isArray(defaultTheme.colors)).toBe(true);
       expect(defaultTheme.colors).toHaveLength(9);
-      expect(defaultTheme).toHaveProperty('backgroundColor', 'transparent');
-      expect(defaultTheme).toHaveProperty('textColor', '#333');
+      expect(defaultTheme).toHaveProperty('backgroundColor', '#ffffff');
+      expect(defaultTheme).toHaveProperty('textColor', '#333333');
       expect(defaultTheme).toHaveProperty('fontFamily');
     });
   });

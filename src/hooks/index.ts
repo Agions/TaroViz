@@ -322,7 +322,7 @@ export function useChartTheme(theme: string | Record<string, unknown>, darkMode 
  */
 export function useChartData<T = unknown>(data: T | null, transformer: DataTransformer<T>) {
   return useMemo(() => {
-    if (!data) {
+    if (!data || (Array.isArray(data) && data.length === 0)) {
       return {};
     }
     return transformer(data);
