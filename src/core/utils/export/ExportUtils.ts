@@ -13,13 +13,22 @@ import type { ECharts } from 'echarts';
  */
 export interface ExportImageOptions {
   /** 图片类型 */
-  type?: 'png' | 'jpeg' | 'webp';
+  type?: 'png' | 'jpeg' | 'webp' | 'gif';
   /** 设备像素比 */
   pixelRatio?: number;
   /** 背景色 */
   backgroundColor?: string;
   /** 质量 (仅对 jpeg/webp 有效) */
   quality?: number;
+  /** GIF 选项 */
+  gifOptions?: {
+    /** 每帧延迟 (ms) */
+    delay?: number;
+    /** 重复次数 (-1 = 无限) */
+    repeat?: number;
+    /** 帧数 */
+    frames?: number;
+  };
 }
 
 /**

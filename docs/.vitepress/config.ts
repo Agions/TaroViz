@@ -43,7 +43,7 @@ export default defineConfig({
       '/examples/': [
         { text: '示例概览', link: '/examples/' },
         { text: '交互式示例', link: '/examples/interactive' },
-        { text: '📈 基础图表', link: '/examples/line-chart', items: [
+        { text: '📈 基础图表', items: [
           { text: '折线图', link: '/examples/line-chart' },
           { text: '柱状图', link: '/examples/bar-chart' },
           { text: '饼图', link: '/examples/pie-chart' },
@@ -66,6 +66,10 @@ export default defineConfig({
           { text: '关系图', link: '/examples/graph-chart' },
           { text: 'K线图', link: '/examples/candlestick-chart' },
           { text: '词云图', link: '/examples/wordcloud-chart' }
+        ]},
+        { text: '💧 其他图表', items: [
+          { text: '水球图', link: '/examples/liquid-chart' },
+          { text: '树图', link: '/examples/tree-chart' }
         ]}
       ]
     },
