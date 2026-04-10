@@ -114,3 +114,31 @@ const start = useCallback(() => {
 - Pattern-Key: performance.raf_idempotent_start
 
 ---
+
+## [LRN-20260410-004] best_practice
+
+**Logged**: 2026-04-10T10:30:00+08:00
+**Priority**: medium
+**Status**: resolved
+**Area**: frontend
+
+### Summary
+适配器层 `any` 类型清理：所有平台适配器选项使用具体类型而非 `any`
+
+### Details
+`AdapterOptions` 中的 `onInit`、`option`、`containerRef` 等属性原本都使用 `any`。现已替换为：
+- `onInit: (instance: EChartsType) => void`
+- `option: EChartsOption`
+- `containerRef: HTMLElement | { current: HTMLElement | null }`
+- 索引签名 `[key: string]: unknown`（而非 `any`）
+
+### Suggested Action
+适配器类型定义中避免 `any`，使用 `EChartsType`、`EChartsOption` 等已导出的 ECharts 类型。容器引用使用联合类型兼容原生 DOM 和 React ref。
+
+### Metadata
+- Source: improvement
+- Related Files: src/adapters/types.ts, src/hooks/index.ts
+- Tags: typescript, adapters, echarts
+- Pattern-Key: typescript.adapter_any_cleanup
+
+---
