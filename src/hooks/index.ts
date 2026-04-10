@@ -58,6 +58,7 @@ export interface ChartConfig {
   height?: number | string;
   renderer?: 'canvas' | 'svg';
   theme?: string | Record<string, unknown>;
+  [key: string]: unknown;
 }
 
 /** 数据转换器 */
