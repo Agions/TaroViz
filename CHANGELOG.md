@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://github.com/Agions/TaroViz/compare/v1.8.0...v1.9.0) (2026-04-10)
+
+### Features
+
+- **无障碍键盘导航**：`+/-` 缩放、`←→↑↓` 方向键平移、`Home` 重置 — 图表支持完整键盘操作
+- **屏幕阅读器支持**：隐藏的 `aria-live` 数据表，通过 `aria-describedby` 关联图表容器
+- **性能监控增强**：`PerformanceAnalyzer` 支持按 `chartId` 隔离实例，多图表场景指标不再混淆
+- **专业动画预设**：动画时长调优（default 1200ms→450ms、fast 500ms→200ms），符合前端设计规范
+
+### Code Quality
+
+- `platform.ts` 核心类型重构：`EventHandler`/`Adapter` 接口全部使用 `EChartsType`/`ChartEventParams` 替代 `any`
+- `H5Adapter` 补全缺失方法：`dispatchAction()`、`getDataURL()`
+- `ChartEventParams`：从 ECharts re-export 改为本地 interface，解决类型定义问题
+- `AdapterOptions`：`containerRef` 使用 `HTMLElement | { current: HTMLElement | null }` 联合类型
+- `ThemeType`/`AdapterConfig`：索引签名从 `[key: string]: any` 升级为 `[key: string]: unknown`
+
+### Bug Fixes
+
+- `debounceDelay` 死代码激活：现在真正实现防抖逻辑
+- `liquid` 图表：`labelFormatter` value 类型断言修正
+- `BaseChart` `dataZoom`：正确处理 `Arrayable<DataZoomComponentOption>` 类型
+
+### Documentation
+
+- 新增 `.learnings/` 学习日志机制，记录优化经验模式
+
+---
+
 # [1.8.0](https://github.com/Agions/TaroViz/compare/v1.7.0...v1.8.0) (2026-04-02)
 
 ### Features
