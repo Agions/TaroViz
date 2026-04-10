@@ -18,6 +18,8 @@ import {
  */
 export class PerformanceAnalyzer {
   private static instance: PerformanceAnalyzer | null = null;
+  // Per-chart isolated instances
+  private static instances: Map<string, PerformanceAnalyzer> = new Map();
   private config: PerformanceAnalysisConfig;
   private metrics: Map<PerformanceMetricType, PerformanceMetric[]> = new Map();
   private eventHandlers: Map<PerformanceEventType, PerformanceEventHandler[]> = new Map();
@@ -53,9 +55,18 @@ export class PerformanceAnalyzer {
   }
 
   /**
-   * 获取单例实例
+   * 获取实例
+   * - 传入 chartId 时：每个 chartId 获得独立实例（指标隔离）
+   * - 不传 chartId 时：全局单例（向后兼容）
    */
   public static getInstance(config?: PerformanceAnalysisConfig): PerformanceAnalyzer {
+    if (config?.chartId) {
+      if (!PerformanceAnalyzer.instances.has(config.chartId)) {
+        PerformanceAnalyzer.instances.set(config.chartId, new PerformanceAnalyzer(config));
+      }
+      return PerformanceAnalyzer.instances.get(config.chartId)!;
+    }
+    // Legacy: global singleton
     if (!PerformanceAnalyzer.instance) {
       PerformanceAnalyzer.instance = new PerformanceAnalyzer(config);
     }
@@ -70,6 +81,15 @@ export class PerformanceAnalyzer {
       PerformanceAnalyzer.instance.stop();
       PerformanceAnalyzer.instance = null;
     }
+  }
+
+  /**
+   * 重置所有图表实例（用于测试/清理）
+   */
+  public static resetAllInstances(): void {
+    PerformanceAnalyzer.resetInstance();
+    PerformanceAnalyzer.instances.forEach((analyzer) => analyzer.stop());
+    PerformanceAnalyzer.instances.clear();
   }
 
   /**

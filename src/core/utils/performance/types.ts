@@ -64,6 +64,11 @@ export interface PerformanceAnalysisConfig {
   sampleInterval?: number;
 
   /**
+   * 图表实例 ID（传入时该 Analyzer 独立存储指标，不与其他实例共享）
+   */
+  chartId?: string;
+
+  /**
    * 最大采样数据点数量
    */
   maxSamples?: number;
