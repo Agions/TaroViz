@@ -9,6 +9,7 @@ import React, { useEffect, useRef, useMemo, useCallback } from 'react';
 
 import { generateEChartsAnimationConfig } from '../animation';
 import { EChartsOption, EChartsType, AnimationConfig } from '../types';
+import type { DataZoomComponentOption } from 'echarts';
 import { registerChart, removeChart, getChart } from '../utils/chartInstances';
 import { DebugPanel, DebugPanelOptions, updateDebugInfo } from '../utils/debug';
 import { PerformanceAnalyzer } from '../utils/performance';
@@ -21,8 +22,27 @@ import type { BaseChartProps } from '../../charts/types';
 // ============================================================================
 
 /** 图表事件参数类型 */
-export interface ChartEventParams {
-  [key: string]: any;
+export interface ChartEventParams extends Record<string, unknown> {
+  componentType?: string;
+  componentSubType?: string;
+  componentIndex?: number;
+  seriesType?: string;
+  seriesIndex?: number;
+  seriesId?: string;
+  seriesName?: string;
+  name?: string;
+  dataIndex?: number;
+  data?: unknown;
+  dataType?: string;
+  value?: unknown;
+  color?: string;
+  borderColor?: string;
+  dimensionNames?: string[];
+  encode?: Record<string, number[]>;
+  marker?: string;
+  status?: string;
+  dimensionIndex?: number;
+  percent?: number;
 }
 
 /** 图表导出选项 */
@@ -206,6 +226,22 @@ const BaseChart: React.FC<ChartProps> = (props) => {
       }
     }
 
+    // Inject dataZoom when enableZoom is true (keyboard-accessible zoom)
+    if (_enableZoom) {
+      processed = JSON.parse(JSON.stringify(processed));
+      // Avoid duplicate dataZoom entries
+      const existingDzArr = Array.isArray(processed.dataZoom)
+        ? processed.dataZoom as DataZoomComponentOption[]
+        : processed.dataZoom ? [processed.dataZoom as DataZoomComponentOption] : [];
+      if (!existingDzArr.some((dz) => dz?.type === 'inside')) {
+        processed.dataZoom = [
+          ...(existingDzArr || []),
+          // Inside (mouse wheel + keyboard) — wired to keyboard nav in BaseChartWrapper
+          { type: 'inside', start: 0, end: 100, zoomOnMouseWheel: true, moveOnMouseMove: false },
+        ];
+      }
+    }
+
     // Apply animation config
     const dataLength = calculateDataLength(processed);
     const animConfig = generateEChartsAnimationConfig(animation, dataLength);
@@ -213,6 +249,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
   }, [
     option,
     animation,
+    _enableZoom,
     enableDataFiltering,
     filters,
     virtualScroll,

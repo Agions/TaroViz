@@ -681,7 +681,7 @@ export interface SankeyChartProps extends BaseChartProps {
   nodeWidth?: number;
 
   /** 节点排序方式 */
-  nodeSort?: 'ascending' | 'descending' | 'none' | ((a: any, b: any) => number);
+  nodeSort?: 'ascending' | 'descending' | 'none' | ((a: unknown, b: unknown) => number);
 
   /** 边的曲度 */
   linkCurveness?: number;
