@@ -3,6 +3,7 @@
  * ECharts 没有内置水球图，使用 echarts-liquidfill 库实现
  */
 import React, { memo, useEffect, useRef, useMemo } from 'react';
+import type { EChartsType, ECElementEvent } from 'echarts';
 import { getAdapter } from '../../adapters';
 import { uuid } from '../../core/utils';
 import { processAdapterConfig } from '../utils';
@@ -40,7 +41,7 @@ const LiquidChart: React.FC<LiquidChartProps> = memo((props) => {
   } = props;
 
   const chartId = useRef<string>(`liquid-${uuid()}`);
-  const chartInstance = useRef<any>(null);
+  const chartInstance = useRef<EChartsType | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const extensionRegistered = useRef<boolean>(false);
 
@@ -76,7 +77,7 @@ const LiquidChart: React.FC<LiquidChartProps> = memo((props) => {
         ? {
             show: true,
             formatter: labelFormatter
-              ? (params: any) => labelFormatter(params.value)
+              ? (params: ECElementEvent) => labelFormatter(params.value as number)
               : '{d}%',
             textStyle: {
               fontSize: 20,
@@ -137,13 +138,13 @@ const LiquidChart: React.FC<LiquidChartProps> = memo((props) => {
         autoResize,
         renderer,
         option: liquidOption,
-        onInit: (instance: any) => {
+        onInit: (instance: EChartsType) => {
           chartInstance.current = instance;
 
           // 绑定事件
           if (onEvents) {
-            Object.keys(onEvents).forEach((eventName) => {
-              instance.on(eventName, (onEvents as any)[eventName]);
+            Object.entries(onEvents).forEach(([eventName, handler]) => {
+              (instance as unknown as { on: (e: string, h: unknown) => void }).on(eventName, handler);
             });
           }
 

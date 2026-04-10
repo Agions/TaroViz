@@ -13,21 +13,33 @@ import {
 } from './types';
 
 /**
- * 动画预设集合
+ * Checks the OS/browser prefers-reduced-motion setting.
+ * Returns true if the user has requested reduced motion.
+ */
+function prefersReducedMotion(): boolean {
+  if (typeof window === 'undefined') return false;
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+/**
+ * Professional animation presets following frontend-design-pro skill guidelines:
+ * - Easing: cubic-bezier(0.16, 1, 0.3, 1) ("cubicOut") for natural deceleration
+ * - Durations: 100-200ms micro, 300-500ms transitions, never >600ms
+ * - NO bounce/elastic — anti-patterns that feel廉价 (cheap)
  */
 const DEFAULT_ANIMATION_PRESETS: AnimationPreset[] = [
   {
     name: 'default',
-    description: '默认动画配置',
+    description: '默认动画配置 — 专业级 (300-500ms, cubicOut)',
     config: {
       enabled: true,
-      duration: 1000,
+      duration: 400,
       easing: 'cubicOut',
-      appearDuration: 1200,
+      appearDuration: 450,
       appearEasing: 'cubicOut',
-      updateDuration: 800,
+      updateDuration: 300,
       updateEasing: 'cubicOut',
-      disappearDuration: 600,
+      disappearDuration: 250,
       disappearEasing: 'cubicIn',
       threshold: 1000,
       progressive: true,
@@ -36,17 +48,17 @@ const DEFAULT_ANIMATION_PRESETS: AnimationPreset[] = [
   },
   {
     name: 'fast',
-    description: '快速动画配置',
+    description: '快速动画配置 — 微交互 (150-200ms)',
     config: {
       enabled: true,
-      duration: 500,
-      easing: 'linear',
-      appearDuration: 600,
-      appearEasing: 'linear',
-      updateDuration: 400,
-      updateEasing: 'linear',
-      disappearDuration: 300,
-      disappearEasing: 'linear',
+      duration: 150,
+      easing: 'cubicOut',
+      appearDuration: 200,
+      appearEasing: 'cubicOut',
+      updateDuration: 150,
+      updateEasing: 'cubicOut',
+      disappearDuration: 100,
+      disappearEasing: 'cubicIn',
       threshold: 2000,
       progressive: true,
       progressiveStep: 1000,
@@ -54,55 +66,57 @@ const DEFAULT_ANIMATION_PRESETS: AnimationPreset[] = [
   },
   {
     name: 'slow',
-    description: '慢速动画配置',
+    description: '慢速动画配置 — 页面过渡 (500-600ms, capped)',
     config: {
       enabled: true,
-      duration: 2000,
+      duration: 500,
       easing: 'cubicInOut',
-      appearDuration: 2400,
+      appearDuration: 600,
       appearEasing: 'cubicInOut',
-      updateDuration: 1600,
+      updateDuration: 400,
       updateEasing: 'cubicInOut',
-      disappearDuration: 1200,
+      disappearDuration: 300,
       disappearEasing: 'cubicInOut',
       threshold: 500,
       progressive: true,
       progressiveStep: 250,
     },
   },
+  // DEPRECATED — bounce is an anti-pattern per frontend-design-pro skill
   {
     name: 'bounce',
-    description: '弹跳动画配置',
+    description: '[已废弃] 弹跳动画 — 请使用 default 或 fast',
     config: {
-      enabled: true,
-      duration: 1500,
-      easing: 'bounceOut',
-      appearDuration: 1800,
-      appearEasing: 'bounceOut',
-      updateDuration: 1200,
-      updateEasing: 'bounceOut',
-      disappearDuration: 900,
-      disappearEasing: 'bounceIn',
+      enabled: false, // disabled by default — anti-pattern
+      duration: 0,
+      easing: 'cubicOut',
+      appearDuration: 0,
+      appearEasing: 'cubicOut',
+      updateDuration: 0,
+      updateEasing: 'cubicOut',
+      disappearDuration: 0,
+      disappearEasing: 'cubicIn',
       threshold: 500,
-      progressive: true,
+      progressive: false,
       progressiveStep: 250,
     },
   },
+  // DEPRECATED — elastic is an anti-pattern per frontend-design-pro skill
   {
     name: 'elastic',
-    description: '弹性动画配置',
+    description: '[已废弃] 弹性动画 — 请使用 default 或 fast',
     config: {
-      enabled: true,
-      duration: 1500,
-      easing: 'elasticOut',
-      appearDuration: 1800,
-      appearEasing: 'elasticOut',
-      updateDuration: 1200,
-      updateEasing: 'elasticOut',
-      disappearDuration: 900,
-      disappearEasing: 'elasticIn',
+      enabled: false, // disabled by default — anti-pattern
+      duration: 0,
+      easing: 'cubicOut',
+      appearDuration: 0,
+      appearEasing: 'cubicOut',
+      updateDuration: 0,
+      updateEasing: 'cubicOut',
+      disappearDuration: 0,
+      disappearEasing: 'cubicIn',
       threshold: 500,
-      progressive: true,
+      progressive: false,
       progressiveStep: 250,
     },
   },
@@ -213,6 +227,7 @@ export class AnimationManager {
 
   /**
    * 根据数据量和动画类型获取优化后的动画配置
+   * 尊重 prefers-reduced-motion 无障碍设置
    */
   public getOptimizedConfig(
     config: Partial<AnimationConfig> = {},
@@ -223,6 +238,18 @@ export class AnimationManager {
       ...this.defaultConfig,
       ...config,
     };
+
+    // Respect OS/browser prefers-reduced-motion setting (WCAG)
+    if (prefersReducedMotion()) {
+      return {
+        ...mergedConfig,
+        enabled: false,
+        duration: 0,
+        appearDuration: 0,
+        updateDuration: 0,
+        disappearDuration: 0,
+      };
+    }
 
     // 根据数据量优化动画
     if (mergedConfig.threshold && dataLength > mergedConfig.threshold) {
