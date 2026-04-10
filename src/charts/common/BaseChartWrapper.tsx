@@ -3,6 +3,7 @@
  * 提供统一的图表初始化、渲染和生命周期管理
  */
 import React, { useEffect, useRef, useMemo } from 'react';
+import type { EChartsType } from 'echarts';
 
 import { getAdapter } from '../../adapters';
 import { uuid } from '../../core/utils';
@@ -30,10 +31,14 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
   chartType = 'chart',
 }) => {
   const chartId = useRef<string>(`${chartType}-${uuid()}`);
-  const chartInstance = useRef<any>(null);
+  const chartInstance = useRef<EChartsType | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  // Track mounted state to prevent cleanup after unmount
+  const isMountedRef = useRef(true);
+  // Store cleanup fn from async init
+  const cleanupRef = useRef<(() => void) | null>(null);
 
-  // 使用 useMemo 缓存适配器配置，并处理类型问题
+  // Use memo to cache adapter config
   const adapterConfig = useMemo(() => {
     return processAdapterConfig({
       canvasId: chartId.current,
@@ -47,44 +52,55 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
     });
   }, [width, height, theme, autoResize, renderer, option]);
 
-  // 处理图表初始化
+  // Handle chart initialization
   useEffect(() => {
+    isMountedRef.current = true;
+
     const initChart = async () => {
       const initConfig = processAdapterConfig({
         ...adapterConfig,
-        onInit: (instance: any) => {
+        onInit: (instance: EChartsType) => {
+          if (!isMountedRef.current) {
+            // Already unmounted — dispose immediately
+            instance.dispose();
+            return;
+          }
           chartInstance.current = instance;
 
-          // 绑定事件
+          // Bind events
           if (onEvents) {
-            Object.keys(onEvents).forEach((eventName) => {
-              instance.on(eventName, (onEvents as any)[eventName]);
+            Object.entries(onEvents).forEach(([eventName, handler]) => {
+              // ECharts event types are dynamic; cast to any to satisfy strict types
+              (instance as unknown as { on: Function }).on(eventName, handler);
             });
           }
 
-          // 初始化回调
           if (onChartInit) {
             onChartInit(instance);
           }
 
-          // 准备好回调
           if (onChartReady) {
             onChartReady(instance);
           }
         },
       });
 
-      // 获取适配器并初始化（异步动态导入）
+      // Get adapter and init (async dynamic import)
       const adapter = await getAdapter(initConfig);
+
+      if (!isMountedRef.current) {
+        // Unmounted while awaiting adapter — dispose
+        return;
+      }
+
       adapter.init();
 
-      // 返回清理函数
-      return () => {
+      // Store cleanup fn
+      cleanupRef.current = () => {
         if (chartInstance.current) {
-          // 解绑事件
           if (onEvents) {
-            Object.keys(onEvents).forEach((eventName) => {
-              chartInstance.current?.off(eventName);
+            Object.entries(onEvents).forEach(([eventName]) => {
+              (chartInstance.current as unknown as { off: Function }).off(eventName);
             });
           }
           chartInstance.current.dispose();
@@ -93,23 +109,27 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
       };
     };
 
-    // 执行异步初始化并获取清理函数
-    const cleanupPromise = initChart();
+    initChart();
 
-    // 返回清理函数
+    // Cleanup on unmount
     return () => {
-      cleanupPromise.then((cleanup) => cleanup?.());
+      isMountedRef.current = false;
+      // If async init completed and stored a cleanup fn, run it
+      if (cleanupRef.current) {
+        cleanupRef.current();
+        cleanupRef.current = null;
+      }
     };
   }, [adapterConfig, onChartInit, onChartReady, onEvents]);
 
-  // 更新配置
+  // Update config
   useEffect(() => {
     if (chartInstance.current && option) {
       chartInstance.current.setOption(option, true);
     }
   }, [option]);
 
-  // 控制加载状态
+  // Loading state
   useEffect(() => {
     if (chartInstance.current) {
       if (loading) {
@@ -120,7 +140,7 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
     }
   }, [loading, loadingOption]);
 
-  // 自定义样式
+  // Merged style
   const mergedStyle = {
     width: typeof width === 'number' ? `${width}px` : width,
     height: typeof height === 'number' ? `${height}px` : height,
@@ -132,6 +152,9 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
       className={`taroviz-${chartType} ${className}`}
       style={mergedStyle}
       ref={containerRef as React.RefObject<HTMLDivElement>}
+      role="img"
+      aria-label={chartType === 'chart' ? '图表' : `${chartType} 图表`}
+      tabIndex={0}
     />
   );
 };

@@ -146,7 +146,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
   } = props;
 
   // Refs
-  const chartInstanceRef = useRef<any>(null);
+  const chartInstanceRef = useRef<EChartsType | null>(null);
   const performanceRef = useRef({
     initStartTime: 0,
     initEndTime: 0,
@@ -162,7 +162,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
     isScrolling: false,
   });
   const oldOptionRef = useRef<EChartsOption | undefined>(option);
-  const adapterRef = useRef<any>(null);
+  const adapterRef = useRef<unknown>(null);
   const debugConfigRef = useRef<DebugPanelOptions | null>(null);
   const performanceAnalyzerRef = useRef<PerformanceAnalyzer | null>(null);
 
@@ -223,9 +223,9 @@ const BaseChart: React.FC<ChartProps> = (props) => {
 
   // Internal chartInit that wraps the user's callback
   const handleChartInit = useCallback(
-    (instance: any) => {
+    (instance: EChartsType) => {
       chartInstanceRef.current = instance;
-      adapterRef.current = instance;
+      adapterRef.current = instance as unknown;
 
       // Performance monitoring init
       if (enablePerformanceMonitoring) {
@@ -413,7 +413,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
         performanceAnalyzerRef.current.dispose();
         performanceAnalyzerRef.current = null;
       }
-      if (adapterRef.current) adapterRef.current.dispose();
+      if (adapterRef.current) (adapterRef.current as EChartsType).dispose();
     };
   }, [chartId]);
 

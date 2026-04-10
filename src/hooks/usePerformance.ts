@@ -160,6 +160,9 @@ export function usePerformance(options: UsePerformanceOptions = {}): UsePerforma
   const start = useCallback(() => {
     if (!enabled) return;
 
+    // Prevent starting multiple RAF loops
+    if (animationFrameRef.current !== null) return;
+
     // 初始化分析器
     if (!analyzerRef.current) {
       analyzerRef.current = PerformanceAnalyzer.getInstance({
@@ -202,7 +205,7 @@ export function usePerformance(options: UsePerformanceOptions = {}): UsePerforma
    * 重置统计数据
    */
   const reset = useCallback(() => {
-    analyzerRef.current?.resetMetrics?.();
+    PerformanceAnalyzer.resetInstance();
     fpsHistoryRef.current = [];
     setState(prev => ({
       ...prev,
@@ -222,8 +225,9 @@ export function usePerformance(options: UsePerformanceOptions = {}): UsePerforma
     if (!analyzerRef.current) return [];
 
     try {
-      const report = analyzerRef.current.getMetrics?.();
-      return report || [];
+      const report = analyzerRef.current.getAllMetrics?.();
+      if (!report) return [];
+      return Array.from(report.values()).flat();
     } catch {
       return [];
     }
