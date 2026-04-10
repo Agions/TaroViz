@@ -10,14 +10,12 @@ export * from './chart';
 import type { EChartsType } from 'echarts';
 
 import { ChartOptions } from './chart';
+import { ChartEventParams } from './common';
 
 /**
  * TaroViz核心类型定义
  */
 
-/**
- * ECharts类型定义
- */
 export { EChartsType };
 
 // 导出动画相关类型
@@ -72,7 +70,7 @@ export type RendererType = 'canvas' | 'svg';
 /**
  * 图表事件回调类型
  */
-export type ChartEventCallback = (params: any) => void;
+export type ChartEventCallback = (params: ChartEventParams) => void;
 
 /**
  * 图表事件处理器映射
@@ -122,160 +120,31 @@ export interface ThemeType {
       fontSize?: number;
     };
   };
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
  * 渲染性能优化配置
  */
 export interface RenderOptimizationConfig {
-  /**
-   * 是否开启渐进式渲染
-   */
   progressive?: boolean;
-
-  /**
-   * 渐进式渲染的阈值
-   */
   progressiveThreshold?: number;
-
-  /**
-   * 是否启用懒更新
-   */
   lazyUpdate?: boolean;
-
-  /**
-   * 是否启用动画
-   */
   animation?: boolean;
-
-  /**
-   * 是否启用硬件加速
-   */
   hardwareAcceleration?: boolean;
-
-  /**
-   * 帧率限制
-   */
   frameRate?: number;
-}
-
-/**
- * 适配器接口定义
- */
-export interface Adapter {
-  /**
-   * 初始化图表
-   */
-  init(options?: any): EChartsType;
-
-  /**
-   * 设置图表配置
-   */
-  setOption(option: any, notMerge?: boolean): void;
-
-  /**
-   * 获取图表实例
-   */
-  getInstance(): EChartsType | null;
-
-  /**
-   * 设置组件实例
-   */
-  setComponent?(component: any): void;
-
-  /**
-   * 绑定事件
-   */
-  on(eventName: string, handler: (params: any) => void): void;
-
-  /**
-   * 解绑事件
-   */
-  off(eventName: string, handler?: (params: any) => void): void;
-
-  /**
-   * 调整图表大小
-   */
-  resize(): void;
-
-  /**
-   * 显示加载中
-   */
-  showLoading(options?: any): void;
-
-  /**
-   * 隐藏加载中
-   */
-  hideLoading(): void;
-
-  /**
-   * 清空图表
-   */
-  clear(): void;
-
-  /**
-   * 销毁图表
-   */
-  dispose(): void;
-
-  /**
-   * 获取DataURL
-   */
-  getDataURL?(opts?: any): string | undefined;
-
-  /**
-   * 转换为DataURL
-   */
-  convertToDataURL?(opts?: any): string | undefined;
-
-  /**
-   * 渲染图表（仅 H5 环境需要，小程序适配器不需要）
-   */
-  render?(): JSX.Element | null;
 }
 
 /**
  * 适配器配置选项
  */
 export interface AdapterConfig {
-  /**
-   * 平台类型
-   */
   platformType?: string;
-
-  /**
-   * 目标canvas元素ID
-   */
   canvasId?: string;
-
-  /**
-   * 图表主题
-   */
   theme?: string;
-
-  /**
-   * 渲染器类型
-   */
   renderer?: 'canvas' | 'svg';
-
-  /**
-   * 设备像素比
-   */
   devicePixelRatio?: number;
-
-  /**
-   * 宽度
-   */
   width?: number;
-
-  /**
-   * 高度
-   */
   height?: number;
-
-  /**
-   * 额外选项
-   */
-  [key: string]: any;
+  [key: string]: unknown;
 }

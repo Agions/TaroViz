@@ -258,6 +258,22 @@ class H5Adapter implements Adapter {
   }
 
   /**
+   * 触发图表行为
+   */
+  dispatchAction(payload: object): void {
+    if (this.instance) {
+      this.instance.dispatchAction(payload);
+    }
+  }
+
+  /**
+   * 获取DataURL
+   */
+  getDataURL(opts?: object): string | undefined {
+    return this.instance?.getDataURL(opts);
+  }
+
+  /**
    * 处理图表大小变化
    */
   resize(opts?: any): void {
