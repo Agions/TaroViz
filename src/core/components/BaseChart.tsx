@@ -230,6 +230,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
       // Performance monitoring init
       if (enablePerformanceMonitoring) {
         performanceAnalyzerRef.current = PerformanceAnalyzer.getInstance({
+          chartId,
           enabled: true,
           metrics: ['initTime', 'renderTime', 'updateTime', 'dataSize', 'frameRate'],
           sampleInterval: 1000,
@@ -394,15 +395,40 @@ const BaseChart: React.FC<ChartProps> = (props) => {
     }
   }, [option, onPerformance]);
 
-  // Data update callback
+  // Data update callback — supports debounce
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   useEffect(() => {
-    if (onDataUpdate && dataUpdateOptions?.enabled !== false) {
+    if (!onDataUpdate || dataUpdateOptions?.enabled === false) return;
+
+    const delay = dataUpdateOptions?.debounceDelay ?? 0;
+
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+
+    if (delay > 0) {
+      debounceTimerRef.current = setTimeout(() => {
+        const oldOpt = oldOptionRef.current;
+        if (oldOpt !== option) {
+          onDataUpdate(oldOpt, option);
+          oldOptionRef.current = option;
+        }
+      }, delay);
+    } else {
       const oldOpt = oldOptionRef.current;
       if (oldOpt !== option) {
         onDataUpdate(oldOpt, option);
         oldOptionRef.current = option;
       }
     }
+
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+        debounceTimerRef.current = null;
+      }
+    };
   }, [option, onDataUpdate, dataUpdateOptions]);
 
   // Cleanup on unmount
