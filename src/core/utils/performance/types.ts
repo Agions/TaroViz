@@ -155,9 +155,18 @@ export enum PerformanceEventType {
 }
 
 /**
+ * 性能事件数据
+ */
+export type PerformanceEventData =
+  | { type: PerformanceEventType.MONITORING_START }
+  | { type: PerformanceEventType.MONITORING_END }
+  | { type: PerformanceEventType.METRIC_UPDATE; data: PerformanceMetric }
+  | { type: PerformanceEventType.ANALYSIS_COMPLETE; data: PerformanceAnalysisResult };
+
+/**
  * 性能事件回调类型
  */
-export type PerformanceEventHandler = (event: { type: PerformanceEventType; data?: any }) => void;
+export type PerformanceEventHandler = (event: PerformanceEventData) => void;
 
 /**
  * 性能分析报告配置

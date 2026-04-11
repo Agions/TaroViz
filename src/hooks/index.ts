@@ -653,6 +653,34 @@ export {
   type DownloadDataOptions,
 } from './useChartDownload';
 
+// 图表下载工具函数
+export {
+  generateFilename,
+  downloadBlob,
+  downloadDataUrl,
+  csvToBlob,
+  jsonToBlob,
+  convertToCSV,
+  convertToJSON,
+  createPdfFromImage,
+} from './utils/chartDownloadUtils';
+
+// 数据转换工具函数
+export {
+  DataItem,
+  DataSource,
+  AggregationType,
+  TimePeriod,
+  TransformMapping,
+  transformLineOrBar,
+  transformPie,
+  transformScatter,
+  transformRadar,
+  transformHeatmap,
+  groupByTime,
+  aggregateValues,
+} from './utils/dataTransformUtils';
+
 // 图表历史记录 Hook (Undo/Redo)
 export {
   useChartHistory,

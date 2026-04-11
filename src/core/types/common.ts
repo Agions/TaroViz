@@ -4,23 +4,118 @@
 export type { EChartsOption } from 'echarts';
 
 /**
- * 图表事件参数类型
- * 使用 ECharts 内的事件参数接口
+ * ECharts 鼠标事件参数类型
+ * 基于 ECharts CallbackDataParams，用于 click、mousemove 等鼠标事件
  */
-export interface ChartEventParams {
-  componentType?: string;
+export interface EChartsMouseEventParams {
+  componentType: string;
+  componentSubType?: string;
+  componentIndex?: number;
   seriesType?: string;
   seriesIndex?: number;
+  seriesId?: string;
   seriesName?: string;
   name?: string;
   dataIndex?: number;
   data?: unknown;
+  dataType?: string;
   value?: unknown;
   color?: string;
   borderColor?: string;
   borderWidth?: number;
-  target?: unknown;
+  dimensionNames?: string[];
+  encode?: Record<string, number[]>;
+  marker?: string;
+  status?: string;
+  dimensionIndex?: number;
+  percent?: number;
 }
+
+/**
+ * ECharts DataZoom 事件参数类型
+ */
+export interface EChartsDataZoomEventParams {
+  type: 'datazoom';
+  start?: number;
+  end?: number;
+  startValue?: number;
+  endValue?: number;
+  dataZoomIndex?: number;
+  batch?: Array<{
+    start?: number;
+    end?: number;
+    startValue?: number;
+    endValue?: number;
+    dataZoomIndex?: number;
+  }>;
+}
+
+/**
+ * ECharts Legend 事件参数类型
+ */
+export interface EChartsLegendEventParams {
+  type: 'legendselectchanged' | 'legendselected' | 'legendunselected';
+  name: string;
+  selected: Record<string, boolean>;
+}
+
+/**
+ * ECharts Tooltip 事件参数类型
+ */
+export interface EChartsTooltipEventParams {
+  type: 'tooltipshow' | 'tooltiphide';
+  data?: unknown;
+  dataIndex?: number;
+  dataType?: string;
+  name?: string;
+  value?: unknown;
+}
+
+/**
+ * 图表事件参数类型（向后兼容别名）
+ */
+export type ChartEventParams = EChartsMouseEventParams;
+
+/**
+ * 图表导出选项
+ */
+export interface ChartExportOptions {
+  type?: 'png' | 'jpeg' | 'svg';
+  filename?: string;
+  pixelRatio?: number;
+  backgroundColor?: string;
+}
+
+/**
+ * 图表联动配置
+ */
+export interface ChartLinkageConfig {
+  linkedChartIds?: string[];
+  enableClickLinkage?: boolean;
+  enableZoomLinkage?: boolean;
+  enableLegendLinkage?: boolean;
+  enableFilterLinkage?: boolean;
+}
+
+/**
+ * ECharts 系列数据基本类型
+ */
+export interface EChartsSeriesData {
+  name?: string;
+  type?: string;
+  data?: unknown[];
+  [key: string]: unknown;
+}
+
+/**
+ * ECharts 事件参数联合类型
+ */
+export type EChartsEventParams =
+  | EChartsMouseEventParams
+  | EChartsDataZoomEventParams
+  | EChartsLegendEventParams
+  | EChartsTooltipEventParams
+  | Record<string, unknown>;
 
 /**
  * 图表事件监听器

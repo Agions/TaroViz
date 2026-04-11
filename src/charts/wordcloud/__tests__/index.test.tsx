@@ -14,7 +14,10 @@ describe('WordCloudChart', () => {
 
   it('renders with custom width and height', () => {
     const { container } = render(<WordCloudChart width={600} height={400} />);
-    expect(container.firstChild).toHaveStyle({ width: '600px', height: '400px' });
+    // BaseChartWrapper renders a fragment with a hidden accessibility table (first child)
+    // and the actual chart div (last child), so we query the last child for styles
+    const chartDiv = container.lastChild;
+    expect(chartDiv).toHaveStyle({ width: '600px', height: '400px' });
   });
 
   it('renders with word data', () => {

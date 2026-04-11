@@ -9,6 +9,7 @@ import {
   PerformanceAnalysisResult,
   PerformanceEventType,
   PerformanceEventHandler,
+  PerformanceEventData,
   PerformanceReportConfig,
 } from './types';
 
@@ -118,11 +119,20 @@ export class PerformanceAnalyzer {
   /**
    * 触发事件
    */
-  private emit(eventType: PerformanceEventType, data?: any): void {
+  private emit(eventType: PerformanceEventType.MONITORING_START): void;
+  private emit(eventType: PerformanceEventType.MONITORING_END): void;
+  private emit(eventType: PerformanceEventType.METRIC_UPDATE, data: PerformanceMetric): void;
+  private emit(eventType: PerformanceEventType.ANALYSIS_COMPLETE, data: PerformanceAnalysisResult): void;
+  private emit(eventType: PerformanceEventType, data?: PerformanceMetric | PerformanceAnalysisResult): void {
     const handlers = this.eventHandlers.get(eventType);
+    const eventData: PerformanceEventData = data === undefined
+      ? { type: eventType as PerformanceEventType.MONITORING_START | PerformanceEventType.MONITORING_END }
+      : eventType === PerformanceEventType.METRIC_UPDATE
+        ? { type: eventType, data: data as PerformanceMetric }
+        : { type: eventType, data: data as PerformanceAnalysisResult };
     handlers?.forEach((handler) => {
       try {
-        handler({ type: eventType, data });
+        handler(eventData);
       } catch (error) {
         console.error('Error in performance event handler:', error);
       }
@@ -324,7 +334,7 @@ export class PerformanceAnalyzer {
   /**
    * 记录数据大小
    */
-  public recordDataSize(data: any): void {
+  public recordDataSize(data: unknown): void {
     try {
       const dataSize = new Blob([JSON.stringify(data)]).size / 1024;
       this.recordMetric('dataSize', dataSize, 'KB', '图表数据大小');
@@ -450,8 +460,8 @@ export class PerformanceAnalyzer {
   private generateJsonReport(
     result: PerformanceAnalysisResult,
     _config: PerformanceReportConfig
-  ): object {
-    const report: any = {
+  ): Record<string, unknown> {
+    const report: Record<string, unknown> = {
       timestamp: new Date().toISOString(),
       duration: result.duration,
       score: result.score,

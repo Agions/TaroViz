@@ -175,6 +175,36 @@ export interface AnimationTemplate {
 }
 
 /**
+ * ECharts 动画配置返回类型
+ */
+export interface EChartsAnimationConfigResult {
+  animation: boolean;
+  animationDuration?: number;
+  animationEasing?: string;
+  animationDelay?: number;
+  animationDurationUpdate?: number;
+  animationEasingUpdate?: string;
+  animationDelayUpdate?: number;
+  animationThreshold?: number;
+  progressive?: boolean;
+  progressiveThreshold?: number;
+  progressiveChunkMode?: string;
+}
+
+/**
+ * 动画事件数据
+ */
+export interface AnimationEventData {
+  type: AnimationEventType;
+  animationType: AnimationType;
+  chartId?: string;
+  seriesIndex?: number;
+  dataIndex?: number;
+  timestamp: number;
+  duration: number;
+}
+
+/**
  * 动画管理器配置
  */
 export interface AnimationManagerConfig {

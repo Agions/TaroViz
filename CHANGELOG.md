@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://github.com/Agions/TaroViz/compare/v1.10.0...v1.11.0) (2026-04-11)
+
+### Features
+
+- **类型安全强化**：将 `any` 类型从 211 处降至 162 处，重点文件 `BaseChart.tsx`、`AnimationManager.ts`、`PerformanceAnalyzer.ts` 完成类型化
+- **ECharts 事件类型**：新增 `EChartsMouseEventParams`、`EChartsDataZoomEventParams`、`EChartsLegendEventParams`、`EChartsTooltipEventParams`、`EChartsSeriesData` 类型定义
+- **动画系统类型**：新增 `EChartsAnimationConfigResult`、`AnimationEventData` 类型定义
+- **性能分析类型**：新增 `PerformanceEventData` 类型定义，替代 `any` 类型
+
+### Code Quality
+
+- **BaseChart.tsx**：事件处理器 (`click`/`datazoom`/`legendselectchanged`/`tooltipshow`/`tooltiphide`) 使用 `ECElementEvent` 和具体事件参数类型
+- **AnimationManager.ts**：`eventHandlers` Map 使用 `AnimationEventHandler` 类型，`generateEChartsAnimationConfig` 返回 `EChartsAnimationConfigResult`
+- **PerformanceAnalyzer.ts**：`emit` 方法使用重载签名，`recordDataSize` 使用 `unknown` 类型
+- **Hooks 模块化**：新增 `hooks/utils/chartDownloadUtils.ts` 和 `hooks/utils/dataTransformUtils.ts`，拆分辅助函数
+
+### Bug Fixes
+
+- **测试修复**：`wordcloud`、`candlestick`、`graph` 图表测试修复，修正 `container.firstChild` 访问问题（BaseChartWrapper 的无障碍 table 元素）
+
+---
+
 # [1.9.0](https://github.com/Agions/TaroViz/compare/v1.8.0...v1.9.0) (2026-04-10)
 
 ### Features

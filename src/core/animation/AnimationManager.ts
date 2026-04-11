@@ -10,6 +10,9 @@ import {
   AnimationManagerConfig,
   AnimationType,
   AnimationEventType,
+  AnimationEventHandler,
+  AnimationEventData,
+  EChartsAnimationConfigResult,
 } from './types';
 
 /**
@@ -131,7 +134,7 @@ export class AnimationManager {
   private templates: Map<string, AnimationTemplate> = new Map();
   private defaultConfig: AnimationConfig;
   private performanceConfig: AnimationManagerConfig['performance'];
-  private eventHandlers: Map<string, Set<(event: any) => void>> = new Map();
+  private eventHandlers: Map<string, Set<AnimationEventHandler>> = new Map();
 
   /**
    * 私有构造函数
@@ -304,7 +307,7 @@ export class AnimationManager {
   public generateEChartsAnimationConfig(
     config: Partial<AnimationConfig> = {},
     dataLength: number = 0
-  ): any {
+  ): EChartsAnimationConfigResult {
     const optimizedConfig = this.getOptimizedConfig(config, dataLength);
 
     if (!optimizedConfig.enabled) {
@@ -331,7 +334,7 @@ export class AnimationManager {
   /**
    * 绑定动画事件
    */
-  public on(eventType: AnimationEventType, handler: (event: any) => void): void {
+  public on(eventType: AnimationEventType, handler: AnimationEventHandler): void {
     if (!this.eventHandlers.has(eventType)) {
       this.eventHandlers.set(eventType, new Set());
     }
@@ -341,7 +344,7 @@ export class AnimationManager {
   /**
    * 解绑动画事件
    */
-  public off(eventType: AnimationEventType, handler?: (event: any) => void): void {
+  public off(eventType: AnimationEventType, handler?: AnimationEventHandler): void {
     if (!handler) {
       this.eventHandlers.delete(eventType);
       return;
@@ -352,7 +355,7 @@ export class AnimationManager {
   /**
    * 触发动画事件
    */
-  public emit(eventType: AnimationEventType, data: any): void {
+  public emit(eventType: AnimationEventType, data: AnimationEventData): void {
     const handlers = this.eventHandlers.get(eventType);
     if (handlers) {
       handlers.forEach((handler) => {
@@ -427,7 +430,7 @@ export function getAnimationPreset(name: string): AnimationPreset | undefined {
 export function generateEChartsAnimationConfig(
   config: Partial<AnimationConfig> = {},
   dataLength: number = 0
-): any {
+): EChartsAnimationConfigResult {
   const manager = AnimationManager.getInstance();
   return manager.generateEChartsAnimationConfig(config, dataLength);
 }
