@@ -579,6 +579,39 @@ class ThemeManager {
   }
 
   /**
+   * 检测系统 prefers-color-scheme 是否为暗色
+   */
+  public getSystemPrefersDark(): boolean {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+
+  /**
+   * 订阅系统主题变化，自动切换匹配的主题
+   * @returns 取消订阅的函数
+   */
+  public watchSystemTheme(): () => void {
+    if (typeof window === 'undefined') return () => {};
+
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const handler = (e: MediaQueryListEvent) => {
+      // 当系统主题切换时，自动应用对应主题
+      this.setTheme(e.matches ? 'dark' : 'default');
+    };
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }
+
+  /**
+   * 应用初始主题（根据系统偏好自动选择 dark/default）
+   * 必须在 DOM 加载后调用
+   */
+  public applyInitialTheme(): void {
+    const prefersDark = this.getSystemPrefersDark();
+    this.setTheme(prefersDark ? 'dark' : 'default');
+  }
+
+  /**
    * 注册主题变更监听器
    */
   public onThemeChange(listener: (theme: ThemeConfig) => void): () => void {

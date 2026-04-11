@@ -32,7 +32,7 @@ export interface MarkAreaStyle {
 }
 
 /**
- * 标记线数据点
+ * 标记线数据点 — 支持常规坐标和 ECharts 统计类型
  */
 export interface MarkLineDataPoint {
   /** X轴值 */
@@ -41,6 +41,8 @@ export interface MarkLineDataPoint {
   yAxis?: string | number;
   /** 数据点名称 */
   name?: string;
+  /** ECharts 统计/特殊类型（'average' | 'max' | 'min' | 'median'） */
+  type?: string;
 }
 
 /**
@@ -97,7 +99,7 @@ export interface ScatterAnnotationConfig {
   data: Array<{
     coord: [number | string, number];
     value?: number;
-    name?: string;
+    name: string;
   }>;
   /** 符号类型 */
   symbol?: string;
@@ -109,7 +111,7 @@ export interface ScatterAnnotationConfig {
   label?: {
     show?: boolean;
     position?: string;
-    formatter?: string | ((value: any) => string);
+    formatter?: string | ((value: unknown) => string);
     color?: string;
   };
 }
@@ -223,14 +225,14 @@ export function convertAnnotationToScatter(
         itemStyle,
         label: {
           show: label?.show !== false,
-          position: label?.position || 'top',
+          position: label?.position || ('top' as const),
           formatter: label?.formatter,
           color: label?.color || '#333',
         },
         data,
       },
-    } as any,
-  ];
+    },
+  ] as unknown as EChartsOption['series'];
 }
 
 /**
@@ -269,28 +271,28 @@ export function useAnnotation(props: AnnotationProps): EChartsOption {
 export const AnnotationPresets = {
   /** 平均线 */
   averageLine: (color = '#1890ff'): MarkLineConfig => ({
-    data: [{ type: 'average', name: '平均值' }] as any,
+    data: [{ type: 'average', name: '平均值' }],
     lineStyle: { color, type: 'dashed', width: 2 },
     label: { show: true, position: 'end', color },
   }),
 
   /** 最大值线 */
   maxLine: (color = '#f5222d'): MarkLineConfig => ({
-    data: [{ type: 'max', name: '最大值' }] as any,
+    data: [{ type: 'max', name: '最大值' }],
     lineStyle: { color, type: 'dashed', width: 2 },
     label: { show: true, position: 'end', color },
   }),
 
   /** 最小值线 */
   minLine: (color = '#52c41a'): MarkLineConfig => ({
-    data: [{ type: 'min', name: '最小值' }] as any,
+    data: [{ type: 'min', name: '最小值' }],
     lineStyle: { color, type: 'dashed', width: 2 },
     label: { show: true, position: 'end', color },
   }),
 
   /** 警戒线 */
   thresholdLine: (value: number, color = '#faad14'): MarkLineConfig => ({
-    data: [{ yAxis: value, name: '警戒线' }] as any,
+    data: [{ yAxis: value, name: '警戒线' }],
     lineStyle: { color, type: 'solid', width: 2 },
     label: { show: true, position: 'start', color },
   }),

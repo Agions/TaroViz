@@ -65,25 +65,30 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
         return fallback(error, this.handleReset);
       }
 
-      // 默认错误展示
+      // 默认错误展示（使用 CSS 变量，与 ThemeManager 对齐）
       return (
         <div
+          role="alert"
+          aria-live="assertive"
           style={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '20px',
-            backgroundColor: '#fff',
-            border: '1px solid #ff4d4f',
-            borderRadius: '8px',
-            color: '#333',
+            padding: 'var(--tv-border-radius, 16px)',
+            backgroundColor: 'var(--tv-bg-color, #fff)',
+            border: '1px solid var(--tv-error-color, #ff4d4f)',
+            borderRadius: 'var(--tv-border-radius, 8px)',
+            color: 'var(--tv-text-color, #333)',
             minHeight: '200px',
+            fontFamily: 'var(--tv-font-family, sans-serif)',
           }}
         >
-          <div style={{ fontSize: '48px', marginBottom: '16px' }}>⚠️</div>
-          <h3 style={{ margin: '0 0 12px', color: '#ff4d4f' }}>图表渲染失败</h3>
-          <p style={{ margin: '0 0 16px', color: '#666', textAlign: 'center' }}>
+          <div style={{ fontSize: '48px', marginBottom: '16px' }} aria-hidden="true">⚠️</div>
+          <h3 style={{ margin: '0 0 12px', color: 'var(--tv-error-color, #ff4d4f)', fontWeight: 700 }}>
+            图表渲染失败
+          </h3>
+          <p style={{ margin: '0 0 16px', color: 'var(--tv-text-color-secondary, #666)', textAlign: 'center', maxWidth: '320px' }}>
             图表在渲染过程中遇到错误，请检查数据配置是否正确
           </p>
           {showDetails && (
@@ -91,15 +96,15 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               style={{
                 width: '100%',
                 padding: '12px',
-                backgroundColor: '#f5f5f5',
-                borderRadius: '4px',
-                fontSize: '12px',
-                fontFamily: 'monospace',
+                backgroundColor: 'var(--tv-bg-color-secondary, #f5f5f5)',
+                borderRadius: 'var(--tv-border-radius-small, 4px)',
+                fontSize: 'var(--tv-font-size-small, 12px)',
+                fontFamily: 'var(--tv-font-family, monospace)',
                 overflow: 'auto',
                 maxHeight: '150px',
               }}
             >
-              <summary style={{ cursor: 'pointer', marginBottom: '8px' }}>错误详情</summary>
+              <summary style={{ cursor: 'pointer', marginBottom: '8px', fontWeight: 600 }}>错误详情</summary>
               <pre style={{ margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
                 {error.message}
                 {'\n\n'}
@@ -112,12 +117,20 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             style={{
               marginTop: '16px',
               padding: '8px 24px',
-              backgroundColor: '#1890ff',
+              backgroundColor: 'var(--tv-primary-color, #1890ff)',
               color: '#fff',
               border: 'none',
-              borderRadius: '4px',
+              borderRadius: 'var(--tv-border-radius-small, 4px)',
               cursor: 'pointer',
-              fontSize: '14px',
+              fontSize: 'var(--tv-font-size, 14px)',
+              fontWeight: 600,
+              transition: 'background-color var(--tv-transition-duration, 0.3s)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--tv-primary-color-hover, #40a9ff)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--tv-primary-color, #1890ff)';
             }}
           >
             重试
