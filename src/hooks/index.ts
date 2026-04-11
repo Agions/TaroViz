@@ -9,6 +9,8 @@ import type { EChartsOption } from 'echarts';
 import { useDataZoom } from './useDataZoom';
 import { useChartConnect } from './useChartConnect';
 import { useChartDownload } from './useChartDownload';
+import { useChartHistory } from './useChartHistory';
+import { useChartSelection } from './useChartSelection';
 
 // ============================================================================
 // 类型定义
@@ -651,6 +653,23 @@ export {
   type DownloadDataOptions,
 } from './useChartDownload';
 
+// 图表历史记录 Hook (Undo/Redo)
+export {
+  useChartHistory,
+  type UseChartHistoryOptions,
+  type UseChartHistoryReturn,
+} from './useChartHistory';
+
+// 图表选择 Hook
+export {
+  useChartSelection,
+  type UseChartSelectionOptions,
+  type UseChartSelectionReturn,
+  type DataPointKey,
+  type SelectionMode,
+  type SelectionEvent,
+} from './useChartSelection';
+
 // ============================================================================
 // 导出
 // ============================================================================
@@ -683,4 +702,6 @@ export default {
   useDataZoom,
   useChartConnect,
   useChartDownload,
+  useChartHistory,
+  useChartSelection,
 };
