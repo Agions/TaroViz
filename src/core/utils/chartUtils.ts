@@ -3,6 +3,10 @@
  */
 import type { EChartsOption } from 'echarts';
 
+interface SeriesItem {
+  data?: unknown[] | Record<string, unknown>;
+}
+
 /**
  * Normalize size value to CSS string
  */
@@ -19,7 +23,7 @@ export function calculateDataLength(option: { series?: unknown } | undefined): n
   let count = 0;
   if (option.series) {
     const series = Array.isArray(option.series) ? option.series : [option.series];
-    for (const seriesItem of series as any[]) {
+    for (const seriesItem of series as SeriesItem[]) {
       if (seriesItem.data) {
         if (Array.isArray(seriesItem.data)) {
           count += seriesItem.data.length;
@@ -35,11 +39,12 @@ export function calculateDataLength(option: { series?: unknown } | undefined): n
 /**
  * Filter data by filter conditions
  */
-export function filterDataByKeys(data: any[], filters: Record<string, any>): any[] {
+export function filterDataByKeys<T>(data: T[], filters: Record<string, unknown>): T[] {
   if (!filters || Object.keys(filters).length === 0) return data;
   return data.filter((item) => {
     for (const [key, value] of Object.entries(filters)) {
-      if (item[key] !== value && !item[key]?.includes?.(value)) return false;
+      const itemVal = (item as Record<string, unknown>)[key];
+      if (itemVal !== value && !(Array.isArray(itemVal) && itemVal.includes(value))) return false;
     }
     return true;
   });

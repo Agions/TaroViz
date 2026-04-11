@@ -2,7 +2,7 @@
  * 树图类型定义
  * ECharts 内置 tree 类型
  */
-import type { EChartsOption } from 'echarts';
+import type { EChartsOption, EChartsType, ECElementEvent } from 'echarts';
 
 // ============================================================================
 // 树图数据节点
@@ -166,9 +166,9 @@ export interface TreeChartProps {
   /** 加载配置 */
   loadingOption?: Record<string, unknown>;
   /** 图表初始化回调 */
-  onChartInit?: (chart: any) => void;
+  onChartInit?: (chart: EChartsType) => void;
   /** 图表就绪回调 */
-  onChartReady?: (chart: any) => void;
+  onChartReady?: (chart: EChartsType) => void;
   /** 事件回调 */
-  onEvents?: Record<string, (params: any) => void>;
+  onEvents?: Record<string, (params: ECElementEvent) => void>;
 }

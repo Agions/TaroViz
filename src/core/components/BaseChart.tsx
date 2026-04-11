@@ -95,8 +95,8 @@ export interface ChartProps {
   enableZoom?: boolean;
   onZoom?: (data: { start: number; end: number; dataZoomIndex: number }) => void;
   enableDataFiltering?: boolean;
-  filters?: Record<string, any>;
-  onDataFiltered?: (filteredData: any[], filters: Record<string, any>) => void;
+  filters?: Record<string, string | number | boolean | string[] | null>;
+  onDataFiltered?: (filteredData: unknown[], filters: Record<string, unknown>) => void;
   enableLegendInteraction?: boolean;
   legendInteractionMode?: 'single' | 'multiple' | 'all';
   onLegendSelect?: (params: { name: string; selected: Record<string, boolean> }) => void;
@@ -485,7 +485,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
   };
 
   const wrapperProps: BaseChartProps & { chartType: string } = {
-    option: wrappedOption as any,
+    option: wrappedOption as unknown as Record<string, unknown>,
     width,
     height,
     theme: typeof theme === 'string' ? theme : (theme as Record<string, unknown>),

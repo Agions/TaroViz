@@ -18,7 +18,7 @@ const LazySunburstChart = lazy(() => import('../../charts/sunburst'));
 const LazySankeyChart = lazy(() => import('../../charts/sankey'));
 
 // 统一的图表类型到懒加载组件映射
-const LAZY_CHART_MODULES: Record<string, () => Promise<{ default: ComponentType<any> }>> = {
+const LAZY_CHART_MODULES: Record<string, () => Promise<{ default: ComponentType<Record<string, unknown>> }>> = {
   line: () => import('../../charts/line'),
   bar: () => import('../../charts/bar'),
   pie: () => import('../../charts/pie'),
@@ -35,10 +35,12 @@ const LAZY_CHART_MODULES: Record<string, () => Promise<{ default: ComponentType<
 export const LAZY_CHART_TYPES = Object.keys(LAZY_CHART_MODULES);
 
 /**
- * 默认加载状态组件
+ * 默认加载状态组件（使用 CSS 变量，与 ThemeManager 对齐）
  */
 const DefaultLoadingFallback: React.FC<{ text?: string }> = ({ text = '加载中...' }) => (
   <div
+    role="status"
+    aria-label={text}
     style={{
       display: 'flex',
       alignItems: 'center',
@@ -46,8 +48,8 @@ const DefaultLoadingFallback: React.FC<{ text?: string }> = ({ text = '加载中
       width: '100%',
       height: '100%',
       minHeight: '200px',
-      backgroundColor: '#f5f5f5',
-      borderRadius: '8px',
+      backgroundColor: 'var(--tv-bg-color-secondary, #f5f5f5)',
+      borderRadius: 'var(--tv-border-radius, 8px)',
     }}
   >
     <div style={{ textAlign: 'center' }}>
@@ -55,12 +57,13 @@ const DefaultLoadingFallback: React.FC<{ text?: string }> = ({ text = '加载中
         style={{
           width: '40px',
           height: '40px',
-          border: '3px solid #1890ff',
+          border: '3px solid var(--tv-primary-color, #1890ff)',
           borderTopColor: 'transparent',
           borderRadius: '50%',
           animation: 'taroviz-spin 1s linear infinite',
           margin: '0 auto 12px',
         }}
+        aria-hidden="true"
       />
       <style>
         {`
@@ -69,7 +72,9 @@ const DefaultLoadingFallback: React.FC<{ text?: string }> = ({ text = '加载中
           }
         `}
       </style>
-      <span style={{ color: '#666', fontSize: '14px' }}>{text}</span>
+      <span style={{ color: 'var(--tv-text-color-secondary, #666)', fontSize: 'var(--tv-font-size, 14px)' }}>
+        {text}
+      </span>
     </div>
   </div>
 );
@@ -136,8 +141,8 @@ export function preloadAllCharts(): Promise<void[]> {
  * 创建懒加载图表映射
  * 用于动态导入图表
  */
-export function createLazyChart(chartType: string): ComponentType<any> | null {
-  const lazyCharts: Record<string, ComponentType<any>> = {
+export function createLazyChart(chartType: string): ComponentType<Record<string, unknown>> | null {
+  const lazyCharts: Record<string, ComponentType<Record<string, unknown>>> = {
     line: LazyLineChart,
     bar: LazyBarChart,
     pie: LazyPieChart,
@@ -159,7 +164,7 @@ export function createLazyChart(chartType: string): ComponentType<any> | null {
  * 用于按名称动态获取懒加载图表组件
  */
 export const LazyChartRegistry = {
-  get(chartType: string): ComponentType<any> | null {
+  get(chartType: string): ComponentType<Record<string, unknown>> | null {
     return createLazyChart(chartType);
   },
 

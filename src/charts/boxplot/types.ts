@@ -1,6 +1,8 @@
 /**
  * 箱线图类型定义
  */
+import type { EChartsType, ECElementEvent } from 'echarts';
+import type { LoadingOptions } from '../types';
 
 export type BoxplotChartProps = {
   option?: BoxplotOption;
@@ -8,11 +10,11 @@ export type BoxplotChartProps = {
   height?: string | number;
   className?: string;
   style?: React.CSSProperties;
-  onEvents?: Record<string, (params: any) => void>;
+  onEvents?: Record<string, (params: ECElementEvent) => void>;
   loading?: boolean;
-  loadingOption?: any;
+  loadingOption?: LoadingOptions;
   theme?: string;
-  onChartReady?: (chart: any) => void;
+  onChartReady?: (chart: EChartsType) => void;
   opts?: {
     devicePixelRatio?: number;
     renderer?: 'canvas' | 'svg';
