@@ -199,20 +199,20 @@ class H5Adapter implements Adapter {
   /**
    * 绑定事件
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  on(event: string, handler: (...args: any[]) => void): void {
+  on(event: string, handler: EventHandler): void {
     if (this.instance) {
-      this.instance.on(event, handler);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      this.instance.on(event, handler as any);
     }
   }
 
   /**
    * 解绑事件
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  off(event: string, handler?: (...args: any[]) => void): void {
+  off(event: string, handler?: EventHandler): void {
     if (this.instance) {
-      this.instance.off(event, handler);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      this.instance.off(event, handler as any);
     }
   }
 
@@ -267,8 +267,7 @@ class H5Adapter implements Adapter {
   /**
    * 触发图表行为
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  dispatchAction(payload: any): void {
+  dispatchAction(payload: { type: string; [key: string]: unknown }): void {
     if (this.instance) {
       this.instance.dispatchAction(payload);
     }

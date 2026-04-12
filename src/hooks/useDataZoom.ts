@@ -4,68 +4,7 @@
  */
 import { useRef, useCallback, useEffect } from 'react';
 import type { RefObject } from 'react';
-import type { ChartInstance } from './index';
-
-// ============================================================================
-// 类型定义
-// ============================================================================
-
-/** dataZoom 类型 */
-export type DataZoomType = 'inside' | 'slider';
-
-/** dataZoom 配置选项 */
-export interface UseDataZoomOptions {
-  /** dataZoom 类型: inside=内置型(滚轮/双指), slider=滑块型 */
-  type?: DataZoomType;
-  /** 起始位置 (0-100) */
-  start?: number;
-  /** 结束位置 (0-100) */
-  end?: number;
-  /** 最小跨度 (0-100) */
-  minSpan?: number;
-  /** 最大跨度 (0-100) */
-  maxSpan?: number;
-  /** 是否锁定缩放 */
-  zoomLock?: boolean;
-  /** 节流时间 (ms) */
-  throttle?: number;
-  /** 是否禁用 */
-  disabled?: boolean;
-  /** 是否显示缩放痕迹 */
-  brushSelect?: boolean;
-  /** 缩放模式: 'scale' | 'mix' */
-  zoomMode?: 'scale' | 'mix';
-  /** 是否在组件卸载时重置缩放 */
-  resetOnUnmount?: boolean;
-  /** 缩放变化回调 */
-  onZoomChange?: (range: { start: number; end: number }) => void;
-}
-
-/** 缩放范围 */
-export interface ZoomRange {
-  start: number;
-  end: number;
-}
-
-/** dataZoom 返回值 */
-export interface UseDataZoomReturn {
-  /** 绑定 dataZoom 到图表实例 */
-  bindDataZoom: (chartInstance: ChartInstance) => void;
-  /** 设置缩放范围 */
-  setZoomRange: (start: number, end: number) => void;
-  /** 重置缩放到初始状态 */
-  resetZoom: () => void;
-  /** 获取当前缩放范围 */
-  getZoomRange: () => ZoomRange;
-  /** 起始位置的原始值 (Ref) */
-  startValue: RefObject<number | string | Date | undefined>;
-  /** 结束位置的原始值 (Ref) */
-  endValue: RefObject<number | string | Date | undefined>;
-  /** 绑定事件处理 */
-  bindEvents: (chartInstance: ChartInstance) => void;
-  /** 缩放变化回调 */
-  onZoomChange?: (range: ZoomRange) => void;
-}
+import type { ChartInstance, DataZoomType, ZoomRange, EventHandler } from './types';
 
 // ============================================================================
 // Hook 实现
@@ -76,7 +15,28 @@ export interface UseDataZoomReturn {
  * @param options 配置选项
  * @returns dataZoom 操作接口
  */
-export function useDataZoom(options: UseDataZoomOptions = {}): UseDataZoomReturn {
+export function useDataZoom(options: {
+  type?: DataZoomType;
+  start?: number;
+  end?: number;
+  minSpan?: number;
+  maxSpan?: number;
+  zoomLock?: boolean;
+  throttle?: number;
+  disabled?: boolean;
+  brushSelect?: boolean;
+  zoomMode?: 'scale' | 'mix';
+  resetOnUnmount?: boolean;
+  onZoomChange?: (range: { start: number; end: number }) => void;
+} = {}): {
+  bindDataZoom: (chartInstance: ChartInstance) => void;
+  setZoomRange: (start: number, end: number) => void;
+  resetZoom: () => void;
+  getZoomRange: () => ZoomRange;
+  startValue: RefObject<number | string | Date | undefined>;
+  endValue: RefObject<number | string | Date | undefined>;
+  bindEvents: (chartInstance: ChartInstance) => void;
+} {
   const {
     type = 'inside',
     start = 0,
@@ -97,13 +57,13 @@ export function useDataZoom(options: UseDataZoomOptions = {}): UseDataZoomReturn
   const startValueRef = useRef<number | string | Date | undefined>(undefined);
   const endValueRef = useRef<number | string | Date | undefined>(undefined);
   const isBindingRef = useRef(false);
-  const throttledHandlerRef = useRef<((...args: any[]) => void) | null>(null);
+  const throttledHandlerRef = useRef<EventHandler | null>(null);
 
   // 节流处理
   const throttledCallback = useCallback(
-    <T extends (...args: any[]) => void>(fn: T): T => {
+    <T extends (...args: unknown[]) => void>(fn: T): T => {
       let lastCall = 0;
-      return ((...args: any[]) => {
+      return ((...args: unknown[]) => {
         const now = Date.now();
         if (now - lastCall >= throttle) {
           lastCall = now;
@@ -231,11 +191,11 @@ export function useDataZoom(options: UseDataZoomOptions = {}): UseDataZoomReturn
 
     try {
       const option = chart.getOption?.();
-      const dataZoom = option?.dataZoom as any[];
+      const dataZoom = option?.dataZoom as Array<{ type: string; start?: number; end?: number }> | undefined;
       if (Array.isArray(dataZoom) && dataZoom.length > 0) {
         // 优先获取 inside 类型的范围
-        const insideZoom = dataZoom.find((dz: any) => dz.type === 'inside');
-        const sliderZoom = dataZoom.find((dz: any) => dz.type === 'slider');
+        const insideZoom = dataZoom.find((dz) => dz.type === 'inside');
+        const sliderZoom = dataZoom.find((dz) => dz.type === 'slider');
         const zoom = insideZoom || sliderZoom || dataZoom[0];
         return {
           start: zoom.start ?? start,
@@ -255,10 +215,11 @@ export function useDataZoom(options: UseDataZoomOptions = {}): UseDataZoomReturn
       if (!chartInstance) return;
 
       // 创建缩放变化处理器
-      const handleZoomChange = (params: any) => {
+      const handleZoomChange: EventHandler = (params: unknown) => {
         if (disabled) return;
 
-        const { start: newStart, end: newEnd } = params || {};
+        const p = params as { start?: number; end?: number } | undefined;
+        const { start: newStart, end: newEnd } = p || {};
         if (newStart !== undefined) startValueRef.current = newStart;
         if (newEnd !== undefined) endValueRef.current = newEnd;
 
@@ -315,6 +276,12 @@ export function useDataZoom(options: UseDataZoomOptions = {}): UseDataZoomReturn
     bindEvents,
   };
 }
+
+// ============================================================================
+// 类型导出
+// ============================================================================
+
+export type { UseDataZoomOptions, UseDataZoomReturn, DataZoomType, ZoomRange } from './types';
 
 // ============================================================================
 // 导出

@@ -21,21 +21,24 @@ import { uuid, shortId, prefixedId } from './uuid';
  * @param source 源对象
  * @returns 合并后的对象
  */
-export function deepMerge<T extends Record<string, any>>(
+export function deepMerge<T extends Record<string, unknown>>(
   target: T,
-  source: Record<string, any>
+  source: Partial<Record<string, unknown>>
 ): T {
-  const result: any = { ...target };
+  const result: Record<string, unknown> = { ...target };
 
   Object.keys(source).forEach((key) => {
     if (source[key] instanceof Object && key in target && target[key] instanceof Object) {
-      result[key] = deepMerge(target[key], source[key]);
+      result[key] = deepMerge(
+        target[key] as Record<string, unknown>,
+        source[key] as Record<string, unknown>
+      );
     } else {
       result[key] = source[key];
     }
   });
 
-  return result;
+  return result as T;
 }
 
 /**
@@ -44,19 +47,19 @@ export function deepMerge<T extends Record<string, any>>(
  * @param delay 延迟时间（毫秒）
  * @returns 防抖后的函数
  */
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   fn: T,
   delay: number
 ): (...args: Parameters<T>) => void {
   let timer: ReturnType<typeof setTimeout> | null = null;
 
-  return function (this: any, ...args: Parameters<T>): void {
+  return function (this: unknown, ...args: Parameters<T>): void {
     if (timer) {
       clearTimeout(timer);
     }
 
     timer = setTimeout(() => {
-      fn.apply(this, args);
+      fn.call(this, ...args);
       timer = null;
     }, delay);
   };
@@ -68,17 +71,17 @@ export function debounce<T extends (...args: any[]) => any>(
  * @param interval 间隔时间（毫秒）
  * @returns 节流后的函数
  */
-export function throttle<T extends (...args: any[]) => any>(
+export function throttle<T extends (...args: unknown[]) => unknown>(
   fn: T,
   interval: number
 ): (...args: Parameters<T>) => void {
   let lastTime = 0;
 
-  return function (this: any, ...args: Parameters<T>): void {
+  return function (this: unknown, ...args: Parameters<T>): void {
     const now = Date.now();
 
     if (now - lastTime >= interval) {
-      fn.apply(this, args);
+      fn.call(this, ...args);
       lastTime = now;
     }
   };
@@ -93,12 +96,13 @@ export function getEnvironment() {
   const isClient = !isServer;
 
   // 使用类型断言解决wx和my未定义的问题
+  const win = window as Window & { wx?: unknown; my?: unknown };
   const isWeapp =
-    typeof (window as any)['wx'] !== 'undefined' &&
-    typeof (window as any)['wx'].getSystemInfoSync === 'function';
+    typeof win.wx !== 'undefined' &&
+    typeof (win.wx as { getSystemInfoSync?: unknown })?.getSystemInfoSync === 'function';
   const isAlipay =
-    typeof (window as any)['my'] !== 'undefined' &&
-    typeof (window as any)['my'].getSystemInfoSync === 'function';
+    typeof win.my !== 'undefined' &&
+    typeof (win.my as { getSystemInfoSync?: unknown })?.getSystemInfoSync === 'function';
   const isWeb = isClient && !isWeapp && !isAlipay;
 
   return {

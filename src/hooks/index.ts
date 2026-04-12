@@ -39,7 +39,9 @@ export interface ChartInstance {
   getCompressedDataURL?: (options?: { seriesIndex?: number; dimension?: number }) => string;
   clear?: () => void;
   dispatchAction?: (action: { type: string; [key: string]: unknown }) => void;
-  [key: string]: any;
+  group?: string;
+  /** 图表额外属性（未知属性通过此字段访问） */
+  [key: string]: unknown;
 }
 
 /** 事件处理器 */

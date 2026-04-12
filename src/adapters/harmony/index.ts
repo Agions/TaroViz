@@ -4,38 +4,24 @@
  */
 import * as React from 'react';
 
+import type { EChartsOption, EChartsType } from 'echarts';
 import { Adapter, AdapterOptions } from '../types';
+import type { EventHandler } from '../../core/types/platform';
 
 // 扩展 AdapterOptions 类型
 interface ExtendedHarmonyAdapterOptions extends AdapterOptions {
   /**
    * HarmonyOS组件实例
    */
-  component?: any;
-  /**
-   * 画布ID
-   */
-  canvasId?: string;
-  /**
-   * 宽度
-   */
-  width?: number | string;
-  /**
-   * 高度
-   */
-  height?: number | string;
-  /**
-   * 主题
-   */
-  theme?: string | object;
+  component?: object;
   /**
    * 图表选项
    */
-  option?: any;
+  option?: EChartsOption;
   /**
    * 初始化回调
    */
-  onInit?: (instance: any) => void;
+  onInit?: (instance: EChartsType) => void;
 }
 
 /**
@@ -50,12 +36,12 @@ class HarmonyAdapter implements Adapter {
   /**
    * 图表实例
    */
-  private chartInstance: any | null = null;
+  private chartInstance: EChartsType | null = null;
 
   /**
    * 组件实例
    */
-  private component: any | null = null;
+  private component: object | null = null;
 
   /**
    * 构造函数
@@ -63,47 +49,38 @@ class HarmonyAdapter implements Adapter {
    */
   constructor(config: ExtendedHarmonyAdapterOptions) {
     this.config = config;
-    this.component = config.component;
+    this.component = config.component ?? null;
   }
 
   /**
    * 创建HarmonyOS适配器实例
-   * @param options 适配器选项
+   * @param _options 适配器选项
    * @returns 适配器实例
    */
-  static create(options: ExtendedHarmonyAdapterOptions): HarmonyAdapter {
-    return new HarmonyAdapter(options);
-  }
-
-  /**
-   * 获取图表实例
-   */
-  getInstance(): any {
-    return this.chartInstance;
-  }
-
-  /**
-   * 初始化图表
-   */
-  init(): any {
+  init(_options?: object): EChartsType {
     const { canvasId, width, height, theme, option } = this.config;
 
     if (!this.component) {
       console.error('[TaroViz] HarmonyAdapter: component is required');
-      return null;
+      return this.chartInstance as EChartsType;
     }
 
     if (!canvasId) {
       console.error('[TaroViz] HarmonyAdapter: canvasId is required');
-      return null;
+      return this.chartInstance as EChartsType;
     }
 
     // 创建图表实例
-    const chart = this.component.createChart({
+    const chart = (this.component as { createChart: (config: {
+      id: string;
+      width?: number | string;
+      height?: number | string;
+      theme?: string | object;
+    }) => EChartsType }).createChart({
       id: canvasId,
-      width: width,
-      height: height,
-      theme: theme,
+      width,
+      height,
+      theme,
     });
 
     // 设置图表选项
@@ -115,17 +92,22 @@ class HarmonyAdapter implements Adapter {
     this.chartInstance = chart;
 
     // 初始化回调
-    if (this.config.onInit) {
-      this.config.onInit(chart);
-    }
+    this.config.onInit?.(chart);
 
     return chart;
   }
 
   /**
+   * 获取图表实例
+   */
+  getInstance(): EChartsType | null {
+    return this.chartInstance;
+  }
+
+  /**
    * 设置图表选项
    */
-  setOption(option: any, opts?: any): void {
+  setOption(option: EChartsOption, opts?: object): void {
     if (this.chartInstance) {
       this.chartInstance.setOption(option, opts);
     } else {
@@ -139,7 +121,8 @@ class HarmonyAdapter implements Adapter {
   setTheme(theme: string | object): void {
     this.config.theme = theme;
     if (this.chartInstance) {
-      this.chartInstance.setTheme?.(theme);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (this.chartInstance as any).setTheme?.(theme);
     }
   }
 
@@ -167,87 +150,74 @@ class HarmonyAdapter implements Adapter {
   /**
    * 转换为DataURL
    */
-  convertToDataURL(opts?: any): string | undefined {
-    return this.chartInstance?.getDataURL(opts);
+  convertToDataURL(opts?: object): string | undefined {
+    return this.chartInstance?.getDataURL(opts as object);
   }
 
   /**
    * 清空图表
    */
   clear(): void {
-    if (this.chartInstance) {
-      this.chartInstance.clear();
-    }
+    this.chartInstance?.clear();
   }
 
   /**
    * 绑定事件
    */
-  on(event: string, handler: (params: any) => void): void {
-    if (this.chartInstance) {
-      this.chartInstance.on(event, handler);
-    }
+  on(eventName: string, handler: EventHandler, _context?: object): void {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this.chartInstance?.on(eventName, handler as any);
   }
 
   /**
    * 解绑事件
    */
-  off(event: string, handler?: (params: any) => void): void {
-    if (this.chartInstance) {
-      this.chartInstance.off(event, handler);
-    }
+  off(eventName: string, handler?: EventHandler): void {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this.chartInstance?.off(eventName, handler as any);
   }
 
   /**
    * 显示加载动画
    */
   showLoading(opts?: object): void {
-    if (this.chartInstance) {
-      this.chartInstance.showLoading(opts);
-    }
+    this.chartInstance?.showLoading(opts);
   }
 
   /**
    * 隐藏加载动画
    */
   hideLoading(): void {
-    if (this.chartInstance) {
-      this.chartInstance.hideLoading();
-    }
+    this.chartInstance?.hideLoading();
   }
 
   /**
    * 销毁图表
    */
   dispose(): void {
-    if (this.chartInstance) {
-      this.chartInstance.dispose();
-      this.chartInstance = null;
-    }
+    this.chartInstance?.dispose();
+    this.chartInstance = null;
   }
 
   /**
    * 处理图表大小变化
    */
-  resize(opts?: any): void {
-    if (this.chartInstance) {
-      this.chartInstance.resize(opts);
-    }
+  resize(opts?: object): void {
+    this.chartInstance?.resize(opts);
   }
 
   /**
    * 设置组件实例
    */
-  setComponent(component: any): void {
+  setComponent(component: object): void {
     this.component = component;
   }
 
   /**
    * 渲染图表组件
    */
-  render(): JSX.Element {
+  render(): React.ReactElement {
     const { canvasId = 'ec-canvas', width = '100%', height = '300px', style = {} } = this.config;
-    // 注意：这里需要根据实际使用的Taro版本和组件库来调整
     return React.createElement('view', {
       id: canvasId,
       style: { width, height, ...style },
@@ -257,16 +227,15 @@ class HarmonyAdapter implements Adapter {
   /**
    * 触发图表行为
    */
-  dispatchAction(payload: any): void {
-    if (this.chartInstance) {
-      this.chartInstance.dispatchAction(payload);
-    }
+  dispatchAction(payload: { type: string; [key: string]: unknown }): void {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this.chartInstance?.dispatchAction(payload as any);
   }
 
   /**
    * 获取DataURL
    */
-  getDataURL(opts?: any): string | undefined {
+  getDataURL(opts?: object): string | undefined {
     return this.chartInstance?.getDataURL(opts);
   }
 }
