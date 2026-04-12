@@ -2,7 +2,7 @@
  * DrillDown - 数据下钻工具
  * 支持点击图表数据项时，自动下钻到更细粒度的数据视图
  */
-import type { EChartsOption } from 'echarts';
+import type { ECharts, EChartsOption, ECElementEvent } from 'echarts';
 
 // ============================================================================
 // 类型定义
@@ -56,7 +56,7 @@ export interface DrillDownEventParams {
   /** 点击的数据项名称 */
   name: string | number;
   /** 点击的数据项值 */
-  value: string | number;
+  value: unknown;
   /** 下钻后的数据源 */
   sources: DrillDownSource[];
   /** 下钻后的图表配置 */
@@ -86,7 +86,7 @@ export interface DrillDownReturn {
    * @param chartInstance ECharts 实例
    * @param config 下钻配置
    */
-  init: (chartInstance: any, config: DrillDownConfig) => void;
+  init: (chartInstance: ECharts, config: DrillDownConfig) => void;
   /**
    * 返回上一层
    */
@@ -104,12 +104,12 @@ export interface DrillDownReturn {
    * 绑定图表点击事件
    * @param chartInstance ECharts 实例
    */
-  bindClick: (chartInstance: any) => void;
+  bindClick: (chartInstance: ECharts) => void;
   /**
    * 解绑图表点击事件
    * @param chartInstance ECharts 实例
    */
-  unbindClick: (chartInstance: any) => void;
+  unbindClick: (chartInstance: ECharts) => void;
   /**
    * 手动触发下钻到指定层级
    * @param level 目标层级
@@ -138,7 +138,7 @@ export interface DrillDownReturn {
 
 interface DrillDownState {
   /** 图表实例 */
-  chartInstance: any;
+  chartInstance: ECharts | null;
   /** 当前配置 */
   config: DrillDownConfig;
   /** 当前层级 */
@@ -148,11 +148,11 @@ interface DrillDownState {
   /** 当前图表 option */
   currentOption: EChartsOption;
   /** 初始 option（用于重置） */
-  initialOption: EChartsOption;
+  initialOption: Record<string, unknown>;
   /** 是否已初始化 */
   initialized: boolean;
   /** 事件处理器引用（用于解绑） */
-  clickHandler: ((params: any) => void) | null;
+  clickHandler: ((params: ECElementEvent) => void) | null;
 }
 
 // ============================================================================
@@ -292,7 +292,7 @@ export function createDrillDown(initialConfig?: Partial<DrillDownConfig>): Drill
   /**
    * 执行下钻
    */
-  const executeDrillDown = (params: any) => {
+  const executeDrillDown = (params: ECElementEvent) => {
     const { config, chartInstance } = state;
     if (!chartInstance) return;
 
@@ -340,11 +340,11 @@ export function createDrillDown(initialConfig?: Partial<DrillDownConfig>): Drill
     // 触发回调
     config.onDrillDown?.({
       level: state.currentLevel,
-      name: matchedSource?.name ?? name,
+      name: matchedSource?.name ?? (name as string | number),
       value: matchedSource?.value ?? value,
       sources: matchedSource?.children ?? [],
       chartOption: newOption,
-      rawParams: params,
+      rawParams: params as unknown as Record<string, unknown>,
     });
   };
 
@@ -375,7 +375,7 @@ export function createDrillDown(initialConfig?: Partial<DrillDownConfig>): Drill
   // 实例方法
   // ============================================================
 
-  const init = (chartInstance: any, config: DrillDownConfig): void => {
+  const init = (chartInstance: ECharts, config: DrillDownConfig): void => {
     if (!chartInstance) {
       console.error('[DrillDown] Invalid chart instance');
       return;
@@ -462,7 +462,7 @@ export function createDrillDown(initialConfig?: Partial<DrillDownConfig>): Drill
 
   const getCurrentLevel = (): number => state.currentLevel;
 
-  const bindClick = (chartInstance: any): void => {
+  const bindClick = (chartInstance: ECharts): void => {
     const instance = chartInstance || state.chartInstance;
     if (!instance) {
       console.error('[DrillDown] No chart instance to bind');
@@ -475,14 +475,14 @@ export function createDrillDown(initialConfig?: Partial<DrillDownConfig>): Drill
     }
 
     // 创建新的点击处理器
-    state.clickHandler = (params: any) => {
+    state.clickHandler = (params: ECElementEvent) => {
       executeDrillDown(params);
     };
 
     instance.on('click', state.clickHandler);
   };
 
-  const unbindClick = (chartInstance: any): void => {
+  const unbindClick = (chartInstance: ECharts): void => {
     const instance = chartInstance || state.chartInstance;
     if (!instance || !state.clickHandler) return;
 
