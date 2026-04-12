@@ -117,7 +117,7 @@ export function useChart(
     return () => {
       if (instance) {
         try {
-          const inst = instance as any;
+          const inst = instance as ChartInstance;
           if (!inst.isDisposed?.()) {
             inst.dispose();
           }
@@ -547,7 +547,7 @@ export function useFullscreen(chartRef: React.RefObject<HTMLElement>) {
  * @returns 导出函数
  */
 export function useExport(instance: ChartInstance | null) {
-  const inst = instance as any;
+  const inst = instance as ChartInstance;
   const exportImage = useCallback(
     (options?: { type?: 'png' | 'jpeg'; pixelRatio?: number; backgroundColor?: string }) => {
       if (!inst) return null;
@@ -579,7 +579,7 @@ export function useExport(instance: ChartInstance | null) {
  * @returns 工具函数
  */
 export function useChartTools(instance: ChartInstance | null) {
-  const inst = instance as any;
+  const inst = instance as ChartInstance;
   const getInstance = useCallback(() => instance, [instance]);
 
   const clear = useCallback(() => {
