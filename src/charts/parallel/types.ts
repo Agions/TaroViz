@@ -23,18 +23,18 @@ export type ParallelChartProps = {
 };
 
 export interface ParallelOption {
-  title?: any;
-  legend?: any;
-  parallel?: ParallelAxisSetting;
+  title?: unknown;
+  legend?: unknown;
+  parallel?: unknown;
   parallelAxisDefault?: ParallelAxisItem;
-  grid?: any;
-  tooltip?: any;
+  grid?: unknown;
+  tooltip?: unknown;
   series: ParallelSeriesItem[];
-  dataset?: any;
+  dataset?: unknown;
   color?: string[];
-  backgroundColor?: any;
-  textStyle?: any;
-  [key: string]: any;
+  backgroundColor?: unknown;
+  textStyle?: unknown;
+  [key: string]: unknown;
 }
 
 export interface ParallelAxisSetting {
@@ -55,10 +55,10 @@ export interface ParallelAxisItem {
   type?: 'value' | 'category';
   name?: string;
   nameLocation?: 'start' | 'middle' | 'center' | 'end';
-  nameTextStyle?: any;
+  nameTextStyle?: unknown;
   nameGap?: number;
   silent?: boolean;
-  data?: any[];
+  data?: unknown[];
   dimension?: number;
   parallelIndex?: number;
 }
@@ -66,11 +66,12 @@ export interface ParallelAxisItem {
 export interface ParallelSeriesItem {
   type: 'parallel';
   name?: string;
-  data?: any[];
-  lineStyle?: any;
-  emphasis?: any;
+  data?: unknown[];
+  lineStyle?: unknown;
+  emphasis?: unknown;
   smooth?: boolean | number;
   symbol?: string;
   symbolSize?: number;
-  itemStyle?: any;
+  itemStyle?: unknown;
+  [key: string]: unknown;
 }

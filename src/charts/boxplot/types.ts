@@ -23,26 +23,27 @@ export type BoxplotChartProps = {
 };
 
 export interface BoxplotOption {
-  title?: any;
-  legend?: any;
-  grid?: any;
-  xAxis?: any;
-  yAxis?: any;
-  tooltip?: any;
+  title?: unknown;
+  legend?: unknown;
+  grid?: unknown;
+  xAxis?: unknown;
+  yAxis?: unknown;
+  tooltip?: unknown;
   series: BoxplotSeriesItem[];
-  dataset?: any;
+  dataset?: unknown;
   color?: string[];
-  backgroundColor?: any;
-  textStyle?: any;
-  [key: string]: any;
+  backgroundColor?: unknown;
+  textStyle?: unknown;
+  [key: string]: unknown;
 }
 
 export interface BoxplotSeriesItem {
   type: 'boxplot';
   name?: string;
-  data?: any[];
-  itemStyle?: any;
-  emphasis?: any;
+  data?: unknown[];
+  itemStyle?: unknown;
+  emphasis?: unknown;
   dimensions?: string[];
-  encode?: any;
+  encode?: Record<string, number | string>;
+  [key: string]: unknown;
 }
