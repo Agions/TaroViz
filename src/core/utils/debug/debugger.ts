@@ -11,7 +11,7 @@ class DebugManager {
   private static instance: DebugManager;
   private debugInfo: DebugInfo = {};
   private isEnabled: boolean = false;
-  private eventHandlers: Map<string, Set<(event: any) => void>> = new Map();
+  private eventHandlers: Map<string, Set<(event: unknown) => void>> = new Map();
   private maxEvents: number = 100;
   private maxErrors: number = 50;
 
@@ -105,7 +105,7 @@ class DebugManager {
   /**
    * 更新配置信息
    */
-  public updateConfig(config: any): void {
+  public updateConfig(config: unknown): void {
     this.updateDebugInfo({ config });
   }
 
@@ -126,7 +126,7 @@ class DebugManager {
   /**
    * 添加事件记录
    */
-  public addEvent(type: string, params: any): void {
+  public addEvent(type: string, params: unknown): void {
     if (!this.isEnabled) {
       return;
     }
@@ -192,7 +192,7 @@ class DebugManager {
   /**
    * 绑定事件
    */
-  public on(eventType: string, handler: (event: any) => void): void {
+  public on(eventType: string, handler: (event: unknown) => void): void {
     if (!this.eventHandlers.has(eventType)) {
       this.eventHandlers.set(eventType, new Set());
     }
@@ -202,7 +202,7 @@ class DebugManager {
   /**
    * 解绑事件
    */
-  public off(eventType: string, handler?: (event: any) => void): void {
+  public off(eventType: string, handler?: (event: unknown) => void): void {
     if (!handler) {
       this.eventHandlers.delete(eventType);
       return;
@@ -213,7 +213,7 @@ class DebugManager {
   /**
    * 触发事件
    */
-  private emitEvent(eventType: string, data: any): void {
+  private emitEvent(eventType: string, data: unknown): void {
     const handlers = this.eventHandlers.get(eventType);
     if (handlers) {
       handlers.forEach((handler) => {
@@ -268,7 +268,7 @@ export function updateDebugInfo(info: Partial<DebugInfo>): void {
 /**
  * 添加调试事件
  */
-export function addDebugEvent(type: string, params: any): void {
+export function addDebugEvent(type: string, params: unknown): void {
   debugManager.addEvent(type, params);
 }
 
@@ -310,13 +310,13 @@ export function isDebuggingEnabled(): boolean {
 /**
  * 绑定调试事件
  */
-export function onDebugEvent(eventType: string, handler: (event: any) => void): void {
+export function onDebugEvent(eventType: string, handler: (event: unknown) => void): void {
   debugManager.on(eventType, handler);
 }
 
 /**
  * 解绑调试事件
  */
-export function offDebugEvent(eventType: string, handler?: (event: any) => void): void {
+export function offDebugEvent(eventType: string, handler?: (event: unknown) => void): void {
   debugManager.off(eventType, handler);
 }
