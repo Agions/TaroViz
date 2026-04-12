@@ -23,7 +23,7 @@ export interface DebugPanelProps {
   /**
    * 事件处理函数
    */
-  onEvent?: (event: { type: DebugPanelEventType; data?: any }) => void;
+  onEvent?: (event: { type: DebugPanelEventType; data?: unknown }) => void;
 }
 
 /**
@@ -161,17 +161,20 @@ export const DebugPanel: React.FC<DebugPanelProps> = ({ debugInfo, options = {},
         </div>
         <div style={styles.debugDataSeries}>
           <h4 style={styles.h4}>系列数据</h4>
-          {data?.series?.map((series, index) => (
-            <div key={index} style={styles.debugDataSeriesItem}>
-              <h5 style={styles.h5}>
-                系列 {index + 1}: {series.name || '未命名'}
-              </h5>
-              <pre style={styles.pre}>{JSON.stringify(series.data?.slice(0, 5), null, 2)}...</pre>
-              <div style={styles.debugSeriesInfo}>
-                <span>数据量: {series.data?.length || 0}</span>
+          {data?.series?.map((series, index) => {
+            const s = series as { name?: string | number; data?: unknown[] };
+            return (
+              <div key={index} style={styles.debugDataSeriesItem}>
+                <h5 style={styles.h5}>
+                  系列 {index + 1}: {s.name || '未命名'}
+                </h5>
+                <pre style={styles.pre}>{JSON.stringify(s.data?.slice(0, 5), null, 2)}...</pre>
+                <div style={styles.debugSeriesInfo}>
+                  <span>数据量: {s.data?.length || 0}</span>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     );

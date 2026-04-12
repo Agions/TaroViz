@@ -57,7 +57,7 @@ export interface MarkLineConfig {
   label?: {
     show?: boolean;
     position?: 'start' | 'middle' | 'end' | 'insideStartBottom' | 'insideStartTop';
-    formatter?: string | ((value: any) => string);
+    formatter?: string | ((value: unknown) => string);
     color?: string;
     fontSize?: number;
   };
@@ -81,7 +81,7 @@ export interface MarkAreaConfig {
   label?: {
     show?: boolean;
     position?: 'top' | 'bottom' | 'left' | 'right' | 'inside';
-    formatter?: string | ((value: any) => string);
+    formatter?: string | ((value: unknown) => string);
     color?: string;
     fontSize?: number;
   };
@@ -243,7 +243,7 @@ export function useAnnotation(props: AnnotationProps): EChartsOption {
   const { type, markLine, markArea, scatter } = props;
 
   return useMemo(() => {
-    // 使用 any 避免类型复杂性问题
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const series: any[] = [];
 
     if (type === 'line' && markLine) {
@@ -323,6 +323,7 @@ export function createCompositeAnnotation(
     scatter?: ScatterAnnotationConfig;
   }>
 ): EChartsOption {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const allSeries: any[] = [];
 
   annotations.forEach((annotation) => {

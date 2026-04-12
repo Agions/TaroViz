@@ -35,7 +35,7 @@ export interface TreeNode {
   /** 子节点 */
   children?: TreeNode[];
   /** 其他自定义属性 */
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 // ============================================================================

@@ -86,7 +86,7 @@ export interface DataItem {
   /**
    * 其他自定义属性
    */
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -136,12 +136,12 @@ export interface SeriesConfig {
     /**
      * 其他样式属性
      */
-    [key: string]: any;
+    [key: string]: unknown;
   };
   /**
    * 其他自定义属性
    */
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -171,7 +171,7 @@ export interface AxisConfig {
   /**
    * 其他自定义属性
    */
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -193,7 +193,7 @@ export interface LegendConfig {
   /**
    * 其他自定义属性
    */
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -211,11 +211,11 @@ export interface TooltipConfig {
   /**
    * 提示框格式化函数
    */
-  formatter?: string | ((params: any) => string);
+  formatter?: string | ((params: unknown) => string);
   /**
    * 其他自定义属性
    */
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -258,7 +258,7 @@ export interface ToolboxConfig {
   /**
    * 其他自定义属性
    */
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -284,7 +284,7 @@ export interface DataZoomConfig {
   /**
    * 其他自定义属性
    */
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -340,7 +340,7 @@ export interface ConfigGeneratorOptions {
    */
   width?: number | string;
   /**
-   * 图表高度
+   图表高度
    */
   height?: number | string;
   /**
@@ -348,9 +348,13 @@ export interface ConfigGeneratorOptions {
    */
   responsive?: boolean;
   /**
+   * 模板名称
+   */
+  template?: string;
+  /**
    * 其他自定义属性
    */
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -441,5 +445,5 @@ export enum ConfigGeneratorEventType {
  */
 export type ConfigGeneratorEventHandler = (event: {
   type: ConfigGeneratorEventType;
-  data?: any;
+  data?: unknown;
 }) => void;

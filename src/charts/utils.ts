@@ -12,13 +12,13 @@ export function processAdapterConfig(config: {
   theme?: string | object;
   autoResize?: boolean;
   canvasId?: string;
-  containerRef?: any;
-  option?: any;
+  containerRef?: unknown;
+  option?: unknown;
   renderer?: 'canvas' | 'svg';
-  [key: string]: any;
-}): any {
+  [key: string]: unknown;
+}): Record<string, unknown> {
   // 将复杂类型转换为简单类型
-  const processedConfig = {
+  const processedConfig: Record<string, unknown> = {
     width: typeof config.width === 'number' ? config.width : undefined,
     height: typeof config.height === 'number' ? config.height : undefined,
     theme: typeof config.theme === 'string' ? config.theme : undefined,
@@ -30,7 +30,7 @@ export function processAdapterConfig(config: {
   };
 
   // 复制其他可能存在的属性
-  const result: Record<string, any> = { ...processedConfig };
+  const result: Record<string, unknown> = { ...processedConfig };
   Object.keys(config).forEach((key) => {
     if (!(key in processedConfig)) {
       result[key] = config[key];

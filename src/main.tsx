@@ -5,8 +5,9 @@ import type { EChartsType } from './core/types';
 
 import { BaseChart, LineChart, BarChart, PieChart } from './index';
 
-// Type assertion helper - use any to bypass complex type mismatches
-const asChartOptions = <T extends Record<string, any>>(options: T): any => {
+// Type assertion helper - use any to bypass complex type mismatches for demo purposes
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const asChartOptions = <T extends Record<string, unknown>>(options: T): any => {
   return options;
 };
 

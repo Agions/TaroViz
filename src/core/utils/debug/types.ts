@@ -69,13 +69,13 @@ export interface DebugInfo {
   /**
    * 配置信息
    */
-  config?: any;
+  config?: unknown;
 
   /**
    * 数据信息
    */
   data?: {
-    series?: any[];
+    series?: unknown[];
     totalDataCount?: number;
     currentDataCount?: number;
   };
@@ -97,7 +97,7 @@ export interface DebugInfo {
   events?: Array<{
     type: string;
     timestamp: number;
-    params: any;
+    params: unknown;
   }>;
 
   /**
@@ -139,4 +139,4 @@ export enum DebugPanelEventType {
 /**
  * 调试面板事件回调类型
  */
-export type DebugPanelEventHandler = (event: { type: DebugPanelEventType; data?: any }) => void;
+export type DebugPanelEventHandler = (event: { type: DebugPanelEventType; data?: unknown }) => void;

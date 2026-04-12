@@ -50,20 +50,21 @@ export const isMiniApp = (): boolean => {
   // 使用类型断言来安全地检查全局变量
   const globalObj =
     typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+  const win = globalObj as Window & { wx?: unknown; my?: unknown; swan?: unknown; tt?: unknown; jd?: unknown };
 
-  if (typeof (globalObj as any).wx !== 'undefined') {
+  if (typeof win.wx !== 'undefined') {
     return true;
   }
-  if (typeof (globalObj as any).my !== 'undefined') {
+  if (typeof win.my !== 'undefined') {
     return true;
   }
-  if (typeof (globalObj as any).swan !== 'undefined') {
+  if (typeof win.swan !== 'undefined') {
     return true;
   }
-  if (typeof (globalObj as any).tt !== 'undefined') {
+  if (typeof win.tt !== 'undefined') {
     return true;
   }
-  if (typeof (globalObj as any).jd !== 'undefined') {
+  if (typeof win.jd !== 'undefined') {
     return true;
   }
 

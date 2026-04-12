@@ -418,7 +418,7 @@ export class ConfigGenerator {
       });
 
       // 创建系列配置，避免重复属性
-      const baseSeries: any = {
+      const baseSeries: Record<string, unknown> = {
         name: seriesConfig.name || `系列${index + 1}`,
         xAxisIndex: seriesConfig.xAxisIndex,
         yAxisIndex: seriesConfig.yAxisIndex,
@@ -468,7 +468,7 @@ export class ConfigGenerator {
   /**
    * 标准化坐标轴配置
    */
-  private normalizeAxisConfig(axis: any): any {
+  private normalizeAxisConfig(axis: Record<string, unknown>): Record<string, unknown> {
     return {
       type: 'category',
       show: true,
@@ -517,7 +517,7 @@ export class ConfigGenerator {
           ...options.toolbox.feature,
         },
         ...options.toolbox,
-      } as any;
+      } as Record<string, unknown>;
     }
 
     // 生成数据缩放配置
@@ -563,7 +563,7 @@ export class ConfigGenerator {
   /**
    * 触发事件
    */
-  private emit(eventType: ConfigGeneratorEventType, data?: any): void {
+  private emit(eventType: ConfigGeneratorEventType, data?: unknown): void {
     const handlers = this.eventHandlers.get(eventType);
     handlers?.forEach((handler) => {
       try {

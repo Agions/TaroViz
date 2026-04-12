@@ -3,6 +3,7 @@
  * ECharts 内置 tree 类型
  */
 import React, { memo, useMemo } from 'react';
+import type { EChartsOption } from 'echarts';
 import BaseChartWrapper from '../common/BaseChartWrapper';
 import { TreeChartProps, TreeSeries } from './types';
 
@@ -106,7 +107,7 @@ const TreeChart: React.FC<TreeChartProps> = memo((props) => {
     itemStyle,
   ]);
 
-  return <BaseChartWrapper {...restProps} option={mergedOption as any} chartType="tree" />;
+  return <BaseChartWrapper {...restProps} option={mergedOption as EChartsOption} chartType="tree" />;
 });
 
 TreeChart.displayName = 'TreeChart';

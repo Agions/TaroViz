@@ -264,9 +264,10 @@ export class PerformanceAnalyzer {
     // 采样内存使用（如果支持）
     if (
       this.config.metrics?.includes('memoryUsage') &&
-      typeof (performance as any).memory !== 'undefined'
+      typeof (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory !== 'undefined'
     ) {
-      const memoryUsage = ((performance as any).memory.usedJSHeapSize / (1024 * 1024)).toFixed(2);
+      const memory = (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory;
+      const memoryUsage = ((memory?.usedJSHeapSize ?? 0) / (1024 * 1024)).toFixed(2);
       this.recordMetric('memoryUsage', parseFloat(memoryUsage), 'MB');
     }
   }

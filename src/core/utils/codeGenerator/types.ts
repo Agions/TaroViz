@@ -60,7 +60,7 @@ export interface CodeGeneratorOptions {
   /**
    * 其他自定义选项
    */
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -150,7 +150,7 @@ export enum CodeGeneratorEventType {
  */
 export type CodeGeneratorEventHandler = (event: {
   type: CodeGeneratorEventType;
-  data?: any;
+  data?: unknown;
 }) => void;
 
 /**

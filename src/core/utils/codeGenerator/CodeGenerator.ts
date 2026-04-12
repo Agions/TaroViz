@@ -68,7 +68,7 @@ export class CodeGenerator {
   /**
    * 触发事件
    */
-  private emit(eventType: CodeGeneratorEventType, data?: any): void {
+  private emit(eventType: CodeGeneratorEventType, data?: unknown): void {
     const handlers = this.eventHandlers.get(eventType);
     handlers?.forEach((handler) => {
       try {
