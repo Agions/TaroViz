@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.1](https://github.com/Agions/TaroViz/compare/v1.11.0...v1.11.1) (2026-04-12)
+
+### Code Quality
+
+- **LazyChart.tsx**：BaseChartProps 替代 Record<string, unknown>，新增 aria-busy 加载指示和屏幕阅读器视觉隐藏文本
+- **ExportUtils.ts**：getDataURL/JSPDFInstance 类型安全化，移除 3 处 any 类型，新增 webp/gif 扩展类型支持
+- **hooks/index.ts**：分离 export type 与值导出，消除 webpack 5 re-export 警告
+
+---
+
 # [1.11.0](https://github.com/Agions/TaroViz/compare/v1.10.0...v1.11.0) (2026-04-11)
 
 ### Features
