@@ -3,6 +3,7 @@
  * 用于按需加载图表，减少首屏体积
  */
 import React, { Suspense, lazy, ComponentType } from 'react';
+import type { BaseChartProps } from '../../charts/types';
 
 // 懒加载各个图表组件
 const LazyLineChart = lazy(() => import('../../charts/line'));
@@ -18,7 +19,7 @@ const LazySunburstChart = lazy(() => import('../../charts/sunburst'));
 const LazySankeyChart = lazy(() => import('../../charts/sankey'));
 
 // 统一的图表类型到懒加载组件映射
-const LAZY_CHART_MODULES: Record<string, () => Promise<{ default: ComponentType<Record<string, unknown>> }>> = {
+const LAZY_CHART_MODULES: Record<string, () => Promise<{ default: ComponentType<BaseChartProps> }>> = {
   line: () => import('../../charts/line'),
   bar: () => import('../../charts/bar'),
   pie: () => import('../../charts/pie'),
@@ -36,11 +37,13 @@ export const LAZY_CHART_TYPES = Object.keys(LAZY_CHART_MODULES);
 
 /**
  * 默认加载状态组件（使用 CSS 变量，与 ThemeManager 对齐）
+ * 包含完整的无障碍支持
  */
 const DefaultLoadingFallback: React.FC<{ text?: string }> = ({ text = '加载中...' }) => (
   <div
     role="status"
     aria-label={text}
+    aria-busy="true"
     style={{
       display: 'flex',
       alignItems: 'center',
@@ -72,6 +75,25 @@ const DefaultLoadingFallback: React.FC<{ text?: string }> = ({ text = '加载中
           }
         `}
       </style>
+      {/*
+        视觉隐藏文本，屏幕阅读器可读取加载状态
+        避免干扰视觉布局
+      */}
+      <span
+        style={{
+          position: 'absolute',
+          width: '1px',
+          height: '1px',
+          padding: 0,
+          margin: '-1px',
+          overflow: 'hidden',
+          clip: 'rect(0, 0, 0, 0)',
+          whiteSpace: 'nowrap',
+          border: 0,
+        }}
+      >
+        {text}
+      </span>
       <span style={{ color: 'var(--tv-text-color-secondary, #666)', fontSize: 'var(--tv-font-size, 14px)' }}>
         {text}
       </span>
@@ -141,8 +163,8 @@ export function preloadAllCharts(): Promise<void[]> {
  * 创建懒加载图表映射
  * 用于动态导入图表
  */
-export function createLazyChart(chartType: string): ComponentType<Record<string, unknown>> | null {
-  const lazyCharts: Record<string, ComponentType<Record<string, unknown>>> = {
+export function createLazyChart(chartType: string): ComponentType<BaseChartProps> | null {
+  const lazyCharts: Record<string, ComponentType<BaseChartProps>> = {
     line: LazyLineChart,
     bar: LazyBarChart,
     pie: LazyPieChart,
@@ -164,7 +186,7 @@ export function createLazyChart(chartType: string): ComponentType<Record<string,
  * 用于按名称动态获取懒加载图表组件
  */
 export const LazyChartRegistry = {
-  get(chartType: string): ComponentType<Record<string, unknown>> | null {
+  get(chartType: string): ComponentType<BaseChartProps> | null {
     return createLazyChart(chartType);
   },
 
