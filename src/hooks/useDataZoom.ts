@@ -116,7 +116,7 @@ export function useDataZoom(options: UseDataZoomOptions = {}): UseDataZoomReturn
 
   // 构建 dataZoom 配置
   const buildDataZoomConfig = useCallback(() => {
-    const config: any[] = [];
+    const config: Record<string, unknown>[] = [];
 
     // 内置型 dataZoom
     if (type === 'inside' || zoomMode === 'mix') {
