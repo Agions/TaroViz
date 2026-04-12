@@ -665,13 +665,17 @@ export {
   createPdfFromImage,
 } from './utils/chartDownloadUtils';
 
-// 数据转换工具函数
-export {
+// 数据转换工具函数（类型导出）
+export type {
   DataItem,
   DataSource,
   AggregationType,
   TimePeriod,
   TransformMapping,
+} from './utils/dataTransformUtils';
+
+// 数据转换工具函数（值导出）
+export {
   transformLineOrBar,
   transformPie,
   transformScatter,
