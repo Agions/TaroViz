@@ -2,7 +2,7 @@
  * TaroViz H5 适配器
  * 基于 HTML Canvas 实现图表渲染
  */
-import type { EChartsType } from 'echarts';
+import type { EChartsType, EChartsOption } from 'echarts';
 import {
   GridComponent,
   TooltipComponent,
@@ -14,6 +14,7 @@ import { CanvasRenderer, SVGRenderer } from 'echarts/renderers';
 import * as React from 'react';
 
 import { Adapter, H5AdapterOptions } from '../types';
+import type { EventHandler } from '../../core/types/platform';
 
 // 扩展 H5AdapterOptions 类型
 interface ExtendedH5AdapterOptions extends H5AdapterOptions {
@@ -21,9 +22,9 @@ interface ExtendedH5AdapterOptions extends H5AdapterOptions {
   width?: number | string;
   height?: number | string;
   theme?: string | object;
-  option?: any;
-  onInit?: (instance: any) => void;
-  containerRef?: any;
+  option?: EChartsOption;
+  onInit?: (instance: EChartsType) => void;
+  containerRef?: HTMLElement | { current: HTMLElement | null };
   direction?: 'ltr' | 'rtl';
 }
 
@@ -45,9 +46,9 @@ class H5Adapter implements Adapter {
   /**
    * 图表实例
    */
-  private instance: any = null;
+  private instance: EChartsType | null = null;
   private options: ExtendedH5AdapterOptions;
-  private containerRef: any = null;
+  private containerRef: ExtendedH5AdapterOptions['containerRef'] = undefined;
   private canvasId: string;
 
   constructor(options: ExtendedH5AdapterOptions) {
@@ -68,23 +69,26 @@ class H5Adapter implements Adapter {
   /**
    * 初始化图表
    */
-  init(_options?: any): EChartsType {
+  init(_options?: EChartsOption): EChartsType {
     if (this.instance) {
       return this.instance;
     }
 
     // 获取容器元素
-    const container = this.containerRef?.current || document.getElementById(this.canvasId);
+    const container = this.containerRef && 'current' in this.containerRef
+      ? this.containerRef.current
+      : this.containerRef || document.getElementById(this.canvasId);
     if (!container) {
       throw new Error(`[TaroViz] H5Adapter: container not found (canvasId: ${this.canvasId})`);
     }
 
     // 初始化图表
-    this.instance = echarts.init(container, this.options.theme, {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this.instance = echarts.init(container as HTMLElement, this.options.theme, {
       // 性能优化选项
       useDirtyRect: true, // 使用脏矩形渲染，减少重绘区域
       renderer: this.options.renderer || 'canvas',
-    } as any); // 使用类型断言允许额外的配置选项
+    }) as unknown as EChartsType;
 
     // 设置性能优化相关的全局配置
     if (this.instance) {
@@ -120,14 +124,14 @@ class H5Adapter implements Adapter {
   /**
    * 获取图表实例
    */
-  getInstance(): any {
+  getInstance(): EChartsType | null {
     return this.instance;
   }
 
   /**
    * 设置图表选项
    */
-  setOption(option: any, opts?: any): void {
+  setOption(option: EChartsOption, opts?: object): void {
     if (this.instance) {
       // 使用性能优化选项，默认启用lazyUpdate
       this.instance.setOption(option, {
@@ -168,7 +172,8 @@ class H5Adapter implements Adapter {
    * 获取DOM元素
    */
   getDom(): HTMLElement | null {
-    return this.containerRef?.current || null;
+    const ref = this.containerRef;
+    return ref && 'current' in ref ? ref.current : (ref as HTMLElement | null);
   }
 
   /**
@@ -194,7 +199,8 @@ class H5Adapter implements Adapter {
   /**
    * 绑定事件
    */
-  on(event: string, handler: (params: any) => void): void {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  on(event: string, handler: (...args: any[]) => void): void {
     if (this.instance) {
       this.instance.on(event, handler);
     }
@@ -203,7 +209,8 @@ class H5Adapter implements Adapter {
   /**
    * 解绑事件
    */
-  off(event: string, handler?: (params: any) => void): void {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  off(event: string, handler?: (...args: any[]) => void): void {
     if (this.instance) {
       this.instance.off(event, handler);
     }
@@ -230,8 +237,8 @@ class H5Adapter implements Adapter {
   /**
    * 设置组件实例
    */
-  setComponent(component: any): void {
-    this.containerRef = component;
+  setComponent(component: unknown): void {
+    this.containerRef = component as ExtendedH5AdapterOptions['containerRef'];
   }
 
   /**
@@ -260,7 +267,8 @@ class H5Adapter implements Adapter {
   /**
    * 触发图表行为
    */
-  dispatchAction(payload: object): void {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dispatchAction(payload: any): void {
     if (this.instance) {
       this.instance.dispatchAction(payload);
     }
@@ -276,7 +284,7 @@ class H5Adapter implements Adapter {
   /**
    * 处理图表大小变化
    */
-  resize(opts?: any): void {
+  resize(opts?: object): void {
     if (this.instance) {
       this.instance.resize(opts);
     }
@@ -302,12 +310,12 @@ class H5Adapter implements Adapter {
    * 获取平台信息
    * @returns 平台信息
    */
-  getPlatformInfo(): Record<string, any> {
+  getPlatformInfo(): Record<string, string> {
     return {
       platform: 'h5',
       renderer: this.options.renderer || 'canvas',
       userAgent: navigator.userAgent,
-      devicePixelRatio: window.devicePixelRatio,
+      devicePixelRatio: String(window.devicePixelRatio),
     };
   }
 }
