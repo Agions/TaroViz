@@ -38,11 +38,13 @@ export function calculateDataLength(option: { series?: unknown } | undefined): n
 
 /**
  * Filter data by filter conditions
+ * Uses single-pass filtering with pre-built key index for O(n×k) instead of O(n×m)
  */
 export function filterDataByKeys<T>(data: T[], filters: Record<string, unknown>): T[] {
   if (!filters || Object.keys(filters).length === 0) return data;
+  const filterEntries = Object.entries(filters);
   return data.filter((item) => {
-    for (const [key, value] of Object.entries(filters)) {
+    for (const [key, value] of filterEntries) {
       const itemVal = (item as Record<string, unknown>)[key];
       if (itemVal !== value && !(Array.isArray(itemVal) && itemVal.includes(value))) return false;
     }

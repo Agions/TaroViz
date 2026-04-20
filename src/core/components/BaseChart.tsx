@@ -193,6 +193,10 @@ const BaseChart: React.FC<ChartProps> = (props) => {
   const debugConfigRef = useRef<DebugPanelOptions | null>(null);
   const performanceAnalyzerRef = useRef<PerformanceAnalyzer | null>(null);
 
+  // Store linkageConfig in a ref to avoid stale closure in event handlers
+  const linkageConfigRef = useRef(linkageConfig);
+  linkageConfigRef.current = linkageConfig;
+
   // Debug config
   const debugConfig = useMemo(() => {
     if (!debug) return null;
@@ -234,7 +238,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
       }
     }
 
-    // Inject dataZoom when enableZoom is true (keyboard-accessible zoom)
+    // Inject dataZoom when enableZoom is true
     if (_enableZoom) {
       processed = JSON.parse(JSON.stringify(processed));
       // Avoid duplicate dataZoom entries
@@ -244,7 +248,6 @@ const BaseChart: React.FC<ChartProps> = (props) => {
       if (!existingDzArr.some((dz) => dz?.type === 'inside')) {
         processed.dataZoom = [
           ...(existingDzArr || []),
-          // Inside (mouse wheel + keyboard) — wired to keyboard nav in BaseChartWrapper
           { type: 'inside', start: 0, end: 100, zoomOnMouseWheel: true, moveOnMouseMove: false },
         ];
       }
@@ -292,9 +295,9 @@ const BaseChart: React.FC<ChartProps> = (props) => {
       // Setup internal event handlers for linkage + virtual scroll
       if (instance) {
         // Click linkage
-        if (linkageConfig.enableClickLinkage && chartId && linkageConfig.linkedChartIds) {
+        if (linkageConfigRef.current.enableClickLinkage && chartId && linkageConfigRef.current.linkedChartIds) {
           instance.on('click', (params: ECElementEvent) => {
-            linkageConfig.linkedChartIds!.forEach((lid) => {
+            linkageConfigRef.current.linkedChartIds!.forEach((lid) => {
               const linked = getChart(lid);
               if (linked) linked.dispatchAction({ type: 'highlight', name: params.name });
             });
@@ -323,8 +326,8 @@ const BaseChart: React.FC<ChartProps> = (props) => {
               virtualScrollRef.current.isScrolling = false;
             }, 100);
           }
-          if (linkageConfig.enableZoomLinkage && chartId && linkageConfig.linkedChartIds) {
-            linkageConfig.linkedChartIds!.forEach((lid) => {
+          if (linkageConfigRef.current.enableZoomLinkage && chartId && linkageConfigRef.current.linkedChartIds) {
+            linkageConfigRef.current.linkedChartIds!.forEach((lid) => {
               const linked = getChart(lid);
               if (linked)
                 linked.dispatchAction({
@@ -342,8 +345,8 @@ const BaseChart: React.FC<ChartProps> = (props) => {
           instance.on('legendselectchanged', (params: unknown) => {
             const p = params as { name?: string; selected: Record<string, boolean> };
             const { name, selected } = p;
-            if (linkageConfig.enableLegendLinkage && chartId && linkageConfig.linkedChartIds) {
-              linkageConfig.linkedChartIds!.forEach((lid) => {
+            if (linkageConfigRef.current.enableLegendLinkage && chartId && linkageConfigRef.current.linkedChartIds) {
+              linkageConfigRef.current.linkedChartIds!.forEach((lid) => {
                 const linked = getChart(lid);
                 if (linked) linked.setOption({ legend: { selected } });
               });
@@ -411,7 +414,6 @@ const BaseChart: React.FC<ChartProps> = (props) => {
       chartId,
       enablePerformanceMonitoring,
       onInit,
-      linkageConfig,
       virtualScroll,
       onZoom,
       enableLegendInteraction,
