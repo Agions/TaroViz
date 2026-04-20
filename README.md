@@ -1,0 +1,416 @@
+# TaroViz
+
+<div align="center">
+  <h1>TaroViz</h1>
+  <p>基于 Taro 和 ECharts 的多端图表组件库</p>
+  <p>
+    <a href="https://www.npmjs.com/package/@agions/taroviz">
+      <img src="https://img.shields.io/npm/v/@agions/taroviz.svg" alt="npm package">
+    </a>
+    <a href="https://www.npmjs.com/package/@agions/taroviz">
+      <img src="https://img.shields.io/npm/dm/@agions/taroviz.svg" alt="npm downloads">
+    </a>
+    <a href="https://github.com/Agions/TaroViz/blob/main/LICENSE">
+      <img src="https://img.shields.io/npm/l/@agions/taroviz.svg" alt="license">
+    </a>
+  </p>
+</div>
+
+## 📢 最新版本 v1.10.0
+
+TaroViz v1.10.0 正式发布！新增 **useChartHistory**（Undo/Redo 历史记录）和 **useChartSelection**（数据点选择/高亮）两个专业级 Hook，ErrorBoundary / LazyChart CSS 变量化，ThemeManager 系统主题自动检测。查看 [更新日志](./CHANGELOG.md) 了解详细信息。
+
+## 📚 文档
+
+- [在线文档](https://agions.github.io/TaroViz/)
+- [快速开始](https://agions.github.io/TaroViz/guide/)
+- [API文档](https://agions.github.io/TaroViz/api/)
+- [示例](https://agions.github.io/TaroViz/examples/)
+- [迁移指南](https://agions.github.io/TaroViz/migration/)
+
+## 特性
+
+- 📊 **丰富的图表类型** - 支持折线图、柱状图、饼图、散点图、雷达图、热力图、仪表盘、漏斗图、矩形树图、旭日图、桑基图等多种图表类型
+- 📱 **多端适配支持** - 支持微信小程序、支付宝小程序、百度小程序、字节跳动小程序、HarmonyOS 和 H5
+- 🎨 **灵活的主题定制** - 内置 10+ 预设主题，支持自定义主题和动态主题切换
+- 📦 **单包架构设计** - 简化依赖管理，方便使用
+- 🚀 **高性能渲染** - 基于 ECharts 优化，支持懒加载和渐进式渲染
+- ⚡ **性能分析工具** - 支持帧率监控和内存使用分析
+- 🛡️ **错误边界** - 内置 ErrorBoundary 组件，防止图表渲染错误影响应用，支持 CSS 变量主题化
+- 🪝 **懒加载支持** - 支持图表组件懒加载，优化首屏加载速度
+- ↩️ **Undo/Redo 历史** - useChartHistory Hook 追踪配置变更，支持 Ctrl+Z/Y 快捷键
+- 🎯 **数据点选择** - useChartSelection Hook 支持单选/多选/反选，程序化控制数据高亮
+- 🎯 **标注系统** - 支持 MarkLine、MarkArea 等标注，预设平均线、警戒线等样式
+- 📤 **导出功能** - 支持导出为 PNG、JPEG、SVG、PDF 等格式
+- 🎯 **易用的 React Hooks** - 提供 useChart、useResize、useResponsive、useThemeSwitcher、useChartHistory、useChartSelection 等 Hooks
+- ♿ **无障碍支持** - 键盘导航（+/- 缩放、方向键平移、Home 重置）、屏幕阅读器数据表
+- 🎬 **专业动画** - 符合设计规范的动画时长和缓动曲线，支持 prefers-reduced-motion WCAG 无障碍
+- 📖 **完善的类型定义** - 完整的 TypeScript 类型支持，提升开发体验
+- 🛠️ **图表配置生成器** - 支持快速生成 ECharts 配置
+- 🛠️ **代码示例生成器** - 支持 React、Vue、Vanilla 框架
+- 📚 **完善的文档系统** - 包含在线示例和使用指南
+
+## 🪝 Hooks
+
+TaroViz 提供多个专业级 React Hooks，简化图表状态管理：
+
+```typescript
+import {
+  useChart,
+  useChartHistory,   // Undo/Redo 历史记录
+  useChartSelection,  // 数据点选择/高亮
+  useChartDownload,   // 导出 PNG/JPEG/SVG/PDF/CSV/JSON
+  useChartConnect,    // 多图表联动
+  useDataZoom,        // 区域缩放
+  useAnimation,       // 动画控制
+  useThemeSwitcher,   // 主题切换
+} from '@agions/taroviz';
+
+// Undo/Redo 示例
+const { canUndo, canRedo, undo, redo } = useChartHistory(chartInstance, {
+  maxHistorySize: 50,
+  enableKeyboard: true, // Ctrl+Z / Ctrl+Y
+});
+
+// 数据点选择示例
+const { selectedPoints, select, deselect, clearSelection } = useChartSelection(chartInstance, {
+  mode: 'multiple',
+});
+```
+
+## 快速开始
+
+### 安装
+
+```bash
+# npm
+npm install @agions/taroviz
+
+# yarn
+yarn add @agions/taroviz
+
+# pnpm
+pnpm add @agions/taroviz
+```
+
+### 基础使用
+
+```typescript
+import React from 'react';
+import { LineChart } from '@agions/taroviz';
+
+const App = () => {
+  // ECharts 配置项
+  const option = {
+    title: {
+      text: '折线图示例'
+    },
+    xAxis: {
+      type: 'category',
+      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [
+      {
+        data: [120, 200, 150, 80, 70, 110, 130],
+        type: 'line'
+      }
+    ]
+  };
+
+  return (
+    <LineChart
+      option={option}
+      width="100%"
+      height={400}
+    />
+  );
+};
+
+export default App;
+```
+
+## 支持的图表类型
+
+TaroViz 支持 18 种图表类型：
+
+| 图表类型 | 描述                               | 组件名              |
+| -------- | ---------------------------------- | ------------------- |
+| 折线图   | 用于展示数据随时间或类别变化的趋势 | `LineChart`         |
+| 柱状图   | 用于比较不同类别的数据大小         | `BarChart`          |
+| 饼图     | 用于展示数据占比关系               | `PieChart`          |
+| 散点图   | 用于展示两个变量之间的关系         | `ScatterChart`      |
+| 雷达图   | 用于展示多维度数据                 | `RadarChart`        |
+| 热力图   | 用于展示数据密度和分布             | `HeatmapChart`      |
+| 仪表盘   | 用于展示单一指标的进度或状态       | `GaugeChart`        |
+| 漏斗图   | 用于展示流程中各阶段的数据转化     | `FunnelChart`       |
+| 矩形树图 | 用于展示带有层级结构的数据         | `TreeMapChart`      |
+| 旭日图   | 用于展示多层级数据的占比关系       | `SunburstChart`     |
+| 桑基图   | 用于展示数据流向和转移关系         | `SankeyChart`       |
+| 箱线图   | 用于展示数据分布（统计对比）       | `BoxplotChart`      |
+| 平行坐标图 | 用于展示高维数据各维度关系       | `ParallelChart`     |
+| 关系图   | 用于展示实体之间的关系网络         | `GraphChart`        |
+| K线图    | 用于展示金融数据的 OHLC            | `CandlestickChart`  |
+| 词云图   | 用于展示文本关键词频率             | `WordCloudChart`    |
+| 水球图   | 用于展示百分比或进度数据           | `LiquidChart`       |
+| 树图     | 用于展示层级结构数据               | `TreeChart`         |
+
+## 架构说明
+
+TaroViz 采用单包架构设计，包含以下核心模块：
+
+| 模块     | 描述                                   |
+| -------- | -------------------------------------- |
+| core     | 核心功能和类型定义                     |
+| adapters | 多平台适配器，处理不同平台的差异       |
+| charts   | 各种图表组件的实现                     |
+| hooks    | React Hooks，提供便捷的状态管理        |
+| themes   | 主题系统，支持多种内置主题和自定义主题 |
+| utils    | 工具函数和数据处理工具                 |
+
+## 详细示例
+
+### 折线图
+
+```typescript
+import React from 'react';
+import { LineChart } from '@agions/taroviz';
+
+const LineChartDemo = () => {
+  const option = {
+    title: {
+      text: '销售趋势'
+    },
+    tooltip: {
+      trigger: 'axis'
+    },
+    legend: {
+      data: ['线上', '线下']
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: ['1月', '2月', '3月', '4月', '5月', '6月']
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [
+      {
+        name: '线上',
+        type: 'line',
+        data: [120, 200, 150, 80, 70, 110],
+        smooth: true
+      },
+      {
+        name: '线下',
+        type: 'line',
+        data: [90, 150, 120, 100, 80, 130],
+        smooth: true
+      }
+    ]
+  };
+
+  return (
+    <LineChart
+      option={option}
+      width="100%"
+      height={400}
+      theme="dark"
+      autoResize={true}
+    />
+  );
+};
+
+export default LineChartDemo;
+```
+
+### 饼图
+
+```typescript
+import React from 'react';
+import { PieChart } from '@agions/taroviz';
+
+const PieChartDemo = () => {
+  const option = {
+    title: {
+      text: '销售渠道分布',
+      left: 'center'
+    },
+    tooltip: {
+      trigger: 'item'
+    },
+    legend: {
+      orient: 'vertical',
+      left: 'left'
+    },
+    series: [
+      {
+        name: '销售渠道',
+        type: 'pie',
+        radius: '50%',
+        data: [
+          { value: 350, name: '线上商城' },
+          { value: 250, name: '线下门店' },
+          { value: 200, name: '代理商' },
+          { value: 150, name: '其他' }
+        ],
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)'
+          }
+        }
+      }
+    ]
+  };
+
+  return (
+    <PieChart
+      option={option}
+      width={400}
+      height={400}
+    />
+  );
+};
+
+export default PieChartDemo;
+```
+
+### 散点图
+
+```typescript
+import React from 'react';
+import { ScatterChart } from '@agions/taroviz';
+
+const ScatterChartDemo = () => {
+  const option = {
+    title: {
+      text: '身高体重分布'
+    },
+    xAxis: {
+      name: '身高 (cm)',
+      type: 'value'
+    },
+    yAxis: {
+      name: '体重 (kg)',
+      type: 'value'
+    },
+    series: [
+      {
+        type: 'scatter',
+        data: [
+          [161.2, 51.6],
+          [167.5, 59.0],
+          [159.5, 49.2],
+          [157.0, 63.0],
+          [155.8, 53.6],
+          [170.0, 59.0],
+          [159.1, 47.6],
+          [166.0, 69.8],
+          [176.2, 66.8],
+          [160.2, 75.2]
+        ]
+      }
+    ]
+  };
+
+  return (
+    <ScatterChart
+      option={option}
+      width="100%"
+      height={400}
+    />
+  );
+};
+
+export default ScatterChartDemo;
+```
+
+## 本地开发
+
+```bash
+# 克隆仓库
+git clone https://github.com/Agions/TaroViz.git
+
+# 安装依赖
+pnpm install
+
+# 启动开发服务
+pnpm dev
+
+# 构建
+pnpm build
+
+# 运行测试
+pnpm test
+
+# 生成 API 文档
+pnpm run docs:api
+```
+
+## 技术栈
+
+- [Taro](https://taro.jd.com/) - 多端统一开发框架
+- [ECharts](https://echarts.apache.org/zh/index.html) - 强大的图表库
+- [React](https://reactjs.org/) - 用户界面库
+- [TypeScript](https://www.typescriptlang.org/) - 类型系统
+- [pnpm](https://pnpm.io/) - 高效的包管理器
+- [Webpack](https://webpack.js.org/) - 构建工具
+- [Jest](https://jestjs.io/) - 测试框架
+- [Cypress](https://www.cypress.io/) - 端到端测试工具
+
+## 兼容性
+
+| 平台           | 支持情况    |
+| -------------- | ----------- |
+| 微信小程序     | ✅ 支持     |
+| 支付宝小程序   | ✅ 支持     |
+| 百度小程序     | ✅ 支持     |
+| 字节跳动小程序 | ✅ 支持     |
+| HarmonyOS      | ✅ 支持     |
+| H5             | ✅ 支持     |
+| React Native   | ⚠️ 部分支持 |
+
+## 贡献指南
+
+我们欢迎任何形式的贡献，包括但不限于：
+
+- 提交问题和建议
+- 改进文档
+- 修复 bug
+- 添加新功能
+- 优化性能
+
+请查看 [贡献指南](./CONTRIBUTING.md) 了解详细信息。
+
+## 更新日志
+
+查看 [CHANGELOG.md](./CHANGELOG.md) 了解详细的更新历史。
+
+## 许可证
+
+[MIT License](./LICENSE) © 2025 Agions
+
+## 支持
+
+如果您在使用过程中遇到问题，可以通过以下方式获取帮助：
+
+- [GitHub Issues](https://github.com/Agions/TaroViz/issues) - 提交问题和建议
+- [在线文档](https://agions.github.io/TaroViz/) - 查看详细文档
+- [示例](https://agions.github.io/TaroViz/examples/) - 参考使用示例
+- [贡献指南](https://agions.github.io/TaroViz/contributing/) - 了解如何贡献代码
+
+## 致谢
+
+感谢所有为 TaroViz 做出贡献的开发者！
+
+## 相关链接
+
+- [Taro 官网](https://taro.jd.com/)
+- [ECharts 官网](https://echarts.apache.org/zh/index.html)
+- [GitHub 仓库](https://github.com/Agions/TaroViz)
+- [npm 包](https://www.npmjs.com/package/@agions/taroviz)

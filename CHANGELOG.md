@@ -1,0 +1,347 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [1.11.1](https://github.com/Agions/TaroViz/compare/v1.11.0...v1.11.1) (2026-04-12)
+
+### Code Quality
+
+- **LazyChart.tsx**：BaseChartProps 替代 Record<string, unknown>，新增 aria-busy 加载指示和屏幕阅读器视觉隐藏文本
+- **ExportUtils.ts**：getDataURL/JSPDFInstance 类型安全化，移除 3 处 any 类型，新增 webp/gif 扩展类型支持
+- **hooks/index.ts**：分离 export type 与值导出，消除 webpack 5 re-export 警告
+
+---
+
+# [1.11.0](https://github.com/Agions/TaroViz/compare/v1.10.0...v1.11.0) (2026-04-11)
+
+### Features
+
+- **类型安全强化**：将 `any` 类型从 211 处降至 162 处，重点文件 `BaseChart.tsx`、`AnimationManager.ts`、`PerformanceAnalyzer.ts` 完成类型化
+- **ECharts 事件类型**：新增 `EChartsMouseEventParams`、`EChartsDataZoomEventParams`、`EChartsLegendEventParams`、`EChartsTooltipEventParams`、`EChartsSeriesData` 类型定义
+- **动画系统类型**：新增 `EChartsAnimationConfigResult`、`AnimationEventData` 类型定义
+- **性能分析类型**：新增 `PerformanceEventData` 类型定义，替代 `any` 类型
+
+### Code Quality
+
+- **BaseChart.tsx**：事件处理器 (`click`/`datazoom`/`legendselectchanged`/`tooltipshow`/`tooltiphide`) 使用 `ECElementEvent` 和具体事件参数类型
+- **AnimationManager.ts**：`eventHandlers` Map 使用 `AnimationEventHandler` 类型，`generateEChartsAnimationConfig` 返回 `EChartsAnimationConfigResult`
+- **PerformanceAnalyzer.ts**：`emit` 方法使用重载签名，`recordDataSize` 使用 `unknown` 类型
+- **Hooks 模块化**：新增 `hooks/utils/chartDownloadUtils.ts` 和 `hooks/utils/dataTransformUtils.ts`，拆分辅助函数
+
+### Bug Fixes
+
+- **测试修复**：`wordcloud`、`candlestick`、`graph` 图表测试修复，修正 `container.firstChild` 访问问题（BaseChartWrapper 的无障碍 table 元素）
+
+---
+
+# [1.9.0](https://github.com/Agions/TaroViz/compare/v1.8.0...v1.9.0) (2026-04-10)
+
+### Features
+
+- **无障碍键盘导航**：`+/-` 缩放、`←→↑↓` 方向键平移、`Home` 重置 — 图表支持完整键盘操作
+- **屏幕阅读器支持**：隐藏的 `aria-live` 数据表，通过 `aria-describedby` 关联图表容器
+- **性能监控增强**：`PerformanceAnalyzer` 支持按 `chartId` 隔离实例，多图表场景指标不再混淆
+- **专业动画预设**：动画时长调优（default 1200ms→450ms、fast 500ms→200ms），符合前端设计规范
+
+### Code Quality
+
+- `platform.ts` 核心类型重构：`EventHandler`/`Adapter` 接口全部使用 `EChartsType`/`ChartEventParams` 替代 `any`
+- `H5Adapter` 补全缺失方法：`dispatchAction()`、`getDataURL()`
+- `ChartEventParams`：从 ECharts re-export 改为本地 interface，解决类型定义问题
+- `AdapterOptions`：`containerRef` 使用 `HTMLElement | { current: HTMLElement | null }` 联合类型
+- `ThemeType`/`AdapterConfig`：索引签名从 `[key: string]: any` 升级为 `[key: string]: unknown`
+
+### Bug Fixes
+
+- `debounceDelay` 死代码激活：现在真正实现防抖逻辑
+- `liquid` 图表：`labelFormatter` value 类型断言修正
+- `BaseChart` `dataZoom`：正确处理 `Arrayable<DataZoomComponentOption>` 类型
+
+### Documentation
+
+- 新增 `.learnings/` 学习日志机制，记录优化经验模式
+
+---
+
+# [1.8.0](https://github.com/Agions/TaroViz/compare/v1.7.0...v1.8.0) (2026-04-02)
+
+### Features
+
+- **新增水球图示例文档 (LiquidChart)**：10个完整示例，覆盖基本用法、多层水球、自定义形状、进度展示等场景
+- **新增树图示例文档 (TreeChart)**：8个完整示例，覆盖水平/垂直/辐射布局、文件目录、思维导图等场景
+- **新增性能监控 Hook (usePerformance)**：支持实时 FPS 监控、性能指标采集、告警阈值设置
+- **新增轻量级 FPS 监控 Hook (useFpsMonitor)**：快速获取当前帧率
+- **新增动画控制 Hook (useAnimation)**：支持播放/暂停/停止/跳转/速度控制
+- **新增渐进式加载 Hook (useProgressiveLoading)**：支持大数据分批次加载动画
+- **导出工具增强**：新增 GIF 导出类型定义
+
+### Documentation
+
+- 更新 README 和首页：16种图表 → 18种图表
+- VitePress 侧边栏新增水球图和树图分组
+
+# [1.7.0](https://github.com/Agions/TaroViz/compare/v1.6.0...v1.7.0) (2026-04-02)
+
+### Features
+
+- **新增箱线图 (BoxplotChart)**：支持展示数据分布，包含最小值、Q1、中位数、Q3、最大值
+- **新增平行坐标图 (ParallelChart)**：支持展示高维数据各维度之间的关系
+- **增强版主题编辑器 (EnhancedThemeEditor)**：
+  - 实时预览功能
+  - 预设主题选择（科技蓝、活力橙、森林绿、神秘紫、商务灰）
+  - JSON/CSS 导入导出
+  - Tab 切换界面
+
+### Code Quality
+
+- 优化类型定义
+- 统一代码风格
+
+# [1.5.0](https://github.com/Agions/TaroViz/compare/v1.4.3...v1.5.0) (2026-03-27)
+
+### Features
+
+- 新增图表组件：GraphChart, CandlestickChart, WordCloudChart
+- 完善主题系统
+- 性能优化
+
+# [1.4.3](https://github.com/Agions/TaroViz/compare/v1.4.2...v1.4.3) (2026-03-25)
+
+### Refactoring
+
+- 拆分 BaseChart 为独立 hooks（useChartInit/useChartEvents/useVirtualScroll/usePerformance）
+- 创建 BaseAdapter 基类精简 weapp/swan/tt 适配器
+- 修复平台检测类型安全问题
+
+# [1.4.2](https://github.com/Agions/TaroViz/compare/v1.4.1...v1.4.2) (2026-03-24)
+
+### Bug Fixes
+
+- 修复所有 lint warnings
+- 修复 PerformanceAnalyzer 内存泄漏问题
+- 优化适配器动态导入
+
+# [1.4.1](https://github.com/Agions/TaroViz/compare/v1.4.0...v1.4.1) (2026-03-23)
+
+### Bug Fixes
+
+- 修复适配器动态导入优化
+- 修复 CI lint errors
+
+# [1.3.1](https://github.com/Agions/TaroViz/compare/v1.3.0...v1.3.1) (2026-03-22)
+
+### Security
+
+- 🔒 **代码生成器 XSS 防护**：转义用户输入防止代码注入
+- 🔒 **UUID 生成安全**：使用 crypto.randomUUID() 替代 Math.random()
+- 🔒 **图表实例管理**：添加 ID 冲突检测，防止内存泄漏
+
+### Bug Fixes
+
+- 修复 BaseChartWrapper 重复创建 adapter 实例的问题
+- 修复 H5Adapter 初始化失败时返回空对象的问题
+- 修复 useDataPolling 竞态条件问题
+- 修复 ESM/CommonJS 混用问题，统一使用静态导入
+
+### Code Quality
+
+- 添加 KWAI (快手小程序) 平台适配支持
+- 优化代码模板生成器安全性
+
+# [1.2.0](https://github.com/Agions/TaroViz/compare/v1.1.1...v1.2.0) (2025-11-28)
+
+### Bug Fixes
+
+- 修复文档生成脚本语法错误，确保API文档正确生成
+- 优化适配器工厂函数，添加错误处理和回退机制
+- 修复示例项目构建配置，确保正常构建
+
+### Features
+
+- 📱 **平台扩展**：支持百度小程序 (swan) 适配器
+- 📱 **平台扩展**：支持字节跳动小程序 (tt) 适配器
+- 📱 **平台扩展**：支持HarmonyOS (harmony) 适配器
+- ⚡ **性能优化**：实现性能分析工具，支持帧率监控和内存使用分析
+- 🛠️ **开发工具**：添加图表配置生成器，支持快速生成ECharts配置
+- 🛠️ **开发工具**：添加代码示例生成器，支持React、Vue、Vanilla框架
+- 📚 **文档系统**：重构文档网站，实现API文档自动生成
+- 📚 **文档系统**：添加在线示例和使用指南
+- 📦 **示例项目**：创建完整示例项目，包含基础和高级示例
+- 📦 **示例项目**：添加不同场景的示例和最佳实践指南
+- 🤝 **社区建设**：完善贡献指南，添加Issue和PR模板
+
+### Performance Improvements
+
+- 优化图表渲染性能，减少不必要的重绘
+- 改进适配器初始化逻辑，提高启动速度
+- 优化配置生成器，减少内存占用
+
+### Documentation
+
+- 更新API文档，添加详细的使用示例
+- 完善开发指南，添加性能优化建议
+- 添加平台适配指南
+- 更新贡献指南，添加代码审查标准
+
+# [1.1.1](https://github.com/Agions/TaroViz/compare/v1.1.0...v1.1.1) (2025-04-22)
+
+### Bug Fixes
+
+- 修复了npm包构建问题，确保 `dist/index.js`等关键文件正确生成
+- 优化了构建脚本，确保所有包都能正确构建
+- 解决了webpack和webpack-cli的依赖冲突问题
+
+### Other Improvements
+
+- 改进了包的构建流程，确保更加稳定可靠
+- 优化了代码组织结构，提高了包的可维护性
+- 更新了依赖版本，解决了Node.js版本兼容性问题
+
+# [1.1.0](https://github.com/Agions/TaroViz/compare/v1.0.2...v1.1.0) (2025-04-14)
+
+### Bug Fixes
+
+- 彻底解决文档构建问题，修复模块引用路径和webpack-cli依赖 ([1a10246](https://github.com/Agions/TaroViz/commit/1a10246ec49fa31d00a66039fcaad4cad787ae33))
+- 更新包版本至1.1.1并修复导入路径问题 ([4449b03](https://github.com/Agions/TaroViz/commit/4449b0352f2566b57332eee4b80fcd9aa84b7bdf))
+- 解决pnpm安装时frozen-lockfile错误，优化CI文档构建流程 ([a60f1cb](https://github.com/Agions/TaroViz/commit/a60f1cbcca5fdcc961933386727cc8d62f705d55))
+- 修复GitHub Action无法找到pnpm可执行文件的问题 ([e42181f](https://github.com/Agions/TaroViz/commit/e42181fde0939011e7f81ebf3f92defa183e516c))
+- 修复npm不支持workspace协议问题，改用pnpm处理所有依赖 ([6bc2ec9](https://github.com/Agions/TaroViz/commit/6bc2ec9fdfaf70e50af9ee4ae37d1bf62a36f5bc))
+- 修复PNPM安装依赖错误和文档生成问题，增加容错机制 ([a4c3025](https://github.com/Agions/TaroViz/commit/a4c3025af1765ed82b6fc259458dd29461282915))
+- 修复TypeDoc无法找到模块依赖的问题 ([9861264](https://github.com/Agions/TaroViz/commit/98612640da20589ef02dd56a9780b78cdf7ae0cf))
+- 移除TypeDoc不支持的skipLibCheck选项 ([0f682d2](https://github.com/Agions/TaroViz/commit/0f682d248790af6f04a998af69b2526ffa4e9955))
+
+### Features
+
+- 更新版本号到1.0.3，修复类型定义问题 ([f5afd2d](https://github.com/Agions/TaroViz/commit/f5afd2d1e71ec8e9e4d57b6ce55693c5fb6e690b))
+- 添加GitHub Pages部署所需的权限配置 ([acac0e2](https://github.com/Agions/TaroViz/commit/acac0e2cc6e9c8bfe9474b7e981036d04a413fc9))
+
+## [1.0.3](https://github.com/Agions/TaroViz/compare/v1.0.2...v1.0.3) (2025-04-14)
+
+### Bug Fixes
+
+- 修复类型定义中使用 `Function`类型的问题，替换为更具体的 `EventHandler`类型
+- 优化各适配器中的代码规范和类型安全性
+- 修复WeappAdapter中的组件实例类型问题
+
+## [1.0.2](https://github.com/Agions/TaroViz/compare/v1.0.1...v1.0.2) (2025-04-12)
+
+**Note:** Version bump only for package @agions/taroviz
+
+## [1.0.1](https://github.com/Agions/TaroViz/compare/v0.4.0...v1.0.1) (2025-04-12)
+
+### Bug Fixes
+
+- 删除 lerna.json 中已废弃的 useWorkspaces 选项 ([eb0354d](https://github.com/Agions/TaroViz/commit/eb0354d2d1a17e30598e0e713aec7ae0bc504af1))
+- 删除对不存在的 getEnv 导出的引用 ([8dd6d4f](https://github.com/Agions/TaroViz/commit/8dd6d4fb6db28690e3cc94cf7eab89985654067d))
+- 修复构建和发布问题 ([2fa5bd4](https://github.com/Agions/TaroViz/commit/2fa5bd41ce5f66bbeddf665ce223e3e7da118cef))
+
+# 更新日志
+
+本文档记录 TaroViz 的所有重要变更。
+
+## [1.0.0]
+
+### 重大变更
+
+- 📦 包名更新：主包从 `@agions/taroviz-all` 改为 `@agions/taroviz`
+
+### 新增
+
+- 🎉 首次发布
+- 📊 支持基础图表类型：折线图、柱状图、饼图
+- 🎨 主题系统支持
+- 🔄 数据处理工具
+- 📱 多端适配支持
+
+### 核心包更新
+
+#### @agions/taroviz-core@1.0.0
+
+- ✨ 基础图表组件
+- 🛠️ 工具函数库
+- 📱 多端渲染支持
+
+#### @agions/taroviz-hooks@1.0.0
+
+- 🎯 图表数据处理 Hooks
+- 🔄 状态管理 Hooks
+- 🎨 主题 Hooks
+
+#### @agions/taroviz-data@1.0.0
+
+- 📊 数据转换工具
+- 📈 数据聚合功能
+- 🔍 数据过滤与验证
+
+#### @agions/taroviz-themes@1.0.0
+
+- 🎨 预设主题
+- 🛠️ 主题创建工具
+- 🔄 主题切换支持
+
+#### @agions/taroviz-adapters@1.0.0
+
+- 📱 多端适配器
+- 🔌 平台兼容层
+- 🛠️ 渲染优化
+
+### 修复
+
+- 修复图表渲染性能问题
+- 修复主题切换闪烁问题
+- 修复数据更新不及时问题
+
+### 优化
+
+- 优化图表渲染性能
+- 优化数据处理效率
+- 优化包体积
+
+### 文档
+
+- 📚 完善 API 文档
+- 🎯 添加使用示例
+- 📖 更新开发指南
+
+## [0.5.1]
+
+### 新增
+
+- 支持自定义主题
+- 添加数据处理工具
+- 新增图表类型
+
+### 修复
+
+- 修复小程序兼容性问题
+- 修复主题应用问题
+- 修复数据更新问题
+
+## [0.5.0]
+
+### 新增
+
+- 项目初始化
+- 基础功能实现
+- 核心包开发
+
+### 修复
+
+- 基础功能问题修复
+- 开发环境配置优化
+- 依赖关系调整
+
+## 1.1.1 (2025-04-22)
+
+### Bug修复
+
+- 修复了npm包构建问题，确保 `dist/index.js`等关键文件正确生成
+- 优化了构建脚本，确保所有包都能正确构建
+- 解决了webpack和webpack-cli的依赖冲突问题
+
+### 其他改进
+
+- 改进了包的构建流程，确保更加稳定可靠
+- 优化了代码组织结构，提高了包的可维护性
+- 更新了依赖版本，解决了Node.js版本兼容性问题

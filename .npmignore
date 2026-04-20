@@ -1,0 +1,51 @@
+# 源代码
+src/
+examples/
+tests/
+
+# 配置文件
+.eslintrc
+.eslintignore
+.prettierrc
+.prettierignore
+.editorconfig
+.babelrc
+.swcrc
+tsconfig.json
+jest.config.js
+rollup.config.js
+
+# 开发工具
+.vscode/
+.idea/
+.github/
+
+# 测试文件
+__tests__/
+__mocks__/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# 构建缓存
+.temp/
+.rn_temp/
+.swc/
+
+# 日志
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 其他
+.DS_Store
+Thumbs.db
+node_modules/
+coverage/
+.husky/
+.git/
+.gitignore 

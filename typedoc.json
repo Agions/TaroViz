@@ -1,0 +1,46 @@
+{
+  "entryPoints": [
+    "src/index.ts",
+    "src/core/index.ts",
+    "src/charts/index.ts",
+    "src/themes/index.ts",
+    "src/hooks/index.ts",
+    "src/adapters/index.ts"
+  ],
+  "out": "docs-api",
+  "exclude": ["**/__tests__/**", "**/node_modules/**"],
+  "theme": "default",
+  "name": "TaroViz API文档",
+  "readme": "README.md",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "includeVersion": true,
+  "categorizeByGroup": true,
+  "categoryOrder": [
+    "Core",
+    "Charts",
+    "Themes",
+    "Hooks",
+    "Adapters",
+    "Utilities",
+    "Types"
+  ],
+  "searchInComments": true,
+  "sort": ["static-first", "visibility", "alphabetical"],
+  "plugin": [],
+  "disableSources": false,
+  "sourceLinkTemplate": "https://github.com/agions/taroviz/blob/{gitRevision}/{path}#L{line}",
+  "navigation": {
+    "includeCategories": true,
+    "includeGroups": true
+  },
+  "sidebarLinks": {
+    "使用指南": "./USAGE.html",
+    "GitHub仓库": "https://github.com/agions/taroviz"
+  },
+  "validation": {
+    "invalidLink": true,
+    "notDocumented": false
+  }
+} 

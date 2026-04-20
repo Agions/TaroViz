@@ -1,0 +1,37 @@
+# Release 配置
+# 用于 release-it 自动发布
+
+{
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "preset": "conventionalcommits",
+      "header": "# Changelog",
+      "commitUrlFormat": "{{host}}/{{owner}}/{{repository}}/commits/{{hash}}",
+      "issueUrlFormat": "{{host}}/{{owner}}/{{repository}}/issues/{{id}}",
+      "issuePrefix": "#",
+      "releaseNotes": "scripts/generate-release-notes.mjs"
+    }
+  },
+  "hooks": {
+    "before:init": ["npm run lint", "npm run type-check", "npm run test"],
+    "after:bump": "npm run build",
+    "after:release": "echo Successfully released ${name} v${version} to ${repo.repository_url}"
+  },
+  "npm": {
+    "publish": true,
+    "access": "public",
+    "otp": null
+  },
+  "github": {
+    "release": true,
+    "assets": ["dist/**"],
+    "comments": {
+      "submit": "Published as {{version}}"
+    }
+  },
+  "git": {
+    "tagName": "v${version}",
+    "commitMessage": "chore: release v${version}",
+    "requireCleanWorkingDir": false
+  }
+}

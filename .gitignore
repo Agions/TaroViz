@@ -1,0 +1,50 @@
+# 依赖
+node_modules/
+.pnp/
+.pnp.js
+
+# 构建产物
+dist/
+build/
+lib/
+.temp/
+.rn_temp/
+.DS_Store
+
+# 测试覆盖率
+coverage/
+
+# 日志
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 编辑器配置
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 环境变量
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Taro
+.swc/
+
+# 小程序特定
+project.config.json
+project.private.config.json
+
+# 其他
+.DS_Store
+Thumbs.db 
