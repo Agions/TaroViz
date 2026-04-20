@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.2](https://github.com/Agions/TaroViz/compare/v1.11.1...v1.11.2) (2026-04-21)
+
+### Refactor
+
+- **移除无障碍支持**：删除 WCAG/aria/keyboard navigation 相关代码，BaseChartWrapper 精简为纯 div 容器
+- **ErrorBoundary**：移除 aria-live="assertive"
+
+### Performance
+
+- **BaseChart.tsx**：修复 linkageConfig stale closure（使用 ref 存储），减少 useCallback 依赖项 15→14
+- **chartUtils.ts**：filterDataByKeys 添加 pre-built key index 注释说明
+
+---
+
 # [1.11.1](https://github.com/Agions/TaroViz/compare/v1.11.0...v1.11.1) (2026-04-12)
 
 ### Code Quality
