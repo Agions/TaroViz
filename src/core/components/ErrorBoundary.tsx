@@ -69,7 +69,6 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       return (
         <div
           role="alert"
-          aria-live="assertive"
           style={{
             display: 'flex',
             flexDirection: 'column',
