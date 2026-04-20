@@ -81,28 +81,24 @@ export function useAnimation(
   const [playbackSpeed, setPlaybackSpeedState] = useState(1);
 
   // Refs
-  const animationRef = useRef<{
-    startTime: number;
-    currentFrame: number;
-    loopCounter: number;
-    animationId: number | null;
-    isPaused: boolean;
-  }>({
-    startTime: 0,
-    currentFrame: 0,
-    loopCounter: 0,
-    animationId: null,
-    isPaused: false,
-  });
-
   const chartRef = useRef<ChartInstance | null>(null);
   chartRef.current = chartInstance;
+
+  // 缓动函数使用 ref 避免闭包问题
+  const easingFunctionsRef = useRef<Record<string, (t: number) => number>>({
+    cubicOut: (t) => 1 - Math.pow(1 - t, 3),
+    cubicIn: (t) => t * t * t,
+    cubicInOut: (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
+    linear: (t) => t,
+    sinusoidalIn: (t) => 1 - Math.cos((t * Math.PI) / 2),
+    sinusoidalOut: (t) => Math.sin((t * Math.PI) / 2),
+  });
 
   // 计算总帧数（假设 60fps）
   const totalFrames = Math.ceil((duration / 1000) * 60);
 
-  // 缓动函数
-  const easingFunctions: Record<string, (t: number) => number> = {
+  // 缓动函数注入（供 animate 使用）
+  easingFunctionsRef.current = {
     cubicOut: (t) => 1 - Math.pow(1 - t, 3),
     cubicIn: (t) => t * t * t,
     cubicInOut: (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
@@ -128,10 +124,7 @@ export function useAnimation(
   const animate = useCallback(() => {
     const anim = animationRef.current;
     const chart = chartRef.current;
-
-    if (!chart || anim.isPaused || disabled) {
-      return;
-    }
+    if (!chart || anim.isPaused || disabled) return;
 
     const elapsed = performance.now() - anim.startTime;
     const adjustedDuration = duration / playbackSpeed;
@@ -144,7 +137,7 @@ export function useAnimation(
 
     // 计算当前进度
     let progress = Math.min(effectiveElapsed / adjustedDuration, 1);
-    progress = easingFunctions[easing](progress);
+    progress = easingFunctionsRef.current[easing](progress);
 
     // 计算当前帧
     const currentFrame = calculateFrame(progress);
@@ -154,9 +147,7 @@ export function useAnimation(
 
     // 更新图表配置以反映动画进度
     try {
-      // ECharts 通过 setOption 配合 notMerge: false 更新动画
       if (chart.setOption && !anim.isPaused) {
-        // 触发图表重新渲染
         chart.setOption({}, false, true);
       }
     } catch (e) {
@@ -166,13 +157,11 @@ export function useAnimation(
     // 检查是否完成
     if (effectiveElapsed >= adjustedDuration) {
       if (loop && (loopCount === -1 || anim.loopCounter < loopCount)) {
-        // 继续循环
         anim.loopCounter++;
         anim.startTime = performance.now();
         anim.isPaused = false;
         setStatus('playing');
       } else {
-        // 动画结束
         setStatus('stopped');
         anim.animationId = null;
         return;
@@ -180,22 +169,20 @@ export function useAnimation(
     }
 
     anim.animationId = requestAnimationFrame(animate);
-  }, [duration, easing, disabled, delay, loop, loopCount, playbackSpeed, easingFunctions, calculateFrame]);
+  }, [duration, delay, loop, loopCount, playbackSpeed, disabled, easing, calculateFrame]);
 
   // 播放动画
-  const play = useCallback(() => {
+  const playRef = useRef<(fn: () => void) => void>(() => {});
+  playRef.current = () => {
     const chart = chartRef.current;
     if (!chart || disabled) return;
 
     const anim = animationRef.current;
-
     if (status === 'paused') {
-      // 从暂停恢复
       anim.isPaused = false;
       anim.startTime = performance.now() - (anim.currentFrame / totalFrames) * duration;
       setStatus('playing');
     } else {
-      // 开始新动画
       anim.startTime = performance.now();
       anim.currentFrame = 0;
       anim.loopCounter = 0;
@@ -206,7 +193,11 @@ export function useAnimation(
     if (anim.animationId === null) {
       anim.animationId = requestAnimationFrame(animate);
     }
-  }, [status, disabled, totalFrames, duration, animate]);
+  };
+
+  const play = useCallback(() => {
+    playRef.current();
+  }, []);
 
   // 暂停动画
   const pause = useCallback(() => {
@@ -238,12 +229,12 @@ export function useAnimation(
       const chart = chartRef.current;
       if (!chart) return;
 
-      const clampedFrame = Math.max(0, Math.min(totalFrames, targetFrame));
+      const currentTotalFrames = Math.ceil((duration / 1000) * 60);
+      const clampedFrame = Math.max(0, Math.min(currentTotalFrames, targetFrame));
       anim.currentFrame = clampedFrame;
       setFrame(clampedFrame);
 
-      // 更新图表状态
-      const progress = clampedFrame / totalFrames;
+      const progress = clampedFrame / currentTotalFrames;
       try {
         if (chart.setOption) {
           chart.setOption({}, false, true);
@@ -252,7 +243,7 @@ export function useAnimation(
         console.warn('[useAnimation] Failed to seek:', e);
       }
     },
-    [totalFrames]
+    [duration]
   );
 
   // 跳转到指定进度
