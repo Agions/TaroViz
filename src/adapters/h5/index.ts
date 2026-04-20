@@ -105,12 +105,9 @@ class H5Adapter implements Adapter {
       );
     }
 
-    // 设置初始化选项，使用notMerge: false和lazyUpdate: true优化性能
+    // 设置初始化选项，使用lazyUpdate优化性能
     if (this.options.option && this.instance) {
-      this.instance.setOption(this.options.option, {
-        notMerge: false, // 合并新选项和旧选项
-        lazyUpdate: true, // 延迟更新，合并多次setOption调用
-      });
+      this.instance.setOption(this.options.option, false, true);
     }
 
     // 执行初始化回调
@@ -131,13 +128,9 @@ class H5Adapter implements Adapter {
   /**
    * 设置图表选项
    */
-  setOption(option: EChartsOption, opts?: object): void {
+  setOption(option: EChartsOption, notMerge = false, lazyUpdate = true): void {
     if (this.instance) {
-      // 使用性能优化选项，默认启用lazyUpdate
-      this.instance.setOption(option, {
-        lazyUpdate: true,
-        ...opts,
-      });
+      this.instance.setOption(option, notMerge, lazyUpdate);
     } else {
       this.options.option = option;
     }
