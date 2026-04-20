@@ -29,7 +29,6 @@ export type { UseChartConnectOptions, UseChartConnectReturn } from './types';
 interface ChartConnectItem {
   instance: ChartInstance;
   id: string;
-  handlers: Map<ConnectEventType, EventHandler>;
 }
 
 // ============================================================================
@@ -207,7 +206,6 @@ export function useChartConnect(options: UseChartConnectOptions): UseChartConnec
       chartsRef.current.set(id, {
         instance: chartInstance,
         id,
-        handlers: new Map(),
       });
 
       // 绑定事件

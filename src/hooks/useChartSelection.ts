@@ -118,9 +118,6 @@ export function useChartSelection(
   const chartRef = useRef<ChartInstance | null>(null);
   chartRef.current = chartInstance;
 
-  // 上一次 shift+click 的数据索引（用于范围选择）
-  const lastShiftIndexRef = useRef<number | null>(null);
-
   // 当前模式 ref（用于事件处理）
   const modeRef = useRef(mode);
   modeRef.current = mode;
@@ -129,16 +126,6 @@ export function useChartSelection(
   useEffect(() => {
     const chart = chartRef.current;
     if (!chart || !chart.on) return;
-
-    const handleSelect = (params: { selected: Record<string, boolean>; type: string }) => {
-      // ECharts 内置 select 会同步更新 legend
-      // 这里我们用 dispatchAction 来实现纯数据点选择
-    };
-
-    // 单击 legend 时清除数据点选择（保持一致性）
-    const handleLegendSelectChanged = (params: { name?: string; selected?: Record<string, boolean> }) => {
-      // 清除选择时的视觉反馈
-    };
 
     chart.on('selectchanged', (params: unknown) => {
       // 当图表内部选择变化时同步状态
