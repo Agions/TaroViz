@@ -390,22 +390,22 @@ export class PerformanceAnalyzer {
     });
 
     // 计算性能评分和建议
-    if (averages.renderTime > 100) {
+    if (averages.renderTime !== undefined && averages.renderTime > 100) {
       score -= 20;
       suggestions.push('渲染时间过长，建议优化数据处理或减少图表复杂度');
     }
 
-    if (averages.updateTime > 50) {
+    if (averages.updateTime !== undefined && averages.updateTime > 50) {
       score -= 15;
       suggestions.push('更新时间过长，建议优化数据更新逻辑');
     }
 
-    if (averages.frameRate < 30) {
+    if (averages.frameRate !== undefined && averages.frameRate < 30) {
       score -= 25;
       suggestions.push('帧率过低，建议减少动画效果或优化渲染逻辑');
     }
 
-    if (averages.dataSize > 100) {
+    if (averages.dataSize !== undefined && averages.dataSize > 100) {
       score -= 10;
       suggestions.push('数据量过大，建议进行数据压缩或分页处理');
     }
@@ -610,6 +610,20 @@ export class PerformanceAnalyzer {
    */
   public updateConfig(config: Partial<PerformanceAnalysisConfig>): void {
     this.config = { ...this.config, ...config };
+  }
+
+  /**
+   * 获取所有指标数据
+   */
+  public getAllMetrics(): Map<PerformanceMetricType, PerformanceMetric[]> {
+    return new Map(this.metrics);
+  }
+
+  /**
+   * 获取所有指标数据
+   */
+  public getAllMetrics(): Map<PerformanceMetricType, PerformanceMetric[]> {
+    return new Map(this.metrics);
   }
 
   /**

@@ -248,7 +248,7 @@ const PRESET_THEMES: Record<PresetThemeName, ThemeConfig> = {
       '--tv-bg-color-secondary': '#f5f7fa',
       '--tv-text-color': '#1a1a1a',
       '--tv-text-color-secondary': '#666666',
-      '--tv-primary-color': '#277 ace',
+      '--tv-primary-color': '#277ace',
       '--tv-primary-color-hover': '#3a8ee6',
       '--tv-primary-color-active': '#146bb3',
       '--tv-success-color': '#2fc25b',
