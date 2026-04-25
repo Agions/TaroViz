@@ -95,7 +95,12 @@ const baseConfig = {
         terserOptions: {
           compress: {
             drop_console: true,
-            passes: 1,
+            passes: 2,
+            dead_code: true,
+            unused: true,
+            collapse_vars: true,
+            reduce_vars: true,
+            pure_funcs: ['console.debug'],
           },
           format: {
             comments: false,

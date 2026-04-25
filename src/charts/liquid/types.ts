@@ -1,6 +1,6 @@
 /**
  * 水球图类型定义
- * ECharts 没有内置水球图，使用 echarts-liquidfill 库实现
+ * ECharts 没有内置水球图，使用自定义实现
  */
 import type React from 'react';
 import type { EChartsOption, EChartsType, ECElementEvent } from 'echarts';
@@ -28,15 +28,15 @@ export type LiquidShape = 'circle' | 'rect' | 'roundRect';
 
 /** 水球图系列配置 */
 export interface LiquidSeries {
-  /** 系列类型 */
-  type?: 'liquidFill';
+  /** 系列类型（仅用于文档，实际渲染使用 custom series） */
+  type?: 'liquidFill' | 'custom';
   /** 系列名称 */
   name?: string;
   /** 数据数组 */
   data?: (number | LiquidSeriesDataItem)[];
   /** 图形形状 */
   shape?: LiquidShape;
-  /** 振幅 (相对于半径的比例) */
+  /** 振幅 (相对于半径的比例，0-100) */
   amplitude?: number;
   /** 波长 (相对于画布宽度) */
   waveLength?: number | string;
@@ -91,7 +91,7 @@ export interface LiquidChartProps {
   waveData?: number[];
   /** 图形形状 */
   shape?: LiquidShape;
-  /** 振幅 (相对于半径的比例) */
+  /** 振幅 (相对于半径的比例，0-100) */
   amplitude?: number;
   /** 波长 (相对于画布宽度) */
   waveLength?: number | string;

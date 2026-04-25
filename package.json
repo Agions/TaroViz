@@ -139,7 +139,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.28.4",
-    "echarts-liquidfill": "^3.1.0",
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
