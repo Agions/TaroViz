@@ -128,7 +128,7 @@ class H5Adapter implements Adapter {
   /**
    * 设置图表选项
    */
-  setOption(option: EChartsOption, notMerge = false, lazyUpdate = true): void {
+  setOption(option: EChartsOption, notMerge?: boolean, lazyUpdate?: boolean): void {
     if (this.instance) {
       this.instance.setOption(option, notMerge, lazyUpdate);
     } else {

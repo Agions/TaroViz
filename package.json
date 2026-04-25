@@ -148,7 +148,7 @@
     "@tarojs/taro": "^3.6.0",
     "echarts": "^5.4.3",
     "react": "^18.2.0",
-    "zrender": "^6.0.0"
+    "zrender": "^5.4.3"
   },
   "peerDependenciesMeta": {
     "echarts": {
@@ -185,8 +185,7 @@
     "esbuild": "^0.24.2",
     "systeminformation": "^5.22.0",
     "ws": "^8.18.0",
-    "path-scurry": "^1.11.0",
-    "echarts": "^5.4.3"
+    "path-scurry": "^1.11.0"
   },
   "release-it": {
     "git": {

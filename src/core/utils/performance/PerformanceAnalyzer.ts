@@ -613,27 +613,6 @@ export class PerformanceAnalyzer {
   }
 
   /**
-   * 获取所有指标数据
-   */
-  public getAllMetrics(): Map<PerformanceMetricType, PerformanceMetric[]> {
-    return new Map(this.metrics);
-  }
-
-  /**
-   * 获取所有指标数据
-   */
-  public getAllMetrics(): Map<PerformanceMetricType, PerformanceMetric[]> {
-    return new Map(this.metrics);
-  }
-
-  /**
-   * 获取所有指标数据
-   */
-  public getAllMetrics(): Map<PerformanceMetricType, PerformanceMetric[]> {
-    return new Map(this.metrics);
-  }
-
-  /**
    * 获取特定类型的指标数据
    */
   public getMetricsByType(type: PerformanceMetricType): PerformanceMetric[] {

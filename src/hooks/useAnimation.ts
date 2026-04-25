@@ -84,6 +84,21 @@ export function useAnimation(
   const chartRef = useRef<ChartInstance | null>(null);
   chartRef.current = chartInstance;
 
+  // Animation state ref — tracks RAF id, start time, current frame, loop count, paused flag
+  const animationRef = useRef<{
+    animationId: number | null;
+    startTime: number;
+    currentFrame: number;
+    loopCounter: number;
+    isPaused: boolean;
+  }>({
+    animationId: null,
+    startTime: 0,
+    currentFrame: 0,
+    loopCounter: 0,
+    isPaused: false,
+  });
+
   // 缓动函数使用 ref 避免闭包问题
   const easingFunctionsRef = useRef<Record<string, (t: number) => number>>({
     cubicOut: (t) => 1 - Math.pow(1 - t, 3),
@@ -172,7 +187,7 @@ export function useAnimation(
   }, [duration, delay, loop, loopCount, playbackSpeed, disabled, easing, calculateFrame]);
 
   // 播放动画
-  const playRef = useRef<(fn: () => void) => void>(() => {});
+  const playRef = useRef<() => void>(() => {});
   playRef.current = () => {
     const chart = chartRef.current;
     if (!chart || disabled) return;

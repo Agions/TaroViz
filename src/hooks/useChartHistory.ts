@@ -120,11 +120,15 @@ export function useChartHistory(
   // 是否正在执行 undo/redo（避免 push 时重复记录）
   const isApplyingRef = useRef(false);
 
-  // 拦截 chart.setOption，记录历史
-  const undoRef = useRef(undo);
-  const redoRef = useRef(redo);
-  undoRef.current = undo;
-  redoRef.current = redo;
+  // Undo/Redo function holders — populated after function declarations via a deferred effect
+  const undoHolderRef = useRef<{ fn: (() => void) | null }>({ fn: null });
+  const redoHolderRef = useRef<{ fn: (() => void) | null }>({ fn: null });
+
+  // Deferred effect: bind undo/redo to refs once they are in scope
+  useEffect(() => {
+    undoHolderRef.current.fn = () => undo();
+    redoHolderRef.current.fn = () => redo();
+  });
 
   useEffect(() => {
     const chart = chartRef.current;
@@ -137,32 +141,23 @@ export function useChartHistory(
       notMerge?: boolean,
       lazyUpdate?: boolean
     ) => {
-      // 如果正在执行 undo/redo，跳过历史记录
       if (isApplyingRef.current) {
         return originalSetOption(option, notMerge, lazyUpdate);
       }
 
       const stack = historyStack.current;
       const idx = currentIndex;
-
-      // 如果当前索引不在栈顶，丢弃redo历史（类似 Git 行为）
       const newStack = idx < stack.length - 1 ? stack.slice(0, idx + 1) : [...stack];
 
-      // 检查是否与上一次配置相同（忽略动画字段）
       const lastOption = newStack[newStack.length - 1];
       if (lastOption && omitAndCompare(lastOption, option, ignoreKeySet.current)) {
-        // 配置没变，直接应用
         return originalSetOption(option, notMerge, lazyUpdate);
       }
 
-      // 入栈
       newStack.push(option);
-
-      // 裁剪超出 maxHistorySize
       if (newStack.length > maxHistorySize) {
         newStack.shift();
       } else {
-        // 更新索引
         setCurrentIndex(newStack.length - 1);
       }
 
@@ -171,12 +166,11 @@ export function useChartHistory(
     };
 
     return () => {
-      // 恢复原始 setOption
       chart.setOption = originalSetOption;
     };
   }, [chartInstance, currentIndex, maxHistorySize]);
 
-  // 键盘快捷键：Ctrl+Z 撤销，Ctrl+Y / Ctrl+Shift+Z 重做
+  // Keyboard shortcuts
   useEffect(() => {
     if (!enableKeyboard) return;
 
@@ -186,10 +180,10 @@ export function useChartHistory(
 
       if (e.key === 'z' && !e.shiftKey) {
         e.preventDefault();
-        undoRef.current();
+        undoHolderRef.current.fn?.();
       } else if (e.key === 'y' || (e.key === 'z' && e.shiftKey)) {
         e.preventDefault();
-        redoRef.current();
+        redoHolderRef.current.fn?.();
       }
     };
 

@@ -1,6 +1,6 @@
 /**
  * TaroViz - 基于 Taro 和 ECharts 的多端图表组件库
- * @version 1.7.0
+ * @version 1.11.1
  */
 
 // 核心组件

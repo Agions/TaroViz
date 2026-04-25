@@ -225,9 +225,9 @@ export function usePerformance(options: UsePerformanceOptions = {}): UsePerforma
     if (!analyzerRef.current) return [];
 
     try {
-      const report = analyzerRef.current.getAllMetrics?.();
-      if (!report) return [];
-      return Array.from(report.values()).flat();
+      const report = analyzerRef.current.getMetricsByType?.('renderTime' as PerformanceMetricType) ?? [];
+      if (!report || report.length === 0) return [];
+      return report;
     } catch {
       return [];
     }

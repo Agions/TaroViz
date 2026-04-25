@@ -248,7 +248,6 @@ class ChartExporter {
     });
 
     // 动态导入 jspdf
-    // @ts-expect-error - 动态导入
     let JSPDFClass: new (options: Record<string, string>) => JSPDFInstance;
     try {
       // @ts-expect-error - 动态导入，使用 webpackIgnore 注释避免预解析
@@ -323,7 +322,7 @@ class ChartExporter {
     } else if (typeof outputResult === 'string') {
       pdfBlob = new Blob([outputResult], { type: 'application/pdf' });
     } else {
-      pdfBlob = new Blob([outputResult as unknown as Uint8Array], { type: 'application/pdf' });
+      pdfBlob = new Blob([new Uint8Array(outputResult as unknown as ArrayBuffer)], { type: 'application/pdf' });
     }
 
     return {

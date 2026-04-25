@@ -115,7 +115,7 @@ export interface HarmonyAdapterOptions extends AdapterOptions {
 export interface Adapter {
   init(options?: object): EChartsType;
   getInstance(): EChartsType | null;
-  setOption(option: EChartsOption, opts?: object): void;
+  setOption(option: EChartsOption, notMerge?: boolean, lazyUpdate?: boolean): void;
   getWidth(): number;
   getHeight(): number;
   getDom(): HTMLElement | null;

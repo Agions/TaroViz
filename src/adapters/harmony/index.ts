@@ -107,9 +107,9 @@ class HarmonyAdapter implements Adapter {
   /**
    * 设置图表选项
    */
-  setOption(option: EChartsOption, opts?: object): void {
+  setOption(option: EChartsOption, notMerge?: boolean, lazyUpdate?: boolean): void {
     if (this.chartInstance) {
-      this.chartInstance.setOption(option, opts);
+      this.chartInstance.setOption(option, notMerge, lazyUpdate);
     } else {
       this.config.option = option;
     }
