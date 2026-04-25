@@ -23,9 +23,6 @@ importers:
       echarts:
         specifier: ^5.4.3
         version: 5.4.3
-      echarts-liquidfill:
-        specifier: ^3.1.0
-        version: 3.1.0(echarts@5.4.3)
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -33,8 +30,8 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
       zrender:
-        specifier: ^6.0.0
-        version: 6.0.0
+        specifier: ^5.4.3
+        version: 5.4.4
     devDependencies:
       '@babel/plugin-proposal-decorators':
         specifier: ^7.25.9
@@ -3890,11 +3887,6 @@ packages:
   ecc-jsbn@0.1.2:
     resolution: {integrity: sha512-eh9O+hwRHNbG4BLTjEl3nw044CkGm5X6LoaCf7LPp7UU8Qrt47JYNi6nPX8xjW97TKGKm1ouctg0QSpZe9qrnw==}
 
-  echarts-liquidfill@3.1.0:
-    resolution: {integrity: sha512-5Dlqs/jTsdTUAsd+K5LPLLTgrbbNORUSBQyk8PSy1Mg2zgHDWm83FmvA4s0ooNepCJojFYRITTQ4GU1UUSKYLw==}
-    peerDependencies:
-      echarts: ^5.0.1
-
   echarts@5.4.3:
     resolution: {integrity: sha512-mYKxLxhzy6zyTi/FaEbJMOZU1ULGEQHaeIeuMR5L+JnJTpz+YR03mnnpBhbR4+UYJAgiXgpyTVLffPAjOTLkZA==}
 
@@ -7562,9 +7554,6 @@ packages:
   zrender@5.4.4:
     resolution: {integrity: sha512-0VxCNJ7AGOMCWeHVyTrGzUgrK4asT4ml9PEkeGirAkKNYXYzoPJCLvmyfdoOXcjTHPs10OZVMfD1Rwg16AZyYw==}
 
-  zrender@6.0.0:
-    resolution: {integrity: sha512-41dFXEEXuJpNecuUQq6JlbybmnHaqqpGlbH1yxnA5V9MMP4SbohSVZsJIwz+zdjQXSSlR1Vc34EgH1zxyTDvhg==}
-
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
@@ -9920,7 +9909,7 @@ snapshots:
       esbuild: 0.19.12
       find-yarn-workspace-root: 2.0.0
       fs-extra: 8.1.0
-      lodash: 4.17.21
+      lodash: 4.17.23
       require-from-string: 2.0.2
       resolve: 1.22.11
       supports-hyperlinks: 2.3.0
@@ -11690,10 +11679,6 @@ snapshots:
     dependencies:
       jsbn: 0.1.1
       safer-buffer: 2.1.2
-
-  echarts-liquidfill@3.1.0(echarts@5.4.3):
-    dependencies:
-      echarts: 5.4.3
 
   echarts@5.4.3:
     dependencies:
@@ -16011,10 +15996,6 @@ snapshots:
   yoctocolors-cjs@2.1.3: {}
 
   zrender@5.4.4:
-    dependencies:
-      tslib: 2.3.0
-
-  zrender@6.0.0:
     dependencies:
       tslib: 2.3.0
 
