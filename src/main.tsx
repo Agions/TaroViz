@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 
-
 import { BaseChart, LineChart, BarChart, PieChart } from './index';
 
 // Type assertion helper - use any to bypass complex type mismatches for demo purposes
