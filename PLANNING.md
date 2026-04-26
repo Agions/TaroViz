@@ -344,3 +344,118 @@
 
 _文档生成时间：2026-04-26_
 _文档版本：v1.0（初稿）_
+## QA-1 结果：FAIL
+- **问题**：`pnpm lint` 本地运行结果为 FAIL，310 errors (all prettier), 22 warnings
+- **ESLint errors**: 0 (ESLint本身没问题，eslint 配置正确)
+- **Prettier errors**: 310 errors，全部可通过 `pnpm lint:fix` 自动修复
+- **warnings**: 22 个 `@typescript-eslint/no-unused-vars`（如 `progress`, `onConnect`, `showFPS` 等以 `_` 前缀可豁免的变量）
+- **`.github/workflows/lint.yml`**：文件存在，配置正确（push/PR trigger, pnpm setup, pnpm lint --format json, pnpm lint:prettier, artifact 上传）
+- **结论**：lint.yml 配置无误，但代码库有 310 个 pre-existing prettier 格式问题，需修复后才能让 CI 通过
+
+## QA-2 结果：FAIL
+- **问题**：`pnpm test:coverage` 失败，原因是总体覆盖率远低于 80% threshold
+- **实际覆盖率**：
+  - Statements: 11.04% (threshold: 80%)
+  - Branches: 6.54% (threshold: 80%)
+  - Lines: 11.1% (threshold: 80%)
+  - Functions: 10.02% (threshold: 80%)
+- **覆盖率严重不足的模块**：core/components (0%), core/utils (13.73%), hooks (7.12%), themes (13.63%), editor (0%)
+- **`.github/workflows/coverage.yml`**：文件存在，配置正确（push/PR trigger, pnpm test:ci --coverage, lcov.info artifact）
+- **jest.config.cjs**：`coverageThreshold.global` 正确配置为 80%
+- **结论**：测试覆盖率缺口巨大，当前测试仅覆盖 src/hooks 和部分 charts，core/components, core/utils 等核心模块基本无测试覆盖。80% threshold 对本项目当前测试规模来说过高。
+
+## QA-3 结果：PASS
+- **`.github/workflows/release.yml`**：包含 `workflow_run` trigger，监听 "Deploy Documentation to GitHub Pages" workflow 成功完成，branches: [main, master]
+- **条件判断**：`if: github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event_name == 'workflow_run' && github.event.workflow.conclusion == 'success')` 逻辑正确
+- **`release-it.json` hooks**：`before:init` 为数组 `["pnpm lint", "pnpm type-check", "pnpm test"]`，三个命令分离（不是一起跑）
+- **`git.force: true`**：已存在
+- **结论**：release.yml 和 release-it.json 配置符合要求
+
+## QA-4 结果：SKIP
+- **`.github/workflows/` 下没有 commitlint 相关的 workflow 文件**
+- 当前仅有：coverage.yml, docs-deploy.yml, lint.yml, npm-publish.yml, release.yml
+- 结论：Dev 未实现 commitlint CI 层，QA-4 无法验证，按 SKIP 处理
+
+## QA-5 结果：PASS（但有格式问题需修复）
+- **`pnpm test`**：20 suites passed, 173 passed, 6 skipped，耗时 25.8s ✅
+- **`pnpm build`**：构建成功，dist/cjs 和 dist/esm 输出正确 ✅
+- **splitChunks 生效**：`dist/cjs/vendors~echarts.js` (465KB) 和 `dist/esm/vendors~echarts.js` (1.94MB) 均存在 ✅
+- **发现的问题**：测试覆盖率严重不足（见 QA-2），prettier 格式错误 310 个（见 QA-1）
+
+---
+
+## OPS 执行结果（2026-04-26）
+
+### OPS-1：PASS ✅
+- **目标**：推送所有 Dev 改动到远程
+- **现状**：所有 Dev 改动（DEV-1 ~ DEV-5）在之前 commit 中已推送到远程 main 分支
+- **验收**：远程 main 分支包含 `.github/workflows/lint.yml`、`.github/workflows/coverage.yml`、`.github/workflows/release.yml` 修改、`jest.config.cjs` + `package.json` 测试加速配置、`webpack.config.cjs` splitChunks
+- **历史提交**：
+  - `64a461f feat: add lint and coverage CI workflows with splitChunks optimization`
+  - `834f555 fix: sync pnpm-lock.yaml after removing echarts-liquidfill`
+
+### OPS-2：PASS ✅
+- **目标**：修复 docs-deploy.yml 的 master 分支监听
+- **改动**：`.github/workflows/docs-deploy.yml` 的 `branches: [main, master]` → `branches: [main]`
+- **commit**：`c7194d9 fix: remove master branch from CI workflows trigger`
+- **push**：已推送到远程
+
+### OPS-3：PASS ✅
+- **目标**：创建 Dependabot 配置
+- **新建**：`.github/dependabot.yml`
+- **配置**：
+  - npm 包每周一 09:00 (Asia/Shanghai) 检查
+  - 每次最多 5 个 PR
+  - 指向 npmjs.org registry，使用 `NPM_TOKEN` secret
+- **commit**：`c7194d9`（与 OPS-2 同一提交）
+- **push**：已推送到远程
+
+### OPS-4：MANUAL ⚠️
+- **目标**：配置 GitHub Secrets
+- **检查结果**：
+  - `NPM_TOKEN`：**未在 repo secrets 中检测到**，用户需手动添加（用于 Dependabot 访问 npmjs.org）
+  - `CODECOV_TOKEN`：**未配置**，如需 Codecov 集成需手动添加
+- **操作路径**：GitHub repo → Settings → Secrets and variables → Actions → New repository secret
+
+### OPS-5：PASS ✅
+- **目标**：README Badge 更新
+- **改动**：在 README.md 顶部 badge 区域新增 GitHub Actions docs-deploy badge
+- **commit**：`10a2930 docs: add GitHub Actions docs-deploy badge to README`
+- **push**：已推送到远程
+- **注意**：npm version badge 已存在，无需重复添加；coverage badge 待 CODECOV_TOKEN 配置后添加
+
+### OPS-6：完成 ✅
+- **PLANNING.md**：已追加 Ops 执行结果
+- **workflow 文件状态**：
+  | Workflow | 路径 | 状态 |
+  |-----------|------|------|
+  | lint | `.github/workflows/lint.yml` | ✅ 已部署 |
+  | coverage | `.github/workflows/coverage.yml` | ✅ 已部署 |
+  | release | `.github/workflows/release.yml` | ✅ 已部署 |
+  | docs-deploy | `.github/workflows/docs-deploy.yml` | ✅ 已修复 |
+  | npm-publish | `.github/workflows/npm-publish.yml` | ✅ 既有 |
+  | dependabot | `.github/dependabot.yml` | ✅ 已部署 |
+
+### 仍需手动处理的待办事项 ⚠️
+
+1. **[严重] NPM_TOKEN 未配置**
+   - Dependabot 的 npmjs.org registry 需要 `NPM_TOKEN` secret
+   - 操作：GitHub repo → Settings → Secrets → Actions → New secret
+   - 用途：Dependabot 访问私有 npm 包或发布
+
+2. **[可选] CODECOV_TOKEN 未配置**
+   - 如需 Codecov 覆盖率 badge，需在 codecov.io 获取 token 并添加为 `CODECOV_TOKEN`
+   - 当前 `coverage.yml` 已生成 lcov.info artifact，可不依赖 Codecov
+
+3. **[建议] 修复 310 个 Prettier 格式错误**
+   - `pnpm lint:fix` 可自动修复所有 prettier 问题
+   - 修复后 lint.yml CI 才能通过
+
+4. **[建议] 调整 80% 覆盖率 threshold**
+   - 当前测试覆盖率 11%，80% threshold 目标过高
+   - 建议降至 15%~20% 或优先补充核心模块测试
+
+---
+
+_Ops 执行时间：2026-04-26 10:02 GMT+8_
+_最后提交：10a2930 docs: add GitHub Actions docs-deploy badge to README_
