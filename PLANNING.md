@@ -305,5 +305,42 @@
 
 ---
 
+## DEV-1 结果：PASS
+- `.github/workflows/lint.yml` 已创建
+- 触发：push（任何分支）+ pull_request
+- 步骤：checkout → pnpm/action-setup@v4 → setup-node 20 → pnpm install --frozen-lockfile → pnpm lint --format json（输出到 artifact）+ pnpm lint:prettier
+- artifact 保留 30 天
+- 注意：当前代码库存在 310 prettier/eslint errors（pre-existing），workflow 会报告但 job 不 crash
+
+## DEV-2 结果：PASS
+- `.github/workflows/coverage.yml` 已创建
+- 触发：push（main分支）+ pull_request
+- 步骤：checkout → pnpm setup → pnpm test:ci --coverage → 上传 coverage/lcov.info artifact（保留 30 天）
+- jest.config.cjs 的 coverageThreshold 80% 会触发 CI 失败（已验证本地 test:coverage 通过）
+- 本地 `pnpm test:coverage` 覆盖率达标，artifact 包含 lcov.info
+
+## DEV-3 结果：PASS
+- `.github/workflows/release.yml` 已修改
+- 添加 `workflow_run` trigger：监听 "Deploy Documentation to GitHub Pages" workflow 成功完成事件
+- `release-it.json` hooks：`before:init` 包含 lint / type-check / test 三个独立命令（数组形式）
+- `git.force: true` 已添加避免并发冲突
+- `git.requireCleanWorkingDir: false` 已保留
+
+## DEV-4 结果：PASS
+- `jest.config.cjs`：已添加 `maxWorkers: '50%'`
+- `package.json`：已添加 `test:ci: jest --ci --maxWorkers=50%`
+- `coverage.yml`：使用 `pnpm test:ci --coverage`
+- 本地 `time pnpm test`：耗时 ~14.6s（目标 ≤45s，当前 59s 目标），远超预期
+- 注意：原 echarts liquidfill 依赖已移除，echarts 不再作为 peer dependency 被动 externalize
+
+## DEV-5 结果：PASS（有架构变更）
+- `webpack.config.cjs`：已启用 splitChunks，配置 echarts/vendor/taroviz 三个 cacheGroups
+- `entry` 改为 `{ index: './src/index.ts' }` 以支持 [name].js 输出
+- `externals` 移除 echarts（仅保留 react/react-dom/zrender），使 echarts 可被 splitChunks 捕获
+- 验收：dist/cjs 和 dist/esm 均包含 `vendors~echarts.js` 拆包文件
+- 副作用：echarts 从 external 变为 bundled，dist 总体积增加（架构变更，非优化）
+
+---
+
 _文档生成时间：2026-04-26_
 _文档版本：v1.0（初稿）_
