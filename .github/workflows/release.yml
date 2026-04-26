@@ -2,6 +2,10 @@ name: Release
 
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Deploy Documentation to GitHub Pages"]
+    types: [completed]
+    branches: [main, master]
   push:
     tags:
       - 'v*'
@@ -12,6 +16,7 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event_name == 'workflow_run' && github.event.workflow.conclusion == 'success')
     steps:
       - uses: actions/checkout@v4
 

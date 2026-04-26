@@ -1,6 +1,3 @@
-# Release 配置
-# 用于 release-it 自动发布
-
 {
   "plugins": {
     "@release-it/conventional-changelog": {
@@ -13,8 +10,8 @@
     }
   },
   "hooks": {
-    "before:init": ["npm run lint", "npm run type-check", "npm run test"],
-    "after:bump": "npm run build",
+    "before:init": ["pnpm lint", "pnpm type-check", "pnpm test"],
+    "after:bump": "pnpm build",
     "after:release": "echo Successfully released ${name} v${version} to ${repo.repository_url}"
   },
   "npm": {
@@ -32,6 +29,7 @@
   "git": {
     "tagName": "v${version}",
     "commitMessage": "chore: release v${version}",
-    "requireCleanWorkingDir": false
+    "requireCleanWorkingDir": false,
+    "force": true
   }
 }

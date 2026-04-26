@@ -11,7 +11,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 // 基础配置
 const baseConfig = {
-  entry: './src/index.ts',
+  entry: { index: './src/index.ts' },
   cache: {
     type: 'filesystem',
     buildDependencies: {
@@ -117,19 +117,39 @@ const baseConfig = {
     mangleExports: 'deterministic',
     usedExports: true,
     sideEffects: true,
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        echarts: {
+          test: /[\\/]node_modules[\\/]echarts[\\/]/,
+          name: 'vendors~echarts',
+          chunks: 'all',
+          priority: 10,
+        },
+        taroviz: {
+          name: 'taroviz',
+          minChunks: 2,
+          chunks: 'all',
+          priority: 5,
+          reuseExistingChunk: true,
+        },
+        vendors: {
+          name: 'vendors',
+          test: /[\\/]node_modules[\\/]/,
+          chunks: 'all',
+          priority: 1,
+          reuseExistingChunk: true,
+        },
+      },
+    },
   },
   // 对于库构建，禁用性能警告（库本身带依赖是正常的）
   performance: false,
   externals: (context, request, callback) => {
-    // 将 echarts, react, zrender 等外部化
+    // 将 react, react-dom, zrender 外部化（echarts 通过 splitChunks 拆出）
     if (
       request === 'react' ||
       request === 'react-dom' ||
-      request === 'echarts' ||
-      request === 'echarts/core' ||
-      request === 'echarts/charts' ||
-      request === 'echarts/components' ||
-      request === 'echarts/renderers' ||
       request === 'zrender'
     ) {
       return callback(null, 'commonjs ' + request);
@@ -144,7 +164,7 @@ const cjsConfig = {
   name: 'cjs',
   output: {
     path: path.resolve(__dirname, 'dist/cjs'),
-    filename: 'index.js',
+    filename: '[name].js',
     library: {
       type: 'commonjs2',
     },
@@ -157,7 +177,7 @@ const esmConfig = {
   name: 'esm',
   output: {
     path: path.resolve(__dirname, 'dist/esm'),
-    filename: 'index.js',
+    filename: '[name].js',
     library: {
       type: 'module',
     },
@@ -166,15 +186,10 @@ const esmConfig = {
     outputModule: true,
   },
   externals: (context, request, callback) => {
-    // 将 echarts, react, zrender 等外部化
+    // 将 react, react-dom, zrender 外部化（echarts 通过 splitChunks 拆出）
     if (
       request === 'react' ||
       request === 'react-dom' ||
-      request === 'echarts' ||
-      request === 'echarts/core' ||
-      request === 'echarts/charts' ||
-      request === 'echarts/components' ||
-      request === 'echarts/renderers' ||
       request === 'zrender'
     ) {
       return callback(null, 'commonjs ' + request);
@@ -183,6 +198,31 @@ const esmConfig = {
   },
   optimization: {
     minimize: false,
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        echarts: {
+          test: /[\\/]node_modules[\\/]echarts[\\/]/,
+          name: 'vendors~echarts',
+          chunks: 'all',
+          priority: 10,
+        },
+        taroviz: {
+          name: 'taroviz',
+          minChunks: 2,
+          chunks: 'all',
+          priority: 5,
+          reuseExistingChunk: true,
+        },
+        vendors: {
+          name: 'vendors',
+          test: /[\\/]node_modules[\\/]/,
+          chunks: 'all',
+          priority: 1,
+          reuseExistingChunk: true,
+        },
+      },
+    },
   },
 };
 
