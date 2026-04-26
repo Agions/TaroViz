@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import type { EChartsType } from './core/types';
 
 import { BaseChart, LineChart, BarChart, PieChart } from './index';
 
@@ -182,9 +181,6 @@ const TestApp = () => {
           width="100%"
           height="400px"
           theme={darkMode ? 'dark' : 'default'}
-          onReady={(chart: EChartsType) => {
-            console.log('BaseChart is ready:', chart);
-          }}
         />
       </div>
 
