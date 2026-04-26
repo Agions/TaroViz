@@ -182,7 +182,6 @@ const TestApp = () => {
           width="100%"
           height="400px"
           theme={darkMode ? 'dark' : 'default'}
-          loading={loading}
           onReady={(chart: EChartsType) => {
             console.log('BaseChart is ready:', chart);
           }}
