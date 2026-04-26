@@ -53,11 +53,7 @@ export interface UseChartHistoryReturn {
 // ============================================================================
 
 /** 深度省略指定键后比较两个配置是否相等 */
-function omitAndCompare(
-  a: unknown,
-  b: unknown,
-  ignoreKeys: Set<string>
-): boolean {
+function omitAndCompare(a: unknown, b: unknown, ignoreKeys: Set<string>): boolean {
   if (a === b) return true;
   if (typeof a !== 'object' || a === null || typeof b !== 'object' || b === null) {
     return a === b;
@@ -71,7 +67,7 @@ function omitAndCompare(
   if (aKeys.length !== bKeys.length) return false;
 
   for (const key of aKeys) {
-    if (!bObj.hasOwnProperty(key)) return false;
+    if (!Object.prototype.hasOwnProperty.call(bObj, key)) return false;
     if (!omitAndCompare(aObj[key], bObj[key], ignoreKeys)) return false;
   }
 
@@ -94,12 +90,7 @@ export function useChartHistory(
 ): UseChartHistoryReturn {
   const {
     maxHistorySize = 50,
-    ignoreKeys = [
-      'animation',
-      'animationDuration',
-      'animationEasing',
-      'animationFrame',
-    ],
+    ignoreKeys = ['animation', 'animationDuration', 'animationEasing', 'animationFrame'],
     enableKeyboard = true,
     clearOnUnmount = false,
   } = options;
@@ -136,11 +127,7 @@ export function useChartHistory(
 
     const originalSetOption = chart.setOption.bind(chart);
 
-    chart.setOption = (
-      option: EChartsOption,
-      notMerge?: boolean,
-      lazyUpdate?: boolean
-    ) => {
+    chart.setOption = (option: EChartsOption, notMerge?: boolean, lazyUpdate?: boolean) => {
       if (isApplyingRef.current) {
         return originalSetOption(option, notMerge, lazyUpdate);
       }
@@ -240,16 +227,19 @@ export function useChartHistory(
     [currentIndex]
   );
 
-  const push = useCallback((option: EChartsOption) => {
-    const stack = historyStack.current;
-    const idx = currentIndex;
+  const push = useCallback(
+    (option: EChartsOption) => {
+      const stack = historyStack.current;
+      const idx = currentIndex;
 
-    const newStack = idx < stack.length - 1 ? stack.slice(0, idx + 1) : [...stack];
-    newStack.push(option);
-    if (newStack.length > maxHistorySize) newStack.shift();
-    historyStack.current = newStack;
-    setCurrentIndex(newStack.length - 1);
-  }, [currentIndex, maxHistorySize]);
+      const newStack = idx < stack.length - 1 ? stack.slice(0, idx + 1) : [...stack];
+      newStack.push(option);
+      if (newStack.length > maxHistorySize) newStack.shift();
+      historyStack.current = newStack;
+      setCurrentIndex(newStack.length - 1);
+    },
+    [currentIndex, maxHistorySize]
+  );
 
   const clear = useCallback(() => {
     historyStack.current = [];

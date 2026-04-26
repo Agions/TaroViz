@@ -71,12 +71,16 @@ class HarmonyAdapter implements Adapter {
     }
 
     // 创建图表实例
-    const chart = (this.component as { createChart: (config: {
-      id: string;
-      width?: number | string;
-      height?: number | string;
-      theme?: string | object;
-    }) => EChartsType }).createChart({
+    const chart = (
+      this.component as {
+        createChart: (config: {
+          id: string;
+          width?: number | string;
+          height?: number | string;
+          theme?: string | object;
+        }) => EChartsType;
+      }
+    ).createChart({
       id: canvasId,
       width,
       height,

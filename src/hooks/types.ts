@@ -70,7 +70,10 @@ export interface UseChartConnectReturn {
   disconnect: (chartInstance: ChartInstance, chartId?: string) => void;
   dispatchConnect: (
     sourceId: string,
-    payload: { eventType: ConnectEventType; params: ChartPointerEventParams | ChartSelectEventParams | ChartDataZoomEventParams }
+    payload: {
+      eventType: ConnectEventType;
+      params: ChartPointerEventParams | ChartSelectEventParams | ChartDataZoomEventParams;
+    }
   ) => void;
   connectAll: (charts: Array<{ instance: ChartInstance; id: string }>) => void;
   disconnectAll: () => void;

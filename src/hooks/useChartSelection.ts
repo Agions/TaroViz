@@ -172,18 +172,15 @@ export function useChartSelection(
   );
 
   /** 执行 ECharts dispatchAction */
-  const dispatchSelect = useCallback(
-    (key: DataPointKey, select: boolean) => {
-      const chart = chartRef.current;
-      if (!chart?.dispatchAction) return;
-      chart.dispatchAction({
-        type: select ? 'select' : 'unselect',
-        seriesIndex: key.seriesIndex,
-        dataIndex: key.dataIndex,
-      });
-    },
-    []
-  );
+  const dispatchSelect = useCallback((key: DataPointKey, select: boolean) => {
+    const chart = chartRef.current;
+    if (!chart?.dispatchAction) return;
+    chart.dispatchAction({
+      type: select ? 'select' : 'unselect',
+      seriesIndex: key.seriesIndex,
+      dataIndex: key.dataIndex,
+    });
+  }, []);
 
   // ─── Public API ───────────────────────────────────────────────────────────
 
@@ -229,9 +226,13 @@ export function useChartSelection(
   const selectMultiple = useCallback(
     (keys: DataPointKey[]) => {
       setSelectedPoints((prev) => {
-        const newPoints = mode === 'single' ? keys : [...prev, ...keys.filter(
-          (k) => !prev.some((p) => keyToString(p) === keyToString(k))
-        )];
+        const newPoints =
+          mode === 'single'
+            ? keys
+            : [
+                ...prev,
+                ...keys.filter((k) => !prev.some((p) => keyToString(p) === keyToString(k))),
+              ];
         notifyChange(newPoints, []);
         return newPoints;
       });
@@ -257,7 +258,9 @@ export function useChartSelection(
   const invertSelection = useCallback(
     (seriesIndex: number, dataIndices: number[]) => {
       setSelectedPoints((prev) => {
-        const selectedSet = new Set(prev.filter((p) => p.seriesIndex === seriesIndex).map((p) => p.dataIndex));
+        const selectedSet = new Set(
+          prev.filter((p) => p.seriesIndex === seriesIndex).map((p) => p.dataIndex)
+        );
         const toSelect: DataPointKey[] = [];
         const toDeselect: DataPointKey[] = [];
 
@@ -274,9 +277,9 @@ export function useChartSelection(
         toDeselect.forEach((k) => dispatchSelect(k, false));
         toSelect.forEach((k) => dispatchSelect(k, true));
 
-        const newSelected = prev.filter(
-          (p) => !(p.seriesIndex === seriesIndex && selectedSet.has(p.dataIndex))
-        ).concat(toSelect);
+        const newSelected = prev
+          .filter((p) => !(p.seriesIndex === seriesIndex && selectedSet.has(p.dataIndex)))
+          .concat(toSelect);
 
         notifyChange(toSelect, toDeselect);
         return newSelected;
@@ -289,9 +292,13 @@ export function useChartSelection(
     (seriesIndex: number, dataIndices: number[]) => {
       const keys = dataIndices.map((dataIndex) => ({ seriesIndex, dataIndex }));
       setSelectedPoints((prev) => {
-        const newPoints = mode === 'single' ? keys : [...prev, ...keys.filter(
-          (k) => !prev.some((p) => keyToString(p) === keyToString(k))
-        )];
+        const newPoints =
+          mode === 'single'
+            ? keys
+            : [
+                ...prev,
+                ...keys.filter((k) => !prev.some((p) => keyToString(p) === keyToString(k))),
+              ];
         notifyChange(newPoints, []);
         return newPoints;
       });

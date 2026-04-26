@@ -32,7 +32,15 @@ export interface FilterField {
 }
 
 /** 筛选值类型 */
-export type FilterValue = string | number | boolean | [number, number] | [string, string] | string[] | number[] | undefined;
+export type FilterValue =
+  | string
+  | number
+  | boolean
+  | [number, number]
+  | [string, string]
+  | string[]
+  | number[]
+  | undefined;
 
 /** 筛选器完整值 */
 export interface FilterValues {
@@ -74,7 +82,8 @@ export interface DataFilterProps {
 // ============================================================================
 
 const BASE_STYLE: React.CSSProperties = {
-  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+  fontFamily:
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
   fontSize: '14px',
   color: '#333',
 };
@@ -122,7 +131,13 @@ interface SelectFilterProps {
   compact?: boolean;
 }
 
-const SelectFilter: React.FC<SelectFilterProps> = ({ field, value, onChange, disabled, compact }) => {
+const SelectFilter: React.FC<SelectFilterProps> = ({
+  field,
+  value,
+  onChange,
+  disabled,
+  compact,
+}) => {
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       const val = e.target.value;
@@ -241,7 +256,13 @@ interface CheckboxFilterProps {
   compact?: boolean;
 }
 
-const CheckboxFilter: React.FC<CheckboxFilterProps> = ({ field, value, onChange, disabled, compact }) => {
+const CheckboxFilter: React.FC<CheckboxFilterProps> = ({
+  field,
+  value,
+  onChange,
+  disabled,
+  compact,
+}) => {
   const selectedValues = useMemo(() => {
     if (Array.isArray(value)) {
       return new Set(value.map(String));

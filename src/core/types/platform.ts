@@ -1,10 +1,7 @@
 /**
  * 支持的平台类型
  */
-import type {
-  EChartsType,
-  EChartsOption,
-} from 'echarts';
+import type { EChartsType, EChartsOption } from 'echarts';
 import type { CSSProperties } from 'react';
 import type { ChartEventParams } from './common';
 

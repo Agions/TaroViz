@@ -33,7 +33,7 @@ describe('Adapter Functions', () => {
   });
 
   // Skipped: getAdapter uses dynamic imports which don't work well with Jest mocks in this environment
-describe.skip('getAdapter', () => {
+  describe.skip('getAdapter', () => {
     it('should return adapter instance for browser environment', async () => {
       const adapter = await getAdapter({});
       expect(adapter).toBeDefined();

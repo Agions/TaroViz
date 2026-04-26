@@ -33,7 +33,14 @@ interface JSPDFInstance {
   setFontSize(size: number): JSPDFInstance;
   setTextColor(r: number, g: number, b: number): JSPDFInstance;
   text(text: string, x: number, y: number): JSPDFInstance;
-  addImage(imageData: string, format: string, x: number, y: number, width: number, height: number): JSPDFInstance;
+  addImage(
+    imageData: string,
+    format: string,
+    x: number,
+    y: number,
+    width: number,
+    height: number
+  ): JSPDFInstance;
   output(type: string): Blob | string | Uint8Array;
 }
 
@@ -322,7 +329,9 @@ class ChartExporter {
     } else if (typeof outputResult === 'string') {
       pdfBlob = new Blob([outputResult], { type: 'application/pdf' });
     } else {
-      pdfBlob = new Blob([new Uint8Array(outputResult as unknown as ArrayBuffer)], { type: 'application/pdf' });
+      pdfBlob = new Blob([new Uint8Array(outputResult as unknown as ArrayBuffer)], {
+        type: 'application/pdf',
+      });
     }
 
     return {

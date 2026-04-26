@@ -610,7 +610,12 @@ export function buildHierarchy(
       name: item[dimensionKey] as string | number,
       value: item[valueKey] as string | number,
       children: item[childrenKey]
-        ? buildHierarchy(item[childrenKey] as Array<{ [key: string]: unknown }>, dimensionKey, valueKey, childrenKey)
+        ? buildHierarchy(
+            item[childrenKey] as Array<{ [key: string]: unknown }>,
+            dimensionKey,
+            valueKey,
+            childrenKey
+          )
         : undefined,
     });
   });

@@ -171,8 +171,8 @@ export const DebugPanel: React.FC<DebugPanelProps> = ({ debugInfo, options = {},
                 <pre style={styles.pre}>{JSON.stringify(s.data?.slice(0, 5), null, 2)}...</pre>
                 <div style={styles.debugSeriesInfo}>
                   <span>数据量: {s.data?.length || 0}</span>
+                </div>
               </div>
-            </div>
             );
           })}
         </div>

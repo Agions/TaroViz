@@ -57,15 +57,17 @@ describe('ParallelChart', () => {
       type: 'value' as const,
       name: '指标',
     },
-    series: [{
-      type: 'parallel' as const,
-      lineStyle: { width: 2, opacity: 0.5 },
-      data: [
-        [1, 55, 9, 56, 0.46, 2, 35],
-        [2, 25, 11, 21, 0.65, 2, 33],
-        [3, 56, 7, 63, 0.92, 3, 45],
-      ],
-    }],
+    series: [
+      {
+        type: 'parallel' as const,
+        lineStyle: { width: 2, opacity: 0.5 },
+        data: [
+          [1, 55, 9, 56, 0.46, 2, 35],
+          [2, 25, 11, 21, 0.65, 2, 33],
+          [3, 56, 7, 63, 0.92, 3, 45],
+        ],
+      },
+    ],
   };
 
   describe('Basic Rendering', () => {
@@ -130,11 +132,13 @@ describe('ParallelChart', () => {
     it('should render with custom lineStyle', () => {
       const customLineOption = {
         ...basicOption,
-        series: [{
-          type: 'parallel' as const,
-          lineStyle: { width: 3, color: '#1890ff', opacity: 0.8 },
-          data: [[1, 55, 9, 56, 0.46, 2, 35]],
-        }],
+        series: [
+          {
+            type: 'parallel' as const,
+            lineStyle: { width: 3, color: '#1890ff', opacity: 0.8 },
+            data: [[1, 55, 9, 56, 0.46, 2, 35]],
+          },
+        ],
       };
       render(<ParallelChart option={customLineOption} />);
       expect(screen.getByTestId('parallel-chart')).toBeInTheDocument();
@@ -149,13 +153,15 @@ describe('ParallelChart', () => {
           data: ['A', 'B', 'C', 'D', 'E'],
           name: '分类',
         },
-        series: [{
-          type: 'parallel' as const,
-          data: [
-            ['A', 55, 9, 56, 0.46, 2, 35],
-            ['B', 25, 11, 21, 0.65, 2, 33],
-          ],
-        }],
+        series: [
+          {
+            type: 'parallel' as const,
+            data: [
+              ['A', 55, 9, 56, 0.46, 2, 35],
+              ['B', 25, 11, 21, 0.65, 2, 33],
+            ],
+          },
+        ],
       };
       render(<ParallelChart option={categoryOption} />);
       expect(screen.getByTestId('parallel-chart')).toBeInTheDocument();

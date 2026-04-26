@@ -130,7 +130,9 @@ export async function getAdapter(options: AdapterOptions): Promise<Adapter> {
       }
       case PlatformType.HARMONY: {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const { HarmonyAdapter } = await import('./harmony') as unknown as { HarmonyAdapter: { create: (opts: object) => Adapter } };
+        const { HarmonyAdapter } = (await import('./harmony')) as unknown as {
+          HarmonyAdapter: { create: (opts: object) => Adapter };
+        };
         return HarmonyAdapter.create(options);
       }
       default: {

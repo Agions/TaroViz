@@ -84,11 +84,22 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             fontFamily: 'var(--tv-font-family, sans-serif)',
           }}
         >
-          <div style={{ fontSize: '48px', marginBottom: '16px' }} aria-hidden="true">⚠️</div>
-          <h3 style={{ margin: '0 0 12px', color: 'var(--tv-error-color, #ff4d4f)', fontWeight: 700 }}>
+          <div style={{ fontSize: '48px', marginBottom: '16px' }} aria-hidden="true">
+            ⚠️
+          </div>
+          <h3
+            style={{ margin: '0 0 12px', color: 'var(--tv-error-color, #ff4d4f)', fontWeight: 700 }}
+          >
             图表渲染失败
           </h3>
-          <p style={{ margin: '0 0 16px', color: 'var(--tv-text-color-secondary, #666)', textAlign: 'center', maxWidth: '320px' }}>
+          <p
+            style={{
+              margin: '0 0 16px',
+              color: 'var(--tv-text-color-secondary, #666)',
+              textAlign: 'center',
+              maxWidth: '320px',
+            }}
+          >
             图表在渲染过程中遇到错误，请检查数据配置是否正确
           </p>
           {showDetails && (
@@ -104,7 +115,9 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
                 maxHeight: '150px',
               }}
             >
-              <summary style={{ cursor: 'pointer', marginBottom: '8px', fontWeight: 600 }}>错误详情</summary>
+              <summary style={{ cursor: 'pointer', marginBottom: '8px', fontWeight: 600 }}>
+                错误详情
+              </summary>
               <pre style={{ margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
                 {error.message}
                 {'\n\n'}

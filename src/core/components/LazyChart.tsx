@@ -19,7 +19,10 @@ const LazySunburstChart = lazy(() => import('../../charts/sunburst'));
 const LazySankeyChart = lazy(() => import('../../charts/sankey'));
 
 // 统一的图表类型到懒加载组件映射
-const LAZY_CHART_MODULES: Record<string, () => Promise<{ default: ComponentType<BaseChartProps> }>> = {
+const LAZY_CHART_MODULES: Record<
+  string,
+  () => Promise<{ default: ComponentType<BaseChartProps> }>
+> = {
   line: () => import('../../charts/line'),
   bar: () => import('../../charts/bar'),
   pie: () => import('../../charts/pie'),
@@ -94,7 +97,12 @@ const DefaultLoadingFallback: React.FC<{ text?: string }> = ({ text = '加载中
       >
         {text}
       </span>
-      <span style={{ color: 'var(--tv-text-color-secondary, #666)', fontSize: 'var(--tv-font-size, 14px)' }}>
+      <span
+        style={{
+          color: 'var(--tv-text-color-secondary, #666)',
+          fontSize: 'var(--tv-font-size, 14px)',
+        }}
+      >
         {text}
       </span>
     </div>

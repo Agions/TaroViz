@@ -65,16 +65,13 @@ function buildLiquidOption(props: {
   const actualAmplitude = amplitude ?? 8; // 相对于 MAX_RADIUS 的比例
 
   // buildLiquidRenderItem - 使用闭包捕获配置
-  const renderItem: CustomSeriesRenderItem = (
-    _params,
-    api,
-  ) => {
+  const renderItem: CustomSeriesRenderItem = (_params, api) => {
     const width = api.getWidth();
     const height = api.getHeight();
     const size = Math.min(width, height);
     const centerX = width / 2;
     const centerY = height / 2;
-    const baseRadius = size / 2 * 0.8;
+    const baseRadius = (size / 2) * 0.8;
 
     const ampPx = baseRadius * (actualAmplitude / MAX_RADIUS);
 
@@ -126,7 +123,7 @@ function buildLiquidOption(props: {
       const color = colors[idx % colors.length];
 
       // 生成波浪点
-      const curves = Math.max(Math.ceil((2 * baseRadius) / wlPx * 4) * 2, 8);
+      const curves = Math.max(Math.ceil(((2 * baseRadius) / wlPx) * 4) * 2, 8);
       const phaseOffset = (idx * Math.PI) / 4 + actualPhase;
 
       const points: [number, number][] = [];
@@ -275,7 +272,19 @@ const LiquidChart: React.FC<LiquidChartProps> = memo((props) => {
       ...baseOption,
       series: customConfig.series as EChartsOption['series'],
     };
-  }, [option, waveData, shape, amplitude, waveLength, phase, period, backgroundColor, color, showLabel, labelFormatter]);
+  }, [
+    option,
+    waveData,
+    shape,
+    amplitude,
+    waveLength,
+    phase,
+    period,
+    backgroundColor,
+    color,
+    showLabel,
+    labelFormatter,
+  ]);
 
   // 处理图表初始化
   useEffect(() => {
@@ -299,10 +308,9 @@ const LiquidChart: React.FC<LiquidChartProps> = memo((props) => {
           // 绑定事件
           if (onEvents) {
             Object.entries(onEvents).forEach(([eventName, handler]) => {
-              (instance as unknown as { on: (e: string, h: (ev: ECElementEvent) => void) => void }).on(
-                eventName,
-                handler,
-              );
+              (
+                instance as unknown as { on: (e: string, h: (ev: ECElementEvent) => void) => void }
+              ).on(eventName, handler);
             });
           }
 
@@ -341,7 +349,17 @@ const LiquidChart: React.FC<LiquidChartProps> = memo((props) => {
       mounted = false;
       cleanupFn?.();
     };
-  }, [liquidOption, width, height, theme, autoResize, renderer, onChartInit, onChartReady, onEvents]);
+  }, [
+    liquidOption,
+    width,
+    height,
+    theme,
+    autoResize,
+    renderer,
+    onChartInit,
+    onChartReady,
+    onEvents,
+  ]);
 
   // 更新配置
   useEffect(() => {
@@ -382,4 +400,10 @@ LiquidChart.displayName = 'LiquidChart';
 export default LiquidChart;
 
 // 导出类型
-export type { LiquidChartProps, LiquidOption, LiquidShape, LiquidSeries, LiquidSeriesDataItem } from './types';
+export type {
+  LiquidChartProps,
+  LiquidOption,
+  LiquidShape,
+  LiquidSeries,
+  LiquidSeriesDataItem,
+} from './types';

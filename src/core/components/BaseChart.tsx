@@ -111,7 +111,9 @@ export interface ChartProps {
   onLegendSelectAll?: (params: { selected: Record<string, boolean> }) => void;
   onLegendInverseSelect?: (params: { selected: Record<string, boolean> }) => void;
   enableCustomTooltip?: boolean;
-  customTooltipContent?: (params: EChartsMouseEventParams | EChartsMouseEventParams[]) => React.ReactNode;
+  customTooltipContent?: (
+    params: EChartsMouseEventParams | EChartsMouseEventParams[]
+  ) => React.ReactNode;
   customTooltipStyle?: React.CSSProperties;
   onTooltipShow?: (params: EChartsTooltipEventParams) => void;
   onTooltipHide?: (params: EChartsTooltipEventParams) => void;
@@ -238,8 +240,10 @@ const BaseChart: React.FC<ChartProps> = (props) => {
       processed = JSON.parse(JSON.stringify(processed));
       // Avoid duplicate dataZoom entries
       const existingDzArr = Array.isArray(processed.dataZoom)
-        ? processed.dataZoom as DataZoomComponentOption[]
-        : processed.dataZoom ? [processed.dataZoom as DataZoomComponentOption] : [];
+        ? (processed.dataZoom as DataZoomComponentOption[])
+        : processed.dataZoom
+          ? [processed.dataZoom as DataZoomComponentOption]
+          : [];
       if (!existingDzArr.some((dz) => dz?.type === 'inside')) {
         processed.dataZoom = [
           ...(existingDzArr || []),
@@ -302,7 +306,12 @@ const BaseChart: React.FC<ChartProps> = (props) => {
 
         // Zoom + zoom linkage + virtual scroll page update
         instance.on('datazoom', (params: unknown) => {
-          const p = params as { start?: number; end?: number; dataZoomIndex?: number; batch?: Array<{ start?: number; end?: number; dataZoomIndex?: number }> };
+          const p = params as {
+            start?: number;
+            end?: number;
+            dataZoomIndex?: number;
+            batch?: Array<{ start?: number; end?: number; dataZoomIndex?: number }>;
+          };
           if (onZoom)
             onZoom({
               start: p.start || 0,
@@ -363,11 +372,16 @@ const BaseChart: React.FC<ChartProps> = (props) => {
 
         // Custom tooltip
         if (enableCustomTooltip && customTooltipContent) {
-          instance.on('tooltipshow', (params: unknown) => onTooltipShow?.(params as EChartsTooltipEventParams));
-          instance.on('tooltiphide', (params: unknown) => onTooltipHide?.(params as EChartsTooltipEventParams));
+          instance.on('tooltipshow', (params: unknown) =>
+            onTooltipShow?.(params as EChartsTooltipEventParams)
+          );
+          instance.on('tooltiphide', (params: unknown) =>
+            onTooltipHide?.(params as EChartsTooltipEventParams)
+          );
           instance.setOption({
             tooltip: {
-              formatter: (params: unknown) => String(customTooltipContent(params as EChartsMouseEventParams)),
+              formatter: (params: unknown) =>
+                String(customTooltipContent(params as EChartsMouseEventParams)),
               ...(customTooltipStyle && {
                 backgroundColor: 'transparent',
                 borderColor: 'transparent',

@@ -103,7 +103,7 @@ export function useAnimation(
   const easingFunctionsRef = useRef<Record<string, (t: number) => number>>({
     cubicOut: (t) => 1 - Math.pow(1 - t, 3),
     cubicIn: (t) => t * t * t,
-    cubicInOut: (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
+    cubicInOut: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
     linear: (t) => t,
     sinusoidalIn: (t) => 1 - Math.cos((t * Math.PI) / 2),
     sinusoidalOut: (t) => Math.sin((t * Math.PI) / 2),
@@ -116,7 +116,7 @@ export function useAnimation(
   easingFunctionsRef.current = {
     cubicOut: (t) => 1 - Math.pow(1 - t, 3),
     cubicIn: (t) => t * t * t,
-    cubicInOut: (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
+    cubicInOut: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
     linear: (t) => t,
     sinusoidalIn: (t) => 1 - Math.cos((t * Math.PI) / 2),
     sinusoidalOut: (t) => Math.sin((t * Math.PI) / 2),
@@ -368,7 +368,7 @@ export function useProgressiveLoading(
     setCurrentBatch(0);
 
     intervalRef.current = window.setInterval(() => {
-      setCurrentBatch(prev => {
+      setCurrentBatch((prev) => {
         const next = prev + 1;
         onBatchLoaded?.(next, totalBatches);
 

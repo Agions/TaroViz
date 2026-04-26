@@ -122,14 +122,25 @@ export class PerformanceAnalyzer {
   private emit(eventType: PerformanceEventType.MONITORING_START): void;
   private emit(eventType: PerformanceEventType.MONITORING_END): void;
   private emit(eventType: PerformanceEventType.METRIC_UPDATE, data: PerformanceMetric): void;
-  private emit(eventType: PerformanceEventType.ANALYSIS_COMPLETE, data: PerformanceAnalysisResult): void;
-  private emit(eventType: PerformanceEventType, data?: PerformanceMetric | PerformanceAnalysisResult): void {
+  private emit(
+    eventType: PerformanceEventType.ANALYSIS_COMPLETE,
+    data: PerformanceAnalysisResult
+  ): void;
+  private emit(
+    eventType: PerformanceEventType,
+    data?: PerformanceMetric | PerformanceAnalysisResult
+  ): void {
     const handlers = this.eventHandlers.get(eventType);
-    const eventData: PerformanceEventData = data === undefined
-      ? { type: eventType as PerformanceEventType.MONITORING_START | PerformanceEventType.MONITORING_END }
-      : eventType === PerformanceEventType.METRIC_UPDATE
-        ? { type: eventType, data: data as PerformanceMetric }
-        : { type: eventType, data: data as PerformanceAnalysisResult };
+    const eventData: PerformanceEventData =
+      data === undefined
+        ? {
+            type: eventType as
+              | PerformanceEventType.MONITORING_START
+              | PerformanceEventType.MONITORING_END,
+          }
+        : eventType === PerformanceEventType.METRIC_UPDATE
+          ? { type: eventType, data: data as PerformanceMetric }
+          : { type: eventType, data: data as PerformanceAnalysisResult };
     handlers?.forEach((handler) => {
       try {
         handler(eventData);
@@ -264,7 +275,8 @@ export class PerformanceAnalyzer {
     // 采样内存使用（如果支持）
     if (
       this.config.metrics?.includes('memoryUsage') &&
-      typeof (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory !== 'undefined'
+      typeof (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory !==
+        'undefined'
     ) {
       const memory = (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory;
       const memoryUsage = ((memory?.usedJSHeapSize ?? 0) / (1024 * 1024)).toFixed(2);

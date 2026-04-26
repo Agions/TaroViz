@@ -15,20 +15,22 @@ import type { ChartInstance, DataZoomType, ZoomRange, EventHandler } from './typ
  * @param options 配置选项
  * @returns dataZoom 操作接口
  */
-export function useDataZoom(options: {
-  type?: DataZoomType;
-  start?: number;
-  end?: number;
-  minSpan?: number;
-  maxSpan?: number;
-  zoomLock?: boolean;
-  throttle?: number;
-  disabled?: boolean;
-  brushSelect?: boolean;
-  zoomMode?: 'scale' | 'mix';
-  resetOnUnmount?: boolean;
-  onZoomChange?: (range: { start: number; end: number }) => void;
-} = {}): {
+export function useDataZoom(
+  options: {
+    type?: DataZoomType;
+    start?: number;
+    end?: number;
+    minSpan?: number;
+    maxSpan?: number;
+    zoomLock?: boolean;
+    throttle?: number;
+    disabled?: boolean;
+    brushSelect?: boolean;
+    zoomMode?: 'scale' | 'mix';
+    resetOnUnmount?: boolean;
+    onZoomChange?: (range: { start: number; end: number }) => void;
+  } = {}
+): {
   bindDataZoom: (chartInstance: ChartInstance) => void;
   setZoomRange: (start: number, end: number) => void;
   resetZoom: () => void;
@@ -152,11 +154,7 @@ export function useDataZoom(options: {
 
       try {
         const dataZoomConfig = buildDataZoomConfig();
-        chartInstance.setOption(
-          { dataZoom: dataZoomConfig },
-          false,
-          true
-        );
+        chartInstance.setOption({ dataZoom: dataZoomConfig }, false, true);
       } catch (e) {
         console.warn('[useDataZoom] Failed to bind dataZoom:', e);
       }
@@ -215,7 +213,9 @@ export function useDataZoom(options: {
 
     try {
       const option = chart.getOption?.();
-      const dataZoom = option?.dataZoom as Array<{ type: string; start?: number; end?: number }> | undefined;
+      const dataZoom = option?.dataZoom as
+        | Array<{ type: string; start?: number; end?: number }>
+        | undefined;
       if (Array.isArray(dataZoom) && dataZoom.length > 0) {
         const insideZoom = dataZoom.find((dz) => dz.type === 'inside');
         const sliderZoom = dataZoom.find((dz) => dz.type === 'slider');
@@ -233,47 +233,44 @@ export function useDataZoom(options: {
   }, []);
 
   // 绑定事件
-  const bindEvents = useCallback(
-    (chartInstance: ChartInstance) => {
-      if (!chartInstance) return;
+  const bindEvents = useCallback((chartInstance: ChartInstance) => {
+    if (!chartInstance) return;
 
-      // 创建节流后的缩放变化处理器（使用稳定的 throttle 值）
-      const handleZoomChange: EventHandler = (params: unknown) => {
-        // disabled 通过 configRef 读取，保证实时性
-        if (configRef.current.disabled) return;
+    // 创建节流后的缩放变化处理器（使用稳定的 throttle 值）
+    const handleZoomChange: EventHandler = (params: unknown) => {
+      // disabled 通过 configRef 读取，保证实时性
+      if (configRef.current.disabled) return;
 
-        const p = params as { start?: number; end?: number } | undefined;
-        const { start: newStart, end: newEnd } = p || {};
-        if (newStart !== undefined) startValueRef.current = newStart;
-        if (newEnd !== undefined) endValueRef.current = newEnd;
+      const p = params as { start?: number; end?: number } | undefined;
+      const { start: newStart, end: newEnd } = p || {};
+      if (newStart !== undefined) startValueRef.current = newStart;
+      if (newEnd !== undefined) endValueRef.current = newEnd;
 
-        // 使用 ref 读取 onZoomChange，避免闭包捕获旧值
-        onZoomChangeRef.current?.({
-          start: newStart ?? configRef.current.start,
-          end: newEnd ?? configRef.current.end,
-        });
-      };
+      // 使用 ref 读取 onZoomChange，避免闭包捕获旧值
+      onZoomChangeRef.current?.({
+        start: newStart ?? configRef.current.start,
+        end: newEnd ?? configRef.current.end,
+      });
+    };
 
-      // 节流包装
-      const { throttle: throttleVal } = configRef.current;
-      const throttledHandler: EventHandler = (params: unknown) => {
-        const now = Date.now();
-        if (now - lastCallRef.current >= throttleVal) {
-          lastCallRef.current = now;
-          handleZoomChange(params);
-        }
-      };
-
-      throttledHandlerRef.current = throttledHandler;
-
-      try {
-        chartInstance.on('datazoom', throttledHandler);
-      } catch (e) {
-        console.warn('[useDataZoom] Failed to bind events:', e);
+    // 节流包装
+    const { throttle: throttleVal } = configRef.current;
+    const throttledHandler: EventHandler = (params: unknown) => {
+      const now = Date.now();
+      if (now - lastCallRef.current >= throttleVal) {
+        lastCallRef.current = now;
+        handleZoomChange(params);
       }
-    },
-    []
-  );
+    };
+
+    throttledHandlerRef.current = throttledHandler;
+
+    try {
+      chartInstance.on('datazoom', throttledHandler);
+    } catch (e) {
+      console.warn('[useDataZoom] Failed to bind events:', e);
+    }
+  }, []);
 
   // 解绑事件
   const unbindEvents = useCallback((chartInstance: ChartInstance) => {

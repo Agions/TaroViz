@@ -86,12 +86,14 @@ const EnhancedThemeEditor: React.FC<EnhancedThemeEditorProps> = ({
 
   // 状态
   const [currentTheme, setCurrentTheme] = useState<ThemeOptions>(
-    registeredThemes.find(t => t.name === selectedTheme) || registeredThemes[0] || {}
+    registeredThemes.find((t) => t.name === selectedTheme) || registeredThemes[0] || {}
   );
   const [newThemeName, setNewThemeName] = useState<string>('');
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [colors, setColors] = useState<string[]>(currentTheme.colors || []);
-  const [backgroundColor, setBackgroundColor] = useState<string>(currentTheme.backgroundColor || '#ffffff');
+  const [backgroundColor, setBackgroundColor] = useState<string>(
+    currentTheme.backgroundColor || '#ffffff'
+  );
   const [textColor, setTextColor] = useState<string>(currentTheme.textColor || '#333333');
   const [darkMode, setDarkMode] = useState<boolean>(currentTheme.darkMode || false);
   const [activeTab, setActiveTab] = useState<'basic' | 'advanced' | 'presets'>('basic');
@@ -99,11 +101,25 @@ const EnhancedThemeEditor: React.FC<EnhancedThemeEditorProps> = ({
   // 预览数据
   const previewOption = {
     title: { text: '主题预览', textStyle: { color: textColor } },
-    xAxis: { type: 'category' as const, data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'], axisLabel: { color: textColor } },
+    xAxis: {
+      type: 'category' as const,
+      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+      axisLabel: { color: textColor },
+    },
     yAxis: { type: 'value' as const, axisLabel: { color: textColor } },
     series: [
-      { data: [120, 200, 150, 80, 70], type: 'bar' as const, itemStyle: { color: colors[0] || '#1890ff' } },
-      { data: [120, 200, 150, 80, 70].map((v) => ({ value: v * 1.2, itemStyle: { color: colors[1] || '#40a9ff' } })), type: 'bar' as const },
+      {
+        data: [120, 200, 150, 80, 70],
+        type: 'bar' as const,
+        itemStyle: { color: colors[0] || '#1890ff' },
+      },
+      {
+        data: [120, 200, 150, 80, 70].map((v) => ({
+          value: v * 1.2,
+          itemStyle: { color: colors[1] || '#40a9ff' },
+        })),
+        type: 'bar' as const,
+      },
     ],
     backgroundColor: backgroundColor,
   };
@@ -111,7 +127,7 @@ const EnhancedThemeEditor: React.FC<EnhancedThemeEditorProps> = ({
   // 同步主题状态
   useEffect(() => {
     if (selectedTheme) {
-      const theme = registeredThemes.find(t => t.name === selectedTheme);
+      const theme = registeredThemes.find((t) => t.name === selectedTheme);
       if (theme) {
         setCurrentTheme(theme);
         setColors(theme.colors || []);
@@ -123,19 +139,22 @@ const EnhancedThemeEditor: React.FC<EnhancedThemeEditorProps> = ({
   }, [selectedTheme, registeredThemes]);
 
   // 更新主题
-  const updateTheme = useCallback((updates: Partial<ThemeOptions>) => {
-    const updated = { ...currentTheme, ...updates };
-    setCurrentTheme(updated);
-    setColors(updated.colors || []);
-    setBackgroundColor(updated.backgroundColor || '#ffffff');
-    setTextColor(updated.textColor || '#333333');
-    setDarkMode(updated.darkMode || false);
+  const updateTheme = useCallback(
+    (updates: Partial<ThemeOptions>) => {
+      const updated = { ...currentTheme, ...updates };
+      setCurrentTheme(updated);
+      setColors(updated.colors || []);
+      setBackgroundColor(updated.backgroundColor || '#ffffff');
+      setTextColor(updated.textColor || '#333333');
+      setDarkMode(updated.darkMode || false);
 
-    if (enableLivePreview) {
-      switchTheme(updated);
-    }
-    onThemeChange?.(updated);
-  }, [currentTheme, enableLivePreview, onThemeChange]);
+      if (enableLivePreview) {
+        switchTheme(updated);
+      }
+      onThemeChange?.(updated);
+    },
+    [currentTheme, enableLivePreview, onThemeChange]
+  );
 
   // 处理颜色变化
   const handleColorChange = (index: number, color: string) => {
@@ -271,7 +290,7 @@ const EnhancedThemeEditor: React.FC<EnhancedThemeEditorProps> = ({
 
       {/* 标签页 */}
       <div style={{ display: 'flex', borderBottom: '1px solid #e0e0e0', marginBottom: '20px' }}>
-        {(['basic', 'advanced', 'presets'] as const).map(tab => (
+        {(['basic', 'advanced', 'presets'] as const).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -297,7 +316,7 @@ const EnhancedThemeEditor: React.FC<EnhancedThemeEditorProps> = ({
           <div style={{ marginBottom: '20px' }}>
             <h4>选择主题</h4>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '10px' }}>
-              {registeredThemes.map(theme => (
+              {registeredThemes.map((theme) => (
                 <button
                   key={theme.name}
                   onClick={() => {
@@ -338,7 +357,14 @@ const EnhancedThemeEditor: React.FC<EnhancedThemeEditorProps> = ({
 
           {/* 新主题编辑 */}
           {isEditing && (
-            <div style={{ marginBottom: '20px', padding: '15px', backgroundColor: '#f9f9f9', borderRadius: '4px' }}>
+            <div
+              style={{
+                marginBottom: '20px',
+                padding: '15px',
+                backgroundColor: '#f9f9f9',
+                borderRadius: '4px',
+              }}
+            >
               <h4>新建主题</h4>
               <input
                 type="text"
@@ -360,16 +386,27 @@ const EnhancedThemeEditor: React.FC<EnhancedThemeEditorProps> = ({
 
           {/* 颜色配置 */}
           <div style={{ marginBottom: '20px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '10px',
+              }}
+            >
               <h4>主题颜色</h4>
-              <button onClick={handleAddColor} disabled={disabled} style={{
-                padding: '4px 8px',
-                border: '1px solid #e0e0e0',
-                borderRadius: '4px',
-                backgroundColor: '#ffffff',
-                cursor: disabled ? 'not-allowed' : 'pointer',
-                opacity: disabled ? 0.6 : 1,
-              }}>
+              <button
+                onClick={handleAddColor}
+                disabled={disabled}
+                style={{
+                  padding: '4px 8px',
+                  border: '1px solid #e0e0e0',
+                  borderRadius: '4px',
+                  backgroundColor: '#ffffff',
+                  cursor: disabled ? 'not-allowed' : 'pointer',
+                  opacity: disabled ? 0.6 : 1,
+                }}
+              >
                 + 添加颜色
               </button>
             </div>
@@ -388,7 +425,12 @@ const EnhancedThemeEditor: React.FC<EnhancedThemeEditorProps> = ({
                     value={color}
                     onChange={(e) => handleColorChange(index, e.target.value)}
                     disabled={disabled}
-                    style={{ width: '80px', padding: '4px', border: '1px solid #e0e0e0', borderRadius: '4px' }}
+                    style={{
+                      width: '80px',
+                      padding: '4px',
+                      border: '1px solid #e0e0e0',
+                      borderRadius: '4px',
+                    }}
                   />
                   <button
                     onClick={() => handleRemoveColor(index)}
@@ -413,7 +455,14 @@ const EnhancedThemeEditor: React.FC<EnhancedThemeEditorProps> = ({
           {/* 基础配置 */}
           <div style={{ marginBottom: '20px' }}>
             <h4>基础配置</h4>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginTop: '10px' }}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '15px',
+                marginTop: '10px',
+              }}
+            >
               <div>
                 <label style={{ display: 'block', marginBottom: '5px' }}>背景色:</label>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -429,7 +478,12 @@ const EnhancedThemeEditor: React.FC<EnhancedThemeEditorProps> = ({
                     value={backgroundColor}
                     onChange={(e) => updateTheme({ backgroundColor: e.target.value })}
                     disabled={disabled}
-                    style={{ width: '100px', padding: '4px', border: '1px solid #e0e0e0', borderRadius: '4px' }}
+                    style={{
+                      width: '100px',
+                      padding: '4px',
+                      border: '1px solid #e0e0e0',
+                      borderRadius: '4px',
+                    }}
                   />
                 </div>
               </div>
@@ -448,7 +502,12 @@ const EnhancedThemeEditor: React.FC<EnhancedThemeEditorProps> = ({
                     value={textColor}
                     onChange={(e) => updateTheme({ textColor: e.target.value })}
                     disabled={disabled}
-                    style={{ width: '100px', padding: '4px', border: '1px solid #e0e0e0', borderRadius: '4px' }}
+                    style={{
+                      width: '100px',
+                      padding: '4px',
+                      border: '1px solid #e0e0e0',
+                      borderRadius: '4px',
+                    }}
                   />
                 </div>
               </div>
@@ -472,8 +531,15 @@ const EnhancedThemeEditor: React.FC<EnhancedThemeEditorProps> = ({
       {activeTab === 'presets' && enablePresets && (
         <div>
           <h4>选择预设主题</h4>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '15px', marginTop: '15px' }}>
-            {PRESET_THEMES.map(preset => (
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+              gap: '15px',
+              marginTop: '15px',
+            }}
+          >
+            {PRESET_THEMES.map((preset) => (
               <div
                 key={preset.name}
                 onClick={() => handlePresetSelect(preset)}
@@ -501,7 +567,9 @@ const EnhancedThemeEditor: React.FC<EnhancedThemeEditorProps> = ({
                   ))}
                 </div>
                 <div style={{ fontSize: '14px', fontWeight: 'bold' }}>{preset.name}</div>
-                <div style={{ fontSize: '12px', opacity: 0.7 }}>{preset.darkMode ? '深色' : '浅色'}</div>
+                <div style={{ fontSize: '12px', opacity: 0.7 }}>
+                  {preset.darkMode ? '深色' : '浅色'}
+                </div>
               </div>
             ))}
           </div>
@@ -569,17 +637,15 @@ const EnhancedThemeEditor: React.FC<EnhancedThemeEditorProps> = ({
       {enableLivePreview && (
         <div style={{ marginTop: '20px' }}>
           <h4>实时预览</h4>
-          <div style={{
-            marginTop: '10px',
-            border: '1px solid #e0e0e0',
-            borderRadius: '8px',
-            overflow: 'hidden',
-          }}>
-            <LineChart
-              option={previewOption}
-              width="100%"
-              height={200}
-            />
+          <div
+            style={{
+              marginTop: '10px',
+              border: '1px solid #e0e0e0',
+              borderRadius: '8px',
+              overflow: 'hidden',
+            }}
+          >
+            <LineChart option={previewOption} width="100%" height={200} />
           </div>
         </div>
       )}

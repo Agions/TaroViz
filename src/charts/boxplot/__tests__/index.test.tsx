@@ -48,14 +48,16 @@ describe('BoxplotChart', () => {
     title: { text: '箱线图测试' },
     xAxis: { type: 'category' as const, data: ['A', 'B', 'C'] },
     yAxis: { type: 'value' as const },
-    series: [{
-      type: 'boxplot' as const,
-      data: [
-        [850, 940, 980, 1050, 1130],
-        [920, 1000, 1050, 1150, 1200],
-        [780, 850, 920, 1050, 1150],
-      ],
-    }],
+    series: [
+      {
+        type: 'boxplot' as const,
+        data: [
+          [850, 940, 980, 1050, 1130],
+          [920, 1000, 1050, 1150, 1200],
+          [780, 850, 920, 1050, 1150],
+        ],
+      },
+    ],
   };
 
   describe('Basic Rendering', () => {
@@ -65,7 +67,9 @@ describe('BoxplotChart', () => {
     });
 
     it('should render with custom width and height', () => {
-      const { getByTestId } = render(<BoxplotChart option={basicOption} width={600} height={500} />);
+      const { getByTestId } = render(
+        <BoxplotChart option={basicOption} width={600} height={500} />
+      );
       expect(getByTestId('boxplot-chart')).toBeInTheDocument();
     });
 
@@ -86,7 +90,9 @@ describe('BoxplotChart', () => {
     });
 
     it('should accept style prop', () => {
-      const { getByTestId } = render(<BoxplotChart option={basicOption} style={{ padding: '10px' }} />);
+      const { getByTestId } = render(
+        <BoxplotChart option={basicOption} style={{ padding: '10px' }} />
+      );
       expect(getByTestId('boxplot-chart')).toBeInTheDocument();
     });
 
@@ -117,11 +123,13 @@ describe('BoxplotChart', () => {
     it('should render with custom itemStyle', () => {
       const optionWithStyle = {
         ...basicOption,
-        series: [{
-          type: 'boxplot' as const,
-          data: [[850, 940, 980, 1050, 1130]],
-          itemStyle: { color: '#1890ff', borderColor: '#000' },
-        }],
+        series: [
+          {
+            type: 'boxplot' as const,
+            data: [[850, 940, 980, 1050, 1130]],
+            itemStyle: { color: '#1890ff', borderColor: '#000' },
+          },
+        ],
       };
       const { getByTestId } = render(<BoxplotChart option={optionWithStyle} />);
       expect(getByTestId('boxplot-chart')).toBeInTheDocument();

@@ -3,7 +3,11 @@
  * 提供实时性能指标监控和报告功能
  */
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { PerformanceAnalyzer, PerformanceMetricType, PerformanceMetric } from '../core/utils/performance';
+import {
+  PerformanceAnalyzer,
+  PerformanceMetricType,
+  PerformanceMetric,
+} from '../core/utils/performance';
 
 /**
  * 性能监控配置
@@ -81,7 +85,10 @@ export function usePerformance(options: UsePerformanceOptions = {}): UsePerforma
   const fpsHistoryRef = useRef<number[]>([]);
   const animationFrameRef = useRef<number | null>(null);
   const lastFrameTimeRef = useRef<number>(0);
-  const fpsAccumulatorRef = useRef<{ frames: number; lastTime: number }>({ frames: 0, lastTime: 0 });
+  const fpsAccumulatorRef = useRef<{ frames: number; lastTime: number }>({
+    frames: 0,
+    lastTime: 0,
+  });
 
   // State
   const [state, setState] = useState<PerformanceState>({
@@ -121,7 +128,9 @@ export function usePerformance(options: UsePerformanceOptions = {}): UsePerforma
 
     // 每秒计算一次 FPS
     if (now - fpsAccumulatorRef.current.lastTime >= 1000) {
-      const fps = Math.round((fpsAccumulatorRef.current.frames * 1000) / (now - fpsAccumulatorRef.current.lastTime));
+      const fps = Math.round(
+        (fpsAccumulatorRef.current.frames * 1000) / (now - fpsAccumulatorRef.current.lastTime)
+      );
       const history = fpsHistoryRef.current;
 
       // 更新历史
@@ -135,7 +144,7 @@ export function usePerformance(options: UsePerformanceOptions = {}): UsePerforma
       const minFps = Math.min(...history);
       const maxFps = Math.max(...history);
 
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         fps,
         avgFps,
@@ -182,7 +191,7 @@ export function usePerformance(options: UsePerformanceOptions = {}): UsePerforma
     // 开始 FPS 监控循环
     animationFrameRef.current = requestAnimationFrame(updateFps);
 
-    setState(prev => ({ ...prev, isMonitoring: true }));
+    setState((prev) => ({ ...prev, isMonitoring: true }));
   }, [enabled, sampleInterval, updateFps]);
 
   /**
@@ -198,7 +207,7 @@ export function usePerformance(options: UsePerformanceOptions = {}): UsePerforma
     // 停止分析器
     analyzerRef.current?.stop();
 
-    setState(prev => ({ ...prev, isMonitoring: false }));
+    setState((prev) => ({ ...prev, isMonitoring: false }));
   }, []);
 
   /**
@@ -207,7 +216,7 @@ export function usePerformance(options: UsePerformanceOptions = {}): UsePerforma
   const reset = useCallback(() => {
     PerformanceAnalyzer.resetInstance();
     fpsHistoryRef.current = [];
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       fps: 60,
       avgFps: 60,
@@ -225,7 +234,8 @@ export function usePerformance(options: UsePerformanceOptions = {}): UsePerforma
     if (!analyzerRef.current) return [];
 
     try {
-      const report = analyzerRef.current.getMetricsByType?.('renderTime' as PerformanceMetricType) ?? [];
+      const report =
+        analyzerRef.current.getMetricsByType?.('renderTime' as PerformanceMetricType) ?? [];
       if (!report || report.length === 0) return [];
       return report;
     } catch {

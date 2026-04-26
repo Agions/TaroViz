@@ -75,9 +75,10 @@ class H5Adapter implements Adapter {
     }
 
     // 获取容器元素
-    const container = this.containerRef && 'current' in this.containerRef
-      ? this.containerRef.current
-      : this.containerRef || document.getElementById(this.canvasId);
+    const container =
+      this.containerRef && 'current' in this.containerRef
+        ? this.containerRef.current
+        : this.containerRef || document.getElementById(this.canvasId);
     if (!container) {
       throw new Error(`[TaroViz] H5Adapter: container not found (canvasId: ${this.canvasId})`);
     }

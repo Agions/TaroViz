@@ -59,7 +59,14 @@ export function convertToCSV(data: unknown, options?: { includeLabels?: boolean 
 
   // 处理 ECharts 格式的数据
   if (typeof data === 'object' && (data as { series?: unknown }).series) {
-    return convertSeriesToCSV(data as { series?: unknown[]; xAxis?: { data?: unknown[] }; dataset?: { dimensions?: string[]; source?: unknown[][] } }, options);
+    return convertSeriesToCSV(
+      data as {
+        series?: unknown[];
+        xAxis?: { data?: unknown[] };
+        dataset?: { dimensions?: string[]; source?: unknown[][] };
+      },
+      options
+    );
   }
 
   // 处理数组数据
@@ -79,7 +86,11 @@ export function convertToCSV(data: unknown, options?: { includeLabels?: boolean 
  * 将 ECharts series 数据转换为 CSV
  */
 function convertSeriesToCSV(
-  chartData: { series?: unknown[]; xAxis?: { data?: unknown[] }; dataset?: { dimensions?: string[]; source?: unknown[][] } },
+  chartData: {
+    series?: unknown[];
+    xAxis?: { data?: unknown[] };
+    dataset?: { dimensions?: string[]; source?: unknown[][] };
+  },
   options?: { includeLabels?: boolean }
 ): string {
   const { series = [], xAxis, dataset } = chartData;
@@ -102,7 +113,14 @@ function convertSeriesToCSV(
 
   // 构建 CSV 头
   const headers = includeLabels
-    ? ['Category', ...series.map((s: unknown) => (s as { name?: string; seriesIndex?: number }).name || (s as { seriesIndex?: number }).seriesIndex)]
+    ? [
+        'Category',
+        ...series.map(
+          (s: unknown) =>
+            (s as { name?: string; seriesIndex?: number }).name ||
+            (s as { seriesIndex?: number }).seriesIndex
+        ),
+      ]
     : [];
 
   // 构建 CSV 行
@@ -175,7 +193,12 @@ function convertObjectToCSV(data: Record<string, unknown>): string {
 export function convertToJSON(data: unknown): string {
   if (!data) return '{}';
 
-  const dataObj = data as { series?: unknown[]; title?: { text?: string }; legend?: { data?: unknown }; xAxis?: { data?: unknown[] } };
+  const dataObj = data as {
+    series?: unknown[];
+    title?: { text?: string };
+    legend?: { data?: unknown };
+    xAxis?: { data?: unknown[] };
+  };
 
   // 如果是 ECharts 格式，简化数据
   if (dataObj.series) {
@@ -234,7 +257,7 @@ export async function createPdfFromImage(
         // 计算图片位置和尺寸（居中）
         const imgRatio = img.width / img.height;
         const canvasRatio = pdfWidth / pdfHeight;
-        let drawWidth: number, drawHeight: number, offsetX: number, offsetY: number;
+        let drawWidth: number, drawHeight: number;
 
         if (imgRatio > canvasRatio) {
           drawWidth = pdfWidth * 0.8;
@@ -244,8 +267,8 @@ export async function createPdfFromImage(
           drawWidth = drawHeight * imgRatio;
         }
 
-        offsetX = (pdfWidth - drawWidth) / 2;
-        offsetY = (pdfHeight - drawHeight) / 2;
+        const offsetX = (pdfWidth - drawWidth) / 2;
+        const offsetY = (pdfHeight - drawHeight) / 2;
 
         // 绘制图片
         ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);

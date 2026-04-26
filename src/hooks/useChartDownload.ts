@@ -414,13 +414,22 @@ export function useChartDownload(
       switch (fmt) {
         case 'png':
         case 'jpeg':
-          await downloadImage({ format: fmt, filename: exportFilename, pixelRatio: exportRatio, backgroundColor: exportBg });
+          await downloadImage({
+            format: fmt,
+            filename: exportFilename,
+            pixelRatio: exportRatio,
+            backgroundColor: exportBg,
+          });
           break;
         case 'svg':
           await downloadImage({ format: 'svg', filename: exportFilename });
           break;
         case 'pdf':
-          await downloadPDF({ filename: exportFilename, pixelRatio: exportRatio, backgroundColor: exportBg });
+          await downloadPDF({
+            filename: exportFilename,
+            pixelRatio: exportRatio,
+            backgroundColor: exportBg,
+          });
           break;
         default:
           console.warn(`[useChartDownload] Unsupported format: ${fmt}`);

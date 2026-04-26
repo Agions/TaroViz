@@ -107,7 +107,9 @@ const TreeChart: React.FC<TreeChartProps> = memo((props) => {
     itemStyle,
   ]);
 
-  return <BaseChartWrapper {...restProps} option={mergedOption as EChartsOption} chartType="tree" />;
+  return (
+    <BaseChartWrapper {...restProps} option={mergedOption as EChartsOption} chartType="tree" />
+  );
 });
 
 TreeChart.displayName = 'TreeChart';

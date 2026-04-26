@@ -60,7 +60,12 @@ export { default as BoxplotChart } from './charts/boxplot';
 export { default as ParallelChart } from './charts/parallel';
 
 // v1.7.0 新增组件
-export { DataFilter, type DataFilterProps, type FilterField, type FilterValues } from './components/DataFilter';
+export {
+  DataFilter,
+  type DataFilterProps,
+  type FilterField,
+  type FilterValues,
+} from './components/DataFilter';
 export {
   createDrillDown,
   canDrillDown,

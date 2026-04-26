@@ -36,8 +36,8 @@ function buildAriaLabel(chartType: string, option: unknown): string {
 }
 
 // ─── Keyboard navigation step sizes ───────────────────────────────────────
-const ZOOM_STEP = 5;   // % per key press
-const PAN_STEP = 10;   // % pan per arrow key
+const ZOOM_STEP = 5; // % per key press
+const PAN_STEP = 10; // % pan per arrow key
 
 const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
   option,
@@ -60,80 +60,77 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const isMountedRef = useRef(true);
   const cleanupRef = useRef<(() => void) | null>(null);
-  const tableId = useId();          // unique id for aria-describedby
+  const tableId = useId(); // unique id for aria-describedby
   const seriesData = useMemo(() => extractSeriesData(option), [option]);
   const ariaLabel = useMemo(() => buildAriaLabel(chartType, option), [chartType, option]);
 
   // Keyboard handler for zoom/pan — attached to the chart container
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLDivElement>) => {
-      const instance = chartInstance.current;
-      if (!instance) return;
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+    const instance = chartInstance.current;
+    if (!instance) return;
 
-      // ECharts dataZoom dispatch — works for any chart with dataZoom axis
-      const dispatchZoom = (startDelta: number, endDelta: number) => {
-        instance.dispatchAction({ type: 'dataZoom', startDelta, endDelta });
-      };
+    // ECharts dataZoom dispatch — works for any chart with dataZoom axis
+    const dispatchZoom = (startDelta: number, endDelta: number) => {
+      instance.dispatchAction({ type: 'dataZoom', startDelta, endDelta });
+    };
 
-      // Home = reset zoom to full range
-      if (e.key === 'Home') {
+    // Home = reset zoom to full range
+    if (e.key === 'Home') {
+      e.preventDefault();
+      instance.dispatchAction({ type: 'dataZoom', start: 0, end: 100 });
+      return;
+    }
+
+    switch (e.key) {
+      case '+':
+      case '=': {
         e.preventDefault();
-        instance.dispatchAction({ type: 'dataZoom', start: 0, end: 100 });
-        return;
+        // Zoom in (narrow range) — decrease end by ZOOM_STEP
+        const end = instance.getOption() as { dataZoom?: Array<{ start?: number; end?: number }> };
+        const dz = end?.dataZoom?.[0];
+        if (dz) {
+          const newEnd = Math.max(0, (dz.end ?? 100) - ZOOM_STEP);
+          const newStart = Math.max(0, (dz.start ?? 0) - ZOOM_STEP);
+          instance.dispatchAction({ type: 'dataZoom', start: newStart, end: newEnd });
+        }
+        break;
       }
-
-      switch (e.key) {
-        case '+':
-        case '=': {
-          e.preventDefault();
-          // Zoom in (narrow range) — decrease end by ZOOM_STEP
-          const end = instance.getOption() as { dataZoom?: Array<{ start?: number; end?: number }> };
-          const dz = end?.dataZoom?.[0];
-          if (dz) {
-            const newEnd = Math.max(0, (dz.end ?? 100) - ZOOM_STEP);
-            const newStart = Math.max(0, (dz.start ?? 0) - ZOOM_STEP);
-            instance.dispatchAction({ type: 'dataZoom', start: newStart, end: newEnd });
-          }
-          break;
+      case '-':
+      case '_': {
+        e.preventDefault();
+        // Zoom out (expand range) — increase end by ZOOM_STEP
+        const end = instance.getOption() as { dataZoom?: Array<{ start?: number; end?: number }> };
+        const dz = end?.dataZoom?.[0];
+        if (dz) {
+          const newEnd = Math.min(100, (dz.end ?? 100) + ZOOM_STEP);
+          const newStart = Math.min((dz.start ?? 0) + ZOOM_STEP, newEnd);
+          instance.dispatchAction({ type: 'dataZoom', start: newStart, end: newEnd });
         }
-        case '-':
-        case '_': {
-          e.preventDefault();
-          // Zoom out (expand range) — increase end by ZOOM_STEP
-          const end = instance.getOption() as { dataZoom?: Array<{ start?: number; end?: number }> };
-          const dz = end?.dataZoom?.[0];
-          if (dz) {
-            const newEnd = Math.min(100, (dz.end ?? 100) + ZOOM_STEP);
-            const newStart = Math.min((dz.start ?? 0) + ZOOM_STEP, newEnd);
-            instance.dispatchAction({ type: 'dataZoom', start: newStart, end: newEnd });
-          }
-          break;
-        }
-        case 'ArrowLeft': {
-          e.preventDefault();
-          dispatchZoom(-PAN_STEP, 0);
-          break;
-        }
-        case 'ArrowRight': {
-          e.preventDefault();
-          dispatchZoom(PAN_STEP, 0);
-          break;
-        }
-        case 'ArrowUp': {
-          e.preventDefault();
-          dispatchZoom(0, -PAN_STEP);
-          break;
-        }
-        case 'ArrowDown': {
-          e.preventDefault();
-          dispatchZoom(0, PAN_STEP);
-          break;
-        }
-        // No default — let other keys pass through for accessibility tools
+        break;
       }
-    },
-    []
-  );
+      case 'ArrowLeft': {
+        e.preventDefault();
+        dispatchZoom(-PAN_STEP, 0);
+        break;
+      }
+      case 'ArrowRight': {
+        e.preventDefault();
+        dispatchZoom(PAN_STEP, 0);
+        break;
+      }
+      case 'ArrowUp': {
+        e.preventDefault();
+        dispatchZoom(0, -PAN_STEP);
+        break;
+      }
+      case 'ArrowDown': {
+        e.preventDefault();
+        dispatchZoom(0, PAN_STEP);
+        break;
+      }
+      // No default — let other keys pass through for accessibility tools
+    }
+  }, []);
 
   // Use memo to cache adapter config
   const adapterConfig = useMemo(() => {
@@ -165,7 +162,11 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
 
           if (onEvents) {
             Object.entries(onEvents).forEach(([eventName, handler]) => {
-              (instance as unknown as { on: Function }).on(eventName, handler);
+              (
+                instance as unknown as {
+                  on: (event: string, handler: (...args: unknown[]) => void) => void;
+                }
+              ).on(eventName, handler);
             });
           }
 
@@ -191,7 +192,7 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
         if (chartInstance.current) {
           if (onEvents) {
             Object.entries(onEvents).forEach(([eventName]) => {
-              (chartInstance.current as unknown as { off: Function }).off(eventName);
+              (chartInstance.current as unknown as { off: (event: string) => void }).off(eventName);
             });
           }
           chartInstance.current.dispose();
@@ -262,19 +263,23 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
         <thead>
           <tr>
             {seriesData.map((s, i) => (
-              <th key={i} scope="col">{s.name}</th>
+              <th key={i} scope="col">
+                {s.name}
+              </th>
             ))}
           </tr>
         </thead>
         <tbody>
           {/* Render up to 20 rows to avoid overwhelming screen readers */}
-          {Array.from({ length: Math.min(20, seriesData[0]?.data.length ?? 0) }).map((_, rowIdx) => (
-            <tr key={rowIdx}>
-              {seriesData.map((s, colIdx) => (
-                <td key={colIdx}>{String(s.data[rowIdx] ?? '')}</td>
-              ))}
-            </tr>
-          ))}
+          {Array.from({ length: Math.min(20, seriesData[0]?.data.length ?? 0) }).map(
+            (_, rowIdx) => (
+              <tr key={rowIdx}>
+                {seriesData.map((s, colIdx) => (
+                  <td key={colIdx}>{String(s.data[rowIdx] ?? '')}</td>
+                ))}
+              </tr>
+            )
+          )}
         </tbody>
       </table>
 
