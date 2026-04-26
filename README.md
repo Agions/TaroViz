@@ -13,6 +13,9 @@
     <a href="https://github.com/Agions/TaroViz/blob/main/LICENSE">
       <img src="https://img.shields.io/npm/l/@agions/taroviz.svg" alt="license">
     </a>
+    <a href="https://github.com/Agions/TaroViz/actions/workflows/docs-deploy.yml">
+      <img src="https://github.com/Agions/TaroViz/actions/workflows/docs-deploy.yml/badge.svg" alt="Deploy Documentation">
+    </a>
   </p>
 </div>
 
