@@ -327,18 +327,18 @@ const LiquidChart: React.FC<LiquidChartProps> = memo((props) => {
       const adapter = await getAdapter(initConfig);
       adapter.init();
 
-          return () => {
-            const instance = chartInstance.current;
-            if (instance) {
-              if (onEvents) {
-                Object.keys(onEvents).forEach((eventName) => {
-                  instance.off(eventName);
-                });
-              }
-              instance.dispose();
-              chartInstance.current = null;
-            }
-          };
+      return () => {
+        const instance = chartInstance.current;
+        if (instance) {
+          if (onEvents) {
+            Object.keys(onEvents).forEach((eventName) => {
+              instance.off(eventName);
+            });
+          }
+          instance.dispose();
+          chartInstance.current = null;
+        }
+      };
     };
 
     let cleanupFn: (() => void) | undefined;

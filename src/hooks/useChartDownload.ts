@@ -113,8 +113,7 @@ export function useChartDownload(
     if (chart && beforeExport) {
       try {
         beforeExport(chart);
-      } catch (e) {
-      }
+      } catch (e) {}
     }
   }, [beforeExport]);
 
@@ -126,8 +125,7 @@ export function useChartDownload(
       if (afterExport) {
         try {
           afterExport(result);
-        } catch (e) {
-        }
+        } catch (e) {}
       }
     },
     [afterExport]
@@ -215,8 +213,7 @@ export function useChartDownload(
           executeAfterExport(dataUrl);
         } else {
         }
-      } catch (e) {
-      }
+      } catch (e) {}
     },
     [format, pixelRatio, backgroundColor, filename, executeBeforeExport, executeAfterExport]
   );
@@ -263,8 +260,7 @@ export function useChartDownload(
           downloadDataUrl(pdfDataUrl, `${name}.pdf`);
           executeAfterExport(pdfDataUrl);
         }
-      } catch (e) {
-      }
+      } catch (e) {}
     },
     [filename, pixelRatio, backgroundColor, executeBeforeExport, executeAfterExport]
   );
@@ -332,8 +328,7 @@ export function useChartDownload(
           downloadBlob(blob, `${name}.csv`);
           executeAfterExport(blob);
         }
-      } catch (e) {
-      }
+      } catch (e) {}
     },
     [filename, executeBeforeExport, executeAfterExport]
   );
@@ -373,8 +368,7 @@ export function useChartDownload(
           downloadBlob(blob, `${name}.json`);
           executeAfterExport(blob);
         }
-      } catch (e) {
-      }
+      } catch (e) {}
     },
     [filename, executeBeforeExport, executeAfterExport]
   );

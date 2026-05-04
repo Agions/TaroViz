@@ -78,7 +78,8 @@ export function downloadDataUrl(dataUrl: string, filename: string): void {
  * @param mimeType MIME 类型（仅当 data 为 string 时使用）
  */
 export function downloadFile(data: string | Blob, filename: string, _mimeType?: string): void {
-  const blob = typeof data === 'string' ? new Blob([data], { type: _mimeType || 'text/plain' }) : data;
+  const blob =
+    typeof data === 'string' ? new Blob([data], { type: _mimeType || 'text/plain' }) : data;
   downloadBlob(blob, filename);
 }
 

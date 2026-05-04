@@ -4,7 +4,7 @@
  */
 
 /** 主版本号 */
-export const VERSION = '1.7.0';
+export const VERSION = '1.11.4';
 
 /** 版本信息 */
 export const versionInfo = {

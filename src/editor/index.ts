@@ -8,7 +8,10 @@ import EnhancedThemeEditor from './EnhancedThemeEditor';
 export type { ThemeEditorProps } from './ThemeEditor';
 export type { EnhancedThemeEditorProps, ThemeExportOptions } from './EnhancedThemeEditor';
 export { useThemeEditorState } from './hooks/useThemeEditorState';
-export type { UseThemeEditorStateOptions, UseThemeEditorStateReturn } from './hooks/useThemeEditorState';
+export type {
+  UseThemeEditorStateOptions,
+  UseThemeEditorStateReturn,
+} from './hooks/useThemeEditorState';
 
 export { ThemeEditor, EnhancedThemeEditor };
 

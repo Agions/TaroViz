@@ -219,7 +219,8 @@ const EnhancedThemeEditor: React.FC<EnhancedThemeEditorProps> = ({
               ))}
             </div>
             <p style={{ marginTop: '10px', color: textColor }}>
-              背景色: {backgroundColor} | 文本色: {textColor} | 深色模式: {darkMode ? '开启' : '关闭'}
+              背景色: {backgroundColor} | 文本色: {textColor} | 深色模式:{' '}
+              {darkMode ? '开启' : '关闭'}
             </p>
           </div>
         );

@@ -114,7 +114,7 @@ export async function getAdapter(options: AdapterOptions): Promise<Adapter> {
       case PlatformType.LARK:
       case PlatformType.KWAI: {
         const { default: h5Adapter } = await import('./h5');
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return h5Adapter.create(options as any);
       }
       case PlatformType.WEAPP: {
@@ -138,7 +138,7 @@ export async function getAdapter(options: AdapterOptions): Promise<Adapter> {
       }
       default: {
         const { default: h5Adapter } = await import('./h5');
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return h5Adapter.create(options as any);
       }
     }

@@ -16,7 +16,7 @@ import type { BaseChartProps } from './types';
  */
 export function createChartComponent<P extends BaseChartProps = BaseChartProps>(
   displayName: string,
-  chartType: string,
+  chartType: string
 ): React.FC<P> {
   const Chart: React.FC<P> = memo((props) => (
     <BaseChartWrapper {...(props as unknown as BaseChartProps)} chartType={chartType} />
@@ -34,7 +34,7 @@ export function createChartComponent<P extends BaseChartProps = BaseChartProps>(
  */
 export function createChartComponentWithOptionCast<P extends Record<string, unknown>>(
   displayName: string,
-  chartType: string,
+  chartType: string
 ): React.FC<P> {
   const Chart: React.FC<P> = memo((props) => (
     <BaseChartWrapper

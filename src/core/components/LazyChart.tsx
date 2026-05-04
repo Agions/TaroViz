@@ -17,7 +17,9 @@ const LAZY_CHART_REGISTRY: Record<string, ComponentType<BaseChartProps>> = {};
 function createLazyComponent(name: string): ComponentType<BaseChartProps> {
   if (!LAZY_CHART_REGISTRY[name]) {
     LAZY_CHART_REGISTRY[name] = lazy(() =>
-      import('../../charts').then(m => ({ default: m[name as keyof typeof m] as ComponentType<BaseChartProps> }))
+      import('../../charts').then((m) => ({
+        default: m[name as keyof typeof m] as ComponentType<BaseChartProps>,
+      }))
     );
   }
   return LAZY_CHART_REGISTRY[name];
@@ -40,18 +42,21 @@ export const LazySankeyChart = createLazyComponent('SankeyChart');
  * 图表类型到懒加载模块的映射
  * 用于预加载功能
  */
-const LAZY_CHART_MODULES: Record<string, () => Promise<{ default: ComponentType<BaseChartProps> }>> = {
-  line: () => import('../../charts').then(m => ({ default: m.LineChart })),
-  bar: () => import('../../charts').then(m => ({ default: m.BarChart })),
-  pie: () => import('../../charts').then(m => ({ default: m.PieChart })),
-  scatter: () => import('../../charts').then(m => ({ default: m.ScatterChart })),
-  radar: () => import('../../charts').then(m => ({ default: m.RadarChart })),
-  heatmap: () => import('../../charts').then(m => ({ default: m.HeatmapChart })),
-  gauge: () => import('../../charts').then(m => ({ default: m.GaugeChart })),
-  funnel: () => import('../../charts').then(m => ({ default: m.FunnelChart })),
-  treemap: () => import('../../charts').then(m => ({ default: m.TreeMapChart })),
-  sunburst: () => import('../../charts').then(m => ({ default: m.SunburstChart })),
-  sankey: () => import('../../charts').then(m => ({ default: m.SankeyChart })),
+const LAZY_CHART_MODULES: Record<
+  string,
+  () => Promise<{ default: ComponentType<BaseChartProps> }>
+> = {
+  line: () => import('../../charts').then((m) => ({ default: m.LineChart })),
+  bar: () => import('../../charts').then((m) => ({ default: m.BarChart })),
+  pie: () => import('../../charts').then((m) => ({ default: m.PieChart })),
+  scatter: () => import('../../charts').then((m) => ({ default: m.ScatterChart })),
+  radar: () => import('../../charts').then((m) => ({ default: m.RadarChart })),
+  heatmap: () => import('../../charts').then((m) => ({ default: m.HeatmapChart })),
+  gauge: () => import('../../charts').then((m) => ({ default: m.GaugeChart })),
+  funnel: () => import('../../charts').then((m) => ({ default: m.FunnelChart })),
+  treemap: () => import('../../charts').then((m) => ({ default: m.TreeMapChart })),
+  sunburst: () => import('../../charts').then((m) => ({ default: m.SunburstChart })),
+  sankey: () => import('../../charts').then((m) => ({ default: m.SankeyChart })),
 };
 
 export const LAZY_CHART_TYPES = Object.keys(LAZY_CHART_MODULES);

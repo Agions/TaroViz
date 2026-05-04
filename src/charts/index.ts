@@ -32,23 +32,47 @@ import type { TreeChartProps } from './tree/types';
 export const LineChart = createChartComponent<LineChartProps>('LineChart', 'line-chart');
 export const BarChart = createChartComponent<BarChartProps>('BarChart', 'bar-chart');
 export const PieChart = createChartComponent<PieChartProps>('PieChart', 'pie-chart');
-export const ScatterChart = createChartComponent<ScatterChartProps>('ScatterChart', 'scatter-chart');
+export const ScatterChart = createChartComponent<ScatterChartProps>(
+  'ScatterChart',
+  'scatter-chart'
+);
 export const RadarChart = createChartComponent<RadarChartProps>('RadarChart', 'radar-chart');
-export const HeatmapChart = createChartComponent<HeatmapChartProps>('HeatmapChart', 'heatmap-chart');
+export const HeatmapChart = createChartComponent<HeatmapChartProps>(
+  'HeatmapChart',
+  'heatmap-chart'
+);
 export const GaugeChart = createChartComponent<GaugeChartProps>('GaugeChart', 'gauge-chart');
 export const FunnelChart = createChartComponent<FunnelChartProps>('FunnelChart', 'funnel-chart');
 
 /** 扩展图表 */
-export const TreeMapChart = createChartComponent<TreeMapChartProps>('TreeMapChart', 'treemap-chart');
-export const SunburstChart = createChartComponent<SunburstChartProps>('SunburstChart', 'sunburst-chart');
+export const TreeMapChart = createChartComponent<TreeMapChartProps>(
+  'TreeMapChart',
+  'treemap-chart'
+);
+export const SunburstChart = createChartComponent<SunburstChartProps>(
+  'SunburstChart',
+  'sunburst-chart'
+);
 export const SankeyChart = createChartComponent<SankeyChartProps>('SankeyChart', 'sankey-chart');
 export const GraphChart = createChartComponent<GraphChartProps>('GraphChart', 'graph-chart');
-export const WordCloudChart = createChartComponent<WordCloudChartProps>('WordCloudChart', 'wordcloud-chart');
-export const CandlestickChart = createChartComponent<CandlestickChartProps>('CandlestickChart', 'candlestick-chart');
+export const WordCloudChart = createChartComponent<WordCloudChartProps>(
+  'WordCloudChart',
+  'wordcloud-chart'
+);
+export const CandlestickChart = createChartComponent<CandlestickChartProps>(
+  'CandlestickChart',
+  'candlestick-chart'
+);
 
 /** 需要 option 类型转换的图表 */
-export const BoxplotChart = createChartComponentWithOptionCast<BoxplotChartProps>('BoxplotChart', 'boxplot');
-export const ParallelChart = createChartComponentWithOptionCast<ParallelChartProps>('ParallelChart', 'parallel');
+export const BoxplotChart = createChartComponentWithOptionCast<BoxplotChartProps>(
+  'BoxplotChart',
+  'boxplot'
+);
+export const ParallelChart = createChartComponentWithOptionCast<ParallelChartProps>(
+  'ParallelChart',
+  'parallel'
+);
 
 // ===== 特殊图表（保留自定义逻辑）=====
 
@@ -60,7 +84,13 @@ export { default as TreeChart } from './tree';
 export * from './types';
 export type { BoxplotChartProps, BoxplotOption, BoxplotSeriesItem } from './boxplot/types';
 export type { ParallelChartProps, ParallelOption, ParallelAxisSetting } from './parallel/types';
-export type { LiquidChartProps, LiquidOption, LiquidShape, LiquidSeries, LiquidSeriesDataItem } from './liquid/types';
+export type {
+  LiquidChartProps,
+  LiquidOption,
+  LiquidShape,
+  LiquidSeries,
+  LiquidSeriesDataItem,
+} from './liquid/types';
 export type { TreeChartProps, TreeOption, TreeNode, TreeSeries } from './tree/types';
 
 /** 版本信息 */

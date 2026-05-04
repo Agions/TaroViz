@@ -50,7 +50,9 @@ export interface UseThemeEditorStateReturn {
 }
 
 /** 带有必填字段的默认主题 */
-const DEFAULT_THEME: Required<Pick<ThemeOptions, 'colors' | 'backgroundColor' | 'textColor' | 'darkMode'>> = {
+const DEFAULT_THEME: Required<
+  Pick<ThemeOptions, 'colors' | 'backgroundColor' | 'textColor' | 'darkMode'>
+> = {
   colors: ['#1890ff'],
   backgroundColor: '#ffffff',
   textColor: '#333333',

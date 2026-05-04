@@ -43,7 +43,12 @@ export abstract class MiniAppAdapter extends BaseAdapter {
    */
   protected createChartInstance(
     component: unknown,
-    config: { id: string; width?: number | string; height?: number | string; theme?: string | object }
+    config: {
+      id: string;
+      width?: number | string;
+      height?: number | string;
+      theme?: string | object;
+    }
   ): unknown {
     return (component as { createChart: (cfg: unknown) => unknown }).createChart({
       id: config.id,
@@ -120,7 +125,9 @@ export abstract class MiniAppAdapter extends BaseAdapter {
  * 注：MiniAppAdapter.init() 返回 unknown ，不满足 Adapter 接口的 EChartsType 要求
  * 但实际使用中通过 as unknown as Adapter 强制转换，与原有子类的 static create 行为一致
  */
-export function createMiniAppAdapter(AdapterClass: new (options: MiniAppAdapterOptions) => MiniAppAdapter) {
+export function createMiniAppAdapter(
+  AdapterClass: new (options: MiniAppAdapterOptions) => MiniAppAdapter
+) {
   return function create(options: MiniAppAdapterOptions): Adapter {
     return new AdapterClass(options) as unknown as Adapter;
   };

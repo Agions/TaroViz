@@ -19,12 +19,12 @@ import React from 'react';
 export function runStandardChartTests(
   ChartComponent: React.ComponentType<any>,
   chartType: string,
-  mockOption: Record<string, unknown>,
+  mockOption: Record<string, unknown>
 ): void {
   describe(`${chartType} Component`, () => {
     it('should render correctly with default props', () => {
       const { getByTestId } = render(
-        React.createElement(ChartComponent, { option: mockOption } as any),
+        React.createElement(ChartComponent, { option: mockOption } as any)
       );
 
       const chartWrapper = getByTestId('base-chart-wrapper');
@@ -34,7 +34,7 @@ export function runStandardChartTests(
 
     it('should pass the correct option to BaseChartWrapper', () => {
       const { getByTestId } = render(
-        React.createElement(ChartComponent, { option: mockOption } as any),
+        React.createElement(ChartComponent, { option: mockOption } as any)
       );
 
       const chartOption = getByTestId('chart-option');
@@ -50,7 +50,7 @@ export function runStandardChartTests(
           option: mockOption,
           width: customWidth,
           height: customHeight,
-        } as any),
+        } as any)
       );
 
       const chartWrapper = getByTestId('base-chart-wrapper');
@@ -65,7 +65,7 @@ export function runStandardChartTests(
         React.createElement(ChartComponent, {
           option: mockOption,
           className: customClass,
-        } as any),
+        } as any)
       );
 
       const chartWrapper = getByTestId('base-chart-wrapper');
@@ -77,7 +77,7 @@ export function runStandardChartTests(
         React.createElement(ChartComponent, {
           option: mockOption,
           loading: true,
-        } as any),
+        } as any)
       );
 
       const chartWrapper = getByTestId('base-chart-wrapper');
