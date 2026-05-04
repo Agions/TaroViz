@@ -138,7 +138,7 @@ const TestApp = () => {
   // Update chart data randomly
   const updateData = () => {
     // This would normally update the chart options state
-    console.log('Updating chart data...');
+    // 图表数据更新已触发
   };
 
   return (

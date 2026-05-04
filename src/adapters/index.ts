@@ -114,19 +114,20 @@ export async function getAdapter(options: AdapterOptions): Promise<Adapter> {
       case PlatformType.LARK:
       case PlatformType.KWAI: {
         const { default: h5Adapter } = await import('./h5');
-        return h5Adapter.create(options);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return h5Adapter.create(options as any);
       }
       case PlatformType.WEAPP: {
-        const { default: weappAdapter } = await import('./weapp');
-        return weappAdapter.create(options);
+        const { createWeappAdapter } = await import('./weapp');
+        return createWeappAdapter(options);
       }
       case PlatformType.SWAN: {
-        const { default: swanAdapter } = await import('./swan');
-        return swanAdapter.create(options);
+        const { createSwanAdapter } = await import('./swan');
+        return createSwanAdapter(options);
       }
       case PlatformType.TT: {
-        const { default: ttAdapter } = await import('./tt');
-        return ttAdapter.create(options);
+        const { createTTAdapter } = await import('./tt');
+        return createTTAdapter(options);
       }
       case PlatformType.HARMONY: {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -137,14 +138,16 @@ export async function getAdapter(options: AdapterOptions): Promise<Adapter> {
       }
       default: {
         const { default: h5Adapter } = await import('./h5');
-        return h5Adapter.create(options);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return h5Adapter.create(options as any);
       }
     }
   } catch (error) {
     console.error(`[TaroViz] Failed to load adapter for platform '${platform}':`, error);
     // 降级到 H5 适配器
     const { default: h5Adapter } = await import('./h5');
-    return h5Adapter.create(options);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return h5Adapter.create(options as any);
   }
 }
 
@@ -158,7 +161,8 @@ export { default as HarmonyAdapter } from './harmony';
 /**
  * 版本信息
  */
-export const version = '1.2.0';
+// 导出版本信息
+export { VERSION as version } from '../core/version';
 
 export * from './types';
 

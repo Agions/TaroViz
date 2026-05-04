@@ -11,50 +11,12 @@ import { useChartConnect } from './useChartConnect';
 import { useChartDownload } from './useChartDownload';
 import { useChartHistory } from './useChartHistory';
 import { useChartSelection } from './useChartSelection';
+// 复用 types.ts 中的共享类型
+import type { ChartInstance, EventHandler, LoadingOptions } from './types';
 
 // ============================================================================
 // 类型定义
 // ============================================================================
-
-/** 图表实例类型 */
-export interface ChartInstance {
-  setOption: (option: EChartsOption, notMerge?: boolean, lazyUpdate?: boolean) => void;
-  getOption: () => EChartsOption;
-  resize: (option?: { width?: number | string; height?: number | string }) => void;
-  on: (event: string, handler: EventHandler) => void;
-  off: (event: string, handler?: EventHandler) => void;
-  showLoading: (opts?: LoadingOptions) => void;
-  hideLoading: () => void;
-  dispose: () => void;
-  isDisposed: () => boolean;
-  getWidth: () => number;
-  getHeight: () => number;
-  getDom: () => HTMLElement;
-  getDataURL?: (options?: {
-    type?: string;
-    pixelRatio?: number;
-    backgroundColor?: string;
-  }) => string;
-  getSvgData?: () => string;
-  getCompressedDataURL?: (options?: { seriesIndex?: number; dimension?: number }) => string;
-  clear?: () => void;
-  dispatchAction?: (action: { type: string; [key: string]: unknown }) => void;
-  group?: string;
-  /** 图表额外属性（未知属性通过此字段访问） */
-  [key: string]: unknown;
-}
-
-/** 事件处理器 */
-export type EventHandler = (params?: unknown) => void;
-
-/** 加载选项 */
-export interface LoadingOptions {
-  text?: string;
-  color?: string;
-  textColor?: string;
-  maskColor?: string;
-  zlevel?: number;
-}
 
 /** 图表配置 */
 export interface ChartConfig {
@@ -702,7 +664,8 @@ export {
 // 导出
 // ============================================================================
 
-export const version = '1.7.0';
+// 版本信息
+export { VERSION as version } from '../core/version';
 
 // 新增数据转换 hooks
 export {

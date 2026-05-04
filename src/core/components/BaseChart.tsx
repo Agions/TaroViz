@@ -21,6 +21,9 @@ import type {
   EChartsDataZoomEventParams,
   EChartsLegendEventParams,
   EChartsTooltipEventParams,
+  ChartEventParams,
+  ChartExportOptions,
+  ChartLinkageConfig,
 } from '../types/common';
 import type { ECElementEvent } from 'echarts';
 
@@ -28,46 +31,8 @@ import type { ECElementEvent } from 'echarts';
 // 接口定义
 // ============================================================================
 
-/** 图表事件参数类型 */
-export interface ChartEventParams extends Record<string, unknown> {
-  componentType?: string;
-  componentSubType?: string;
-  componentIndex?: number;
-  seriesType?: string;
-  seriesIndex?: number;
-  seriesId?: string;
-  seriesName?: string;
-  name?: string;
-  dataIndex?: number;
-  data?: unknown;
-  dataType?: string;
-  value?: unknown;
-  color?: string;
-  borderColor?: string;
-  dimensionNames?: string[];
-  encode?: Record<string, number[]>;
-  marker?: string;
-  status?: string;
-  dimensionIndex?: number;
-  percent?: number;
-}
-
-/** 图表导出选项 */
-export interface ChartExportOptions {
-  type?: 'png' | 'jpeg' | 'svg';
-  filename?: string;
-  pixelRatio?: number;
-  backgroundColor?: string;
-}
-
-/** 图表联动配置 */
-export interface ChartLinkageConfig {
-  linkedChartIds?: string[];
-  enableClickLinkage?: boolean;
-  enableZoomLinkage?: boolean;
-  enableLegendLinkage?: boolean;
-  enableFilterLinkage?: boolean;
-}
+/** 从 core/types 导入共享类型 */
+export { ChartEventParams, ChartExportOptions, ChartLinkageConfig } from '../types/common';
 
 // ============================================================================
 // ChartProps - 与原有接口保持完全兼容

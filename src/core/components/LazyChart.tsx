@@ -5,35 +5,53 @@
 import React, { Suspense, lazy, ComponentType } from 'react';
 import type { BaseChartProps } from '../../charts/types';
 
-// 懒加载各个图表组件
-const LazyLineChart = lazy(() => import('../../charts/line'));
-const LazyBarChart = lazy(() => import('../../charts/bar'));
-const LazyPieChart = lazy(() => import('../../charts/pie'));
-const LazyScatterChart = lazy(() => import('../../charts/scatter'));
-const LazyRadarChart = lazy(() => import('../../charts/radar'));
-const LazyHeatmapChart = lazy(() => import('../../charts/heatmap'));
-const LazyGaugeChart = lazy(() => import('../../charts/gauge'));
-const LazyFunnelChart = lazy(() => import('../../charts/funnel'));
-const LazyTreeMapChart = lazy(() => import('../../charts/treemap'));
-const LazySunburstChart = lazy(() => import('../../charts/sunburst'));
-const LazySankeyChart = lazy(() => import('../../charts/sankey'));
+/**
+ * 图表类型到懒加载组件的映射
+ * 统一定义，避免重复
+ */
+const LAZY_CHART_REGISTRY: Record<string, ComponentType<BaseChartProps>> = {};
 
-// 统一的图表类型到懒加载组件映射
-const LAZY_CHART_MODULES: Record<
-  string,
-  () => Promise<{ default: ComponentType<BaseChartProps> }>
-> = {
-  line: () => import('../../charts/line'),
-  bar: () => import('../../charts/bar'),
-  pie: () => import('../../charts/pie'),
-  scatter: () => import('../../charts/scatter'),
-  radar: () => import('../../charts/radar'),
-  heatmap: () => import('../../charts/heatmap'),
-  gauge: () => import('../../charts/gauge'),
-  funnel: () => import('../../charts/funnel'),
-  treemap: () => import('../../charts/treemap'),
-  sunburst: () => import('../../charts/sunburst'),
-  sankey: () => import('../../charts/sankey'),
+/**
+ * 创建懒加载组件
+ */
+function createLazyComponent(name: string): ComponentType<BaseChartProps> {
+  if (!LAZY_CHART_REGISTRY[name]) {
+    LAZY_CHART_REGISTRY[name] = lazy(() =>
+      import('../../charts').then(m => ({ default: m[name as keyof typeof m] as ComponentType<BaseChartProps> }))
+    );
+  }
+  return LAZY_CHART_REGISTRY[name];
+}
+
+// 预创建常用图表的懒加载组件
+export const LazyLineChart = createLazyComponent('LineChart');
+export const LazyBarChart = createLazyComponent('BarChart');
+export const LazyPieChart = createLazyComponent('PieChart');
+export const LazyScatterChart = createLazyComponent('ScatterChart');
+export const LazyRadarChart = createLazyComponent('RadarChart');
+export const LazyHeatmapChart = createLazyComponent('HeatmapChart');
+export const LazyGaugeChart = createLazyComponent('GaugeChart');
+export const LazyFunnelChart = createLazyComponent('FunnelChart');
+export const LazyTreeMapChart = createLazyComponent('TreeMapChart');
+export const LazySunburstChart = createLazyComponent('SunburstChart');
+export const LazySankeyChart = createLazyComponent('SankeyChart');
+
+/**
+ * 图表类型到懒加载模块的映射
+ * 用于预加载功能
+ */
+const LAZY_CHART_MODULES: Record<string, () => Promise<{ default: ComponentType<BaseChartProps> }>> = {
+  line: () => import('../../charts').then(m => ({ default: m.LineChart })),
+  bar: () => import('../../charts').then(m => ({ default: m.BarChart })),
+  pie: () => import('../../charts').then(m => ({ default: m.PieChart })),
+  scatter: () => import('../../charts').then(m => ({ default: m.ScatterChart })),
+  radar: () => import('../../charts').then(m => ({ default: m.RadarChart })),
+  heatmap: () => import('../../charts').then(m => ({ default: m.HeatmapChart })),
+  gauge: () => import('../../charts').then(m => ({ default: m.GaugeChart })),
+  funnel: () => import('../../charts').then(m => ({ default: m.FunnelChart })),
+  treemap: () => import('../../charts').then(m => ({ default: m.TreeMapChart })),
+  sunburst: () => import('../../charts').then(m => ({ default: m.SunburstChart })),
+  sankey: () => import('../../charts').then(m => ({ default: m.SankeyChart })),
 };
 
 export const LAZY_CHART_TYPES = Object.keys(LAZY_CHART_MODULES);
@@ -172,21 +190,8 @@ export function preloadAllCharts(): Promise<void[]> {
  * 用于动态导入图表
  */
 export function createLazyChart(chartType: string): ComponentType<BaseChartProps> | null {
-  const lazyCharts: Record<string, ComponentType<BaseChartProps>> = {
-    line: LazyLineChart,
-    bar: LazyBarChart,
-    pie: LazyPieChart,
-    scatter: LazyScatterChart,
-    radar: LazyRadarChart,
-    heatmap: LazyHeatmapChart,
-    gauge: LazyGaugeChart,
-    funnel: LazyFunnelChart,
-    treemap: LazyTreeMapChart,
-    sunburst: LazySunburstChart,
-    sankey: LazySankeyChart,
-  };
-
-  return lazyCharts[chartType] || null;
+  const chartName = `${chartType.charAt(0).toUpperCase() + chartType.slice(1)}Chart`;
+  return LAZY_CHART_REGISTRY[chartName] || null;
 }
 
 /**
@@ -205,18 +210,4 @@ export const LazyChartRegistry = {
   preloadAll(): Promise<void[]> {
     return preloadAllCharts();
   },
-};
-
-export {
-  LazyLineChart,
-  LazyBarChart,
-  LazyPieChart,
-  LazyScatterChart,
-  LazyRadarChart,
-  LazyHeatmapChart,
-  LazyGaugeChart,
-  LazyFunnelChart,
-  LazyTreeMapChart,
-  LazySunburstChart,
-  LazySankeyChart,
 };

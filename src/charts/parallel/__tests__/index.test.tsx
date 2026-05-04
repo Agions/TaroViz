@@ -1,47 +1,14 @@
 /**
- * @jest-environment jsdom
+ * ParallelChart 组件测试
  */
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ParallelChart from '../index';
 
-// Mock ECharts and adapters
-jest.mock('echarts/core', () => ({
-  use: jest.fn(),
-  init: jest.fn(() => ({
-    setOption: jest.fn(),
-    showLoading: jest.fn(),
-    hideLoading: jest.fn(),
-    on: jest.fn(),
-    off: jest.fn(),
-    dispose: jest.fn(),
-    resize: jest.fn(),
-  })),
-  getInstanceByDom: jest.fn(),
-}));
-
-// Mock ECharts components
-jest.mock('echarts/components', () => ({
-  GridComponent: jest.fn(),
-  TooltipComponent: jest.fn(),
-  TitleComponent: jest.fn(),
-  LegendComponent: jest.fn(),
-}));
-
-// Mock BaseChartWrapper
-jest.mock('../../common/BaseChartWrapper', () => ({
-  __esModule: true,
-  default: (props: any) => (
-    <div
-      data-testid="parallel-chart"
-      className={`taroviz-parallel ${props.className || ''}`}
-      style={{ width: props.width || '100%', height: props.height || 300, ...props.style }}
-    >
-      <div data-testid="chart-option">{JSON.stringify(props.option)}</div>
-    </div>
-  ),
-}));
+// 自动使用 src/charts/common/__mocks__/BaseChartWrapper.tsx
+jest.mock('../../common/BaseChartWrapper');
+jest.mock('echarts/charts', () => ({ ParallelChart: jest.fn() }));
 
 describe('ParallelChart', () => {
   const basicOption = {
@@ -73,12 +40,12 @@ describe('ParallelChart', () => {
   describe('Basic Rendering', () => {
     it('should render without crashing', () => {
       render(<ParallelChart option={basicOption} />);
-      expect(screen.getByTestId('parallel-chart')).toBeInTheDocument();
+      expect(screen.getByTestId('base-chart-wrapper')).toBeInTheDocument();
     });
 
     it('should render with custom width and height', () => {
       render(<ParallelChart option={basicOption} width={600} height={500} />);
-      expect(screen.getByTestId('parallel-chart')).toBeInTheDocument();
+      expect(screen.getByTestId('base-chart-wrapper')).toBeInTheDocument();
     });
 
     it('should have correct display name', () => {
@@ -94,23 +61,23 @@ describe('ParallelChart', () => {
   describe('Props', () => {
     it('should accept className prop', () => {
       render(<ParallelChart option={basicOption} className="test-class" />);
-      expect(screen.getByTestId('parallel-chart')).toHaveClass('test-class');
+      expect(screen.getByTestId('base-chart-wrapper')).toHaveClass('test-class');
     });
 
     it('should accept style prop', () => {
       const style = { padding: '10px' };
       render(<ParallelChart option={basicOption} style={style} />);
-      expect(screen.getByTestId('parallel-chart')).toBeInTheDocument();
+      expect(screen.getByTestId('base-chart-wrapper')).toBeInTheDocument();
     });
 
     it('should accept loading prop', () => {
       render(<ParallelChart option={basicOption} loading={true} />);
-      expect(screen.getByTestId('parallel-chart')).toBeInTheDocument();
+      expect(screen.getByTestId('base-chart-wrapper')).toBeInTheDocument();
     });
 
     it('should accept theme prop', () => {
       render(<ParallelChart option={basicOption} theme="dark" />);
-      expect(screen.getByTestId('parallel-chart')).toBeInTheDocument();
+      expect(screen.getByTestId('base-chart-wrapper')).toBeInTheDocument();
     });
   });
 
@@ -126,7 +93,7 @@ describe('ParallelChart', () => {
         },
       };
       render(<ParallelChart option={expandableOption} />);
-      expect(screen.getByTestId('parallel-chart')).toBeInTheDocument();
+      expect(screen.getByTestId('base-chart-wrapper')).toBeInTheDocument();
     });
 
     it('should render with custom lineStyle', () => {
@@ -141,7 +108,7 @@ describe('ParallelChart', () => {
         ],
       };
       render(<ParallelChart option={customLineOption} />);
-      expect(screen.getByTestId('parallel-chart')).toBeInTheDocument();
+      expect(screen.getByTestId('base-chart-wrapper')).toBeInTheDocument();
     });
 
     it('should render with category axis', () => {
@@ -164,7 +131,7 @@ describe('ParallelChart', () => {
         ],
       };
       render(<ParallelChart option={categoryOption} />);
-      expect(screen.getByTestId('parallel-chart')).toBeInTheDocument();
+      expect(screen.getByTestId('base-chart-wrapper')).toBeInTheDocument();
     });
   });
 });

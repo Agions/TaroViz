@@ -124,18 +124,6 @@ export interface ThemeType {
 }
 
 /**
- * 渲染性能优化配置
- */
-export interface RenderOptimizationConfig {
-  progressive?: boolean;
-  progressiveThreshold?: number;
-  lazyUpdate?: boolean;
-  animation?: boolean;
-  hardwareAcceleration?: boolean;
-  frameRate?: number;
-}
-
-/**
  * 适配器配置选项
  */
 export interface AdapterConfig {

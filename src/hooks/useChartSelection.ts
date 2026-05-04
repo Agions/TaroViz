@@ -10,7 +10,7 @@
  * - 自动绑定图表 select/unselect 事件
  */
 import { useEffect, useRef, useCallback, useState } from 'react';
-import type { ChartInstance } from './index';
+import type { ChartInstance } from './types';
 
 // ============================================================================
 // 类型定义

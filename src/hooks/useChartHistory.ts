@@ -9,7 +9,7 @@
  * - 暴露 canUndo / canRedo 状态
  */
 import { useEffect, useRef, useCallback, useState } from 'react';
-import type { ChartInstance } from './index';
+import type { ChartInstance } from './types';
 import type { EChartsOption } from 'echarts';
 
 // ============================================================================

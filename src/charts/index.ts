@@ -1,39 +1,67 @@
 /**
  * TaroViz 图表组件集合
+ * 使用工厂函数消除重复代码
  */
 
-// 导出基础图表组件
-export { default as LineChart } from './line';
-export { default as BarChart } from './bar';
-export { default as PieChart } from './pie';
-export { default as ScatterChart } from './scatter';
-export { default as RadarChart } from './radar';
-export { default as HeatmapChart } from './heatmap';
-export { default as GaugeChart } from './gauge';
-export { default as FunnelChart } from './funnel';
+import { createChartComponent, createChartComponentWithOptionCast } from './createChartComponent';
+import type {
+  BaseChartProps,
+  LineChartProps,
+  BarChartProps,
+  PieChartProps,
+  ScatterChartProps,
+  RadarChartProps,
+  FunnelChartProps,
+  GaugeChartProps,
+  HeatmapChartProps,
+  SunburstChartProps,
+  TreeMapChartProps,
+  SankeyChartProps,
+  GraphChartProps,
+  WordCloudChartProps,
+  CandlestickChartProps,
+} from './types';
+import type { BoxplotChartProps } from './boxplot/types';
+import type { ParallelChartProps } from './parallel/types';
+import type { LiquidChartProps } from './liquid/types';
+import type { TreeChartProps } from './tree/types';
 
-// 导出扩展图表组件
-export { default as TreeMapChart } from './treemap';
-export { default as SunburstChart } from './sunburst';
-export { default as SankeyChart } from './sankey';
+// ===== 标准图表（用工厂函数创建）=====
 
-// 导出新增图表组件
-export { default as GraphChart } from './graph';
-export { default as CandlestickChart } from './candlestick';
-export { default as WordCloudChart } from './wordcloud';
+/** 基础图表 */
+export const LineChart = createChartComponent<LineChartProps>('LineChart', 'line-chart');
+export const BarChart = createChartComponent<BarChartProps>('BarChart', 'bar-chart');
+export const PieChart = createChartComponent<PieChartProps>('PieChart', 'pie-chart');
+export const ScatterChart = createChartComponent<ScatterChartProps>('ScatterChart', 'scatter-chart');
+export const RadarChart = createChartComponent<RadarChartProps>('RadarChart', 'radar-chart');
+export const HeatmapChart = createChartComponent<HeatmapChartProps>('HeatmapChart', 'heatmap-chart');
+export const GaugeChart = createChartComponent<GaugeChartProps>('GaugeChart', 'gauge-chart');
+export const FunnelChart = createChartComponent<FunnelChartProps>('FunnelChart', 'funnel-chart');
 
-// 导出 v1.6.0 新增图表组件
-export { default as BoxplotChart } from './boxplot';
-export { default as ParallelChart } from './parallel';
+/** 扩展图表 */
+export const TreeMapChart = createChartComponent<TreeMapChartProps>('TreeMapChart', 'treemap-chart');
+export const SunburstChart = createChartComponent<SunburstChartProps>('SunburstChart', 'sunburst-chart');
+export const SankeyChart = createChartComponent<SankeyChartProps>('SankeyChart', 'sankey-chart');
+export const GraphChart = createChartComponent<GraphChartProps>('GraphChart', 'graph-chart');
+export const WordCloudChart = createChartComponent<WordCloudChartProps>('WordCloudChart', 'wordcloud-chart');
+export const CandlestickChart = createChartComponent<CandlestickChartProps>('CandlestickChart', 'candlestick-chart');
 
-// 导出 v1.7.0 新增图表组件
+/** 需要 option 类型转换的图表 */
+export const BoxplotChart = createChartComponentWithOptionCast<BoxplotChartProps>('BoxplotChart', 'boxplot');
+export const ParallelChart = createChartComponentWithOptionCast<ParallelChartProps>('ParallelChart', 'parallel');
+
+// ===== 特殊图表（保留自定义逻辑）=====
+
 export { default as LiquidChart } from './liquid';
 export { default as TreeChart } from './tree';
 
-// 导出类型定义
-export * from './types';
+// ===== 导出类型 =====
 
-/**
- * 版本信息
- */
-export const version = '1.7.0';
+export * from './types';
+export type { BoxplotChartProps, BoxplotOption, BoxplotSeriesItem } from './boxplot/types';
+export type { ParallelChartProps, ParallelOption, ParallelAxisSetting } from './parallel/types';
+export type { LiquidChartProps, LiquidOption, LiquidShape, LiquidSeries, LiquidSeriesDataItem } from './liquid/types';
+export type { TreeChartProps, TreeOption, TreeNode, TreeSeries } from './tree/types';
+
+/** 版本信息 */
+export { VERSION as version } from '../core/version';

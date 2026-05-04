@@ -1,6 +1,6 @@
 /**
  * TaroViz - 基于 Taro 和 ECharts 的多端图表组件库
- * @version 1.11.1
+ * @version 1.7.0
  */
 
 // 核心组件
@@ -35,29 +35,52 @@ export {
   prefixedId,
 } from './core/utils';
 
-// 图表组件
-export { default as LineChart } from './charts/line';
-export { default as BarChart } from './charts/bar';
-export { default as PieChart } from './charts/pie';
-export { default as ScatterChart } from './charts/scatter';
-export { default as RadarChart } from './charts/radar';
-export { default as HeatmapChart } from './charts/heatmap';
-export { default as GaugeChart } from './charts/gauge';
-export { default as FunnelChart } from './charts/funnel';
-
-// 扩展图表组件
-export { default as TreeMapChart } from './charts/treemap';
-export { default as SunburstChart } from './charts/sunburst';
-export { default as SankeyChart } from './charts/sankey';
-
-// 新增图表组件
-export { default as GraphChart } from './charts/graph';
-export { default as CandlestickChart } from './charts/candlestick';
-export { default as WordCloudChart } from './charts/wordcloud';
-
-// v1.6.0 新增图表组件
-export { default as BoxplotChart } from './charts/boxplot';
-export { default as ParallelChart } from './charts/parallel';
+// 图表组件（统一从 charts/index.ts 导入）
+export {
+  // 基础图表
+  LineChart,
+  BarChart,
+  PieChart,
+  ScatterChart,
+  RadarChart,
+  HeatmapChart,
+  GaugeChart,
+  FunnelChart,
+  // 扩展图表
+  TreeMapChart,
+  SunburstChart,
+  SankeyChart,
+  GraphChart,
+  WordCloudChart,
+  CandlestickChart,
+  // 特殊图表
+  BoxplotChart,
+  ParallelChart,
+  LiquidChart,
+  TreeChart,
+  // 版本信息
+  version,
+  // 类型
+  type BaseChartProps,
+  type LineChartProps,
+  type BarChartProps,
+  type PieChartProps,
+  type ScatterChartProps,
+  type RadarChartProps,
+  type FunnelChartProps,
+  type GaugeChartProps,
+  type HeatmapChartProps,
+  type SunburstChartProps,
+  type TreeMapChartProps,
+  type SankeyChartProps,
+  type GraphChartProps,
+  type WordCloudChartProps,
+  type CandlestickChartProps,
+  type BoxplotChartProps,
+  type ParallelChartProps,
+  type LiquidChartProps,
+  type TreeChartProps,
+} from './charts';
 
 // v1.7.0 新增组件
 export {
@@ -78,10 +101,6 @@ export {
   type DrillDownEventParams,
   type DrillUpEventParams,
 } from './core/utils/drillDown';
-
-// v1.7.0 新增图表组件
-export { default as LiquidChart } from './charts/liquid';
-export { default as TreeChart } from './charts/tree';
 
 // 适配器
 export { getAdapter, detectPlatform, getEnv } from './adapters';
@@ -186,4 +205,3 @@ export {
  * 库信息
  */
 export const name = 'taroviz';
-export const version = '1.7.0';

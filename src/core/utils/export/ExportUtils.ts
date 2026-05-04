@@ -3,6 +3,7 @@
  * 支持导出为 PNG、JPEG、SVG、PDF 等格式
  */
 import type { ECharts } from 'echarts';
+import { generateFormattedFilename, downloadBlob, downloadFile, dataURLToBlob } from '../download';
 
 // ============================================================================
 // 类型定义
@@ -130,52 +131,6 @@ export interface ExportResult {
 // 工具函数
 // ============================================================================
 
-/**
- * 将 Data URL 转换为 Blob
- */
-function dataURLToBlob(dataURL: string): Blob {
-  const arr = dataURL.split(',');
-  const mime = arr[0].match(/:(.*?);/)?.[1] || 'image/png';
-  const bstr = atob(arr[1]);
-  let n = bstr.length;
-  const u8arr = new Uint8Array(n);
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
-  }
-  return new Blob([u8arr], { type: mime });
-}
-
-/**
- * 下载文件
- */
-function downloadFile(data: string | Blob, filename: string, _mimeType: string): void {
-  const blob = typeof data === 'string' ? dataURLToBlob(data) : data;
-  const url = URL.createObjectURL(blob);
-
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = filename;
-  link.style.display = 'none';
-
-  document.body.appendChild(link);
-  link.click();
-
-  // 清理
-  setTimeout(() => {
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  }, 100);
-}
-
-/**
- * 生成文件名
- */
-function generateFilename(name: string, format: string): string {
-  const timestamp = new Date().toISOString().slice(0, 10);
-  const sanitizedName = name.replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, '_');
-  return `${sanitizedName}_${timestamp}.${format}`;
-}
-
 // ============================================================================
 // 导出类
 // ============================================================================
@@ -201,7 +156,7 @@ class ChartExporter {
 
     return {
       data,
-      filename: generateFilename('chart', type),
+      filename: generateFormattedFilename('chart', type),
       mimeType,
     };
   }
@@ -229,7 +184,7 @@ class ChartExporter {
 
     return {
       data,
-      filename: generateFilename('chart', 'svg'),
+      filename: generateFormattedFilename('chart', 'svg'),
       mimeType,
     };
   }
@@ -265,7 +220,7 @@ class ChartExporter {
       console.warn('[TaroViz] jspdf not found, falling back to PNG export');
       return {
         data: imageData,
-        filename: generateFilename('chart', 'png'),
+        filename: generateFormattedFilename('chart', 'png'),
         mimeType: 'image/png',
       };
     }
@@ -336,7 +291,7 @@ class ChartExporter {
 
     return {
       data: pdfBlob,
-      filename: generateFilename(title.replace(/\s+/g, '_'), 'pdf'),
+      filename: generateFormattedFilename(title.replace(/\s+/g, '_'), 'pdf'),
       mimeType: 'application/pdf',
       size: pdfBlob.size,
     };

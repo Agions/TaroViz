@@ -20,10 +20,9 @@ export interface AdapterOptions {
   width?: number | string;
   height?: number | string;
   theme?: string | object;
-  /** 初始化完成回调 */
-  onInit?: (instance: EChartsType) => void;
-  /** 图表配置 */
-  option?: EChartsOption;
+  option?: unknown;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onInit?: (instance: any) => void;
   style?: CSSProperties;
   autoResize?: boolean;
   devicePixelRatio?: number;

@@ -19,4 +19,4 @@ export { default as echarts } from './echarts';
  * 库信息
  */
 export const name = 'taroviz';
-export const version = '1.2.0';
+export { VERSION as version, versionInfo } from './version';

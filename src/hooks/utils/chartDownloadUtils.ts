@@ -1,55 +1,19 @@
 /**
  * Chart Download Utilities
  * 图表下载工具函数
+ * 使用公共下载工具模块
  */
 
-/**
- * 生成默认文件名
- */
-export function generateFilename(prefix: string = 'chart'): string {
-  const timestamp = new Date().toISOString().slice(0, 19).replace(/[:-]/g, '');
-  return `${prefix}_${timestamp}`;
-}
+import {
+  generateFilename,
+  downloadBlob,
+  downloadDataUrl,
+  csvToBlob,
+  jsonToBlob,
+} from '../../core/utils/download';
 
-/**
- * 下载 Blob 对象
- */
-export function downloadBlob(blob: Blob, filename: string): void {
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
-}
-
-/**
- * 下载数据 URL
- */
-export function downloadDataUrl(dataUrl: string, filename: string): void {
-  const link = document.createElement('a');
-  link.href = dataUrl;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
-
-/**
- * CSV 转 Blob
- */
-export function csvToBlob(csv: string, _filename: string): Blob {
-  return new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-}
-
-/**
- * JSON 转 Blob
- */
-export function jsonToBlob(json: string, _filename: string): Blob {
-  return new Blob([json], { type: 'application/json;charset=utf-8;' });
-}
+// 重新导出公共函数
+export { generateFilename, downloadBlob, downloadDataUrl, csvToBlob, jsonToBlob };
 
 /**
  * 将数据转换为 CSV 格式

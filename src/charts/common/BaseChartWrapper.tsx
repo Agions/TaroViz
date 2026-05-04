@@ -189,13 +189,14 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
       adapter.init();
 
       cleanupRef.current = () => {
-        if (chartInstance.current) {
+        const instance = chartInstance.current;
+        if (instance) {
           if (onEvents) {
             Object.entries(onEvents).forEach(([eventName]) => {
-              (chartInstance.current as unknown as { off: (event: string) => void }).off(eventName);
+              (instance as unknown as { off: (event: string) => void }).off(eventName);
             });
           }
-          chartInstance.current.dispose();
+          instance.dispose();
           chartInstance.current = null;
         }
       };
