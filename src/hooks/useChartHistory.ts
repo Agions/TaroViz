@@ -199,7 +199,7 @@ export function useChartHistory(
     chart.setOption(historyStack.current[idx], true, true);
     isApplyingRef.current = false;
     setCurrentIndex(idx);
-  }, [currentIndex]);
+  }, [chartRef, currentIndex]);
 
   const redo = useCallback(() => {
     const chart = chartRef.current;
@@ -210,7 +210,7 @@ export function useChartHistory(
     chart.setOption(historyStack.current[idx], true, true);
     isApplyingRef.current = false;
     setCurrentIndex(idx);
-  }, [currentIndex]);
+  }, [chartRef, currentIndex]);
 
   const goTo = useCallback(
     (index: number) => {
@@ -259,4 +259,3 @@ export function useChartHistory(
   };
 }
 
-export default useChartHistory;

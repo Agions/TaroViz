@@ -696,3 +696,6 @@ export default {
   useChartHistory,
   useChartSelection,
 };
+
+// 性能优化 Hooks
+export { useDebounce, useThrottle, useAnimationFrame, useWindowSizeDebounce } from './usePerformanceHooks';

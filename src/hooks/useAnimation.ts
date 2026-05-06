@@ -99,28 +99,21 @@ export function useAnimation(
     isPaused: false,
   });
 
-  // 缓动函数使用 ref 避免闭包问题
-  const easingFunctionsRef = useRef<Record<string, (t: number) => number>>({
+  // 缓动函数 - 使用 useMemo 缓存，避免每次重新创建
+  const easingFunctions = useMemo<Record<string, (t: number) => number>>(() => ({
     cubicOut: (t) => 1 - Math.pow(1 - t, 3),
     cubicIn: (t) => t * t * t,
     cubicInOut: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
     linear: (t) => t,
     sinusoidalIn: (t) => 1 - Math.cos((t * Math.PI) / 2),
     sinusoidalOut: (t) => Math.sin((t * Math.PI) / 2),
-  });
+  }), []);
 
   // 计算总帧数（假设 60fps）
-  const totalFrames = Math.ceil((duration / 1000) * 60);
+  const totalFrames = useMemo(() => Math.ceil((duration / 1000) * 60), [duration]);
 
-  // 缓动函数注入（供 animate 使用）
-  easingFunctionsRef.current = {
-    cubicOut: (t) => 1 - Math.pow(1 - t, 3),
-    cubicIn: (t) => t * t * t,
-    cubicInOut: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
-    linear: (t) => t,
-    sinusoidalIn: (t) => 1 - Math.cos((t * Math.PI) / 2),
-    sinusoidalOut: (t) => Math.sin((t * Math.PI) / 2),
-  };
+  // 获取当前缓动函数
+  const getEasing = useCallback((easingName: string) => easingFunctions[easingName] ?? easingFunctions.linear, [easingFunctions]);
 
   // 计算当前进度对应的帧
   const calculateFrame = useCallback(
@@ -430,4 +423,3 @@ export function useProgressiveLoading(
   };
 }
 
-export default useAnimation;
