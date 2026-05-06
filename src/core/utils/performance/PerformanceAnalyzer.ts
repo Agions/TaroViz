@@ -22,8 +22,6 @@ const DEFAULT_100 = 100;
 const DEFAULT_1000 = 1000;
 const DEFAULT_1024 = 1024;
 
-
-
 /**
  * 性能分析器类
  * 负责监控、采集和分析图表性能数据

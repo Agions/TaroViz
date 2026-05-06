@@ -37,7 +37,7 @@ export function useChartInit(
 
     const initChart = async () => {
       if (!mounted) return;
-      
+
       try {
         adapter = await getAdapter({
           width: options.width,

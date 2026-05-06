@@ -1,7 +1,7 @@
 /**
  * DrillDown - 数据下钻工具
  * 支持点击图表数据项时，自动下钻到更细粒度的数据视图
- * 
+ *
  * @refactor 已拆分为多个辅助函数，详见 drillDownHelpers.ts
  */
 import type { ECharts, EChartsOption, ECElementEvent } from 'echarts';
