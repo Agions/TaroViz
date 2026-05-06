@@ -316,4 +316,4 @@ export type { UseDataZoomOptions, UseDataZoomReturn, DataZoomType, ZoomRange } f
 // 导出
 // ============================================================================
 
-export default useDataZoom;
+// useDataZoom 已在函数声明时导出

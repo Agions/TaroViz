@@ -3,6 +3,17 @@
  * 统一 chartDownloadUtils.ts 和 ExportUtils.ts 中的重复逻辑
  */
 
+// 定时器追踪，防止泄漏
+const timers: ReturnType<typeof setTimeout>[] = [];
+
+/**
+ * 清除所有追踪的定时器
+ */
+export function clearAllTimers(): void {
+  timers.forEach(clearTimeout);
+  timers.length = 0;
+}
+
 /**
  * 生成默认文件名
  * @param prefix 文件名前缀
@@ -41,12 +52,13 @@ export function downloadBlob(blob: Blob, filename: string): void {
   link.click();
 
   // 延迟清理，确保下载对话框已打开
-  setTimeout(() => {
+  const timerId = setTimeout(() => {
     if (link.parentNode) {
       document.body.removeChild(link);
     }
     URL.revokeObjectURL(url);
   }, 100);
+  timers.push(timerId);
 }
 
 /**
@@ -64,14 +76,16 @@ export function downloadDataUrl(dataUrl: string, filename: string): void {
   link.click();
 
   // 延迟清理
-  setTimeout(() => {
+  const timerId = setTimeout(() => {
     if (link.parentNode) {
       document.body.removeChild(link);
     }
   }, 100);
+  timers.push(timerId);
 }
 
 /**
+ * 下载文件（支持 string | Blob）
  * 下载文件（支持 string | Blob）
  * @param data 数据（string 或 Blob）
  * @param filename 文件名

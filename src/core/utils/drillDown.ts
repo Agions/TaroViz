@@ -1,8 +1,21 @@
 /**
  * DrillDown - 数据下钻工具
  * 支持点击图表数据项时，自动下钻到更细粒度的数据视图
+ *
+ * @refactor 已拆分为多个辅助函数，详见 drillDownHelpers.ts
  */
 import type { ECharts, EChartsOption, ECElementEvent } from 'echarts';
+import {
+  buildOptionFromSources,
+  getDrillDownOption,
+  getCurrentLevelSources,
+  hasDrillDownData,
+  findMatchedSource,
+  executeDrillDown,
+  executeDrillUp,
+  executeReset,
+  executeDrillTo,
+} from './drillDownHelpers';
 
 // ============================================================================
 // 类型定义
@@ -205,173 +218,6 @@ export function createDrillDown(initialConfig?: Partial<DrillDownConfig>): Drill
   };
 
   // ============================================================
-  // 内部方法
-  // ============================================================
-
-  /**
-   * 根据层级和触发数据项获取下钻后的图表配置
-   */
-  const getDrillDownOption = (
-    level: number,
-    dataItem: DrillDownSource | undefined,
-    direction: 'down' | 'up' | 'reset'
-  ): EChartsOption => {
-    const { config } = state;
-    let targetSources: DrillDownSource[] = [];
-    let targetOption: EChartsOption = {};
-
-    if (direction === 'reset' || level === 0) {
-      // 重置或回到第一层：使用初始数据
-      if (config.initialSources) {
-        targetSources = config.initialSources;
-        // 从 initialSources 构建图表 option
-        targetOption = buildOptionFromSources(targetSources);
-      } else {
-        // 如果没有 initialSources，返回空 option，让用户重新 setOption
-        targetOption = {};
-      }
-    } else if (direction === 'up') {
-      // 上钻：从 history 中找到上一层的状态
-      const prevHistory = state.history[level - 1];
-      if (prevHistory && prevHistory.dataItem.chartOption) {
-        targetOption = prevHistory.dataItem.chartOption;
-      } else {
-        // 尝试从 children 构建
-        targetSources = prevHistory?.dataItem.children ?? [];
-        targetOption = buildOptionFromSources(targetSources);
-      }
-    } else if (direction === 'down' && dataItem) {
-      // 下钻
-      if (dataItem.chartOption) {
-        // 优先使用自定义 chartOption
-        targetOption = dataItem.chartOption;
-      } else if (dataItem.children && dataItem.children.length > 0) {
-        // 从 children 构建图表 option
-        targetSources = dataItem.children;
-        targetOption = buildOptionFromSources(targetSources);
-      }
-    }
-
-    return targetOption;
-  };
-
-  /**
-   * 从 DrillDownSource 数组构建 ECharts option
-   */
-  const buildOptionFromSources = (sources: DrillDownSource[]): EChartsOption => {
-    if (!sources || sources.length === 0) return {};
-
-    const names = sources.map((s) => s.name);
-    const values = sources.map((s) => s.value);
-
-    return {
-      xAxis: {
-        type: 'category',
-        data: names,
-      },
-      yAxis: {
-        type: 'value',
-      },
-      series: [
-        {
-          type: 'bar',
-          data: values,
-        },
-      ],
-    };
-  };
-
-  /**
-   * 检查是否有下钻数据
-   */
-  const hasDrillDownData = (dataItem: DrillDownSource | undefined): boolean => {
-    if (!dataItem) return false;
-    return !!(dataItem.children && dataItem.children.length > 0) || !!dataItem.chartOption;
-  };
-
-  /**
-   * 执行下钻
-   */
-  const executeDrillDown = (params: ECElementEvent) => {
-    const { config, chartInstance } = state;
-    if (!chartInstance) return;
-
-    const { name, value } = params;
-
-    // 在当前层级的数据中查找匹配项
-    let matchedSource: DrillDownSource | undefined;
-
-    // 尝试从 history 中获取当前层级的数据源
-    const currentLevelSources = getCurrentLevelSources();
-    matchedSource = currentLevelSources.find(
-      (s) => String(s.name) === String(name) || s.value === value
-    );
-
-    // 如果没找到，尝试在 initialSources 中查找
-    if (!matchedSource && state.currentLevel === 0 && config.initialSources) {
-      matchedSource = config.initialSources.find(
-        (s) => String(s.name) === String(name) || s.value === value
-      );
-    }
-
-    // 如果是最后一级（不能再下钻）或者找不到匹配项，不执行下钻
-    if (!hasDrillDownData(matchedSource)) {
-      console.warn('[DrillDown] No drill-down data available for:', name);
-      return;
-    }
-
-    // 记录历史
-    if (matchedSource) {
-      state.history.push({ level: state.currentLevel, dataItem: matchedSource });
-    }
-
-    // 更新层级
-    state.currentLevel += 1;
-
-    // 获取新的图表配置
-    const newOption = getDrillDownOption(state.currentLevel, matchedSource, 'down');
-
-    // 更新图表
-    if (newOption && Object.keys(newOption).length > 0) {
-      chartInstance.setOption(newOption, true);
-      state.currentOption = newOption;
-    }
-
-    // 触发回调
-    config.onDrillDown?.({
-      level: state.currentLevel,
-      name: matchedSource?.name ?? (name as string | number),
-      value: matchedSource?.value ?? value,
-      sources: matchedSource?.children ?? [],
-      chartOption: newOption,
-      rawParams: params as unknown as Record<string, unknown>,
-    });
-  };
-
-  /**
-   * 获取当前层级的数据源列表
-   */
-  const getCurrentLevelSources = (): DrillDownSource[] => {
-    const { config } = state;
-
-    if (state.currentLevel === 0) {
-      // 第 0 层：使用 initialSources 或从 dimension 匹配
-      if (config.initialSources) {
-        return config.initialSources;
-      }
-      return [];
-    }
-
-    // 其他层级：从 history 中找到上一层点击的数据项的 children
-    const lastHistory = state.history[state.history.length - 1];
-    if (lastHistory && lastHistory.dataItem.children) {
-      return lastHistory.dataItem.children;
-    }
-
-    return [];
-  };
-
-  // ============================================================
   // 实例方法
   // ============================================================
 
@@ -400,64 +246,11 @@ export function createDrillDown(initialConfig?: Partial<DrillDownConfig>): Drill
   };
 
   const drillUp = (): void => {
-    const { config, chartInstance } = state;
-    if (!chartInstance || state.currentLevel <= 0) {
-      console.warn('[DrillDown] Cannot drill up: already at top level');
-      return;
-    }
-
-    const previousLevel = state.currentLevel;
-
-    // 弹出历史
-    state.history.pop();
-
-    // 更新层级
-    state.currentLevel -= 1;
-
-    // 获取新的图表配置
-    const newOption = getDrillDownOption(state.currentLevel, undefined, 'up');
-
-    // 更新图表
-    if (newOption && Object.keys(newOption).length > 0) {
-      chartInstance.setOption(newOption, true);
-      state.currentOption = newOption;
-    } else if (state.currentLevel === 0 && state.initialOption) {
-      chartInstance.setOption(state.initialOption, true);
-      state.currentOption = state.initialOption;
-    }
-
-    // 触发回调
-    config.onDrillUp?.({
-      previousLevel,
-      currentLevel: state.currentLevel,
-      chartOption: newOption,
-    });
+    executeDrillUp(state, state.config);
   };
 
   const reset = (): void => {
-    const { config, chartInstance } = state;
-    if (!chartInstance) return;
-
-    const previousLevel = state.currentLevel;
-
-    // 清空历史
-    state.history = [];
-    state.currentLevel = 0;
-
-    // 获取初始配置
-    const newOption = getDrillDownOption(0, undefined, 'reset');
-
-    // 更新图表
-    if (newOption && Object.keys(newOption).length > 0) {
-      chartInstance.setOption(newOption, true);
-      state.currentOption = newOption;
-    } else if (state.initialOption && Object.keys(state.initialOption).length > 0) {
-      chartInstance.setOption(state.initialOption, true);
-      state.currentOption = state.initialOption;
-    }
-
-    // 触发回调
-    config.onReset?.({ level: 0 });
+    executeReset(state, state.config);
   };
 
   const getCurrentLevel = (): number => state.currentLevel;
@@ -476,7 +269,7 @@ export function createDrillDown(initialConfig?: Partial<DrillDownConfig>): Drill
 
     // 创建新的点击处理器
     state.clickHandler = (params: ECElementEvent) => {
-      executeDrillDown(params);
+      executeDrillDown(params, state);
     };
 
     instance.on('click', state.clickHandler);
@@ -491,79 +284,25 @@ export function createDrillDown(initialConfig?: Partial<DrillDownConfig>): Drill
   };
 
   const drillTo = (level: number, dataItem?: DrillDownSource): void => {
-    const { chartInstance, config } = state;
-    if (!chartInstance) return;
-
-    if (level < 0 || level > state.history.length) {
-      console.warn('[DrillDown] Invalid drill level:', level);
-      return;
-    }
-
-    const previousLevel = state.currentLevel;
-    state.currentLevel = level;
-
-    if (level === state.history.length) {
-      // 下钻
-      if (dataItem) {
-        state.history.push({ level: level - 1, dataItem });
-      }
-    } else if (level < state.history.length) {
-      // 上钻或跳转：调整 history
-      state.history = state.history.slice(0, level);
-    } else {
-      // level === 0, reset
-      state.history = [];
-    }
-
-    const newOption = getDrillDownOption(level, dataItem, level === 0 ? 'reset' : 'down');
-
-    if (newOption && Object.keys(newOption).length > 0) {
-      chartInstance.setOption(newOption, true);
-      state.currentOption = newOption;
-    }
-
-    if (level > previousLevel) {
-      config.onDrillDown?.({
-        level,
-        name: dataItem?.name ?? '',
-        value: dataItem?.value ?? 0,
-        sources: dataItem?.children ?? [],
-        chartOption: newOption,
-        rawParams: {},
-      });
-    } else if (level < previousLevel) {
-      config.onDrillUp?.({
-        previousLevel,
-        currentLevel: level,
-        chartOption: newOption,
-      });
-    } else {
-      config.onReset?.({ level: 0 });
-    }
+    executeDrillTo(level, dataItem, state, state.config);
   };
 
   const getHistory = (): Array<{ level: number; dataItem: DrillDownSource }> => {
     return [...state.history];
   };
 
-  const canDrillUp = (): boolean => {
-    return state.currentLevel > 0;
-  };
+  const canDrillUp = (): boolean => state.currentLevel > 0;
 
   const dispose = (): void => {
     if (state.chartInstance && state.clickHandler) {
-      unbindClick(state.chartInstance);
+      state.chartInstance.off('click', state.clickHandler);
     }
     state.chartInstance = null;
-    state.config = {} as DrillDownConfig;
+    state.clickHandler = null;
     state.history = [];
     state.currentLevel = 0;
     state.initialized = false;
   };
-
-  // ============================================================
-  // 返回公开接口
-  // ============================================================
 
   return {
     init,
@@ -580,69 +319,5 @@ export function createDrillDown(initialConfig?: Partial<DrillDownConfig>): Drill
 }
 
 // ============================================================================
-// 辅助函数
+// 导出
 // ============================================================================
-
-/**
- * 判断 DrillDownSource 是否有下钻能力
- */
-export function canDrillDown(source: DrillDownSource): boolean {
-  return !!(source.children && source.children.length > 0) || !!source.chartOption;
-}
-
-/**
- * 从扁平数据构建层级结构（辅助函数）
- */
-export function buildHierarchy(
-  data: Array<{ [key: string]: unknown }>,
-  dimensionKey: string,
-  valueKey: string,
-  childrenKey: string = 'children'
-): DrillDownSource[] {
-  const sourceMap: Record<string, DrillDownSource[]> = {};
-
-  data.forEach((item) => {
-    const dimValue = String(item[dimensionKey]);
-    if (!sourceMap[dimValue]) {
-      sourceMap[dimValue] = [];
-    }
-    sourceMap[dimValue].push({
-      name: item[dimensionKey] as string | number,
-      value: item[valueKey] as string | number,
-      children: item[childrenKey]
-        ? buildHierarchy(
-            item[childrenKey] as Array<{ [key: string]: unknown }>,
-            dimensionKey,
-            valueKey,
-            childrenKey
-          )
-        : undefined,
-    });
-  });
-
-  return Object.values(sourceMap).flat();
-}
-
-/**
- * 创建典型的地区下钻示例配置
- */
-export function createRegionDrillDown(
-  regionData: Record<string, DrillDownSource[]>
-): DrillDownConfig {
-  return {
-    dimension: 'region',
-    sources: regionData,
-  };
-}
-
-/**
- * 创建典型的分类下钻示例配置
- */
-export function createCategoryDrillDown(
-  categoryData: Record<string, DrillDownSource[]>
-): DrillDownConfig {
-  return {
-    dimension: 'category',
-    sources: categoryData,
-  };
-}

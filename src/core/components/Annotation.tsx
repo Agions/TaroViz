@@ -243,7 +243,6 @@ export function useAnnotation(props: AnnotationProps): EChartsOption {
   const { type, markLine, markArea, scatter } = props;
 
   return useMemo(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const series: any[] = [];
 
     if (type === 'line' && markLine) {
@@ -323,7 +322,6 @@ export function createCompositeAnnotation(
     scatter?: ScatterAnnotationConfig;
   }>
 ): EChartsOption {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const allSeries: any[] = [];
 
   annotations.forEach((annotation) => {

@@ -2,7 +2,7 @@
  * useChartDownload - 图表下载 Hook
  * 支持下载图表为图片（PNG/JPEG/SVG/PDF）或原始数据（CSV/JSON）
  */
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useMemo } from 'react';
 import type { ChartInstance } from './types';
 import {
   generateFilename,
@@ -113,7 +113,9 @@ export function useChartDownload(
     if (chart && beforeExport) {
       try {
         beforeExport(chart);
-      } catch (e) {}
+      } catch (e) {
+        console.error('[useChartDownload] beforeExport error:', e);
+      }
     }
   }, [beforeExport]);
 
@@ -125,7 +127,9 @@ export function useChartDownload(
       if (afterExport) {
         try {
           afterExport(result);
-        } catch (e) {}
+        } catch (e) {
+          console.error('[useChartDownload] afterExport error:', e);
+        }
       }
     },
     [afterExport]
@@ -162,6 +166,7 @@ export function useChartDownload(
 
         return undefined;
       } catch (e) {
+        console.error('[useChartDownload] getImageDataUrl error:', e);
         return undefined;
       }
     },
@@ -212,8 +217,11 @@ export function useChartDownload(
           downloadDataUrl(dataUrl, `${name}.${fmt}`);
           executeAfterExport(dataUrl);
         } else {
+          console.warn('[useChartDownload] No data URL available for format:', fmt);
         }
-      } catch (e) {}
+      } catch (e) {
+        console.error('[useChartDownload] downloadImage error:', e);
+      }
     },
     [format, pixelRatio, backgroundColor, filename, executeBeforeExport, executeAfterExport]
   );
@@ -260,7 +268,9 @@ export function useChartDownload(
           downloadDataUrl(pdfDataUrl, `${name}.pdf`);
           executeAfterExport(pdfDataUrl);
         }
-      } catch (e) {}
+      } catch (e) {
+        console.error('[useChartDownload] downloadPDF error:', e);
+      }
     },
     [filename, pixelRatio, backgroundColor, executeBeforeExport, executeAfterExport]
   );
@@ -275,6 +285,7 @@ export function useChartDownload(
     try {
       return chart.getOption?.() || null;
     } catch (e) {
+      console.error('[useChartDownload] getChartData error:', e);
       return null;
     }
   }, []);
@@ -289,6 +300,7 @@ export function useChartDownload(
     try {
       return chart.getSvgData?.();
     } catch (e) {
+      console.error('[useChartDownload] getSvgData error:', e);
       return undefined;
     }
   }, []);
@@ -328,7 +340,9 @@ export function useChartDownload(
           downloadBlob(blob, `${name}.csv`);
           executeAfterExport(blob);
         }
-      } catch (e) {}
+      } catch (e) {
+        console.error('[useChartDownload] downloadCSV error:', e);
+      }
     },
     [filename, executeBeforeExport, executeAfterExport]
   );
@@ -368,7 +382,9 @@ export function useChartDownload(
           downloadBlob(blob, `${name}.json`);
           executeAfterExport(blob);
         }
-      } catch (e) {}
+      } catch (e) {
+        console.error('[useChartDownload] downloadJSON error:', e);
+      }
     },
     [filename, executeBeforeExport, executeAfterExport]
   );
@@ -428,5 +444,3 @@ export function useChartDownload(
 // ============================================================================
 // 导出
 // ============================================================================
-
-export default useChartDownload;

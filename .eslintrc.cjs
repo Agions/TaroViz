@@ -61,7 +61,19 @@ module.exports = {
     {
       files: ['*.test.ts', '*.test.tsx', '*.spec.ts', '*.spec.tsx'],
       env: {
-        jest: true
+        jest: true,
+        browser: true
+      },
+      globals: {
+        describe: 'readonly',
+        it: 'readonly',
+        test: 'readonly',
+        expect: 'readonly',
+        jest: 'readonly',
+        beforeAll: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        afterAll: 'readonly'
       }
     }
   ]

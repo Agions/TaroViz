@@ -36,6 +36,8 @@ export function useChartInit(
     let adapter: Adapter | null = null;
 
     const initChart = async () => {
+      if (!mounted) return;
+
       try {
         adapter = await getAdapter({
           width: options.width,
@@ -47,14 +49,15 @@ export function useChartInit(
           direction: options.direction,
         });
 
-        if (!mounted) return;
-        if (!adapter) return;
+        if (!mounted || !adapter) return;
 
         adapterRef.current = adapter;
         isReadyRef.current = true;
         adapter.init();
       } catch (error) {
-        console.error('[TaroViz] Failed to initialize chart:', error);
+        if (mounted) {
+          console.error('[TaroViz] Failed to initialize chart:', error);
+        }
       }
     };
 

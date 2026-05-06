@@ -164,3 +164,7 @@ export { uuid, shortId, prefixedId };
 
 // 导出国际化工具
 export { i18n };
+
+// 性能优化工具
+export * from './performanceUtils';
+export { DebounceManager } from './performanceUtils';

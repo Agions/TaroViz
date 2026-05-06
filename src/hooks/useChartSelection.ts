@@ -9,7 +9,7 @@
  * - 支持多选模式（multi）
  * - 自动绑定图表 select/unselect 事件
  */
-import { useEffect, useRef, useCallback, useState } from 'react';
+import { useEffect, useRef, useCallback, useState, useMemo } from 'react';
 import type { ChartInstance } from './types';
 
 // ============================================================================
@@ -340,5 +340,3 @@ export function useChartSelection(
     isSelected,
   };
 }
-
-export default useChartSelection;

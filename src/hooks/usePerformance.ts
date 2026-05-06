@@ -297,5 +297,3 @@ export function useFpsMonitor(): number {
 
   return fps;
 }
-
-export default usePerformance;

@@ -12,6 +12,15 @@ import {
   PerformanceEventData,
   PerformanceReportConfig,
 } from './types';
+const DEFAULT_10 = 10;
+const DEFAULT_15 = 15;
+const DEFAULT_20 = 20;
+const DEFAULT_25 = 25;
+const DEFAULT_30 = 30;
+const DEFAULT_50 = 50;
+const DEFAULT_100 = 100;
+const DEFAULT_1000 = 1000;
+const DEFAULT_1024 = 1024;
 
 /**
  * 性能分析器类
