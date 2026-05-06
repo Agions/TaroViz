@@ -698,4 +698,9 @@ export default {
 };
 
 // 性能优化 Hooks
-export { useDebounce, useThrottle, useAnimationFrame, useWindowSizeDebounce } from './usePerformanceHooks';
+export {
+  useDebounce,
+  useThrottle,
+  useAnimationFrame,
+  useWindowSizeDebounce,
+} from './usePerformanceHooks';

@@ -115,7 +115,9 @@ export function getCurrentLevelSources(
 /**
  * 检查是否有下钻数据
  */
-export function hasDrillDownData(dataItem: DrillDownSource | undefined): boolean {
+export function hasDrillDownData(
+  dataItem: DrillDownSource | undefined
+): dataItem is DrillDownSource {
   if (!dataItem) return false;
   return !!(dataItem.children && dataItem.children.length > 0) || !!dataItem.chartOption;
 }

@@ -114,23 +114,22 @@ export async function getAdapter(options: AdapterOptions): Promise<Adapter> {
       case PlatformType.LARK:
       case PlatformType.KWAI: {
         const { default: h5Adapter } = await import('./h5');
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
         return h5Adapter.create(options as any);
       }
       case PlatformType.WEAPP: {
         const { createWeappAdapter } = await import('./weapp');
-        return createWeappAdapter(options);
+        return createWeappAdapter(options as any);
       }
       case PlatformType.SWAN: {
         const { createSwanAdapter } = await import('./swan');
-        return createSwanAdapter(options);
+        return createSwanAdapter(options as any);
       }
       case PlatformType.TT: {
         const { createTTAdapter } = await import('./tt');
-        return createTTAdapter(options);
+        return createTTAdapter(options as any);
       }
       case PlatformType.HARMONY: {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const { HarmonyAdapter } = (await import('./harmony')) as unknown as {
           HarmonyAdapter: { create: (opts: object) => Adapter };
         };
@@ -138,7 +137,7 @@ export async function getAdapter(options: AdapterOptions): Promise<Adapter> {
       }
       default: {
         const { default: h5Adapter } = await import('./h5');
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
         return h5Adapter.create(options as any);
       }
     }
@@ -146,7 +145,7 @@ export async function getAdapter(options: AdapterOptions): Promise<Adapter> {
     console.error(`[TaroViz] Failed to load adapter for platform '${platform}':`, error);
     // 降级到 H5 适配器
     const { default: h5Adapter } = await import('./h5');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     return h5Adapter.create(options as any);
   }
 }

@@ -21,8 +21,8 @@ export interface AdapterOptions {
   height?: number | string;
   theme?: string | object;
   option?: unknown;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onInit?: (instance: any) => void;
+
+  onInit?: (instance: EChartsType) => void;
   style?: CSSProperties;
   autoResize?: boolean;
   devicePixelRatio?: number;

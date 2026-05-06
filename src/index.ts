@@ -91,10 +91,6 @@ export {
 } from './components/DataFilter';
 export {
   createDrillDown,
-  canDrillDown,
-  buildHierarchy,
-  createRegionDrillDown,
-  createCategoryDrillDown,
   type DrillDownConfig,
   type DrillDownSource,
   type DrillDownReturn,

@@ -2,7 +2,7 @@
  * useAnimation - 图表动画控制 Hook
  * 提供图表动画的播放、暂停、控制等功能
  */
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import type { ChartInstance } from './types';
 
 /**
@@ -100,20 +100,26 @@ export function useAnimation(
   });
 
   // 缓动函数 - 使用 useMemo 缓存，避免每次重新创建
-  const easingFunctions = useMemo<Record<string, (t: number) => number>>(() => ({
-    cubicOut: (t) => 1 - Math.pow(1 - t, 3),
-    cubicIn: (t) => t * t * t,
-    cubicInOut: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
-    linear: (t) => t,
-    sinusoidalIn: (t) => 1 - Math.cos((t * Math.PI) / 2),
-    sinusoidalOut: (t) => Math.sin((t * Math.PI) / 2),
-  }), []);
+  const easingFunctions = useMemo<Record<string, (t: number) => number>>(
+    () => ({
+      cubicOut: (t) => 1 - Math.pow(1 - t, 3),
+      cubicIn: (t) => t * t * t,
+      cubicInOut: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
+      linear: (t) => t,
+      sinusoidalIn: (t) => 1 - Math.cos((t * Math.PI) / 2),
+      sinusoidalOut: (t) => Math.sin((t * Math.PI) / 2),
+    }),
+    []
+  );
 
   // 计算总帧数（假设 60fps）
   const totalFrames = useMemo(() => Math.ceil((duration / 1000) * 60), [duration]);
 
   // 获取当前缓动函数
-  const getEasing = useCallback((easingName: string) => easingFunctions[easingName] ?? easingFunctions.linear, [easingFunctions]);
+  const getEasing = useCallback(
+    (easingName: string) => easingFunctions[easingName] ?? easingFunctions.linear,
+    [easingFunctions]
+  );
 
   // 计算当前进度对应的帧
   const calculateFrame = useCallback(
@@ -145,7 +151,7 @@ export function useAnimation(
 
     // 计算当前进度
     let progress = Math.min(effectiveElapsed / adjustedDuration, 1);
-    progress = easingFunctionsRef.current[easing](progress);
+    progress = easingFunctions[easing](progress);
 
     // 计算当前帧
     const currentFrame = calculateFrame(progress);
@@ -422,4 +428,3 @@ export function useProgressiveLoading(
     reset,
   };
 }
-

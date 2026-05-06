@@ -60,16 +60,13 @@ export function useDebounce<T extends (...args: unknown[]) => unknown>(
   }, []);
 
   // 添加 flush 方法
-  const flush = useCallback(
-    (...args: Parameters<T>) => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
-      }
-      callbackRef.current(...args);
-    },
-    []
-  );
+  const flush = useCallback((...args: Parameters<T>) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    callbackRef.current(...args);
+  }, []);
 
   // 将 cancel 和 flush 附加到回调函数上
   Object.assign(debouncedCallback, { cancel, flush });
@@ -157,10 +154,7 @@ export function useThrottle<T extends (...args: unknown[]) => unknown>(
  * 请求动画帧 Hook
  * 用于优化动画性能
  */
-export function useAnimationFrame(
-  callback: (time: number) => void,
-  enabled = true
-): void {
+export function useAnimationFrame(callback: (time: number) => void, enabled = true): void {
   const callbackRef = useRef(callback);
   const animationFrameRef = useRef<number | null>(null);
 

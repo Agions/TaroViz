@@ -258,4 +258,3 @@ export function useChartHistory(
     clear,
   };
 }
-

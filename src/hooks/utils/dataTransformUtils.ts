@@ -44,6 +44,14 @@ export interface TransformMapping {
 // 转换函数
 // ============================================================================
 
+/**
+ * 将数据转换为折线图或柱状图配置
+ * @param data 数据源
+ * @param chartType 图表类型 (line 或 bar)
+ * @param mapping 字段映射
+ * @param extraConfig 额外配置
+ * @returns ECharts 配置
+ */
 export function transformLineOrBar(
   data: DataSource,
   chartType: 'line' | 'bar',
@@ -90,6 +98,13 @@ export function transformLineOrBar(
   };
 }
 
+/**
+ * 将数据转换为饼图配置
+ * @param data 数据源
+ * @param mapping 字段映射
+ * @param extraConfig 额外配置
+ * @returns ECharts 配置
+ */
 export function transformPie(
   data: DataSource,
   mapping: TransformMapping,
@@ -110,6 +125,13 @@ export function transformPie(
   };
 }
 
+/**
+ * 将数据转换为散点图配置
+ * @param data 数据源
+ * @param mapping 字段映射
+ * @param extraConfig 额外配置
+ * @returns ECharts 配置
+ */
 export function transformScatter(
   data: DataSource,
   mapping: TransformMapping,

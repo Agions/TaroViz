@@ -50,7 +50,11 @@ export function createConnectHandler(
   eventFilter: ((eventType: ConnectEventType, params: unknown) => boolean) | undefined,
   chartsRef: React.MutableRefObject<Map<string, ChartConnectItem>>,
   optionsRef: React.MutableRefObject<{
-    onConnect?: (sourceId: string, targetId: string, payload: { eventType: ConnectEventType; params: unknown }) => void;
+    onConnect?: (
+      sourceId: string,
+      targetId: string,
+      payload: { eventType: ConnectEventType; params: unknown }
+    ) => void;
   }>
 ): EventHandler {
   return (params: unknown) => {

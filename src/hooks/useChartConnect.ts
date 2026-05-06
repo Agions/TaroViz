@@ -1,7 +1,7 @@
 /**
  * useChartConnect - 图表联动 Hook
  * 实现多个图表之间的联动（chartConnect），当一个图表被操作时，其他联动图表同步变化
- * 
+ *
  * @refactor 已拆分为多个辅助函数，详见 chartConnectHelpers.ts
  */
 import { useRef, useCallback, useEffect, useMemo } from 'react';
@@ -147,13 +147,7 @@ export function useChartConnect(options: UseChartConnectOptions): UseChartConnec
    */
   const disconnect = useCallback(
     (chartInstance: ChartInstance, chartId?: string) => {
-      disconnectChart(
-        chartInstance,
-        chartId,
-        chartsRef,
-        connectedRef,
-        unbindChartEventsCallback
-      );
+      disconnectChart(chartInstance, chartId, chartsRef, connectedRef, unbindChartEventsCallback);
     },
     [chartsRef, connectedRef, unbindChartEventsCallback]
   );
@@ -163,13 +157,7 @@ export function useChartConnect(options: UseChartConnectOptions): UseChartConnec
    */
   const dispatchConnect = useCallback(
     (sourceId: string, payload: { eventType: ConnectEventType; params: unknown }) => {
-      dispatchConnectEvent(
-        sourceId,
-        payload,
-        disabled,
-        chartsRef,
-        dispatchToOthersCallback
-      );
+      dispatchConnectEvent(sourceId, payload, disabled, chartsRef, dispatchToOthersCallback);
     },
     [disabled, chartsRef, dispatchToOthersCallback]
   );
@@ -221,8 +209,4 @@ export function useChartConnect(options: UseChartConnectOptions): UseChartConnec
 // ============================================================================
 
 /** 导出共享事件类型 */
-export type {
-  ConnectEventType,
-  ChartConnectItem,
-  EventHandlersMap,
-} from './chartConnectHelpers';
+export type { ConnectEventType, ChartConnectItem, EventHandlersMap } from './chartConnectHelpers';

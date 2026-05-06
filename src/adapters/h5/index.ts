@@ -84,7 +84,7 @@ class H5Adapter implements Adapter {
     }
 
     // 初始化图表
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     this.instance = echarts.init(container as HTMLElement, this.options.theme, {
       // 性能优化选项
       useDirtyRect: true, // 使用脏矩形渲染，减少重绘区域
@@ -195,7 +195,6 @@ class H5Adapter implements Adapter {
    */
   on(event: string, handler: EventHandler): void {
     if (this.instance) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.instance.on(event, handler as any);
     }
   }
@@ -205,7 +204,6 @@ class H5Adapter implements Adapter {
    */
   off(event: string, handler?: EventHandler): void {
     if (this.instance) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.instance.off(event, handler as any);
     }
   }
