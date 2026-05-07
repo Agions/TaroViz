@@ -57,14 +57,14 @@ export interface ChartProps {
   virtualScrollPageSize?: number;
   virtualScrollPreloadSize?: number;
   enablePerformanceMonitoring?: boolean;
-  onPerformance?: (_data: {
+  onPerformance?: (data: {
     renderTime: number;
     initTime: number;
     updateTime: number;
-    _dataSize: number;
+    dataSize: number;
   }) => void;
   enableZoom?: boolean;
-  onZoom?: (_data: { start: number; end: number; _dataZoomIndex: number }) => void;
+  onZoom?: (data: { start: number; end: number; _dataZoomIndex: number }) => void;
   enableDataFiltering?: boolean;
   _filters?: Record<string, string | number | boolean | string[] | null>;
   onDataFiltered?: (_filteredData: unknown[], _filters: Record<string, unknown>) => void;
@@ -244,7 +244,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
         performanceAnalyzerRef.current = PerformanceAnalyzer.getInstance({
           chartId,
           enabled: true,
-          metrics: ['initTime', 'renderTime', 'updateTime', '_dataSize', 'frameRate'],
+          metrics: ['initTime', 'renderTime', 'updateTime', 'dataSize', 'frameRate'],
           sampleInterval: 1000,
           maxSamples: 100,
           realTime: true,
@@ -359,7 +359,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
       // Update debug panel
       if (debugConfig?.enabled) {
         updateDebugInfo({
-          _instance: {
+          instance: {
             id: chartId,
             type: 'ECharts',
             renderer: 'canvas',
@@ -368,7 +368,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
             platform: 'web',
           },
           config: wrappedOption,
-          _data: {
+          data: {
             series: Array.isArray(wrappedOption?.series) ? wrappedOption.series : [],
             totalDataCount: calculateDataLength(wrappedOption),
             currentDataCount: calculateDataLength(wrappedOption),
@@ -376,7 +376,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
           performance: {
             initTime: 0,
             renderTime: 0,
-            _dataSize: JSON.stringify(wrappedOption).length,
+            dataSize: JSON.stringify(wrappedOption).length,
           },
         });
       }
@@ -414,7 +414,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
         renderTime: p.renderEndTime - p.renderStartTime,
         initTime: p.initEndTime - p.initStartTime,
         updateTime: p.updateEndTime - p.updateStartTime,
-        _dataSize: JSON.stringify(option).length,
+        dataSize: JSON.stringify(option).length,
       });
     }
   }, [option, onPerformance]);
@@ -493,7 +493,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
         <DebugPanel
           options={debugConfig}
           debugInfo={{
-            _instance: {
+            instance: {
               id: chartId,
               type: 'ECharts',
               renderer: 'canvas',
@@ -502,7 +502,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
               platform: 'web',
             },
             config: option,
-            _data: {
+            data: {
               series: Array.isArray(option?.series) ? option.series : [],
               totalDataCount: calculateDataLength(option),
               currentDataCount: calculateDataLength(option),
@@ -512,7 +512,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
               renderTime:
                 performanceRef.current.renderEndTime - performanceRef.current.renderStartTime,
               updateTime: 0,
-              _dataSize: JSON.stringify(option).length,
+              dataSize: JSON.stringify(option).length,
             },
           }}
         />

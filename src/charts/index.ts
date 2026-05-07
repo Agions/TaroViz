@@ -75,6 +75,7 @@ export const ParallelChart = createChartComponentWithOptionCast<ParallelChartPro
 
 export { default as LiquidChart } from './liquid';
 export { default as TreeChart } from './tree';
+export { RadarChart as RadarChartCustom } from './radar';
 
 // ===== 导出类型 =====
 
@@ -89,6 +90,14 @@ export type {
   LiquidSeriesDataItem,
 } from './liquid/types';
 export type { TreeChartProps, TreeOption, TreeNode, TreeSeries } from './tree/types';
+export type {
+  RadarIndicator,
+  RadarDataItem,
+  RadarAreaStyle,
+  RadarLineStyle,
+  RadarLabel,
+  RadarChartProps,
+} from './radar/types';
 
 /** 版本信息 */
 export { VERSION as version } from '../core/version';

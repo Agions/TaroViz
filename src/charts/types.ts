@@ -472,18 +472,86 @@ export interface ScatterChartProps extends BaseChartProps {
 /**
  * 雷达图属性
  */
+export interface RadarIndicator {
+  /** 指标名称 */
+  name: string;
+  /** 最大值 */
+  max: number;
+  /** 最小值（可选，默认 0） */
+  min?: number;
+}
+
+/** 雷达图数据系列项 */
+export interface RadarDataItem {
+  /** 数据值数组，对应每个 indicator 的值 */
+  value: number[];
+  /** 系列名称 */
+  name?: string;
+}
+
+/** 雷达图面积样式配置 */
+export interface RadarAreaStyle {
+  /** 是否显示面积填充 */
+  show?: boolean;
+  /** 填充颜色 */
+  color?: string;
+  /** 透明度 */
+  opacity?: number;
+}
+
+/** 雷达图线样式配置 */
+export interface RadarLineStyle {
+  /** 线宽 */
+  width?: number;
+  /** 线型 */
+  type?: 'solid' | 'dashed' | 'dotted';
+  /** 颜色 */
+  color?: string;
+}
+
+/** 雷达图标签配置 */
+export interface RadarLabel {
+  /** 是否显示标签 */
+  show?: boolean;
+  /** 标签位置 */
+  position?: 'inside' | 'outside' | 'center';
+  /** 标签格式化 */
+  formatter?: string | ((value: number, indicator: RadarIndicator) => string);
+}
+
+/**
+ * 雷达图属性
+ */
 export interface RadarChartProps extends BaseChartProps {
   /** 雷达图指示器 */
-  indicators?: Array<{ name: string; max?: number; color?: string }>;
+  indicators: RadarIndicator[];
 
-  /** 雷达图形状 */
-  shape?: 'polygon' | 'circle';
+  /** 雷达图数据系列 */
+  data: RadarDataItem[];
 
-  /** 中心点 */
-  center?: [number | string, number | string];
+  /** 起始角度（0-360，默认 90） */
+  startAngle?: number;
 
-  /** 半径 */
-  radius?: number | string;
+  /** 是否显示中心圆环 */
+  centerCircle?: boolean;
+
+  /** 中心圆环半径（0-1，默认 0） */
+  centerCircleSize?: number;
+
+  /** 面积样式 */
+  areaStyle?: RadarAreaStyle;
+
+  /** 线样式 */
+  lineStyle?: RadarLineStyle;
+
+  /** 标签配置 */
+  label?: RadarLabel;
+
+  /** 是否平滑曲线 */
+  smooth?: boolean;
+
+  /** 自定义 ECharts option 合并 */
+  optionMerge?: Partial<EChartsOption>;
 }
 
 /**
