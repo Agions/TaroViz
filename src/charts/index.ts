@@ -64,6 +64,15 @@ export { default as TreeChart } from './tree';
 /** 雷达图 - 使用自定义实现 */
 export { default as RadarChartCustom } from './radar';
 
+/** 关系图 - 使用自定义实现 */
+export { default as GraphChart } from './graph';
+
+/** 桑基图 - 使用自定义实现 */
+export { default as SankeyChart } from './sankey';
+
+/** 词云图 - 使用自定义实现 */
+export { default as WordCloudChart } from './wordcloud';
+
 // ===== 类型导出 =====
 
 export type {

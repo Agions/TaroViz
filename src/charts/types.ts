@@ -785,6 +785,8 @@ export interface SankeyChartProps extends BaseChartProps {
     itemStyle?: Record<string, unknown>;
     lineStyle?: Record<string, unknown>;
   };
+  /** 自定义 ECharts option 合并 */
+  optionMerge?: Partial<EChartsOption>;
 }
 
 /**
@@ -917,6 +919,8 @@ export interface GraphChartProps extends BaseChartProps {
     itemStyle?: Record<string, unknown>;
     lineStyle?: Record<string, unknown>;
   };
+  /** 自定义 ECharts option 合并 */
+  optionMerge?: Partial<EChartsOption>;
 }
 
 // ============================================================================
@@ -991,9 +995,11 @@ export interface WordCloudChartProps extends BaseChartProps {
   /** 文字样式 */
   textStyle?: Record<string, unknown>;
 
-  /** 强调状态 */
+/** 强调状态 */
   emphasis?: {
-    focus?: 'self' | 'adjacency';
-    textStyle?: Record<string, unknown>;
+    itemStyle?: Record<string, unknown>;
+    lineStyle?: Record<string, unknown>;
   };
+  /** 自定义 ECharts option 合并 */
+  optionMerge?: Partial<EChartsOption>;
 }
