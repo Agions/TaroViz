@@ -697,10 +697,12 @@ export default {
   useChartSelection,
 };
 
-// 性能优化 Hooks
-export {
-  useDebounce,
-  useThrottle,
-  useAnimationFrame,
-  useWindowSizeDebounce,
-} from './usePerformanceHooks';
+// 性能优化 Hooks（已移至 core/utils/performance/）
+// export {
+//   useDebounce,
+//   useThrottle,
+//   useAnimationFrame,
+//   useWindowSizeDebounce,
+//   useScrollPositionDebounce,
+//   useMousePositionThrottle,
+// } from './usePerformanceHooks';

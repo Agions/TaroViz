@@ -76,7 +76,7 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
 
     // Home = reset zoom to full range
     if (e.key === 'Home') {
-      e.pr_eventDefault();
+      e.preventDefault();
       instance.dispatchAction({ type: 'dataZoom', start: 0, end: 100 });
       return;
     }
@@ -84,7 +84,7 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
     switch (e.key) {
       case '+':
       case '=': {
-        e.pr_eventDefault();
+        e.preventDefault();
         // Zoom in (narrow range) — decrease end by ZOOM_STEP
         const end = instance.getOption() as { dataZoom?: Array<{ start?: number; end?: number }> };
         const dz = end?.dataZoom?.[0];
@@ -97,7 +97,7 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
       }
       case '-':
       case '_': {
-        e.pr_eventDefault();
+        e.preventDefault();
         // Zoom out (expand range) — increase end by ZOOM_STEP
         const end = instance.getOption() as { dataZoom?: Array<{ start?: number; end?: number }> };
         const dz = end?.dataZoom?.[0];
@@ -109,22 +109,22 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
         break;
       }
       case 'ArrowLeft': {
-        e.pr_eventDefault();
+        e.preventDefault();
         dispatchZoom(-PAN_STEP, 0);
         break;
       }
       case 'ArrowRight': {
-        e.pr_eventDefault();
+        e.preventDefault();
         dispatchZoom(PAN_STEP, 0);
         break;
       }
       case 'ArrowUp': {
-        e.pr_eventDefault();
+        e.preventDefault();
         dispatchZoom(0, -PAN_STEP);
         break;
       }
       case 'ArrowDown': {
-        e.pr_eventDefault();
+        e.preventDefault();
         dispatchZoom(0, PAN_STEP);
         break;
       }

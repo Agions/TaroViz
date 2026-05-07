@@ -389,6 +389,7 @@ const LiquidChart: React.FC<LiquidChartProps> = memo((props) => {
 
   return (
     <div
+      data-testid="liquid-chart"
       className={`taroviz-liquid ${className}`}
       style={mergedStyle}
       ref={containerRef as React.RefObject<HTMLDivElement>}

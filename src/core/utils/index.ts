@@ -42,30 +42,6 @@ export function deepMerge<T extends Record<string, unknown>>(
 }
 
 /**
- * 防抖函数
- * @param fn 需要防抖的函数
- * @param delay 延迟时间（毫秒）
- * @returns 防抖后的函数
- */
-export function debounce<T extends (...args: unknown[]) => unknown>(
-  fn: T,
-  delay: number
-): (...args: Parameters<T>) => void {
-  let timer: ReturnType<typeof setTimeout> | null = null;
-
-  return function (this: unknown, ...args: Parameters<T>): void {
-    if (timer) {
-      clearTimeout(timer);
-    }
-
-    timer = setTimeout(() => {
-      fn.call(this, ...args);
-      timer = null;
-    }, delay);
-  };
-}
-
-/**
  * 节流函数
  * @param fn 需要节流的函数
  * @param interval 间隔时间（毫秒）
@@ -81,11 +57,12 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
     const now = Date.now();
 
     if (now - lastTime >= interval) {
-      fn.call(this, ...args);
       lastTime = now;
+      fn.apply(this, args);
     }
   };
 }
+
 
 /**
  * 检测当前环境
