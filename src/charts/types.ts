@@ -531,23 +531,33 @@ export interface RadarChartProps extends Omit<BaseChartProps, 'data'> {
 }
 
 /**
+ * 漏斗图数据项
+ */
+export interface FunnelDataItem {
+  /** 数值 */
+  value: number;
+  /** 名称 */
+  name: string;
+}
+
+/**
  * 漏斗图属性
  */
-export interface FunnelChartProps extends BaseChartProps {
+export interface FunnelChartProps extends Omit<BaseChartProps, 'data'> {
+  /** 漏斗数据 */
+  data?: FunnelDataItem[];
   /** 漏斗排序方式 */
   sort?: 'ascending' | 'descending' | 'none';
-
   /** 漏斗对齐方式 */
   align?: 'left' | 'center' | 'right';
-
   /** 间隙 */
   gap?: number;
-
   /** 最小高度 */
   min?: number;
-
   /** 最大高度 */
   max?: number;
+  /** 自定义 ECharts option 合并 */
+  optionMerge?: Partial<EChartsOption>;
 }
 
 /**
