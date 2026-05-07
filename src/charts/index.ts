@@ -33,9 +33,6 @@ export const ScatterChart = createChartComponent<ScatterChartProps>(
   'ScatterChart',
   'scatter-chart'
 );
-export const RadarChart = createChartComponent<RadarChartProps>('RadarChart', 'radar-chart');
-export const GaugeChart = createChartComponent<GaugeChartProps>('GaugeChart', 'gauge-chart');
-export const FunnelChart = createChartComponent<FunnelChartProps>('FunnelChart', 'funnel-chart');
 
 /** 扩展图表 */
 export const TreeMapChart = createChartComponent<TreeMapChartProps>(
@@ -51,6 +48,9 @@ export const SunburstChart = createChartComponent<SunburstChartProps>(
 
 /** 热力图 - 使用自定义实现 */
 export { default as HeatmapChart } from './heatmap';
+
+/** 漏斗图 - 使用自定义实现 */
+export { default as FunnelChart } from './funnel';
 
 /** 平行坐标图 - 使用自定义实现 */
 export { default as ParallelChart } from './parallel';
@@ -82,5 +82,4 @@ export type {
   WordCloudChartProps,
   CandlestickChartProps,
   BoxplotChartProps,
-  ParallelChartProps,
 } from './types';
