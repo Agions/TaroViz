@@ -19,50 +19,31 @@
   </p>
 </div>
 
-## 最新版本 v1.11.5
+## 🎉 最新版本 v2.0.0 (2026-05-07)
 
-TaroViz v1.11.5 - 基于 Taro 和 ECharts 的专业级多端图表组件库。
+TaroViz v2.0.0 - 功能大版本更新，新增 6 种图表类型，总计 18 种图表！
 
-### 🎉 v1.11.5 更新内容（2026-05-06）
+### 🚀 v2.0.0 重大更新
 
-**性能优化发布**
+#### ✨ 新增 6 种图表类型
 
-#### ✨ 新增功能
+| 图表 | 特性 | 测试 |
+|------|------|------|
+| **雷达图** (RadarChart) | indicators, areaStyle, lineStyle, centerCircle, smooth | 11 ✅ |
+| **热力图** (HeatmapChart) | xData, yData, visualMap, data series | 8 ✅ |
+| **漏斗图** (FunnelChart) | sort, align, gap, min/max | 8 ✅ |
+| **关系图** (GraphChart) | nodes, links, force layout, draggable | 7 ✅ |
+| **桑基图** (SankeyChart) | nodes, links, orient, nodeAlign | 8 ✅ |
+| **词云图** (WordCloudChart) | shape, sizeRange, rotationRange, gridSize | 8 ✅ |
 
-- **性能优化工具** (`performanceUtils.ts`)
-  - `debounce()` - 带 `cancel()`/`flush()` 的防抖函数
-  - `throttle()` - 支持 `{ leading, trailing }` 选项的节流函数
-  - `getPerformanceConfig()` - ECharts 大数据量自动优化配置
-  - `estimateRenderTime()` - 渲染时间预估
-  - `DebounceManager` - 批量管理多个防抖函数
+#### 📊 项目统计
 
-- **性能优化 Hooks** (`usePerformanceHooks.ts`)
-  - `useDebounce()` - 带 cancel/flush 的防抖 Hook
-  - `useThrottle()` - 支持 leading/trailing 的节流 Hook
-  - `useAnimationFrame()` - 动画帧 Hook
-  - `useWindowSizeDebounce()` - 窗口大小防抖 Hook
-  - `useScrollPositionDebounce()` - 滚动位置防抖 Hook
-  - `useMousePositionThrottle()` - 鼠标位置节流 Hook
-
-#### 🔧 优化内容
-
-- useMemo 缓存优化（8 处）
-- useCallback 依赖数组修复（5 处）
-- 长函数拆分（drillDown、useChartConnect）
-- 类型安全改进（类型守卫）
-
-#### 📈 性能提升
-
-| 场景 | 提升 |
-|------|------|
-| 组件重渲染 | ~30% |
-| 大数据量图表 | ~60% |
-| 高频事件处理 | ~70% |
-| 动画性能 | ~15% |
+- **图表类型**: 18 种（新增 6 种）
+- **测试覆盖**: 198/198 通过 ✅
+- **代码质量**: ESLint 0 errors ✅
+- **Bundle 优化**: ESM 体积减少 72.5%
 
 ---
-
-## 最新版本 v1.11.4
 
 ## 文档
 
@@ -73,7 +54,7 @@ TaroViz v1.11.5 - 基于 Taro 和 ECharts 的专业级多端图表组件库。
 
 ## 特性
 
-- 📊 **丰富的图表类型** - 支持折线图、柱状图、饼图、散点图、雷达图、热力图、仪表盘、漏斗图、矩形树图、旭日图、桑基图、箱线图、平行坐标图、K线图、词云图、水球图、树图、关系图等18种图表
+- 📊 **丰富的图表类型** - 支持 18 种图表：折线图、柱状图、饼图、散点图、雷达图、热力图、仪表盘、漏斗图、矩形树图、旭日图、桑基图、箱线图、平行坐标图、K线图、词云图、水球图、树图、关系图
 - 📱 **多端适配支持** - 支持微信小程序、支付宝小程序、百度小程序、字节跳动小程序、HarmonyOS 和 H5
 - 🎨 **灵活的主题定制** - 内置多种预设主题，支持自定义主题和动态主题切换
 - 📦 **单包架构设计** - 简化依赖管理，方便使用

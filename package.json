@@ -1,7 +1,7 @@
 {
   "name": "@agions/taroviz",
-  "version": "1.11.5",
-  "description": "基于 Taro 和 ECharts 的多端图表组件库",
+  "version": "2.0.0",
+  "description": "\u57fa\u4e8e Taro \u548c ECharts \u7684\u591a\u7aef\u56fe\u8868\u7ec4\u4ef6\u5e93 - v2.0.0 \u5927\u7248\u672c\u66f4\u65b0\uff0c\u65b0\u589e 6 \u79cd\u56fe\u8868\u7c7b\u578b",
   "type": "module",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",

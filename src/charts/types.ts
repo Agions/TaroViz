@@ -561,35 +561,6 @@ export interface FunnelChartProps extends Omit<BaseChartProps, 'data'> {
 }
 
 /**
- * 仪表盘属性
- */
-export interface GaugeChartProps extends BaseChartProps {
-  /** 最小值 */
-  min?: number;
-
-  /** 最大值 */
-  max?: number;
-
-  /** 当前值 */
-  value?: number;
-
-  /** 刻度分段数 */
-  splitNumber?: number;
-
-  /** 半径 */
-  radius?: number | string;
-
-  /** 起始角度 */
-  startAngle?: number;
-
-  /** 结束角度 */
-  endAngle?: number;
-
-  /** 进度显示 */
-  showProgress?: boolean;
-}
-
-/**
  * 热力图数据项
  */
 export interface HeatmapDataItem {
@@ -817,48 +788,6 @@ export interface BoxplotChartProps extends Omit<BaseChartProps, 'data'> {
 
   /** 是否平滑 */
   smooth?: boolean;
-}
-
-/**
- * K线图/股票图属性
- * 用于展示股票、外汇等金融数据
- */
-export interface CandlestickChartProps extends Omit<BaseChartProps, 'data'> {
-  /** K线数据数组，每项为 [open, close, lowest, highest] */
-  candlestickData?: number[][];
-
-  /** X轴数据 */
-  xAxisData?: (string | number)[];
-
-  /** 数据对应的维度名 */
-  dimensions?: string[];
-
-  /** 批量数据 */
-  batchData?: Array<{
-    name: string;
-    data: number[][];
-  }>;
-
-  /** K线柱条样式 */
-  itemStyle?: Record<string, unknown>;
-
-  /** 强调状态 */
-  emphasis?: Record<string, unknown>;
-
-  /** 是否平滑曲线 */
-  smooth?: boolean;
-
-  /** 是否显示MA线 */
-  ma?: Array<{
-    period: number;
-    color?: string;
-  }>;
-
-  /** 是否显示成交量 */
-  showVolume?: boolean;
-
-  /** 成交量柱子样式 */
-  volumeBar?: Record<string, unknown>;
 }
 
 /**

@@ -11,14 +11,12 @@ import type {
   ScatterChartProps,
   RadarChartProps,
   FunnelChartProps,
-  GaugeChartProps,
   HeatmapChartProps,
   SunburstChartProps,
   TreeMapChartProps,
   SankeyChartProps,
   GraphChartProps,
   WordCloudChartProps,
-  CandlestickChartProps,
 } from './types';
 import type { BoxplotChartProps } from './boxplot/types';
 import type { ParallelChartProps } from './parallel/types';
@@ -82,13 +80,11 @@ export type {
   ScatterChartProps,
   RadarChartProps,
   FunnelChartProps,
-  GaugeChartProps,
   HeatmapChartProps,
   SunburstChartProps,
   TreeMapChartProps,
   SankeyChartProps,
   GraphChartProps,
   WordCloudChartProps,
-  CandlestickChartProps,
   BoxplotChartProps,
 } from './types';
