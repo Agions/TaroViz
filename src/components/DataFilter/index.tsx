@@ -186,7 +186,13 @@ interface RangeFilterProps {
   compact?: boolean;
 }
 
-const RangeFilter: React.FC<RangeFilterProps> = ({ field, _value, onChange, disabled, compact }) => {
+const RangeFilter: React.FC<RangeFilterProps> = ({
+  field,
+  _value,
+  onChange,
+  disabled,
+  compact,
+}) => {
   const _rangeValue = (_value as [number, number]) ?? [field.min ?? 0, field.max ?? 100];
 
   const handleMinChange = useCallback(

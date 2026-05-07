@@ -15,10 +15,7 @@ describe('TreeChart', () => {
     children: [
       {
         name: 'child1',
-        children: [
-          { name: 'grandchild1' },
-          { name: 'grandchild2' },
-        ],
+        children: [{ name: 'grandchild1' }, { name: 'grandchild2' }],
       },
       {
         name: 'child2',

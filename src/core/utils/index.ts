@@ -63,7 +63,6 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
   };
 }
 
-
 /**
  * 检测当前环境
  * @returns 环境信息

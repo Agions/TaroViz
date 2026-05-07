@@ -6,11 +6,7 @@
 import * as React from 'react';
 import BaseChart from '@/core/components/BaseChart';
 import type { BaseChartProps } from '@/charts/types';
-import type {
-  RadarChartProps,
-  RadarIndicator,
-  RadarDataItem,
-} from './types';
+import type { RadarChartProps, RadarIndicator, RadarDataItem } from './types';
 
 /**
  * 构建雷达图 ECharts option
@@ -37,7 +33,7 @@ function buildRadarOption(props: RadarChartProps) {
     symbolSize: 6,
     lineStyle: {
       width: lineStyle?.width ?? 2,
-      type: lineStyle?.type ?? 'solid' as const,
+      type: lineStyle?.type ?? ('solid' as const),
       color: lineStyle?.color,
     },
     areaStyle: areaStyle
@@ -49,7 +45,7 @@ function buildRadarOption(props: RadarChartProps) {
     label: label
       ? {
           show: label.show ?? false,
-          position: label.position ?? 'outside' as const,
+          position: label.position ?? ('outside' as const),
         }
       : undefined,
     itemStyle: {
@@ -112,8 +108,7 @@ function buildRadarOption(props: RadarChartProps) {
         const seriesName = params.seriesName || '未知系列';
         const dataItem = params.data as { value: number[] };
         const values = dataItem.value.map(
-          (v: number, i: number) =>
-            `${indicators[i]?.name || 'N/A'}: ${v}`
+          (v: number, i: number) => `${indicators[i]?.name || 'N/A'}: ${v}`
         );
         return `<b>${seriesName}</b><br/>${values.join('<br/>')}`;
       },

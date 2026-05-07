@@ -6,23 +6,13 @@
 import * as React from 'react';
 import BaseChart from '@/core/components/BaseChart';
 import type { BaseChartProps } from '@/charts/types';
-import type {
-  HeatmapChartProps,
-  HeatmapDataItem,
-  HeatmapAxis,
-} from './types';
+import type { HeatmapChartProps, HeatmapDataItem, HeatmapAxis } from './types';
 
 /**
  * 构建热力图 ECharts option
  */
 function buildHeatmapOption(props: HeatmapChartProps) {
-  const {
-    xData,
-    yData,
-    data,
-    visualMap,
-    optionMerge,
-  } = props;
+  const { xData, yData, data, visualMap, optionMerge } = props;
 
   // 验证数据
   if (!xData || xData.length === 0) {

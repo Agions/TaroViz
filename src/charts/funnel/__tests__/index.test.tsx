@@ -20,25 +20,13 @@ describe('FunnelChart', () => {
   ];
 
   it('应该渲染漏斗图组件', () => {
-    render(
-      <FunnelChart
-        data={mockData}
-        width={600}
-        height={400}
-      />
-    );
+    render(<FunnelChart data={mockData} width={600} height={400} />);
 
     expect(screen.getByTestId('base-chart-wrapper')).toBeInTheDocument();
   });
 
   it('应该传递正确的 option 到 BaseChart', () => {
-    render(
-      <FunnelChart
-        data={mockData}
-        width={600}
-        height={400}
-      />
-    );
+    render(<FunnelChart data={mockData} width={600} height={400} />);
 
     const baseChartWrapper = screen.getByTestId('base-chart-wrapper');
     const optionElement = baseChartWrapper.querySelector('[data-testid="chart-option"]');
@@ -51,26 +39,13 @@ describe('FunnelChart', () => {
   });
 
   it('当 data 为空时应该返回 null', () => {
-    const { container } = render(
-      <FunnelChart
-        data={[]}
-        width={600}
-        height={400}
-      />
-    );
+    const { container } = render(<FunnelChart data={[]} width={600} height={400} />);
 
     expect(container.firstChild).toBeNull();
   });
 
   it('应该支持自定义 sort 排序', () => {
-    render(
-      <FunnelChart
-        data={mockData}
-        sort="ascending"
-        width={600}
-        height={400}
-      />
-    );
+    render(<FunnelChart data={mockData} sort="ascending" width={600} height={400} />);
 
     const baseChartWrapper = screen.getByTestId('base-chart-wrapper');
     const optionElement = baseChartWrapper.querySelector('[data-testid="chart-option"]');
@@ -80,14 +55,7 @@ describe('FunnelChart', () => {
   });
 
   it('应该支持自定义 align 对齐', () => {
-    render(
-      <FunnelChart
-        data={mockData}
-        align="center"
-        width={600}
-        height={400}
-      />
-    );
+    render(<FunnelChart data={mockData} align="center" width={600} height={400} />);
 
     const baseChartWrapper = screen.getByTestId('base-chart-wrapper');
     const optionElement = baseChartWrapper.querySelector('[data-testid="chart-option"]');
@@ -97,14 +65,7 @@ describe('FunnelChart', () => {
   });
 
   it('应该支持自定义 gap 间隙', () => {
-    render(
-      <FunnelChart
-        data={mockData}
-        gap={10}
-        width={600}
-        height={400}
-      />
-    );
+    render(<FunnelChart data={mockData} gap={10} width={600} height={400} />);
 
     const baseChartWrapper = screen.getByTestId('base-chart-wrapper');
     const optionElement = baseChartWrapper.querySelector('[data-testid="chart-option"]');
@@ -114,15 +75,7 @@ describe('FunnelChart', () => {
   });
 
   it('应该支持自定义 min/max 高度', () => {
-    render(
-      <FunnelChart
-        data={mockData}
-        min={10}
-        max={120}
-        width={600}
-        height={400}
-      />
-    );
+    render(<FunnelChart data={mockData} min={10} max={120} width={600} height={400} />);
 
     const baseChartWrapper = screen.getByTestId('base-chart-wrapper');
     const optionElement = baseChartWrapper.querySelector('[data-testid="chart-option"]');
@@ -135,14 +88,7 @@ describe('FunnelChart', () => {
   it('应该支持 optionMerge 自定义配置', () => {
     const customTitle = { title: { text: '漏斗图标题', left: 'center' } };
 
-    render(
-      <FunnelChart
-        data={mockData}
-        optionMerge={customTitle}
-        width={600}
-        height={400}
-      />
-    );
+    render(<FunnelChart data={mockData} optionMerge={customTitle} width={600} height={400} />);
 
     const baseChartWrapper = screen.getByTestId('base-chart-wrapper');
     const optionElement = baseChartWrapper.querySelector('[data-testid="chart-option"]');

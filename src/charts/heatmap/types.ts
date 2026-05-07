@@ -3,8 +3,4 @@
  *
  * 从主 types 文件导入基础类型，只导出组件特有的类型
  */
-export type {
-  HeatmapChartProps,
-  HeatmapDataItem,
-  HeatmapAxis,
-} from '../types';
+export type { HeatmapChartProps, HeatmapDataItem, HeatmapAxis } from '../types';

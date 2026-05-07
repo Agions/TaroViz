@@ -924,7 +924,7 @@ export interface WordCloudChartProps extends BaseChartProps {
   /** 文字样式 */
   textStyle?: Record<string, unknown>;
 
-/** 强调状态 */
+  /** 强调状态 */
   emphasis?: {
     itemStyle?: Record<string, unknown>;
     lineStyle?: Record<string, unknown>;

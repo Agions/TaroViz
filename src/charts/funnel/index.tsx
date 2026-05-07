@@ -6,24 +6,13 @@
 import * as React from 'react';
 import BaseChart from '@/core/components/BaseChart';
 import type { BaseChartProps } from '@/charts/types';
-import type {
-  FunnelChartProps,
-  FunnelDataItem,
-} from './types';
+import type { FunnelChartProps, FunnelDataItem } from './types';
 
 /**
  * 构建漏斗图 ECharts option
  */
 function buildFunnelOption(props: FunnelChartProps) {
-  const {
-    data,
-    sort,
-    align,
-    gap,
-    min,
-    max,
-    optionMerge,
-  } = props;
+  const { data, sort, align, gap, min, max, optionMerge } = props;
 
   // 验证数据
   if (!data || data.length === 0) {

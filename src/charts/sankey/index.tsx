@@ -6,25 +6,13 @@
 import * as React from 'react';
 import BaseChart from '@/core/components/BaseChart';
 import type { BaseChartProps } from '@/charts/types';
-import type {
-  SankeyChartProps,
-  SankeyNode,
-  SankeyLink,
-} from './types';
+import type { SankeyChartProps, SankeyNode, SankeyLink } from './types';
 
 /**
  * 构建桑基图 ECharts option
  */
 function buildSankeyOption(props: SankeyChartProps) {
-  const {
-    nodes,
-    links,
-    nodeAlign,
-    nodeGap,
-    nodeWidth,
-    orient,
-    optionMerge,
-  } = props;
+  const { nodes, links, nodeAlign, nodeGap, nodeWidth, orient, optionMerge } = props;
 
   // 验证数据
   if (!nodes || nodes.length === 0) {

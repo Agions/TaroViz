@@ -31,27 +31,13 @@ describe('RadarChart', () => {
   ];
 
   it('应该渲染雷达图组件', () => {
-    render(
-      <RadarChart
-        indicators={mockIndicators}
-        data={mockData}
-        width={400}
-        height={400}
-      />
-    );
+    render(<RadarChart indicators={mockIndicators} data={mockData} width={400} height={400} />);
 
     expect(screen.getByTestId('base-chart-wrapper')).toBeInTheDocument();
   });
 
   it('应该传递正确的 option 到 BaseChart', () => {
-    render(
-      <RadarChart
-        indicators={mockIndicators}
-        data={mockData}
-        width={400}
-        height={400}
-      />
-    );
+    render(<RadarChart indicators={mockIndicators} data={mockData} width={400} height={400} />);
 
     const baseChartWrapper = screen.getByTestId('base-chart-wrapper');
     const optionElement = baseChartWrapper.querySelector('[data-testid="chart-option"]');
@@ -148,12 +134,7 @@ describe('RadarChart', () => {
 
   it('当 indicators 为空时应该返回 null', () => {
     const { container } = render(
-      <RadarChart
-        indicators={[]}
-        data={mockData}
-        width={400}
-        height={400}
-      />
+      <RadarChart indicators={[]} data={mockData} width={400} height={400} />
     );
 
     expect(container.firstChild).toBeNull();
@@ -161,12 +142,7 @@ describe('RadarChart', () => {
 
   it('当 data 为空时应该返回 null', () => {
     const { container } = render(
-      <RadarChart
-        indicators={mockIndicators}
-        data={[]}
-        width={400}
-        height={400}
-      />
+      <RadarChart indicators={mockIndicators} data={[]} width={400} height={400} />
     );
 
     expect(container.firstChild).toBeNull();
@@ -179,14 +155,7 @@ describe('RadarChart', () => {
       { name: '系列 3', value: [90, 60, 80, 75, 80] },
     ];
 
-    render(
-      <RadarChart
-        indicators={mockIndicators}
-        data={multiData}
-        width={400}
-        height={400}
-      />
-    );
+    render(<RadarChart indicators={mockIndicators} data={multiData} width={400} height={400} />);
 
     const baseChartWrapper = screen.getByTestId('base-chart-wrapper');
     const optionElement = baseChartWrapper.querySelector('[data-testid="chart-option"]');

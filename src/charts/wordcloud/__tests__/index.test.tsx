@@ -22,25 +22,13 @@ describe('WordCloudChart', () => {
   ];
 
   it('应该渲染词云图组件', () => {
-    render(
-      <WordCloudChart
-        wordCloudData={mockData}
-        width={800}
-        height={400}
-      />
-    );
+    render(<WordCloudChart wordCloudData={mockData} width={800} height={400} />);
 
     expect(screen.getByTestId('base-chart-wrapper')).toBeInTheDocument();
   });
 
   it('应该传递正确的 option 到 BaseChart', () => {
-    render(
-      <WordCloudChart
-        wordCloudData={mockData}
-        width={800}
-        height={400}
-      />
-    );
+    render(<WordCloudChart wordCloudData={mockData} width={800} height={400} />);
 
     const baseChartWrapper = screen.getByTestId('base-chart-wrapper');
     const optionElement = baseChartWrapper.querySelector('[data-testid="chart-option"]');
@@ -53,26 +41,13 @@ describe('WordCloudChart', () => {
   });
 
   it('当 wordCloudData 为空时应该返回 null', () => {
-    const { container } = render(
-      <WordCloudChart
-        wordCloudData={[]}
-        width={800}
-        height={400}
-      />
-    );
+    const { container } = render(<WordCloudChart wordCloudData={[]} width={800} height={400} />);
 
     expect(container.firstChild).toBeNull();
   });
 
   it('应该支持自定义 shape', () => {
-    render(
-      <WordCloudChart
-        wordCloudData={mockData}
-        shape="star"
-        width={800}
-        height={400}
-      />
-    );
+    render(<WordCloudChart wordCloudData={mockData} shape="star" width={800} height={400} />);
 
     const baseChartWrapper = screen.getByTestId('base-chart-wrapper');
     const optionElement = baseChartWrapper.querySelector('[data-testid="chart-option"]');
@@ -83,12 +58,7 @@ describe('WordCloudChart', () => {
 
   it('应该支持自定义 sizeRange', () => {
     render(
-      <WordCloudChart
-        wordCloudData={mockData}
-        sizeRange={[15, 80]}
-        width={800}
-        height={400}
-      />
+      <WordCloudChart wordCloudData={mockData} sizeRange={[15, 80]} width={800} height={400} />
     );
 
     const baseChartWrapper = screen.getByTestId('base-chart-wrapper');
@@ -100,12 +70,7 @@ describe('WordCloudChart', () => {
 
   it('应该支持自定义 rotationRange', () => {
     render(
-      <WordCloudChart
-        wordCloudData={mockData}
-        rotationRange={[-45, 45]}
-        width={800}
-        height={400}
-      />
+      <WordCloudChart wordCloudData={mockData} rotationRange={[-45, 45]} width={800} height={400} />
     );
 
     const baseChartWrapper = screen.getByTestId('base-chart-wrapper');
@@ -116,14 +81,7 @@ describe('WordCloudChart', () => {
   });
 
   it('应该支持自定义 gridSize', () => {
-    render(
-      <WordCloudChart
-        wordCloudData={mockData}
-        gridSize={10}
-        width={800}
-        height={400}
-      />
-    );
+    render(<WordCloudChart wordCloudData={mockData} gridSize={10} width={800} height={400} />);
 
     const baseChartWrapper = screen.getByTestId('base-chart-wrapper');
     const optionElement = baseChartWrapper.querySelector('[data-testid="chart-option"]');
@@ -136,12 +94,7 @@ describe('WordCloudChart', () => {
     const customTitle = { title: { text: '词云图标题', left: 'center' } };
 
     render(
-      <WordCloudChart
-        wordCloudData={mockData}
-        optionMerge={customTitle}
-        width={800}
-        height={400}
-      />
+      <WordCloudChart wordCloudData={mockData} optionMerge={customTitle} width={800} height={400} />
     );
 
     const baseChartWrapper = screen.getByTestId('base-chart-wrapper');

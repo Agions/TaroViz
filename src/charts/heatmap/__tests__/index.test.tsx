@@ -28,13 +28,7 @@ describe('HeatmapChart', () => {
 
   it('应该渲染热力图组件', () => {
     render(
-      <HeatmapChart
-        xData={mockXData}
-        yData={mockYData}
-        data={mockData}
-        width={600}
-        height={400}
-      />
+      <HeatmapChart xData={mockXData} yData={mockYData} data={mockData} width={600} height={400} />
     );
 
     expect(screen.getByTestId('base-chart-wrapper')).toBeInTheDocument();
@@ -42,13 +36,7 @@ describe('HeatmapChart', () => {
 
   it('应该传递正确的 option 到 BaseChart', () => {
     render(
-      <HeatmapChart
-        xData={mockXData}
-        yData={mockYData}
-        data={mockData}
-        width={600}
-        height={400}
-      />
+      <HeatmapChart xData={mockXData} yData={mockYData} data={mockData} width={600} height={400} />
     );
 
     const baseChartWrapper = screen.getByTestId('base-chart-wrapper');
@@ -65,13 +53,7 @@ describe('HeatmapChart', () => {
 
   it('当 xData 为空时应该返回 null', () => {
     const { container } = render(
-      <HeatmapChart
-        xData={[]}
-        yData={mockYData}
-        data={mockData}
-        width={600}
-        height={400}
-      />
+      <HeatmapChart xData={[]} yData={mockYData} data={mockData} width={600} height={400} />
     );
 
     expect(container.firstChild).toBeNull();
@@ -79,13 +61,7 @@ describe('HeatmapChart', () => {
 
   it('当 yData 为空时应该返回 null', () => {
     const { container } = render(
-      <HeatmapChart
-        xData={mockXData}
-        yData={[]}
-        data={mockData}
-        width={600}
-        height={400}
-      />
+      <HeatmapChart xData={mockXData} yData={[]} data={mockData} width={600} height={400} />
     );
 
     expect(container.firstChild).toBeNull();
@@ -93,13 +69,7 @@ describe('HeatmapChart', () => {
 
   it('当 data 为空时应该返回 null', () => {
     const { container } = render(
-      <HeatmapChart
-        xData={mockXData}
-        yData={mockYData}
-        data={[]}
-        width={600}
-        height={400}
-      />
+      <HeatmapChart xData={mockXData} yData={mockYData} data={[]} width={600} height={400} />
     );
 
     expect(container.firstChild).toBeNull();
@@ -155,13 +125,7 @@ describe('HeatmapChart', () => {
 
   it('应该正确转换数据格式', () => {
     render(
-      <HeatmapChart
-        xData={mockXData}
-        yData={mockYData}
-        data={mockData}
-        width={600}
-        height={400}
-      />
+      <HeatmapChart xData={mockXData} yData={mockYData} data={mockData} width={600} height={400} />
     );
 
     const baseChartWrapper = screen.getByTestId('base-chart-wrapper');

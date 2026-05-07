@@ -25,27 +25,13 @@ describe('GraphChart', () => {
   ];
 
   it('应该渲染关系图组件', () => {
-    render(
-      <GraphChart
-        nodes={mockNodes}
-        links={mockLinks}
-        width={600}
-        height={400}
-      />
-    );
+    render(<GraphChart nodes={mockNodes} links={mockLinks} width={600} height={400} />);
 
     expect(screen.getByTestId('base-chart-wrapper')).toBeInTheDocument();
   });
 
   it('应该传递正确的 option 到 BaseChart', () => {
-    render(
-      <GraphChart
-        nodes={mockNodes}
-        links={mockLinks}
-        width={600}
-        height={400}
-      />
-    );
+    render(<GraphChart nodes={mockNodes} links={mockLinks} width={600} height={400} />);
 
     const baseChartWrapper = screen.getByTestId('base-chart-wrapper');
     const optionElement = baseChartWrapper.querySelector('[data-testid="chart-option"]');
@@ -59,12 +45,7 @@ describe('GraphChart', () => {
 
   it('当 nodes 为空时应该返回 null', () => {
     const { container } = render(
-      <GraphChart
-        nodes={[]}
-        links={mockLinks}
-        width={600}
-        height={400}
-      />
+      <GraphChart nodes={[]} links={mockLinks} width={600} height={400} />
     );
 
     expect(container.firstChild).toBeNull();
@@ -72,13 +53,7 @@ describe('GraphChart', () => {
 
   it('应该支持自定义 layout', () => {
     render(
-      <GraphChart
-        nodes={mockNodes}
-        links={mockLinks}
-        layout="circular"
-        width={600}
-        height={400}
-      />
+      <GraphChart nodes={mockNodes} links={mockLinks} layout="circular" width={600} height={400} />
     );
 
     const baseChartWrapper = screen.getByTestId('base-chart-wrapper');
@@ -109,13 +84,7 @@ describe('GraphChart', () => {
 
   it('应该支持 draggable 配置', () => {
     render(
-      <GraphChart
-        nodes={mockNodes}
-        links={mockLinks}
-        draggable={true}
-        width={600}
-        height={400}
-      />
+      <GraphChart nodes={mockNodes} links={mockLinks} draggable={true} width={600} height={400} />
     );
 
     const baseChartWrapper = screen.getByTestId('base-chart-wrapper');

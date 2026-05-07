@@ -6,24 +6,13 @@
 import * as React from 'react';
 import BaseChart from '@/core/components/BaseChart';
 import type { BaseChartProps } from '@/charts/types';
-import type {
-  GraphChartProps,
-  GraphNode,
-  GraphLink,
-} from './types';
+import type { GraphChartProps, GraphNode, GraphLink } from './types';
 
 /**
  * 构建关系图 ECharts option
  */
 function buildGraphOption(props: GraphChartProps) {
-  const {
-    nodes,
-    links,
-    layout,
-    force,
-    draggable,
-    optionMerge,
-  } = props;
+  const { nodes, links, layout, force, draggable, optionMerge } = props;
 
   // 验证数据
   if (!nodes || nodes.length === 0) {

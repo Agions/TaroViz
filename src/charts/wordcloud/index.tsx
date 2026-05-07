@@ -6,10 +6,7 @@
 import * as React from 'react';
 import BaseChart from '@/core/components/BaseChart';
 import type { BaseChartProps } from '@/charts/types';
-import type {
-  WordCloudChartProps,
-  WordCloudDataItem,
-} from './types';
+import type { WordCloudChartProps, WordCloudDataItem } from './types';
 
 /**
  * 构建词云图 ECharts option

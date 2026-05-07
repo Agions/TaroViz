@@ -26,27 +26,13 @@ describe('SankeyChart', () => {
   ];
 
   it('应该渲染桑基图组件', () => {
-    render(
-      <SankeyChart
-        nodes={mockNodes}
-        links={mockLinks}
-        width={800}
-        height={400}
-      />
-    );
+    render(<SankeyChart nodes={mockNodes} links={mockLinks} width={800} height={400} />);
 
     expect(screen.getByTestId('base-chart-wrapper')).toBeInTheDocument();
   });
 
   it('应该传递正确的 option 到 BaseChart', () => {
-    render(
-      <SankeyChart
-        nodes={mockNodes}
-        links={mockLinks}
-        width={800}
-        height={400}
-      />
-    );
+    render(<SankeyChart nodes={mockNodes} links={mockLinks} width={800} height={400} />);
 
     const baseChartWrapper = screen.getByTestId('base-chart-wrapper');
     const optionElement = baseChartWrapper.querySelector('[data-testid="chart-option"]');
@@ -60,12 +46,7 @@ describe('SankeyChart', () => {
 
   it('当 nodes 为空时应该返回 null', () => {
     const { container } = render(
-      <SankeyChart
-        nodes={[]}
-        links={mockLinks}
-        width={800}
-        height={400}
-      />
+      <SankeyChart nodes={[]} links={mockLinks} width={800} height={400} />
     );
 
     expect(container.firstChild).toBeNull();
@@ -73,12 +54,7 @@ describe('SankeyChart', () => {
 
   it('当 links 为空时应该返回 null', () => {
     const { container } = render(
-      <SankeyChart
-        nodes={mockNodes}
-        links={[]}
-        width={800}
-        height={400}
-      />
+      <SankeyChart nodes={mockNodes} links={[]} width={800} height={400} />
     );
 
     expect(container.firstChild).toBeNull();
@@ -86,13 +62,7 @@ describe('SankeyChart', () => {
 
   it('应该支持自定义 orient', () => {
     render(
-      <SankeyChart
-        nodes={mockNodes}
-        links={mockLinks}
-        orient="vertical"
-        width={800}
-        height={400}
-      />
+      <SankeyChart nodes={mockNodes} links={mockLinks} orient="vertical" width={800} height={400} />
     );
 
     const baseChartWrapper = screen.getByTestId('base-chart-wrapper');
@@ -122,13 +92,7 @@ describe('SankeyChart', () => {
 
   it('应该支持自定义 nodeGap', () => {
     render(
-      <SankeyChart
-        nodes={mockNodes}
-        links={mockLinks}
-        nodeGap={15}
-        width={800}
-        height={400}
-      />
+      <SankeyChart nodes={mockNodes} links={mockLinks} nodeGap={15} width={800} height={400} />
     );
 
     const baseChartWrapper = screen.getByTestId('base-chart-wrapper');
