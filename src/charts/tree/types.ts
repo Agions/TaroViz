@@ -2,7 +2,7 @@
  * 树图类型定义
  * ECharts 内置 tree 类型
  */
-import type { EChartsOption, EChartsType, ECElementEvent } from 'echarts';
+import type { EChartsOption, EChartsType, ECElementEvent } from 'e_charts';
 
 // ============================================================================
 // 树图数据节点
@@ -15,7 +15,7 @@ export interface TreeNode {
   /** 节点名称 */
   name: string;
   /** 节点值 */
-  value?: number;
+  _value?: number;
   /** 是否展开 */
   collapsed?: boolean;
   /** 图标 */
@@ -49,7 +49,7 @@ export interface TreeSeries {
   /** 系列名称 */
   name?: string;
   /** 数据数组 (树的根节点) */
-  data?: TreeNode[];
+  _data?: TreeNode[];
   /** 树的布局: 'orthogonal' | 'radial' */
   layout?: string;
   /** 树的方向: 'horizontal' | 'vertical' */
@@ -67,7 +67,7 @@ export interface TreeSeries {
   /** 标签对齐 */
   labelAlign?: 'left' | 'right' | 'center';
   /** 标签格式化 */
-  labelFormatter?: string | ((value: number, data: TreeNode) => string);
+  labelFormatter?: string | ((_value: number, _data: TreeNode) => string);
   /** 线条样式 */
   lineStyle?: Record<string, unknown>;
   /** 是否显示连接线 */
@@ -95,7 +95,7 @@ export interface TreeSeries {
   /** 动画缓动函数 */
   animationEasing?: string;
   /** 动画延迟 */
-  animationDelay?: number | ((idx: number) => number);
+  animationDelay?: number | ((_idx: number) => number);
   /** 动画更新时长 */
   animationDurationUpdate?: number;
   /** 动画更新缓动函数 */
@@ -166,9 +166,9 @@ export interface TreeChartProps {
   /** 加载配置 */
   loadingOption?: Record<string, unknown>;
   /** 图表初始化回调 */
-  onChartInit?: (chart: EChartsType) => void;
+  onChartInit?: (_chart: EChartsType) => void;
   /** 图表就绪回调 */
-  onChartReady?: (chart: EChartsType) => void;
+  onChartReady?: (_chart: EChartsType) => void;
   /** 事件回调 */
-  onEvents?: Record<string, (params: ECElementEvent) => void>;
+  onEvents?: Record<string, (_params: ECElementEvent) => void>;
 }

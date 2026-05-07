@@ -10,27 +10,27 @@ export interface ThemeBasicSettingsProps {
   /** 文本颜色 */
   textColor: string;
   /** 深色模式 */
-  darkMode: boolean;
+  _darkMode: boolean;
   /** 是否禁用 */
   disabled?: boolean;
   /** 背景色变化回调 */
-  onBackgroundColorChange: (color: string) => void;
+  onBackgroundColorChange: (_color: string) => void;
   /** 文本颜色变化回调 */
-  onTextColorChange: (color: string) => void;
+  onTextColorChange: (_color: string) => void;
   /** 深色模式变化回调 */
-  onDarkModeChange: (darkMode: boolean) => void;
+  onDarkModeChange: (_darkMode: boolean) => void;
 }
 
 const ThemeBasicSettings: React.FC<ThemeBasicSettingsProps> = ({
   backgroundColor,
   textColor,
-  darkMode,
+  _darkMode,
   disabled = false,
   onBackgroundColorChange,
   onTextColorChange,
   onDarkModeChange,
 }) => {
-  const colorInputStyle: React.CSSProperties = {
+  const _colorInputStyle: React.CSSProperties = {
     width: '50px',
     height: '30px',
     border: 'none',
@@ -55,11 +55,11 @@ const ThemeBasicSettings: React.FC<ThemeBasicSettingsProps> = ({
         <label style={{ display: 'block', marginBottom: '5px' }}>背景色:</label>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <input
-            type="color"
+            type="_color"
             value={backgroundColor}
             onChange={(e) => onBackgroundColorChange(e.target.value)}
             disabled={disabled}
-            style={colorInputStyle}
+            style={_colorInputStyle}
           />
           <input
             type="text"
@@ -76,11 +76,11 @@ const ThemeBasicSettings: React.FC<ThemeBasicSettingsProps> = ({
         <label style={{ display: 'block', marginBottom: '5px' }}>文本颜色:</label>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <input
-            type="color"
+            type="_color"
             value={textColor}
             onChange={(e) => onTextColorChange(e.target.value)}
             disabled={disabled}
-            style={colorInputStyle}
+            style={_colorInputStyle}
           />
           <input
             type="text"
@@ -97,7 +97,7 @@ const ThemeBasicSettings: React.FC<ThemeBasicSettingsProps> = ({
         <label>深色模式:</label>
         <input
           type="checkbox"
-          checked={darkMode}
+          checked={_darkMode}
           onChange={(e) => onDarkModeChange(e.target.checked)}
           disabled={disabled}
           style={{

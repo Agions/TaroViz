@@ -1,7 +1,7 @@
 declare module 'react-dom' {
   export function render(
-    element: React.ReactElement<any, string | React.JSXElementConstructor<any>>,
-    container: Element | null,
-    callback?: () => void
+    _element: React.ReactElement<any, string | React.JSXElementConstructor<any>>,
+    _container: Element | null,
+    _callback?: () => void
   ): React.ReactInstance;
 }

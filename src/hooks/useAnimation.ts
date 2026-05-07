@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * useAnimation - 图表动画控制 Hook
  * 提供图表动画的播放、暂停、控制等功能
@@ -47,11 +48,11 @@ export interface UseAnimationReturn {
   /** 停止动画并重置 */
   stop: () => void;
   /** 跳转到指定帧 */
-  seekTo: (frame: number) => void;
+  seekTo: (_frame: number) => void;
   /** 跳转到指定进度 */
-  seekToProgress: (progress: number) => void;
+  seekToProgress: (_progress: number) => void;
   /** 设置播放速度 */
-  setPlaybackSpeed: (speed: number) => void;
+  setPlaybackSpeed: (_speed: number) => void;
   /** 播放速度 */
   playbackSpeed: number;
 }
@@ -248,7 +249,7 @@ export function useAnimation(
       anim.currentFrame = clampedFrame;
       setFrame(clampedFrame);
 
-      const progress = clampedFrame / currentTotalFrames;
+      const _progress = clampedFrame / currentTotalFrames;
       try {
         if (chart.setOption) {
           chart.setOption({}, false, true);

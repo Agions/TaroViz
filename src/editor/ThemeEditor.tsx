@@ -4,7 +4,7 @@
  */
 import React from 'react';
 
-import type { ThemeOptions } from '../themes';
+import type { ThemeOptions } from '../_themes';
 import { useThemeEditorState } from './hooks/useThemeEditorState';
 import ThemeSelector from './components/ThemeSelector';
 import ThemeColorEditor from './components/ThemeColorEditor';
@@ -22,12 +22,12 @@ export interface ThemeEditorProps {
   /**
    * 主题变更回调函数
    */
-  onThemeChange?: (theme: ThemeOptions) => void;
+  onThemeChange?: (_theme: ThemeOptions) => void;
 
   /**
    * 主题保存回调函数
    */
-  onThemeSave?: (theme: ThemeOptions) => void;
+  onThemeSave?: (_theme: ThemeOptions) => void;
 
   /**
    * 是否禁用编辑器
@@ -77,13 +77,13 @@ const ThemeEditor: React.FC<ThemeEditorProps> = ({
 
   // 处理保存主题
   const handleSaveTheme = () => {
-    const themeToSave = saveTheme();
-    onThemeSave?.(themeToSave);
+    const _themeToSave = saveTheme();
+    onThemeSave?.(_themeToSave);
   };
 
   return (
     <div
-      className={`taroviz-theme-editor ${className}`}
+      className={`taroviz-_theme-editor ${className}`}
       style={{
         padding: '20px',
         border: '1px solid #e0e0e0',
@@ -97,7 +97,7 @@ const ThemeEditor: React.FC<ThemeEditorProps> = ({
 
       {/* 主题选择 */}
       <ThemeSelector
-        themes={registeredThemes}
+        _themes={registeredThemes}
         currentTheme={currentTheme}
         disabled={disabled}
         onSelect={setCurrentTheme}

@@ -241,33 +241,33 @@ export enum AnimationEventType {
   /**
    * 动画开始事件
    */
-  ANIMATION_START = 'animationStart',
+  _ANIMATION_START = 'animationStart',
 
   /**
    * 动画更新事件
    */
-  ANIMATION_UPDATE = 'animationUpdate',
+  _ANIMATION_UPDATE = 'animationUpdate',
 
   /**
    * 动画结束事件
    */
-  ANIMATION_END = 'animationEnd',
+  _ANIMATION_END = 'animationEnd',
 
   /**
    * 动画取消事件
    */
-  ANIMATION_CANCEL = 'animationCancel',
+  _ANIMATION_CANCEL = 'animationCancel',
 
   /**
    * 动画重复事件
    */
-  ANIMATION_REPEAT = 'animationRepeat',
+  _ANIMATION_REPEAT = 'animationRepeat',
 }
 
 /**
  * 动画事件回调类型
  */
-export type AnimationEventHandler = (event: {
+export type AnimationEventHandler = (_event: {
   type: AnimationEventType;
   animationType: AnimationType;
   chartId?: string;

@@ -2,7 +2,7 @@
  * useChartDownload - 图表下载 Hook
  * 支持下载图表为图片（PNG/JPEG/SVG/PDF）或原始数据（CSV/JSON）
  */
-import { useCallback, useRef, useMemo } from 'react';
+import { useCallback, useRef } from 'react';
 import type { ChartInstance } from './types';
 import {
   generateFilename,

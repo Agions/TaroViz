@@ -91,19 +91,21 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
     "@types/jest": "^29.5.12",
-    "@types/node": "^20.11.24",
+    "@types/node": "^20.19.39",
     "@types/react": "^18.2.61",
     "@types/react-dom": "^18.3.7",
     "@types/testing-library__jest-dom": "^5.14.9",
     "@typescript-eslint/eslint-plugin": "^8.59.1",
     "@typescript-eslint/parser": "^8.59.1",
-    "ajv": "^8.18.0",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
     "babel-loader": "^10.0.0",
     "clean-webpack-plugin": "^4.0.0",
     "commitizen": "^4.3.0",
     "core-js": "3.41.0",
     "css-loader": "^7.1.2",
     "cypress": "^15.7.0",
+    "echarts": "^5.6.0",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.3.2",
@@ -136,7 +138,8 @@
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4",
-    "whatwg-fetch": "^3.6.20"
+    "whatwg-fetch": "^3.6.20",
+    "zrender": "^5.6.1"
   },
   "dependencies": {
     "@babel/runtime": "^7.28.4",
@@ -179,8 +182,6 @@
     "url": "https://github.com/agions/taroviz/issues"
   },
   "overrides": {
-    "ajv": "^8.18.0",
-    "ajv-formats": "^3.0.0",
     "brace-expansion": "^3.0.1",
     "esbuild": "^0.24.2",
     "systeminformation": "^5.22.0",

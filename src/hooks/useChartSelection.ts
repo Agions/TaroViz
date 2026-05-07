@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * useChartSelection - 图表数据点选择/高亮 Hook
  * 支持单个/批量选择、反选、清除选择，配合 ECharts select 事件
@@ -9,7 +10,7 @@
  * - 支持多选模式（multi）
  * - 自动绑定图表 select/unselect 事件
  */
-import { useEffect, useRef, useCallback, useState, useMemo } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
 import type { ChartInstance } from './types';
 
 // ============================================================================
@@ -44,7 +45,7 @@ export interface UseChartSelectionOptions {
   /** 是否启用 Shift+Click 范围选择，默认 true */
   enableShiftRangeSelect?: boolean;
   /** 选择变化时的回调 */
-  onSelectionChange?: (event: SelectionEvent) => void;
+  onSelectionChange?: (_event: SelectionEvent) => void;
 }
 
 /** 选择返回值 */

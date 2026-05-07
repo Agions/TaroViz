@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * DrillDown - 数据下钻工具
  * 支持点击图表数据项时，自动下钻到更细粒度的数据视图

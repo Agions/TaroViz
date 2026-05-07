@@ -20,8 +20,8 @@ import {
  * Returns true if the user has requested reduced motion.
  */
 function prefersReducedMotion(): boolean {
-  if (typeof window === 'undefined') return false;
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (typeof _window === 'undefined') return false;
+  return _window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
 /**

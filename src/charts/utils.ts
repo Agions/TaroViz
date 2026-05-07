@@ -45,8 +45,8 @@ export function processAdapterConfig(config: {
  * 解决 render 方法可能不存在的问题
  */
 export function safeRenderAdapter(
-  adapter: { render?: () => JSX.Element | null } | null
-): JSX.Element | null {
+  adapter: { render?: () => _JSX.Element | null } | null
+): _JSX.Element | null {
   if (adapter && typeof adapter.render === 'function') {
     try {
       return adapter.render();

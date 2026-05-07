@@ -5,7 +5,6 @@
 
 import { createChartComponent, createChartComponentWithOptionCast } from './createChartComponent';
 import type {
-  BaseChartProps,
   LineChartProps,
   BarChartProps,
   PieChartProps,
@@ -23,8 +22,6 @@ import type {
 } from './types';
 import type { BoxplotChartProps } from './boxplot/types';
 import type { ParallelChartProps } from './parallel/types';
-import type { LiquidChartProps } from './liquid/types';
-import type { TreeChartProps } from './tree/types';
 
 // ===== 标准图表（用工厂函数创建）=====
 
@@ -85,13 +82,13 @@ export * from './types';
 export type { BoxplotChartProps, BoxplotOption, BoxplotSeriesItem } from './boxplot/types';
 export type { ParallelChartProps, ParallelOption, ParallelAxisSetting } from './parallel/types';
 export type {
-  LiquidChartProps,
+  _LiquidChartProps,
   LiquidOption,
   LiquidShape,
   LiquidSeries,
   LiquidSeriesDataItem,
 } from './liquid/types';
-export type { TreeChartProps, TreeOption, TreeNode, TreeSeries } from './tree/types';
+export type { _TreeChartProps, TreeOption, TreeNode, TreeSeries } from './tree/types';
 
 /** 版本信息 */
 export { VERSION as version } from '../core/version';

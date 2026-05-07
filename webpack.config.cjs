@@ -146,7 +146,7 @@ const baseConfig = {
   // 对于库构建，禁用性能警告（库本身带依赖是正常的）
   performance: false,
   externals: (context, request, callback) => {
-    // 将 react, react-dom, zrender 外部化（echarts 通过 splitChunks 拆出）
+    // 将 react, react-dom, zrender 外部化
     if (
       request === 'react' ||
       request === 'react-dom' ||
@@ -186,7 +186,7 @@ const esmConfig = {
     outputModule: true,
   },
   externals: (context, request, callback) => {
-    // 将 react, react-dom, zrender 外部化（echarts 通过 splitChunks 拆出）
+    // 将 react, react-dom, zrender 外部化
     if (
       request === 'react' ||
       request === 'react-dom' ||
@@ -197,7 +197,34 @@ const esmConfig = {
     callback();
   },
   optimization: {
-    minimize: false,
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: true,
+            passes: 2,
+            dead_code: true,
+            unused: true,
+            collapse_vars: true,
+            reduce_vars: true,
+            pure_funcs: ['console.debug'],
+          },
+          format: {
+            comments: false,
+          },
+          ecma: 2020,
+          warnings: false,
+        },
+        extractComments: false,
+        parallel: true,
+      }),
+    ],
+    moduleIds: 'deterministic',
+    chunkIds: 'deterministic',
+    mangleExports: 'deterministic',
+    usedExports: true,
+    sideEffects: true,
     splitChunks: {
       chunks: 'all',
       cacheGroups: {
@@ -206,6 +233,7 @@ const esmConfig = {
           name: 'vendors~echarts',
           chunks: 'all',
           priority: 10,
+          enforce: true, // 强制分离 echarts
         },
         taroviz: {
           name: 'taroviz',

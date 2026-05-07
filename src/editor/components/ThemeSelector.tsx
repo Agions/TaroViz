@@ -3,23 +3,23 @@
  * 显示已注册的主题列表和新建主题按钮
  */
 import React from 'react';
-import type { ThemeOptions } from '../../themes';
+import type { ThemeOptions } from '../../_themes';
 
 export interface ThemeSelectorProps {
   /** 已注册的主题列表 */
-  themes: ThemeOptions[];
+  _themes: ThemeOptions[];
   /** 当前选中的主题 */
   currentTheme: ThemeOptions;
   /** 是否禁用 */
   disabled?: boolean;
   /** 主题选择回调 */
-  onSelect: (theme: ThemeOptions) => void;
+  onSelect: (_theme: ThemeOptions) => void;
   /** 新建主题回调 */
   onCreateNew: () => void;
 }
 
 const ThemeSelector: React.FC<ThemeSelectorProps> = ({
-  themes,
+  _themes,
   currentTheme,
   disabled = false,
   onSelect,
@@ -29,22 +29,22 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({
     <div style={{ marginBottom: '20px' }}>
       <h4>选择主题</h4>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '10px' }}>
-        {themes.map((theme) => (
+        {_themes.map((_theme) => (
           <button
-            key={theme.name}
-            onClick={() => onSelect(theme)}
+            key={_theme.name}
+            onClick={() => onSelect(_theme)}
             disabled={disabled}
             style={{
               padding: '8px 16px',
-              border: `2px solid ${currentTheme.name === theme.name ? '#1890ff' : '#e0e0e0'}`,
+              border: `2px solid ${currentTheme.name === _theme.name ? '#1890ff' : '#e0e0e0'}`,
               borderRadius: '4px',
-              backgroundColor: currentTheme.name === theme.name ? '#1890ff' : '#ffffff',
-              color: currentTheme.name === theme.name ? '#ffffff' : '#333333',
+              backgroundColor: currentTheme.name === _theme.name ? '#1890ff' : '#ffffff',
+              color: currentTheme.name === _theme.name ? '#ffffff' : '#333333',
               cursor: disabled ? 'not-allowed' : 'pointer',
               opacity: disabled ? 0.6 : 1,
             }}
           >
-            {theme.name}
+            {_theme.name}
           </button>
         ))}
         <button

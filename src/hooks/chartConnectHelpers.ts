@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * useChartConnect 辅助函数
  * 将 useChartConnect 中的逻辑拆分为独立函数，提高代码可维护性
@@ -44,16 +45,21 @@ export type EventHandlersMap = Map<string, Map<ConnectEventType, EventHandler>>;
  * 创建联动事件处理器
  */
 export function createConnectHandler(
+ 
   sourceId: string,
+ 
   eventType: ConnectEventType,
   disabled: boolean,
+ 
   eventFilter: ((eventType: ConnectEventType, params: unknown) => boolean) | undefined,
   chartsRef: React.MutableRefObject<Map<string, ChartConnectItem>>,
   optionsRef: React.MutableRefObject<{
     onConnect?: (
-      sourceId: string,
+     
+  sourceId: string,
       targetId: string,
-      payload: { eventType: ConnectEventType; params: unknown }
+     
+  payload: { eventType: ConnectEventType; params: unknown }
     ) => void;
   }>
 ): EventHandler {
@@ -84,7 +90,9 @@ export function createConnectHandler(
  * 分发事件到其他图表
  */
 export function dispatchToOthers(
+ 
   sourceId: string,
+ 
   eventType: ConnectEventType,
   params: unknown,
   chartsRef: React.MutableRefObject<Map<string, ChartConnectItem>>
@@ -310,7 +318,9 @@ export function disconnectAllCharts(
  * 触发联动事件
  */
 export function dispatchConnectEvent(
+ 
   sourceId: string,
+ 
   payload: { eventType: ConnectEventType; params: unknown } | undefined,
   disabled: boolean,
   chartsRef: React.MutableRefObject<Map<string, ChartConnectItem>>,

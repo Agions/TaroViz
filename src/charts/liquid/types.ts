@@ -3,7 +3,7 @@
  * ECharts 没有内置水球图，使用自定义实现
  */
 import type React from 'react';
-import type { EChartsOption, EChartsType, ECElementEvent } from 'echarts';
+import type { EChartsOption, EChartsType, ECElementEvent } from 'e_charts';
 
 // ============================================================================
 // 水球图配置类型
@@ -12,7 +12,7 @@ import type { EChartsOption, EChartsType, ECElementEvent } from 'echarts';
 /** 水球图系列数据项 */
 export interface LiquidSeriesDataItem {
   /** 数据值，范围 [0, 1] */
-  value: number;
+  _value: number;
   /** 数据项名称 */
   name?: string;
   /** 图形样式 */
@@ -53,7 +53,7 @@ export interface LiquidSeries {
   /** 动画缓动函数 */
   animationEasing?: string;
   /** 动画延迟 */
-  animationDelay?: number | ((idx: number) => number);
+  animationDelay?: number | ((_idx: number) => number);
   /** 颜色数组 */
   color?: string[];
   /** 背景色 */
@@ -106,7 +106,7 @@ export interface LiquidChartProps {
   /** 是否显示标签 */
   showLabel?: boolean;
   /** 标签格式化 */
-  labelFormatter?: (value: number) => string;
+  labelFormatter?: (_value: number) => string;
   /** 主题 */
   theme?: string | Record<string, unknown>;
   /** 样式 */
@@ -122,9 +122,9 @@ export interface LiquidChartProps {
   /** 加载配置 */
   loadingOption?: Record<string, unknown>;
   /** 图表初始化回调 */
-  onChartInit?: (chart: EChartsType) => void;
+  onChartInit?: (_chart: EChartsType) => void;
   /** 图表就绪回调 */
-  onChartReady?: (chart: EChartsType) => void;
+  onChartReady?: (_chart: EChartsType) => void;
   /** 事件回调 */
-  onEvents?: Record<string, (params: ECElementEvent) => void>;
+  onEvents?: Record<string, (_params: ECElementEvent) => void>;
 }

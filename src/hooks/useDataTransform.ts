@@ -63,7 +63,7 @@ export interface TransformOptions {
     order: 'asc' | 'desc';
   };
   /** 过滤配置 */
-  filter?: (item: Record<string, unknown>) => boolean;
+  filter?: (_item: Record<string, unknown>) => boolean;
   /** 转换后的额外配置 */
   extraConfig?: Partial<EChartsOption>;
 }
@@ -174,7 +174,7 @@ export function useTableTransform(options: TableTransformOptions): EChartsOption
         name: colConfig?.label || key,
         type: 'bar' as const,
         data: values,
-        itemStyle: colConfig?.color ? { color: colConfig.color } : undefined,
+        _itemStyle: colConfig?.color ? { color: colConfig.color } : undefined,
       };
     });
 
@@ -217,8 +217,8 @@ export function useTimeSeriesTransform(options: TimeSeriesTransformOptions): ECh
       const groups = new Set(data.map((d) => String(d[groupField])));
       const series = Array.from(groups).map((group) => {
         const groupValues = categories.map((date) => {
-          const items = groupedData[date]?.filter((d) => String(d[groupField]) === group) || [];
-          return aggregateValues(items, valueField, aggregation, fillMissing);
+          const _items = groupedData[date]?.filter((d) => String(d[groupField]) === group) || [];
+          return aggregateValues(_items, valueField, aggregation, fillMissing);
         });
         return { name: group, type: 'line', data: groupValues, smooth: true };
       });

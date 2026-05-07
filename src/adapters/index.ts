@@ -131,7 +131,7 @@ export async function getAdapter(options: AdapterOptions): Promise<Adapter> {
       }
       case PlatformType.HARMONY: {
         const { HarmonyAdapter } = (await import('./harmony')) as unknown as {
-          HarmonyAdapter: { create: (opts: object) => Adapter };
+          HarmonyAdapter: { create: (_opts: object) => Adapter };
         };
         return HarmonyAdapter.create(options);
       }

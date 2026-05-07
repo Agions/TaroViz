@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * TaroViz 基础图表组件
  * 所有图表组件的基类
@@ -18,8 +19,6 @@ import BaseChartWrapper from '../../charts/common/BaseChartWrapper';
 import type { BaseChartProps } from '../../charts/types';
 import type {
   EChartsMouseEventParams,
-  EChartsDataZoomEventParams,
-  EChartsLegendEventParams,
   EChartsTooltipEventParams,
   ChartEventParams,
   ChartExportOptions,
@@ -48,9 +47,9 @@ export interface ChartProps {
   theme?: string | object;
   autoResize?: boolean;
   direction?: 'ltr' | 'rtl';
-  onInit?: (instance: EChartsType) => void;
-  onClick?: (params: ChartEventParams) => void;
-  onDataZoom?: (params: ChartEventParams) => void;
+  onInit?: (_instance: EChartsType) => void;
+  onClick?: (_params: ChartEventParams) => void;
+  onDataZoom?: (_params: ChartEventParams) => void;
   style?: React.CSSProperties;
   className?: string;
   children?: React.ReactNode;
@@ -58,37 +57,37 @@ export interface ChartProps {
   virtualScrollPageSize?: number;
   virtualScrollPreloadSize?: number;
   enablePerformanceMonitoring?: boolean;
-  onPerformance?: (data: {
+  onPerformance?: (_data: {
     renderTime: number;
     initTime: number;
     updateTime: number;
-    dataSize: number;
+    _dataSize: number;
   }) => void;
   enableZoom?: boolean;
-  onZoom?: (data: { start: number; end: number; dataZoomIndex: number }) => void;
+  onZoom?: (_data: { start: number; end: number; _dataZoomIndex: number }) => void;
   enableDataFiltering?: boolean;
-  filters?: Record<string, string | number | boolean | string[] | null>;
-  onDataFiltered?: (filteredData: unknown[], filters: Record<string, unknown>) => void;
+  _filters?: Record<string, string | number | boolean | string[] | null>;
+  onDataFiltered?: (_filteredData: unknown[], _filters: Record<string, unknown>) => void;
   enableLegendInteraction?: boolean;
   legendInteractionMode?: 'single' | 'multiple' | 'all';
-  onLegendSelect?: (params: { name: string; selected: Record<string, boolean> }) => void;
-  onLegendUnselect?: (params: { name: string; selected: Record<string, boolean> }) => void;
-  onLegendSelectAll?: (params: { selected: Record<string, boolean> }) => void;
-  onLegendInverseSelect?: (params: { selected: Record<string, boolean> }) => void;
+  onLegendSelect?: (_params: { name: string; selected: Record<string, boolean> }) => void;
+  onLegendUnselect?: (_params: { name: string; selected: Record<string, boolean> }) => void;
+  onLegendSelectAll?: (_params: { selected: Record<string, boolean> }) => void;
+  onLegendInverseSelect?: (_params: { selected: Record<string, boolean> }) => void;
   enableCustomTooltip?: boolean;
   customTooltipContent?: (
-    params: EChartsMouseEventParams | EChartsMouseEventParams[]
+    _params: EChartsMouseEventParams | EChartsMouseEventParams[]
   ) => React.ReactNode;
   customTooltipStyle?: React.CSSProperties;
-  onTooltipShow?: (params: EChartsTooltipEventParams) => void;
-  onTooltipHide?: (params: EChartsTooltipEventParams) => void;
-  onExport?: (dataURL: string, options: ChartExportOptions) => void;
+  onTooltipShow?: (_params: EChartsTooltipEventParams) => void;
+  onTooltipHide?: (_params: EChartsTooltipEventParams) => void;
+  onExport?: (_dataURL: string, options: ChartExportOptions) => void;
   linkageConfig?: ChartLinkageConfig;
   onDataUpdate?: (
     oldOption: EChartsOption | undefined,
     newOption: EChartsOption | undefined
   ) => void;
-  dataUpdateOptions?: { enabled?: boolean; deepCompare?: boolean; debounceDelay?: number };
+  _dataUpdateOptions?: { enabled?: boolean; deepCompare?: boolean; debounceDelay?: number };
 }
 
 // ============================================================================
@@ -120,7 +119,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
     enableZoom: _enableZoom = false,
     onZoom,
     enableDataFiltering = false,
-    filters = {},
+    _filters = {},
     onDataFiltered,
     enableLegendInteraction = false,
     legendInteractionMode = 'single',
@@ -136,7 +135,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
     onExport: _onExport,
     linkageConfig = {},
     onDataUpdate,
-    dataUpdateOptions = {},
+    _dataUpdateOptions = {},
   } = props;
 
   // Refs
@@ -167,20 +166,20 @@ const BaseChart: React.FC<ChartProps> = (props) => {
       : { enabled: true, ...debug };
   }, [debug]);
 
-  // Wrapper option that applies virtual scroll + data filtering
+  // Wrapper option that applies virtual scroll + _data filtering
   const wrappedOption = useMemo(() => {
     if (!option) return undefined;
     let processed: Record<string, unknown> = { ...option };
 
-    // Apply data filtering
-    if (enableDataFiltering && filters && Object.keys(filters).length > 0) {
+    // Apply _data filtering
+    if (enableDataFiltering && _filters && Object.keys(_filters).length > 0) {
       processed = JSON.parse(JSON.stringify(processed)) as typeof processed;
       if (processed.series && Array.isArray(processed.series)) {
         processed.series = (processed.series as unknown[]).map((s: unknown) => {
-          const seriesItem = s as { data?: unknown[]; [key: string]: unknown };
-          if (seriesItem.data && Array.isArray(seriesItem.data)) {
-            const filtered = filterDataByKeys(seriesItem.data, filters);
-            if (onDataFiltered) onDataFiltered(filtered, filters);
+          const seriesItem = s as { _data?: unknown[]; [key: string]: unknown };
+          if (seriesItem._data && Array.isArray(seriesItem._data)) {
+            const filtered = filterDataByKeys(seriesItem._data, _filters);
+            if (onDataFiltered) onDataFiltered(filtered, _filters);
             if (virtualScroll) {
               virtualScrollRef.current.totalDataCount = filtered.length;
               virtualScrollRef.current.totalPages = Math.ceil(
@@ -191,26 +190,26 @@ const BaseChart: React.FC<ChartProps> = (props) => {
                 start + virtualScrollPageSize + virtualScrollPreloadSize,
                 filtered.length
               );
-              return { ...seriesItem, data: filtered.slice(start, end) };
+              return { ...seriesItem, _data: filtered.slice(start, end) };
             }
-            return { ...seriesItem, data: filtered };
+            return { ...seriesItem, _data: filtered };
           }
           return seriesItem;
         });
       }
     }
 
-    // Inject dataZoom when enableZoom is true (keyboard-accessible zoom)
+    // Inject _dataZoom when enableZoom is true (keyboard-accessible zoom)
     if (_enableZoom) {
       processed = JSON.parse(JSON.stringify(processed));
-      // Avoid duplicate dataZoom entries
-      const existingDzArr = Array.isArray(processed.dataZoom)
-        ? (processed.dataZoom as DataZoomComponentOption[])
-        : processed.dataZoom
-          ? [processed.dataZoom as DataZoomComponentOption]
+      // Avoid duplicate _dataZoom entries
+      const existingDzArr = Array.isArray(processed._dataZoom)
+        ? (processed._dataZoom as DataZoomComponentOption[])
+        : processed._dataZoom
+          ? [processed._dataZoom as DataZoomComponentOption]
           : [];
       if (!existingDzArr.some((dz) => dz?.type === 'inside')) {
-        processed.dataZoom = [
+        processed._dataZoom = [
           ...(existingDzArr || []),
           // Inside (mouse wheel + keyboard) — wired to keyboard nav in BaseChartWrapper
           { type: 'inside', start: 0, end: 100, zoomOnMouseWheel: true, moveOnMouseMove: false },
@@ -219,15 +218,15 @@ const BaseChart: React.FC<ChartProps> = (props) => {
     }
 
     // Apply animation config
-    const dataLength = calculateDataLength(processed);
-    const animConfig = generateEChartsAnimationConfig(animation, dataLength);
+    const _dataLength = calculateDataLength(processed);
+    const animConfig = generateEChartsAnimationConfig(animation, _dataLength);
     return { ...processed, ...animConfig } as EChartsOption;
   }, [
     option,
     animation,
     _enableZoom,
     enableDataFiltering,
-    filters,
+    _filters,
     virtualScroll,
     virtualScrollPageSize,
     virtualScrollPreloadSize,
@@ -236,16 +235,16 @@ const BaseChart: React.FC<ChartProps> = (props) => {
 
   // Internal chartInit that wraps the user's callback
   const handleChartInit = useCallback(
-    (instance: EChartsType) => {
-      chartInstanceRef.current = instance;
-      adapterRef.current = instance as unknown;
+    (_instance: EChartsType) => {
+      chartInstanceRef.current = _instance;
+      adapterRef.current = _instance as unknown;
 
       // Performance monitoring init
       if (enablePerformanceMonitoring) {
         performanceAnalyzerRef.current = PerformanceAnalyzer.getInstance({
           chartId,
           enabled: true,
-          metrics: ['initTime', 'renderTime', 'updateTime', 'dataSize', 'frameRate'],
+          metrics: ['initTime', 'renderTime', 'updateTime', '_dataSize', 'frameRate'],
           sampleInterval: 1000,
           maxSamples: 100,
           realTime: true,
@@ -255,33 +254,33 @@ const BaseChart: React.FC<ChartProps> = (props) => {
       performanceRef.current.initStartTime = Date.now();
 
       // Register for linkage
-      if (chartId) registerChart(chartId, instance);
+      if (chartId) registerChart(chartId, _instance);
 
       // Setup internal event handlers for linkage + virtual scroll
-      if (instance) {
+      if (_instance) {
         // Click linkage
         if (linkageConfig.enableClickLinkage && chartId && linkageConfig.linkedChartIds) {
-          instance.on('click', (params: ECElementEvent) => {
+          _instance.on('click', (_params: ECElementEvent) => {
             linkageConfig.linkedChartIds!.forEach((lid) => {
               const linked = getChart(lid);
-              if (linked) linked.dispatchAction({ type: 'highlight', name: params.name });
+              if (linked) linked.dispatchAction({ type: 'highlight', name: _params.name });
             });
           });
         }
 
         // Zoom + zoom linkage + virtual scroll page update
-        instance.on('datazoom', (params: unknown) => {
-          const p = params as {
+        _instance.on('_datazoom', (_params: unknown) => {
+          const p = _params as {
             start?: number;
             end?: number;
-            dataZoomIndex?: number;
-            batch?: Array<{ start?: number; end?: number; dataZoomIndex?: number }>;
+            _dataZoomIndex?: number;
+            batch?: Array<{ start?: number; end?: number; _dataZoomIndex?: number }>;
           };
           if (onZoom)
             onZoom({
               start: p.start || 0,
               end: p.end || 100,
-              dataZoomIndex: p.dataZoomIndex || 0,
+              _dataZoomIndex: p._dataZoomIndex || 0,
             });
           if (virtualScroll && !virtualScrollRef.current.isScrolling) {
             virtualScrollRef.current.isScrolling = true;
@@ -301,10 +300,10 @@ const BaseChart: React.FC<ChartProps> = (props) => {
               const linked = getChart(lid);
               if (linked)
                 linked.dispatchAction({
-                  type: 'dataZoom',
+                  type: '_dataZoom',
                   start: p.start,
                   end: p.end,
-                  dataZoomIndex: p.dataZoomIndex,
+                  _dataZoomIndex: p._dataZoomIndex,
                 });
             });
           }
@@ -312,8 +311,8 @@ const BaseChart: React.FC<ChartProps> = (props) => {
 
         // Legend interaction
         if (enableLegendInteraction) {
-          instance.on('legendselectchanged', (params: unknown) => {
-            const p = params as { name?: string; selected: Record<string, boolean> };
+          _instance.on('legendselectchanged', (_params: unknown) => {
+            const p = _params as { name?: string; selected: Record<string, boolean> };
             const { name, selected } = p;
             if (linkageConfig.enableLegendLinkage && chartId && linkageConfig.linkedChartIds) {
               linkageConfig.linkedChartIds!.forEach((lid) => {
@@ -326,7 +325,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
               Object.keys(selected).forEach((k) => {
                 newSelected[k] = k === name;
               });
-              instance.setOption({ legend: { selected: newSelected } });
+              _instance.setOption({ legend: { selected: newSelected } });
               if (name !== undefined) onLegendSelect?.({ name, selected: newSelected });
             } else {
               if (name !== undefined && selected[name]) onLegendSelect?.({ name, selected });
@@ -337,16 +336,16 @@ const BaseChart: React.FC<ChartProps> = (props) => {
 
         // Custom tooltip
         if (enableCustomTooltip && customTooltipContent) {
-          instance.on('tooltipshow', (params: unknown) =>
-            onTooltipShow?.(params as EChartsTooltipEventParams)
+          _instance.on('tooltipshow', (_params: unknown) =>
+            onTooltipShow?.(_params as EChartsTooltipEventParams)
           );
-          instance.on('tooltiphide', (params: unknown) =>
-            onTooltipHide?.(params as EChartsTooltipEventParams)
+          _instance.on('tooltiphide', (_params: unknown) =>
+            onTooltipHide?.(_params as EChartsTooltipEventParams)
           );
-          instance.setOption({
+          _instance.setOption({
             tooltip: {
-              formatter: (params: unknown) =>
-                String(customTooltipContent(params as EChartsMouseEventParams)),
+              formatter: (_params: unknown) =>
+                String(customTooltipContent(_params as EChartsMouseEventParams)),
               ...(customTooltipStyle && {
                 backgroundColor: 'transparent',
                 borderColor: 'transparent',
@@ -360,7 +359,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
       // Update debug panel
       if (debugConfig?.enabled) {
         updateDebugInfo({
-          instance: {
+          _instance: {
             id: chartId,
             type: 'ECharts',
             renderer: 'canvas',
@@ -369,7 +368,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
             platform: 'web',
           },
           config: wrappedOption,
-          data: {
+          _data: {
             series: Array.isArray(wrappedOption?.series) ? wrappedOption.series : [],
             totalDataCount: calculateDataLength(wrappedOption),
             currentDataCount: calculateDataLength(wrappedOption),
@@ -377,12 +376,12 @@ const BaseChart: React.FC<ChartProps> = (props) => {
           performance: {
             initTime: 0,
             renderTime: 0,
-            dataSize: JSON.stringify(wrappedOption).length,
+            _dataSize: JSON.stringify(wrappedOption).length,
           },
         });
       }
 
-      onInit?.(instance);
+      onInit?.(_instance);
       performanceRef.current.initEndTime = Date.now();
     },
     [
@@ -415,7 +414,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
         renderTime: p.renderEndTime - p.renderStartTime,
         initTime: p.initEndTime - p.initStartTime,
         updateTime: p.updateEndTime - p.updateStartTime,
-        dataSize: JSON.stringify(option).length,
+        _dataSize: JSON.stringify(option).length,
       });
     }
   }, [option, onPerformance]);
@@ -424,9 +423,9 @@ const BaseChart: React.FC<ChartProps> = (props) => {
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (!onDataUpdate || dataUpdateOptions?.enabled === false) return;
+    if (!onDataUpdate || _dataUpdateOptions?.enabled === false) return;
 
-    const delay = dataUpdateOptions?.debounceDelay ?? 0;
+    const delay = _dataUpdateOptions?.debounceDelay ?? 0;
 
     if (debounceTimerRef.current) {
       clearTimeout(debounceTimerRef.current);
@@ -454,7 +453,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
         debounceTimerRef.current = null;
       }
     };
-  }, [option, onDataUpdate, dataUpdateOptions]);
+  }, [option, onDataUpdate, _dataUpdateOptions]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -494,7 +493,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
         <DebugPanel
           options={debugConfig}
           debugInfo={{
-            instance: {
+            _instance: {
               id: chartId,
               type: 'ECharts',
               renderer: 'canvas',
@@ -503,7 +502,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
               platform: 'web',
             },
             config: option,
-            data: {
+            _data: {
               series: Array.isArray(option?.series) ? option.series : [],
               totalDataCount: calculateDataLength(option),
               currentDataCount: calculateDataLength(option),
@@ -513,7 +512,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
               renderTime:
                 performanceRef.current.renderEndTime - performanceRef.current.renderStartTime,
               updateTime: 0,
-              dataSize: JSON.stringify(option).length,
+              _dataSize: JSON.stringify(option).length,
             },
           }}
         />

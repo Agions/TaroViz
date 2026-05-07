@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * TaroViz 图表导出工具
  * 支持导出为 PNG、JPEG、SVG、PDF 等格式
@@ -18,7 +19,7 @@ type ExportImageType = 'png' | 'jpeg' | 'svg' | 'webp' | 'gif';
 /**
  * getDataURL 方法参数（基于 ECharts 官方类型，扩展 webp/gif 支持）
  */
-interface EChartsDataURLOptions {
+interface __EChartsDataURLOptions {
   type?: ExportImageType;
   pixelRatio?: number;
   backgroundColor?: string;

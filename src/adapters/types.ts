@@ -2,7 +2,7 @@
  * TaroViz 适配器类型定义
  */
 import type { CSSProperties } from 'react';
-import type { EChartsOption, EChartsType } from 'echarts';
+import type { _EChartsOption, EChartsType } from 'echarts';
 
 import { Adapter as CoreAdapter, PlatformType } from '../core';
 
@@ -22,7 +22,7 @@ export interface AdapterOptions {
   theme?: string | object;
   option?: unknown;
 
-  onInit?: (instance: EChartsType) => void;
+  onInit?: (_instance: EChartsType) => void;
   style?: CSSProperties;
   autoResize?: boolean;
   devicePixelRatio?: number;

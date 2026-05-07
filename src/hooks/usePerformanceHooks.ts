@@ -11,16 +11,16 @@ import { useCallback, useRef, useEffect, useState } from 'react';
  * @param delay 延迟时间 (ms)
  * @returns 防抖后的回调（包含 cancel 方法）
  */
-export function useDebounce<T extends (...args: unknown[]) => unknown>(
+export function useDebounce<T extends (..._args: unknown[]) => unknown>(
   callback: T,
   delay: number
 ): {
-  (...args: Parameters<T>): void;
+  (..._args: Parameters<T>): void;
   cancel: () => void;
   flush: () => void;
 } {
   const callbackRef = useRef(callback);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const _timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // 更新 callback 引用
   useEffect(() => {
@@ -30,22 +30,22 @@ export function useDebounce<T extends (...args: unknown[]) => unknown>(
   // 清理定时器
   useEffect(() => {
     return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
+      if (_timeoutRef.current) {
+        clearTimeout(_timeoutRef.current);
+        _timeoutRef.current = null;
       }
     };
   }, []);
 
   const debouncedCallback = useCallback(
-    (...args: Parameters<T>) => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
+    (..._args: Parameters<T>) => {
+      if (_timeoutRef.current) {
+        clearTimeout(_timeoutRef.current);
       }
 
-      timeoutRef.current = setTimeout(() => {
-        callbackRef.current(...args);
-        timeoutRef.current = null;
+      _timeoutRef.current = setTimeout(() => {
+        callbackRef.current(..._args);
+        _timeoutRef.current = null;
       }, delay);
     },
     [delay]
@@ -53,19 +53,19 @@ export function useDebounce<T extends (...args: unknown[]) => unknown>(
 
   // 添加 cancel 方法
   const cancel = useCallback(() => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
+    if (_timeoutRef.current) {
+      clearTimeout(_timeoutRef.current);
+      _timeoutRef.current = null;
     }
   }, []);
 
   // 添加 flush 方法
-  const flush = useCallback((...args: Parameters<T>) => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
+  const flush = useCallback((..._args: Parameters<T>) => {
+    if (_timeoutRef.current) {
+      clearTimeout(_timeoutRef.current);
+      _timeoutRef.current = null;
     }
-    callbackRef.current(...args);
+    callbackRef.current(..._args);
   }, []);
 
   // 将 cancel 和 flush 附加到回调函数上
@@ -81,17 +81,17 @@ export function useDebounce<T extends (...args: unknown[]) => unknown>(
  * @param options 节流选项
  * @returns 节流后的回调
  */
-export function useThrottle<T extends (...args: unknown[]) => unknown>(
+export function useThrottle<T extends (..._args: unknown[]) => unknown>(
   callback: T,
   limit: number,
   options?: {
     leading?: boolean;
     trailing?: boolean;
   }
-): (...args: Parameters<T>) => void {
+): (..._args: Parameters<T>) => void {
   const callbackRef = useRef(callback);
   const lastCallTimeRef = useRef<number>(0);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const _timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastArgsRef = useRef<Parameters<T> | null>(null);
   const lastThisRef = useRef<unknown>(null);
 
@@ -105,36 +105,36 @@ export function useThrottle<T extends (...args: unknown[]) => unknown>(
   // 清理
   useEffect(() => {
     return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
+      if (_timeoutRef.current) {
+        clearTimeout(_timeoutRef.current);
+        _timeoutRef.current = null;
       }
     };
   }, []);
 
   const throttledCallback = useCallback(
-    (...args: Parameters<T>) => {
+    (..._args: Parameters<T>) => {
       const now = Date.now();
       const elapsed = now - lastCallTimeRef.current;
 
       // 保存调用上下文和参数
-      lastArgsRef.current = args;
-      lastThisRef.current = args.length > 0 ? args[0] : null;
+      lastArgsRef.current = _args;
+      lastThisRef.current = _args.length > 0 ? _args[0] : null;
 
       if (elapsed >= limit) {
         // 超过限制，立即执行
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
-          timeoutRef.current = null;
+        if (_timeoutRef.current) {
+          clearTimeout(_timeoutRef.current);
+          _timeoutRef.current = null;
         }
         lastCallTimeRef.current = now;
-        callbackRef.current(...args);
+        callbackRef.current(..._args);
         lastArgsRef.current = null;
         lastThisRef.current = null;
-      } else if (trailing && !timeoutRef.current) {
+      } else if (trailing && !_timeoutRef.current) {
         // 在节流窗口结束时执行最后一次调用
-        timeoutRef.current = setTimeout(() => {
-          timeoutRef.current = null;
+        _timeoutRef.current = setTimeout(() => {
+          _timeoutRef.current = null;
           lastCallTimeRef.current = Date.now();
           if (lastArgsRef.current && lastThisRef.current !== null) {
             callbackRef.current(...lastArgsRef.current);
@@ -154,7 +154,7 @@ export function useThrottle<T extends (...args: unknown[]) => unknown>(
  * 请求动画帧 Hook
  * 用于优化动画性能
  */
-export function useAnimationFrame(callback: (time: number) => void, enabled = true): void {
+export function useAnimationFrame(callback: (_time: number) => void, enabled = true): void {
   const callbackRef = useRef(callback);
   const animationFrameRef = useRef<number | null>(null);
 
@@ -172,8 +172,8 @@ export function useAnimationFrame(callback: (time: number) => void, enabled = tr
       return;
     }
 
-    const loop = (time: number) => {
-      callbackRef.current(time);
+    const loop = (_time: number) => {
+      callbackRef.current(_time);
       animationFrameRef.current = requestAnimationFrame(loop);
     };
 

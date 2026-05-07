@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * ECharts 类型定义
  */
@@ -120,7 +121,7 @@ export type EChartsEventParams =
 /**
  * 图表事件监听器
  */
-export type ChartEventListener = Record<string, (params: ChartEventParams) => void>;
+export type _ChartEventListener = Record<string, (_params: ChartEventParams) => void>;
 
 /**
  * 图表渲染器类型

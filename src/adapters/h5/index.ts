@@ -23,7 +23,7 @@ interface ExtendedH5AdapterOptions extends H5AdapterOptions {
   height?: number | string;
   theme?: string | object;
   option?: EChartsOption;
-  onInit?: (instance: EChartsType) => void;
+  onInit?: (_instance: EChartsType) => void;
   containerRef?: HTMLElement | { current: HTMLElement | null };
   direction?: 'ltr' | 'rtl';
 }
@@ -46,7 +46,7 @@ class H5Adapter implements Adapter {
   /**
    * 图表实例
    */
-  private instance: EChartsType | null = null;
+  private _instance: EChartsType | null = null;
   private options: ExtendedH5AdapterOptions;
   private containerRef: ExtendedH5AdapterOptions['containerRef'] = undefined;
   private canvasId: string;
@@ -70,8 +70,8 @@ class H5Adapter implements Adapter {
    * 初始化图表
    */
   init(_options?: EChartsOption): EChartsType {
-    if (this.instance) {
-      return this.instance;
+    if (this._instance) {
+      return this._instance;
     }
 
     // 获取容器元素
@@ -85,16 +85,16 @@ class H5Adapter implements Adapter {
 
     // 初始化图表
 
-    this.instance = echarts.init(container as HTMLElement, this.options.theme, {
+    this._instance = echarts.init(container as HTMLElement, this.options.theme, {
       // 性能优化选项
       useDirtyRect: true, // 使用脏矩形渲染，减少重绘区域
       renderer: this.options.renderer || 'canvas',
     }) as unknown as EChartsType;
 
     // 设置性能优化相关的全局配置
-    if (this.instance) {
+    if (this._instance) {
       // 渐进式渲染配置
-      this.instance.setOption(
+      this._instance.setOption(
         {
           animation: this.options.option?.animation !== false,
           animationDurationUpdate: 300,
@@ -107,31 +107,31 @@ class H5Adapter implements Adapter {
     }
 
     // 设置初始化选项，使用lazyUpdate优化性能
-    if (this.options.option && this.instance) {
-      this.instance.setOption(this.options.option, false, true);
+    if (this.options.option && this._instance) {
+      this._instance.setOption(this.options.option, false, true);
     }
 
     // 执行初始化回调
-    if (this.options.onInit && this.instance) {
-      this.options.onInit(this.instance);
+    if (this.options.onInit && this._instance) {
+      this.options.onInit(this._instance);
     }
 
-    return this.instance as EChartsType;
+    return this._instance as EChartsType;
   }
 
   /**
    * 获取图表实例
    */
   getInstance(): EChartsType | null {
-    return this.instance;
+    return this._instance;
   }
 
   /**
    * 设置图表选项
    */
   setOption(option: EChartsOption, notMerge?: boolean, lazyUpdate?: boolean): void {
-    if (this.instance) {
-      this.instance.setOption(option, notMerge, lazyUpdate);
+    if (this._instance) {
+      this._instance.setOption(option, notMerge, lazyUpdate);
     } else {
       this.options.option = option;
     }
@@ -142,9 +142,9 @@ class H5Adapter implements Adapter {
    */
   setTheme(theme: string | object): void {
     this.options.theme = theme;
-    if (this.instance) {
+    if (this._instance) {
       // 使用类型断言来访问私有方法
-      (this.instance as any).setTheme?.(theme);
+      (this._instance as any).setTheme?.(theme);
     }
   }
 
@@ -152,14 +152,14 @@ class H5Adapter implements Adapter {
    * 获取图表宽度
    */
   getWidth(): number {
-    return this.instance?.getWidth() || 0;
+    return this._instance?.getWidth() || 0;
   }
 
   /**
    * 获取图表高度
    */
   getHeight(): number {
-    return this.instance?.getHeight() || 0;
+    return this._instance?.getHeight() || 0;
   }
 
   /**
@@ -178,15 +178,15 @@ class H5Adapter implements Adapter {
     pixelRatio?: number;
     backgroundColor?: string;
   }): string | undefined {
-    return this.instance?.getDataURL(opts);
+    return this._instance?.getDataURL(opts);
   }
 
   /**
    * 清空图表
    */
   clear(): void {
-    if (this.instance) {
-      this.instance.clear();
+    if (this._instance) {
+      this._instance.clear();
     }
   }
 
@@ -194,8 +194,8 @@ class H5Adapter implements Adapter {
    * 绑定事件
    */
   on(event: string, handler: EventHandler): void {
-    if (this.instance) {
-      this.instance.on(event, handler as any);
+    if (this._instance) {
+      this._instance.on(event, handler as any);
     }
   }
 
@@ -203,8 +203,8 @@ class H5Adapter implements Adapter {
    * 解绑事件
    */
   off(event: string, handler?: EventHandler): void {
-    if (this.instance) {
-      this.instance.off(event, handler as any);
+    if (this._instance) {
+      this._instance.off(event, handler as any);
     }
   }
 
@@ -212,8 +212,8 @@ class H5Adapter implements Adapter {
    * 显示加载动画
    */
   showLoading(opts?: object): void {
-    if (this.instance) {
-      this.instance.showLoading(opts);
+    if (this._instance) {
+      this._instance.showLoading(opts);
     }
   }
 
@@ -221,8 +221,8 @@ class H5Adapter implements Adapter {
    * 隐藏加载动画
    */
   hideLoading(): void {
-    if (this.instance) {
-      this.instance.hideLoading();
+    if (this._instance) {
+      this._instance.hideLoading();
     }
   }
 
@@ -250,9 +250,9 @@ class H5Adapter implements Adapter {
    * 销毁图表
    */
   dispose(): void {
-    if (this.instance) {
-      this.instance.dispose();
-      this.instance = null;
+    if (this._instance) {
+      this._instance.dispose();
+      this._instance = null;
     }
   }
 
@@ -260,8 +260,8 @@ class H5Adapter implements Adapter {
    * 触发图表行为
    */
   dispatchAction(payload: { type: string; [key: string]: unknown }): void {
-    if (this.instance) {
-      this.instance.dispatchAction(payload);
+    if (this._instance) {
+      this._instance.dispatchAction(payload);
     }
   }
 
@@ -269,15 +269,15 @@ class H5Adapter implements Adapter {
    * 获取DataURL
    */
   getDataURL(opts?: object): string | undefined {
-    return this.instance?.getDataURL(opts);
+    return this._instance?.getDataURL(opts);
   }
 
   /**
    * 处理图表大小变化
    */
   resize(opts?: object): void {
-    if (this.instance) {
-      this.instance.resize(opts);
+    if (this._instance) {
+      this._instance.resize(opts);
     }
   }
 

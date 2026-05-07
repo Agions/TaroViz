@@ -57,7 +57,7 @@ export interface MarkLineConfig {
   label?: {
     show?: boolean;
     position?: 'start' | 'middle' | 'end' | 'insideStartBottom' | 'insideStartTop';
-    formatter?: string | ((value: unknown) => string);
+    formatter?: string | ((_value: unknown) => string);
     color?: string;
     fontSize?: number;
   };
@@ -81,7 +81,7 @@ export interface MarkAreaConfig {
   label?: {
     show?: boolean;
     position?: 'top' | 'bottom' | 'left' | 'right' | 'inside';
-    formatter?: string | ((value: unknown) => string);
+    formatter?: string | ((_value: unknown) => string);
     color?: string;
     fontSize?: number;
   };
@@ -98,7 +98,7 @@ export interface ScatterAnnotationConfig {
   /** 数据点 */
   data: Array<{
     coord: [number | string, number];
-    value?: number;
+    _value?: number;
     name: string;
   }>;
   /** 符号类型 */
@@ -111,7 +111,7 @@ export interface ScatterAnnotationConfig {
   label?: {
     show?: boolean;
     position?: string;
-    formatter?: string | ((value: unknown) => string);
+    formatter?: string | ((_value: unknown) => string);
     color?: string;
   };
 }
@@ -290,8 +290,8 @@ export const AnnotationPresets = {
   }),
 
   /** 警戒线 */
-  thresholdLine: (value: number, color = '#faad14'): MarkLineConfig => ({
-    data: [{ yAxis: value, name: '警戒线' }],
+  thresholdLine: (_value: number, color = '#faad14'): MarkLineConfig => ({
+    data: [{ yAxis: _value, name: '警戒线' }],
     lineStyle: { color, type: 'solid', width: 2 },
     label: { show: true, position: 'start', color },
   }),

@@ -64,7 +64,7 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
   const seriesData = useMemo(() => extractSeriesData(option), [option]);
   const ariaLabel = useMemo(() => buildAriaLabel(chartType, option), [chartType, option]);
 
-  // Keyboard handler for zoom/pan — attached to the chart container
+  // Keyboard _handler for zoom/pan — attached to the chart container
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     const instance = chartInstance.current;
     if (!instance) return;
@@ -76,7 +76,7 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
 
     // Home = reset zoom to full range
     if (e.key === 'Home') {
-      e.preventDefault();
+      e.pr_eventDefault();
       instance.dispatchAction({ type: 'dataZoom', start: 0, end: 100 });
       return;
     }
@@ -84,7 +84,7 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
     switch (e.key) {
       case '+':
       case '=': {
-        e.preventDefault();
+        e.pr_eventDefault();
         // Zoom in (narrow range) — decrease end by ZOOM_STEP
         const end = instance.getOption() as { dataZoom?: Array<{ start?: number; end?: number }> };
         const dz = end?.dataZoom?.[0];
@@ -97,7 +97,7 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
       }
       case '-':
       case '_': {
-        e.preventDefault();
+        e.pr_eventDefault();
         // Zoom out (expand range) — increase end by ZOOM_STEP
         const end = instance.getOption() as { dataZoom?: Array<{ start?: number; end?: number }> };
         const dz = end?.dataZoom?.[0];
@@ -109,22 +109,22 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
         break;
       }
       case 'ArrowLeft': {
-        e.preventDefault();
+        e.pr_eventDefault();
         dispatchZoom(-PAN_STEP, 0);
         break;
       }
       case 'ArrowRight': {
-        e.preventDefault();
+        e.pr_eventDefault();
         dispatchZoom(PAN_STEP, 0);
         break;
       }
       case 'ArrowUp': {
-        e.preventDefault();
+        e.pr_eventDefault();
         dispatchZoom(0, -PAN_STEP);
         break;
       }
       case 'ArrowDown': {
-        e.preventDefault();
+        e.pr_eventDefault();
         dispatchZoom(0, PAN_STEP);
         break;
       }
@@ -161,12 +161,12 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
           chartInstance.current = instance;
 
           if (onEvents) {
-            Object.entries(onEvents).forEach(([eventName, handler]) => {
+            Object.entries(onEvents).forEach(([_eventName, _handler]) => {
               (
                 instance as unknown as {
-                  on: (event: string, handler: (...args: unknown[]) => void) => void;
+                  on: (_event: string, _handler: (..._args: unknown[]) => void) => void;
                 }
-              ).on(eventName, handler);
+              ).on(_eventName, _handler);
             });
           }
 
@@ -192,8 +192,8 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
         const instance = chartInstance.current;
         if (instance) {
           if (onEvents) {
-            Object.entries(onEvents).forEach(([eventName]) => {
-              (instance as unknown as { off: (event: string) => void }).off(eventName);
+            Object.entries(onEvents).forEach(([_eventName]) => {
+              (instance as unknown as { off: (_event: string) => void }).off(_eventName);
             });
           }
           instance.dispose();
@@ -286,7 +286,7 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
 
       {/*
         Chart container with role="application" + keyboard navigation.
-        role="application" tells assistive tech to pass through keyboard events.
+        role="application" tells assistive tech to pass through keyboard _events.
         aria-describedby links to the hidden data table above.
       */}
       <div
