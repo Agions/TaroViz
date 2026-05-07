@@ -2,7 +2,7 @@
  * TaroViz 百度小程序适配器
  */
 import { MiniAppAdapter, createMiniAppAdapter } from '../MiniAppAdapter';
-import type { _SwanAdapterOptions } from '../types';
+import type { SwanAdapterOptions } from '../types';
 
 export class SwanAdapter extends MiniAppAdapter {
   protected get platformName(): string {

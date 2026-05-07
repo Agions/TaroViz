@@ -82,13 +82,13 @@ export * from './types';
 export type { BoxplotChartProps, BoxplotOption, BoxplotSeriesItem } from './boxplot/types';
 export type { ParallelChartProps, ParallelOption, ParallelAxisSetting } from './parallel/types';
 export type {
-  _LiquidChartProps,
+  LiquidChartProps,
   LiquidOption,
   LiquidShape,
   LiquidSeries,
   LiquidSeriesDataItem,
 } from './liquid/types';
-export type { _TreeChartProps, TreeOption, TreeNode, TreeSeries } from './tree/types';
+export type { TreeChartProps, TreeOption, TreeNode, TreeSeries } from './tree/types';
 
 /** 版本信息 */
 export { VERSION as version } from '../core/version';

@@ -1,7 +1,7 @@
 import * as echarts from 'echarts/core';
 
-import H5_Adapter from '../index';
-import type { _Adapter } from '../../types';
+import H5Adapter from '../index';
+import type { Adapter } from '../../types';
 
 // Mock ECharts renderers first
 jest.mock('echarts/renderers', () => ({
@@ -40,8 +40,8 @@ jest.mock('echarts/core', () => ({
   use: jest.fn(),
 }));
 
-describe('H5_Adapter', () => {
-  let adapter: H5_Adapter;
+describe('H5Adapter', () => {
+  let adapter: H5Adapter;
   let mockContainer: HTMLElement;
 
   beforeEach(() => {
@@ -51,13 +51,13 @@ describe('H5_Adapter', () => {
     document.body.appendChild(mockContainer);
 
     // Create adapter instance
-    adapter = H5_Adapter.create({
+    adapter = H5Adapter.create({
       canvasId: 'test-canvas',
       width: 500,
       height: 300,
       theme: 'dark',
       renderer: 'canvas',
-    }) as unknown as H5_Adapter;
+    }) as unknown as H5Adapter;
   });
 
   afterEach(() => {
@@ -67,7 +67,7 @@ describe('H5_Adapter', () => {
 
   describe('initialization', () => {
     it('should create an instance with correct options', () => {
-      expect(adapter).toBeInstanceOf(H5_Adapter);
+      expect(adapter).toBeInstanceOf(H5Adapter);
     });
 
     it('should initialize the chart instance', () => {
@@ -138,7 +138,7 @@ describe('H5_Adapter', () => {
 
   describe('adapter information', () => {
     it('should return adapter name', () => {
-      expect(adapter.getName()).toBe('H5_Adapter');
+      expect(adapter.getName()).toBe('H5Adapter');
     });
 
     it('should return adapter version', () => {

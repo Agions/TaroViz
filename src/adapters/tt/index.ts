@@ -2,7 +2,7 @@
  * TaroViz 字节跳动小程序适配器
  */
 import { MiniAppAdapter, createMiniAppAdapter } from '../MiniAppAdapter';
-import type { _TTAdapterOptions } from '../types';
+import type { TTAdapterOptions } from '../types';
 
 export class TTAdapter extends MiniAppAdapter {
   protected get platformName(): string {

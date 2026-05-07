@@ -45,7 +45,7 @@ const TreeChart: React.FC<TreeChartProps> = memo((props) => {
       type: 'tree',
       layout,
       orient,
-      data: treeData,
+      _data: treeData,
       showLine,
     };
 

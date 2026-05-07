@@ -2,7 +2,7 @@
  * TaroViz 适配器类型定义
  */
 import type { CSSProperties } from 'react';
-import type { _EChartsOption, EChartsType } from 'echarts';
+import type { EChartsOption, EChartsType } from 'echarts';
 
 import { Adapter as CoreAdapter, PlatformType } from '../core';
 
