@@ -3,6 +3,7 @@
  */
 import type { CSSProperties, ReactNode } from 'react';
 import type { EChartsOption, ECharts } from 'echarts';
+import type { AnimationConfig } from '@/core/animation/types';
 
 // ============================================================================
 // 基础类型定义
@@ -163,24 +164,8 @@ export interface ChartData {
 // 动画配置
 // ============================================================================
 
-/** 动画配置 */
-export interface AnimationConfig {
-  /** 是否启用动画 */
-  enabled?: boolean;
-  /** 动画时长 (ms) */
-  duration?: number;
-  /** 动画缓动函数 */
-  easing?: string;
-  /** 动画延迟 (ms) */
-  delay?: number;
-  /** 是否在渲染时使用动画 */
-  animate?: boolean;
-  /** 是否在数据更新时使用动画 */
-  animateUpdate?: boolean;
-}
-
 // ============================================================================
-// 基础图表属性
+// 事件回调类型
 // ============================================================================
 
 /**
@@ -522,34 +507,25 @@ export interface RadarLabel {
 /**
  * 雷达图属性
  */
-export interface RadarChartProps extends BaseChartProps {
+export interface RadarChartProps extends Omit<BaseChartProps, 'data'> {
   /** 雷达图指示器 */
   indicators: RadarIndicator[];
-
   /** 雷达图数据系列 */
   data: RadarDataItem[];
-
   /** 起始角度（0-360，默认 90） */
   startAngle?: number;
-
   /** 是否显示中心圆环 */
   centerCircle?: boolean;
-
   /** 中心圆环半径（0-1，默认 0） */
   centerCircleSize?: number;
-
   /** 面积样式 */
   areaStyle?: RadarAreaStyle;
-
   /** 线样式 */
   lineStyle?: RadarLineStyle;
-
   /** 标签配置 */
   label?: RadarLabel;
-
   /** 是否平滑曲线 */
   smooth?: boolean;
-
   /** 自定义 ECharts option 合并 */
   optionMerge?: Partial<EChartsOption>;
 }
@@ -604,17 +580,41 @@ export interface GaugeChartProps extends BaseChartProps {
 }
 
 /**
+ * 热力图数据项
+ */
+export interface HeatmapDataItem {
+  /** X 轴索引或值 */
+  x: number | string;
+  /** Y 轴索引或值 */
+  y: number | string;
+  /** 热力值 */
+  value: number;
+}
+
+/**
+ * 热力图 X/Y 轴配置
+ */
+export interface HeatmapAxis {
+  /** 轴标签 */
+  name?: string;
+  /** 轴数据 */
+  data?: (string | number)[];
+}
+
+/**
  * 热力图属性
  */
-export interface HeatmapChartProps extends BaseChartProps {
+export interface HeatmapChartProps extends Omit<BaseChartProps, 'data'> {
   /** X 轴数据 */
-  xAxisData?: (string | number)[];
-
+  xData?: (string | number)[];
   /** Y 轴数据 */
-  yAxisData?: (string | number)[];
-
+  yData?: (string | number)[];
+  /** 热力图数据 */
+  data?: HeatmapDataItem[];
   /** 视觉映射配置 */
   visualMap?: Record<string, unknown>;
+  /** 自定义 ECharts option 合并 */
+  optionMerge?: Partial<EChartsOption>;
 }
 
 /**

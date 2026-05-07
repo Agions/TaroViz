@@ -34,10 +34,6 @@ export const ScatterChart = createChartComponent<ScatterChartProps>(
   'scatter-chart'
 );
 export const RadarChart = createChartComponent<RadarChartProps>('RadarChart', 'radar-chart');
-export const HeatmapChart = createChartComponent<HeatmapChartProps>(
-  'HeatmapChart',
-  'heatmap-chart'
-);
 export const GaugeChart = createChartComponent<GaugeChartProps>('GaugeChart', 'gauge-chart');
 export const FunnelChart = createChartComponent<FunnelChartProps>('FunnelChart', 'funnel-chart');
 
@@ -50,54 +46,41 @@ export const SunburstChart = createChartComponent<SunburstChartProps>(
   'SunburstChart',
   'sunburst-chart'
 );
-export const SankeyChart = createChartComponent<SankeyChartProps>('SankeyChart', 'sankey-chart');
-export const GraphChart = createChartComponent<GraphChartProps>('GraphChart', 'graph-chart');
-export const WordCloudChart = createChartComponent<WordCloudChartProps>(
-  'WordCloudChart',
-  'wordcloud-chart'
-);
-export const CandlestickChart = createChartComponent<CandlestickChartProps>(
-  'CandlestickChart',
-  'candlestick-chart'
-);
 
-/** 需要 option 类型转换的图表 */
-export const BoxplotChart = createChartComponentWithOptionCast<BoxplotChartProps>(
-  'BoxplotChart',
-  'boxplot'
-);
-export const ParallelChart = createChartComponentWithOptionCast<ParallelChartProps>(
-  'ParallelChart',
-  'parallel'
-);
+// ===== 特殊图表（自定义实现）=====
 
-// ===== 特殊图表（保留自定义逻辑）=====
+/** 热力图 - 使用自定义实现 */
+export { default as HeatmapChart } from './heatmap';
 
-export { default as LiquidChart } from './liquid';
+/** 平行坐标图 - 使用自定义实现 */
+export { default as ParallelChart } from './parallel';
+
+/** 箱线图 - 使用自定义实现 */
+export { default as BoxplotChart } from './boxplot';
+
+/** 树图 - 使用自定义实现 */
 export { default as TreeChart } from './tree';
-export { RadarChart as RadarChartCustom } from './radar';
 
-// ===== 导出类型 =====
+/** 雷达图 - 使用自定义实现 */
+export { default as RadarChartCustom } from './radar';
 
-export * from './types';
-export type { BoxplotChartProps, BoxplotOption, BoxplotSeriesItem } from './boxplot/types';
-export type { ParallelChartProps, ParallelOption, ParallelAxisSetting } from './parallel/types';
+// ===== 类型导出 =====
+
 export type {
-  LiquidChartProps,
-  LiquidOption,
-  LiquidShape,
-  LiquidSeries,
-  LiquidSeriesDataItem,
-} from './liquid/types';
-export type { TreeChartProps, TreeOption, TreeNode, TreeSeries } from './tree/types';
-export type {
-  RadarIndicator,
-  RadarDataItem,
-  RadarAreaStyle,
-  RadarLineStyle,
-  RadarLabel,
+  LineChartProps,
+  BarChartProps,
+  PieChartProps,
+  ScatterChartProps,
   RadarChartProps,
-} from './radar/types';
-
-/** 版本信息 */
-export { VERSION as version } from '../core/version';
+  FunnelChartProps,
+  GaugeChartProps,
+  HeatmapChartProps,
+  SunburstChartProps,
+  TreeMapChartProps,
+  SankeyChartProps,
+  GraphChartProps,
+  WordCloudChartProps,
+  CandlestickChartProps,
+  BoxplotChartProps,
+  ParallelChartProps,
+} from './types';
