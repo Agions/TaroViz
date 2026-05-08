@@ -139,7 +139,7 @@ const SelectFilter: React.FC<SelectFilterProps> = ({
   disabled,
   compact,
 }) => {
-    const handleChange = useCallback(
+  const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       const val = e.target.value;
       onChange(field.key, val === '' ? undefined : val);
@@ -186,13 +186,7 @@ interface RangeFilterProps {
   compact?: boolean;
 }
 
-const RangeFilter: React.FC<RangeFilterProps> = ({
-  field,
-  value,
-  onChange,
-  disabled,
-  compact,
-}) => {
+const RangeFilter: React.FC<RangeFilterProps> = ({ field, value, onChange, disabled, compact }) => {
   const rangeValue = (value as [number, number]) ?? [field.min ?? 0, field.max ?? 100];
 
   const handleMinChange = useCallback(
@@ -302,7 +296,7 @@ const CheckboxFilter: React.FC<CheckboxFilterProps> = ({
           maxWidth: compact ? '200px' : '300px',
         }}
       >
-      {field.options?.map((opt) => {
+        {field.options?.map((opt) => {
           const isSelected = selectedValues.has(String(opt.value));
           return (
             <label

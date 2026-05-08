@@ -41,10 +41,7 @@ export const LazySankeyChart = createLazyComponent('SankeyChart');
  * 图表类型到懒加载模块的映射
  * 用于预加载功能
  */
-const LAZY_CHART_MODULES: Record<
-  string,
-  () => Promise<{ default: React.ComponentType<any> }>
-> = {
+const LAZY_CHART_MODULES: Record<string, () => Promise<{ default: React.ComponentType<any> }>> = {
   line: () => import('../../charts').then((m) => ({ default: m.LineChart })),
   bar: () => import('../../charts').then((m) => ({ default: m.BarChart })),
   pie: () => import('../../charts').then((m) => ({ default: m.PieChart })),
