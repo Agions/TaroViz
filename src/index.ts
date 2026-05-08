@@ -42,7 +42,7 @@ export {
   BarChart,
   PieChart,
   ScatterChart,
-  RadarChart,
+  RadarChartCustom as RadarChart,
   HeatmapChart,
   FunnelChart,
   // 扩展图表
@@ -54,10 +54,7 @@ export {
   // 特殊图表
   BoxplotChart,
   ParallelChart,
-  LiquidChart,
   TreeChart,
-  // 版本信息
-  version,
   // 类型
   type BaseChartProps,
   type LineChartProps,
@@ -74,7 +71,6 @@ export {
   type WordCloudChartProps,
   type BoxplotChartProps,
   type ParallelChartProps,
-  type LiquidChartProps,
   type TreeChartProps,
 } from './charts';
 
@@ -188,7 +184,6 @@ export {
   useTableTransform,
   useTimeSeriesTransform,
   // v1.7.0 新增 Hooks
-  
   useChartConnect,
   useChartDownload,
 } from './hooks';

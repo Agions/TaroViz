@@ -310,7 +310,12 @@ export function useDataZoom(
 // 类型导出
 // ============================================================================
 
-export type { UseDataZoomOptions, UseDataZoomReturn, DataZoomType, ZoomRange } from '../../../hooks/types';
+export type {
+  UseDataZoomOptions,
+  UseDataZoomReturn,
+  DataZoomType,
+  ZoomRange,
+} from '../../../hooks/types';
 
 // ============================================================================
 // 导出

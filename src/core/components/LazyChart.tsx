@@ -30,9 +30,8 @@ export const LazyLineChart = createLazyComponent('LineChart');
 export const LazyBarChart = createLazyComponent('BarChart');
 export const LazyPieChart = createLazyComponent('PieChart');
 export const LazyScatterChart = createLazyComponent('ScatterChart');
-export const LazyRadarChart = createLazyComponent('RadarChart');
+export const LazyRadarChart = createLazyComponent('RadarChartCustom');
 export const LazyHeatmapChart = createLazyComponent('HeatmapChart');
-export const LazyGaugeChart = createLazyComponent('GaugeChart');
 export const LazyFunnelChart = createLazyComponent('FunnelChart');
 export const LazyTreeMapChart = createLazyComponent('TreeMapChart');
 export const LazySunburstChart = createLazyComponent('SunburstChart');
@@ -44,15 +43,14 @@ export const LazySankeyChart = createLazyComponent('SankeyChart');
  */
 const LAZY_CHART_MODULES: Record<
   string,
-  () => Promise<{ default: ComponentType<BaseChartProps> }>
+  () => Promise<{ default: React.ComponentType<any> }>
 > = {
   line: () => import('../../charts').then((m) => ({ default: m.LineChart })),
   bar: () => import('../../charts').then((m) => ({ default: m.BarChart })),
   pie: () => import('../../charts').then((m) => ({ default: m.PieChart })),
   scatter: () => import('../../charts').then((m) => ({ default: m.ScatterChart })),
-  radar: () => import('../../charts').then((m) => ({ default: m.RadarChart })),
+  radar: () => import('../../charts').then((m) => ({ default: m.RadarChartCustom })),
   heatmap: () => import('../../charts').then((m) => ({ default: m.HeatmapChart })),
-  gauge: () => import('../../charts').then((m) => ({ default: m.GaugeChart })),
   funnel: () => import('../../charts').then((m) => ({ default: m.FunnelChart })),
   treemap: () => import('../../charts').then((m) => ({ default: m.TreeMapChart })),
   sunburst: () => import('../../charts').then((m) => ({ default: m.SunburstChart })),

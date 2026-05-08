@@ -2,7 +2,7 @@
  * 树图类型定义
  * ECharts 内置 tree 类型
  */
-import type { EChartsOption, EChartsType, ECElementEvent } from 'e_charts';
+import type { EChartsType, ECElementEvent, EChartsOption } from 'echarts';
 
 // ============================================================================
 // 树图数据节点

@@ -3,7 +3,7 @@
  * ECharts 没有内置水球图，使用自定义实现
  */
 import type React from 'react';
-import type { EChartsOption, EChartsType, ECElementEvent } from 'e_charts';
+import type { EChartsOption, EChartsType, ECElementEvent } from 'echarts';
 
 // ============================================================================
 // 水球图配置类型

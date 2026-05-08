@@ -3,11 +3,6 @@
  * 提供实时性能指标监控和报告功能
  */
 import { useState, useEffect, useCallback, useRef } from 'react';
-import {
-  PerformanceAnalyzer,
-  PerformanceMetricType,
-  PerformanceMetric,
-} from './usePerformanceHooks';
 
 /**
  * 性能监控配置
@@ -48,6 +43,16 @@ export interface PerformanceState {
 }
 
 /**
+ * 性能报告条目
+ */
+export interface PerformanceReportEntry {
+  type: string;
+  value: number;
+  unit: string;
+  timestamp: number;
+}
+
+/**
  * 性能监控返回值
  */
 export interface UsePerformanceReturn {
@@ -60,7 +65,7 @@ export interface UsePerformanceReturn {
   /** 重置统计数据 */
   reset: () => void;
   /** 获取性能报告 */
-  getReport: () => PerformanceMetric[];
+  getReport: () => PerformanceReportEntry[];
   /** FPS 告警回调 */
   onFpsWarning?: (fps: number) => void;
 }
@@ -81,7 +86,6 @@ export function usePerformance(options: UsePerformanceOptions = {}): UsePerforma
   } = options;
 
   // Refs
-  const analyzerRef = useRef<PerformanceAnalyzer | null>(null);
   const fpsHistoryRef = useRef<number[]>([]);
   const animationFrameRef = useRef<number | null>(null);
   const lastFrameTimeRef = useRef<number>(0);
@@ -89,6 +93,7 @@ export function usePerformance(options: UsePerformanceOptions = {}): UsePerforma
     frames: 0,
     lastTime: 0,
   });
+  const reportHistoryRef = useRef<PerformanceReportEntry[]>([]);
 
   // State
   const [state, setState] = useState<PerformanceState>({
@@ -154,6 +159,14 @@ export function usePerformance(options: UsePerformanceOptions = {}): UsePerforma
         fpsHistory: [...history],
       }));
 
+      // 记录性能报告
+      reportHistoryRef.current.push({
+        type: 'fps',
+        value: fps,
+        unit: 'fps',
+        timestamp: now,
+      });
+
       // 重置计数器
       fpsAccumulatorRef.current.frames = 0;
       fpsAccumulatorRef.current.lastTime = now;
@@ -172,27 +185,17 @@ export function usePerformance(options: UsePerformanceOptions = {}): UsePerforma
     // Prevent starting multiple RAF loops
     if (animationFrameRef.current !== null) return;
 
-    // 初始化分析器
-    if (!analyzerRef.current) {
-      analyzerRef.current = PerformanceAnalyzer.getInstance({
-        enabled: true,
-        sampleInterval,
-        autoStart: false,
-      });
-    }
-
-    analyzerRef.current.start();
-
     // 重置 FPS 计算
     fpsAccumulatorRef.current = { frames: 0, lastTime: performance.now() };
     lastFrameTimeRef.current = performance.now();
     fpsHistoryRef.current = [];
+    reportHistoryRef.current = [];
 
     // 开始 FPS 监控循环
     animationFrameRef.current = requestAnimationFrame(updateFps);
 
     setState((prev) => ({ ...prev, isMonitoring: true }));
-  }, [enabled, sampleInterval, updateFps]);
+  }, [enabled, updateFps]);
 
   /**
    * 停止监控
@@ -204,9 +207,6 @@ export function usePerformance(options: UsePerformanceOptions = {}): UsePerforma
       animationFrameRef.current = null;
     }
 
-    // 停止分析器
-    analyzerRef.current?.stop();
-
     setState((prev) => ({ ...prev, isMonitoring: false }));
   }, []);
 
@@ -214,8 +214,8 @@ export function usePerformance(options: UsePerformanceOptions = {}): UsePerforma
    * 重置统计数据
    */
   const reset = useCallback(() => {
-    PerformanceAnalyzer.resetInstance();
     fpsHistoryRef.current = [];
+    reportHistoryRef.current = [];
     setState((prev) => ({
       ...prev,
       fps: 60,
@@ -230,17 +230,8 @@ export function usePerformance(options: UsePerformanceOptions = {}): UsePerforma
   /**
    * 获取性能报告
    */
-  const getReport = useCallback((): PerformanceMetric[] => {
-    if (!analyzerRef.current) return [];
-
-    try {
-      const report =
-        analyzerRef.current.getMetricsByType?.('renderTime' as PerformanceMetricType) ?? [];
-      if (!report || report.length === 0) return [];
-      return report;
-    } catch {
-      return [];
-    }
+  const getReport = useCallback((): PerformanceReportEntry[] => {
+    return reportHistoryRef.current.slice(-100); // 返回最近 100 条记录
   }, []);
 
   // 自动启动

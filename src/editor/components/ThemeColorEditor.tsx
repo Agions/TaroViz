@@ -6,19 +6,19 @@ import React from 'react';
 
 export interface ThemeColorEditorProps {
   /** 颜色列表 */
-  _colors: string[];
+  colors: string[];
   /** 是否禁用 */
   disabled?: boolean;
   /** 颜色变化回调 */
-  onColorChange: (_index: number, _color: string) => void;
+  onColorChange: (index: number, color: string) => void;
   /** 添加颜色回调 */
   onAddColor: () => void;
   /** 删除颜色回调 */
-  onRemoveColor: (_index: number) => void;
+  onRemoveColor: (index: number) => void;
 }
 
 const ThemeColorEditor: React.FC<ThemeColorEditorProps> = ({
-  _colors,
+  colors,
   disabled = false,
   onColorChange,
   onAddColor,
@@ -43,7 +43,7 @@ const ThemeColorEditor: React.FC<ThemeColorEditorProps> = ({
             border: '1px solid #e0e0e0',
             borderRadius: '4px',
             backgroundColor: '#ffffff',
-            _color: '#333333',
+            color: '#333333',
             cursor: disabled ? 'not-allowed' : 'pointer',
             opacity: disabled ? 0.6 : 1,
           }}
@@ -52,12 +52,12 @@ const ThemeColorEditor: React.FC<ThemeColorEditorProps> = ({
         </button>
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-        {_colors.map((_color, _index) => (
-          <div key={_index} style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+        {colors.map((color, index) => (
+          <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
             <input
-              type="_color"
-              value={_color}
-              onChange={(e) => onColorChange(_index, e.target.value)}
+              type="color"
+              value={color}
+              onChange={(e) => onColorChange(index, e.target.value)}
               disabled={disabled}
               style={{
                 width: '50px',
@@ -69,8 +69,8 @@ const ThemeColorEditor: React.FC<ThemeColorEditorProps> = ({
             />
             <input
               type="text"
-              value={_color}
-              onChange={(e) => onColorChange(_index, e.target.value)}
+              value={color}
+              onChange={(e) => onColorChange(index, e.target.value)}
               disabled={disabled}
               style={{
                 width: '80px',
@@ -81,16 +81,16 @@ const ThemeColorEditor: React.FC<ThemeColorEditorProps> = ({
               }}
             />
             <button
-              onClick={() => onRemoveColor(_index)}
-              disabled={disabled || _colors.length <= 1}
+              onClick={() => onRemoveColor(index)}
+              disabled={disabled || colors.length <= 1}
               style={{
                 padding: '4px 8px',
                 border: '1px solid #ff4d4f',
                 borderRadius: '4px',
                 backgroundColor: '#ffffff',
-                _color: '#ff4d4f',
-                cursor: disabled || _colors.length <= 1 ? 'not-allowed' : 'pointer',
-                opacity: disabled || _colors.length <= 1 ? 0.6 : 1,
+                color: '#ff4d4f',
+                cursor: disabled || colors.length <= 1 ? 'not-allowed' : 'pointer',
+                opacity: disabled || colors.length <= 1 ? 0.6 : 1,
               }}
             >
               删除

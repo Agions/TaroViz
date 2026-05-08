@@ -2,7 +2,7 @@
  * 平行坐标图类型定义
  */
 
-import type { EChartsType, ECElementEvent } from 'e_charts';
+import type { EChartsOption, EChartsType, ECElementEvent } from 'echarts';
 import type { LoadingOptions } from '../types';
 
 export type ParallelChartProps = {

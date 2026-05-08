@@ -3,7 +3,7 @@
  */
 import type { CSSProperties, ReactNode } from 'react';
 import type { EChartsOption, ECharts } from 'echarts';
-import type { AnimationConfig } from '@/core/animation/types';
+import type { AnimationConfig } from '../core/animation/types';
 
 // ============================================================================
 // 基础类型定义
@@ -891,9 +891,98 @@ export type { EChartsOption, ECharts } from 'echarts';
 export type { ECBasicOption as EChartsCoreOption } from 'echarts/types/dist/shared';
 
 /**
- * 词云图属性
- * 用于展示文本数据的词频分布
+ * 漏斗图标签配置
  */
+export interface FunnelLabel {
+  /** 是否显示标签 */
+  show?: boolean;
+  /** 标签位置 */
+  position?: 'inside' | 'outside' | 'left' | 'right';
+  /** 标签格式化 */
+  formatter?: string | ((_value: number, _name: string) => string);
+}
+
+/**
+ * 关系图节点数据
+ */
+export interface GraphNode {
+  /** 节点 ID */
+  id?: string | number;
+  /** 节点名称 */
+  name: string;
+  /** 节点值 */
+  value?: number | number[];
+  /** 节点类别 */
+  category?: number;
+  /** 节点符号 */
+  symbol?: string;
+  /** 节点符号大小 */
+  symbolSize?: number | number[];
+  /** 是否固定位置 */
+  fixed?: boolean;
+  /** X 坐标 */
+  x?: number;
+  /** Y 坐标 */
+  y?: number;
+  /** 其他自定义属性 */
+  [key: string]: unknown;
+}
+
+/**
+ * 关系图链接/边数据
+ */
+export interface GraphLink {
+  /** 源节点 */
+  source: string | number;
+  /** 目标节点 */
+  target: string | number;
+  /** 链接值 */
+  value?: number;
+  /** 线条样式 */
+  lineStyle?: Record<string, unknown>;
+  /** 其他自定义属性 */
+  [key: string]: unknown;
+}
+
+/**
+ * 桑基图节点数据
+ */
+export interface SankeyNode {
+  /** 节点名称 */
+  name: string;
+  /** 节点值 */
+  value?: number;
+  /** 其他自定义属性 */
+  [key: string]: unknown;
+}
+
+/**
+ * 桑基图链接/边数据
+ */
+export interface SankeyLink {
+  /** 源节点 */
+  source: string | number;
+  /** 目标节点 */
+  target: string | number;
+  /** 链接值 */
+  value: number;
+  /** 其他自定义属性 */
+  [key: string]: unknown;
+}
+
+/**
+ * 词云图数据项
+ */
+export interface WordCloudDataItem {
+  /** 词名 */
+  name: string;
+  /** 词频值 */
+  value: number;
+  /** 文本样式 */
+  textStyle?: Record<string, unknown>;
+  /** emphasis 状态 */
+  emphasis?: Record<string, unknown>;
+}
 export interface WordCloudChartProps extends BaseChartProps {
   /** 词云数据 - 也可以通过 option.series[0].data 传入 */
   wordCloudData?: Array<{

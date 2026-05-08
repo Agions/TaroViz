@@ -66,6 +66,7 @@ export { default as WordCloudChart } from './wordcloud';
 // ===== 类型导出 =====
 
 export type {
+  BaseChartProps,
   LineChartProps,
   BarChartProps,
   PieChartProps,
@@ -79,4 +80,8 @@ export type {
   GraphChartProps,
   WordCloudChartProps,
   BoxplotChartProps,
+  TreeChartProps,
 } from './types';
+
+// 特殊图表类型（从独立目录导出）
+export type { ParallelChartProps } from './parallel/types';

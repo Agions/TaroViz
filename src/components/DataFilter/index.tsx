@@ -15,19 +15,19 @@ export type FilterFieldType = 'select' | 'range' | 'checkbox' | 'date';
 /** 单个筛选字段配置 */
 export interface FilterField {
   /** 字段唯一标识 */
-  _key: string;
+  key: string;
   /** 字段显示名称 */
   label: string;
   /** 字段类型 */
   type: FilterFieldType;
   /** 下拉选项（select/checkbox 类型使用） */
-  options?: Array<{ label: string; _value: string | number }>;
+  options?: Array<{ label: string; value: string | number }>;
   /** 范围最小值（range 类型使用） */
   min?: number;
   /** 范围最大值（range 类型使用） */
   max?: number;
   /** 日期格式（date 类型使用） */
-  _dateFormat?: string;
+  dateFormat?: string;
   /** placeholder */
   placeholder?: string;
 }
@@ -45,7 +45,7 @@ export type FilterValue =
 
 /** 筛选器完整值 */
 export interface FilterValues {
-  [_key: string]: FilterValue;
+  [key: string]: FilterValue;
 }
 
 /** DataFilter 组件属性 */
@@ -53,9 +53,9 @@ export interface DataFilterProps {
   /** 筛选字段配置 */
   fields: FilterField[];
   /** 当前筛选值 */
-  _value?: FilterValues;
+  value?: FilterValues;
   /** 筛选变化回调 */
-  onChange?: (_filters: FilterValues) => void;
+  onChange?: (filters: FilterValues) => void;
   /** 布局方向 */
   layout?: 'horizontal' | 'vertical';
   /** 是否显示重置按钮 */
@@ -126,32 +126,32 @@ const BUTTON_BASE: React.CSSProperties = {
 
 interface SelectFilterProps {
   field: FilterField;
-  _value: FilterValue;
-  onChange: (_key: string, _value: FilterValue) => void;
+  value: FilterValue;
+  onChange: (key: string, value: FilterValue) => void;
   disabled?: boolean;
   compact?: boolean;
 }
 
 const SelectFilter: React.FC<SelectFilterProps> = ({
   field,
-  _value,
+  value,
   onChange,
   disabled,
   compact,
 }) => {
-  const handleChange = useCallback(
+    const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const val = e.target._value;
-      onChange(field._key, val === '' ? undefined : val);
+      const val = e.target.value;
+      onChange(field.key, val === '' ? undefined : val);
     },
-    [field._key, onChange]
+    [field.key, onChange]
   );
 
   return (
     <div style={FIELD_STYLE}>
       <label style={LABEL_STYLE}>{field.label}</label>
       <select
-        _value={(_value as string) ?? ''}
+        value={(value as string) ?? ''}
         onChange={handleChange}
         disabled={disabled}
         style={{
@@ -162,9 +162,9 @@ const SelectFilter: React.FC<SelectFilterProps> = ({
           opacity: disabled ? 0.6 : 1,
         }}
       >
-        <option _value="">{field.placeholder || '请选择'}</option>
+        <option value="">{field.placeholder || '请选择'}</option>
         {field.options?.map((opt) => (
-          <option _key={String(opt._value)} _value={String(opt._value)}>
+          <option key={String(opt.value)} value={String(opt.value)}>
             {opt.label}
           </option>
         ))}
@@ -179,8 +179,8 @@ const SelectFilter: React.FC<SelectFilterProps> = ({
 
 interface RangeFilterProps {
   field: FilterField;
-  _value: FilterValue;
-  onChange: (_key: string, _value: FilterValue) => void;
+  value: FilterValue;
+  onChange: (key: string, value: FilterValue) => void;
   onLiveChange?: boolean;
   disabled?: boolean;
   compact?: boolean;
@@ -188,27 +188,27 @@ interface RangeFilterProps {
 
 const RangeFilter: React.FC<RangeFilterProps> = ({
   field,
-  _value,
+  value,
   onChange,
   disabled,
   compact,
 }) => {
-  const _rangeValue = (_value as [number, number]) ?? [field.min ?? 0, field.max ?? 100];
+  const rangeValue = (value as [number, number]) ?? [field.min ?? 0, field.max ?? 100];
 
   const handleMinChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newMin = Number(e.target._value);
-      onChange(field._key, [newMin, _rangeValue[1]]);
+      const newMin = Number(e.target.value);
+      onChange(field.key, [newMin, rangeValue[1]]);
     },
-    [field._key, _rangeValue, onChange]
+    [field.key, rangeValue, onChange]
   );
 
   const handleMaxChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newMax = Number(e.target._value);
-      onChange(field._key, [_rangeValue[0], newMax]);
+      const newMax = Number(e.target.value);
+      onChange(field.key, [rangeValue[0], newMax]);
     },
-    [field._key, _rangeValue, onChange]
+    [field.key, rangeValue, onChange]
   );
 
   return (
@@ -217,9 +217,9 @@ const RangeFilter: React.FC<RangeFilterProps> = ({
       <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
         <input
           type="number"
-          _value={_rangeValue[0]}
+          value={rangeValue[0]}
           min={field.min}
-          max={_rangeValue[1]}
+          max={rangeValue[1]}
           onChange={handleMinChange}
           disabled={disabled}
           placeholder={String(field.min ?? '最小')}
@@ -233,8 +233,8 @@ const RangeFilter: React.FC<RangeFilterProps> = ({
         <span style={{ color: '#999', fontSize: '12px' }}>~</span>
         <input
           type="number"
-          _value={_rangeValue[1]}
-          min={_rangeValue[0]}
+          value={rangeValue[1]}
+          min={rangeValue[0]}
           max={field.max}
           onChange={handleMaxChange}
           disabled={disabled}
@@ -257,25 +257,25 @@ const RangeFilter: React.FC<RangeFilterProps> = ({
 
 interface CheckboxFilterProps {
   field: FilterField;
-  _value: FilterValue;
-  onChange: (_key: string, _value: FilterValue) => void;
+  value: FilterValue;
+  onChange: (key: string, value: FilterValue) => void;
   disabled?: boolean;
   compact?: boolean;
 }
 
 const CheckboxFilter: React.FC<CheckboxFilterProps> = ({
   field,
-  _value,
+  value,
   onChange,
   disabled,
   compact,
 }) => {
   const selectedValues = useMemo(() => {
-    if (Array.isArray(_value)) {
-      return new Set(_value.map(String));
+    if (Array.isArray(value)) {
+      return new Set(value.map(String));
     }
     return new Set<string>();
-  }, [_value]);
+  }, [value]);
 
   const handleToggle = useCallback(
     (optValue: string | number) => {
@@ -286,9 +286,9 @@ const CheckboxFilter: React.FC<CheckboxFilterProps> = ({
       } else {
         newSet.add(strVal);
       }
-      onChange(field._key, Array.from(newSet));
+      onChange(field.key, Array.from(newSet));
     },
-    [field._key, selectedValues, onChange]
+    [field.key, selectedValues, onChange]
   );
 
   return (
@@ -302,11 +302,11 @@ const CheckboxFilter: React.FC<CheckboxFilterProps> = ({
           maxWidth: compact ? '200px' : '300px',
         }}
       >
-        {field.options?.map((opt) => {
-          const isSelected = selectedValues.has(String(opt._value));
+      {field.options?.map((opt) => {
+          const isSelected = selectedValues.has(String(opt.value));
           return (
             <label
-              _key={String(opt._value)}
+              key={String(opt.value)}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -320,7 +320,7 @@ const CheckboxFilter: React.FC<CheckboxFilterProps> = ({
               <input
                 type="checkbox"
                 checked={isSelected}
-                onChange={() => handleToggle(opt._value)}
+                onChange={() => handleToggle(opt.value)}
                 disabled={disabled}
                 style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}
               />
@@ -339,28 +339,28 @@ const CheckboxFilter: React.FC<CheckboxFilterProps> = ({
 
 interface DateFilterProps {
   field: FilterField;
-  _value: FilterValue;
-  onChange: (_key: string, _value: FilterValue) => void;
+  value: FilterValue;
+  onChange: (key: string, value: FilterValue) => void;
   disabled?: boolean;
   compact?: boolean;
 }
 
-const DateFilter: React.FC<DateFilterProps> = ({ field, _value, onChange, disabled, compact }) => {
-  const _dateValue = (_value as [string, string]) ?? ['', ''];
-  const _dateFormat = field._dateFormat || 'YYYY-MM-DD';
+const DateFilter: React.FC<DateFilterProps> = ({ field, value, onChange, disabled, compact }) => {
+  const dateValue = (value as [string, string]) ?? ['', ''];
+  const dateFormat = field.dateFormat || 'YYYY-MM-DD';
 
   const handleStartChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      onChange(field._key, [e.target._value, _dateValue[1]]);
+      onChange(field.key, [e.target.value, dateValue[1]]);
     },
-    [field._key, _dateValue, onChange]
+    [field.key, dateValue, onChange]
   );
 
   const handleEndChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      onChange(field._key, [_dateValue[0], e.target._value]);
+      onChange(field.key, [dateValue[0], e.target.value]);
     },
-    [field._key, _dateValue, onChange]
+    [field.key, dateValue, onChange]
   );
 
   return (
@@ -369,7 +369,7 @@ const DateFilter: React.FC<DateFilterProps> = ({ field, _value, onChange, disabl
       <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
         <input
           type="date"
-          _value={_dateValue[0]}
+          value={dateValue[0]}
           onChange={handleStartChange}
           disabled={disabled}
           style={{
@@ -382,7 +382,7 @@ const DateFilter: React.FC<DateFilterProps> = ({ field, _value, onChange, disabl
         <span style={{ color: '#999', fontSize: '12px' }}>~</span>
         <input
           type="date"
-          _value={_dateValue[1]}
+          value={dateValue[1]}
           onChange={handleEndChange}
           disabled={disabled}
           style={{
@@ -422,7 +422,7 @@ const DateFilter: React.FC<DateFilterProps> = ({ field, _value, onChange, disabl
  */
 export const DataFilter: React.FC<DataFilterProps> = ({
   fields,
-  _value = {},
+  value = {},
   onChange,
   layout = 'vertical',
   showReset = false,
@@ -436,16 +436,16 @@ export const DataFilter: React.FC<DataFilterProps> = ({
   liveUpdate = true,
 }) => {
   // 内部状态，用于管理表单值
-  const [internalValue, setInternalValue] = useState<FilterValues>(_value);
+  const [internalValue, setInternalValue] = useState<FilterValues>(value);
 
-  // 当外部 _value 变化时同步内部状态
+  // 当外部 value 变化时同步内部状态
   React.useEffect(() => {
-    setInternalValue(_value);
-  }, [_value]);
+    setInternalValue(value);
+  }, [value]);
 
   // 是否有筛选条件
   const hasFilters = useMemo(() => {
-    return Object._values(internalValue).some((v) => {
+    return Object.values(internalValue).some((v) => {
       if (v === undefined || v === null || v === '') return false;
       if (Array.isArray(v) && v.length === 0) return false;
       return true;
@@ -454,8 +454,8 @@ export const DataFilter: React.FC<DataFilterProps> = ({
 
   // 处理单个字段变化
   const handleFieldChange = useCallback(
-    (_key: string, fieldValue: FilterValue) => {
-      const newValue = { ...internalValue, [_key]: fieldValue };
+    (key: string, fieldValue: FilterValue) => {
+      const newValue = { ...internalValue, [key]: fieldValue };
       setInternalValue(newValue);
       if (liveUpdate) {
         onChange?.(newValue);
@@ -474,13 +474,13 @@ export const DataFilter: React.FC<DataFilterProps> = ({
     const emptyValues: FilterValues = {};
     fields.forEach((f) => {
       if (f.type === 'range') {
-        emptyValues[f._key] = [f.min ?? 0, f.max ?? 100];
+        emptyValues[f.key] = [f.min ?? 0, f.max ?? 100];
       } else if (f.type === 'checkbox') {
-        emptyValues[f._key] = [];
+        emptyValues[f.key] = [];
       } else if (f.type === 'date') {
-        emptyValues[f._key] = ['', ''];
+        emptyValues[f.key] = ['', ''];
       } else {
-        emptyValues[f._key] = undefined;
+        emptyValues[f.key] = undefined;
       }
     });
     setInternalValue(emptyValues);
@@ -490,15 +490,15 @@ export const DataFilter: React.FC<DataFilterProps> = ({
   // 渲染单个字段
   const renderField = useCallback(
     (field: FilterField) => {
-      const fieldValue = internalValue[field._key];
+      const fieldValue = internalValue[field.key];
 
       switch (field.type) {
         case 'select':
           return (
             <SelectFilter
-              _key={field._key}
+              key={field.key}
               field={field}
-              _value={fieldValue}
+              value={fieldValue}
               onChange={handleFieldChange}
               disabled={disabled}
               compact={compact}
@@ -507,9 +507,9 @@ export const DataFilter: React.FC<DataFilterProps> = ({
         case 'range':
           return (
             <RangeFilter
-              _key={field._key}
+              key={field.key}
               field={field}
-              _value={fieldValue}
+              value={fieldValue}
               onChange={handleFieldChange}
               disabled={disabled}
               compact={compact}
@@ -518,9 +518,9 @@ export const DataFilter: React.FC<DataFilterProps> = ({
         case 'checkbox':
           return (
             <CheckboxFilter
-              _key={field._key}
+              key={field.key}
               field={field}
-              _value={fieldValue}
+              value={fieldValue}
               onChange={handleFieldChange}
               disabled={disabled}
               compact={compact}
@@ -529,9 +529,9 @@ export const DataFilter: React.FC<DataFilterProps> = ({
         case 'date':
           return (
             <DateFilter
-              _key={field._key}
+              key={field.key}
               field={field}
-              _value={fieldValue}
+              value={fieldValue}
               onChange={handleFieldChange}
               disabled={disabled}
               compact={compact}

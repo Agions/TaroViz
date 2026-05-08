@@ -1,7 +1,7 @@
 /**
  * 箱线图类型定义
  */
-import type { EChartsType, ECElementEvent } from 'e_charts';
+import type { EChartsType, ECElementEvent } from 'echarts';
 import type { LoadingOptions } from '../types';
 
 export type BoxplotChartProps = {
