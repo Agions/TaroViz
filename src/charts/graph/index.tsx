@@ -6,7 +6,8 @@
 import * as React from 'react';
 import BaseChart from '@/core/components/BaseChart';
 import type { BaseChartProps } from '@/charts/types';
-import type { GraphChartProps, GraphNode, GraphLink } from './types';
+import type { GraphChartProps } from './types';
+// 类型 GraphNode、GraphLink 通过下方 export type 导出供外部使用
 
 /**
  * 构建关系图 ECharts option
@@ -70,7 +71,7 @@ function buildGraphOption(props: GraphChartProps) {
  * 关系图组件
  */
 const GraphChart: React.FC<GraphChartProps> = (props) => {
-  const { nodes, ...rest } = props;
+  const { ...rest } = props;
 
   const option = buildGraphOption(props);
 

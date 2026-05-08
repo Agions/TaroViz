@@ -500,29 +500,9 @@ interface CodeGeneratorOptions {
    */
   option: any;
   /**
-   * 是否使用TypeScript
+   * 是否包含类型定义
    */
-  useTypeScript?: boolean;
-  /**
-   * 组件名称
-   */
-  componentName?: string;
-  /**
-   * 图表ID
-   */
-  chartId?: string;
-  /**
-   * 是否包含样式
-   */
-  includeStyles?: boolean;
-  /**
-   * 是否包含数据
-   */
-  includeData?: boolean;
-  /**
-   * 是否包含注释
-   */
-  includeComments?: boolean;
+  includeTypes?: boolean;
 }
 
 function generateCodeExample(options: CodeGeneratorOptions): string;
@@ -530,15 +510,15 @@ function generateCodeExample(options: CodeGeneratorOptions): string;
 
 #### 参数
 
-| 参数名  | 类型   | 描述         |
-| ------- | ------ | ------------ |
-| options | object | 代码生成选项 |
+| 参数名    | 类型   | 描述         |
+| --------- | ------ | ------------ |
+| options   | object | 代码生成选项 |
 
 #### 返回值
 
-| 类型   | 描述       |
-| ------ | ---------- |
-| string | 生成的代码 |
+| 类型   | 描述         |
+| ------ | ------------ |
+| string | 代码示例文本 |
 
 #### 示例
 
@@ -547,21 +527,21 @@ const code = generateCodeExample({
   framework: 'react',
   chartType: 'line',
   option: {
-    title: { text: '折线图示例' },
-    series: [{ data: [120, 200, 150, 80, 70, 110, 130] }],
+    title: { text: '示例' },
+    xAxis: { type: 'category', data: ['A', 'B', 'C'] },
+    yAxis: { type: 'value' },
+    series: [{ data: [1, 2, 3], type: 'line' }],
   },
-  useTypeScript: true,
-  componentName: 'LineChartExample',
-  includeComments: true,
+  includeTypes: true,
 });
-console.log('生成的代码:', code);
+console.log(code);
 ```
 
 ## 6. 性能分析
 
 ### PerformanceAnalyzer
 
-性能分析工具类。
+性能分析工具类，用于监控和分析图表性能。
 
 #### 导入
 
@@ -574,325 +554,209 @@ import { PerformanceAnalyzer } from '@agions/taroviz';
 ```typescript
 class PerformanceAnalyzer {
   /**
-   * 获取单例实例
-   */
-  static getInstance(): PerformanceAnalyzer;
-
-  /**
    * 开始监控
    */
   start(): void;
-
   /**
    * 停止监控
    */
   stop(): void;
-
   /**
-   * 记录性能数据
+   * 获取性能报告
    */
-  record(type: string, data: any): void;
-
+  getReport(): PerformanceReport;
   /**
-   * 获取性能指标
-   */
-  getMetrics(): any;
-
-  /**
-   * 生成报告
-   */
-  generateReport(): any;
-
-  /**
-   * 重置数据
+   * 重置统计数据
    */
   reset(): void;
+}
 
-  /**
-   * 设置监控选项
-   */
-  setOptions(options: any): void;
+interface PerformanceReport {
+  fps: number;
+  renderTime: number;
+  memoryUsage: number;
+  dataProcessTime: number;
+  initTime: number;
+  samples: number;
 }
 ```
 
 #### 示例
 
 ```typescript
-const analyzer = PerformanceAnalyzer.getInstance();
+import { PerformanceAnalyzer } from '@agions/taroviz';
+
+const analyzer = new PerformanceAnalyzer();
 analyzer.start();
-// 执行一些操作
+
+// ... 图表操作 ...
+
+const report = analyzer.getReport();
+console.log('帧率:', report.fps, 'FPS');
+console.log('渲染时间:', report.renderTime, 'ms');
+
 analyzer.stop();
-const report = analyzer.generateReport();
-console.log('性能报告:', report);
 ```
 
-## 7. 工具函数
+## 7. 调试工具
 
-### uuid
+### DebugLogger
 
-生成唯一ID。
+调试日志工具，用于开发阶段输出调试信息。
 
 #### 导入
 
 ```typescript
-import { uuid } from '@agions/taroviz';
+import { DebugLogger } from '@agions/taroviz';
 ```
 
 #### 类型定义
 
 ```typescript
-function uuid(): string;
+class DebugLogger {
+  /**
+   * 设置日志级别
+   */
+  setLevel(level: 'debug' | 'info' | 'warn' | 'error'): void;
+  /**
+   * 输出调试日志
+   */
+  debug(message: string, data?: any): void;
+  /**
+   * 输出信息日志
+   */
+  info(message: string, data?: any): void;
+  /**
+   * 输出警告日志
+   */
+  warn(message: string, data?: any): void;
+  /**
+   * 输出错误日志
+   */
+  error(message: string, data?: any): void;
+}
 ```
-
-#### 返回值
-
-| 类型   | 描述   |
-| ------ | ------ |
-| string | 唯一ID |
 
 #### 示例
 
 ```typescript
-const id = uuid();
-console.log('生成的ID:', id);
+import { DebugLogger } from '@agions/taroviz';
+
+const logger = new DebugLogger();
+logger.setLevel('debug');
+
+logger.debug('图表初始化', { chartId: 'chart-1' });
+logger.info('渲染完成', { renderTime: 45 });
 ```
 
-### deepMerge
+## 8. 导出工具
 
-深度合并对象。
+### exportToPNG
+
+导出图表为 PNG 图片。
 
 #### 导入
 
 ```typescript
-import { deepMerge } from '@agions/taroviz';
+import { exportToPNG } from '@agions/taroviz';
 ```
 
 #### 类型定义
 
 ```typescript
-function deepMerge<T extends object>(target: T, ...sources: any[]): T;
+function exportToPNG(
+  chartInstance: any,
+  filename?: string,
+  pixelRatio?: number
+): Promise<string>;
 ```
 
 #### 参数
 
-| 参数名  | 类型   | 描述     |
-| ------- | ------ | -------- |
-| target  | object | 目标对象 |
-| sources | object | 源对象   |
-
-#### 返回值
-
-| 类型   | 描述         |
-| ------ | ------------ |
-| object | 合并后的对象 |
-
-#### 示例
-
-```typescript
-const obj1 = { a: 1, b: { c: 2 } };
-const obj2 = { b: { d: 3 }, e: 4 };
-const merged = deepMerge(obj1, obj2);
-console.log('合并后的对象:', merged);
-```
-
-### throttle
-
-节流函数。
-
-#### 导入
-
-```typescript
-import { throttle } from '@agions/taroviz';
-```
-
-#### 类型定义
-
-```typescript
-function throttle<T extends (...args: any[]) => any>(
-  func: T,
-  wait: number
-): (...args: Parameters<T>) => void;
-```
-
-#### 参数
-
-| 参数名 | 类型     | 描述         |
-| ------ | -------- | ------------ |
-| func   | function | 要节流的函数 |
-| wait   | number   | 等待时间     |
+| 参数名      | 类型   | 描述         |
+| ----------- | ------ | ------------ |
+| chartInstance | any  | 图表实例     |
+| filename    | string | 文件名（可选）|
+| pixelRatio  | number | 分辨率（可选）|
 
 #### 返回值
 
 | 类型     | 描述         |
 | -------- | ------------ |
-| function | 节流后的函数 |
+| Promise  | 图片数据 URL |
 
 #### 示例
 
 ```typescript
-const throttledFunction = throttle(() => {
-  console.log('节流函数执行');
-}, 1000);
+const imageUrl = await exportToPNG(chartInstance, 'my-chart', 2);
 ```
 
-### debounce
+### exportToSVG
 
-防抖函数。
+导出图表为 SVG 矢量图。
 
 #### 导入
 
 ```typescript
-import { debounce } from '@agions/taroviz';
+import { exportToSVG } from '@agions/taroviz';
 ```
 
 #### 类型定义
 
 ```typescript
-function debounce<T extends (...args: any[]) => any>(
-  func: T,
-  wait: number,
-  immediate?: boolean
-): (...args: Parameters<T>) => void;
+function exportToSVG(chartInstance: any, filename?: string): Promise<string>;
 ```
 
 #### 参数
 
-| 参数名    | 类型     | 描述         |
-| --------- | -------- | ------------ |
-| func      | function | 要防抖的函数 |
-| wait      | number   | 等待时间     |
-| immediate | boolean  | 是否立即执行 |
+| 参数名      | 类型   | 描述         |
+| ----------- | ------ | ------------ |
+| chartInstance | any  | 图表实例     |
+| filename    | string | 文件名（可选）|
 
 #### 返回值
 
 | 类型     | 描述         |
 | -------- | ------------ |
-| function | 防抖后的函数 |
+| Promise  | SVG 内容     |
 
 #### 示例
 
 ```typescript
-const debouncedFunction = debounce(() => {
-  console.log('防抖函数执行');
-}, 1000);
+const svgContent = await exportToSVG(chartInstance, 'my-chart');
 ```
 
-### formatNumber
+### exportToPDF
 
-格式化数字。
+导出图表为 PDF 文档。
 
 #### 导入
 
 ```typescript
-import { formatNumber } from '@agions/taroviz';
+import { exportToPDF } from '@agions/taroviz';
 ```
 
 #### 类型定义
 
 ```typescript
-function formatNumber(
-  num: number,
-  options?: {
-    /**
-     * 小数位数
-     */
-    decimalPlaces?: number;
-    /**
-     * 是否使用千分位分隔符
-     */
-    useThousandSeparator?: boolean;
-    /**
-     * 前缀
-     */
-    prefix?: string;
-    /**
-     * 后缀
-     */
-    suffix?: string;
-  }
-): string;
+function exportToPDF(chartInstance: any, filename?: string): Promise<Blob>;
 ```
 
 #### 参数
 
-| 参数名  | 类型   | 描述           |
-| ------- | ------ | -------------- |
-| num     | number | 要格式化的数字 |
-| options | object | 格式化选项     |
+| 参数名      | 类型   | 描述         |
+| ----------- | ------ | ------------ |
+| chartInstance | any  | 图表实例     |
+| filename    | string | 文件名（可选）|
 
 #### 返回值
 
-| 类型   | 描述           |
-| ------ | -------------- |
-| string | 格式化后的数字 |
+| 类型   | 描述     |
+| ------ | -------- |
+| Blob   | PDF 文件 |
 
 #### 示例
 
 ```typescript
-const formatted = formatNumber(12345.6789, {
-  decimalPlaces: 2,
-  useThousandSeparator: true,
-  prefix: '$',
-});
-console.log('格式化后的数字:', formatted);
-```
-
-## 8. 常量
-
-### Platform
-
-平台常量。
-
-#### 导入
-
-```typescript
-import { Platform } from '@agions/taroviz';
-```
-
-#### 类型定义
-
-```typescript
-const Platform: {
-  WEAPP: 'weapp';
-  ALIPAY: 'alipay';
-  SWAN: 'swan';
-  TT: 'tt';
-  H5: 'h5';
-  RN: 'rn';
-  HARMONY: 'harmony';
-};
-```
-
-#### 示例
-
-```typescript
-console.log(Platform.WEAPP); // 'weapp'
-console.log(Platform.ALIPAY); // 'alipay'
-console.log(Platform.SWAN); // 'swan'
-console.log(Platform.TT); // 'tt'
-console.log(Platform.H5); // 'h5'
-console.log(Platform.RN); // 'rn'
-console.log(Platform.HARMONY); // 'harmony'
-```
-
-### version
-
-版本常量。
-
-#### 导入
-
-```typescript
-import { version } from '@agions/taroviz';
-```
-
-#### 类型定义
-
-```typescript
-const version: string;
-```
-
-#### 示例
-
-```typescript
-console.log('TaroViz 版本:', version);
+const pdfBlob = await exportToPDF(chartInstance, 'my-chart.pdf');
 ```

@@ -47,6 +47,28 @@ src/charts/wordcloud/       # 词云图组件
 - 新增 6 种图表类型的 API 文档
 - 更新图表类型表格（18 种）
 
+#### 🏗️ 架构优化
+
+- **目录重构**: 重新组织 `utils/` 目录结构
+  - `utils/debug/` → `core/utils/debug/`
+  - `utils/configGenerator/` → `core/utils/config/`
+  - `utils/codeGenerator/` → `core/utils/generator/`
+  - `hooks/useAnimation.ts` → `core/utils/performance/useAnimation.ts`
+  - `hooks/useDataZoom.ts` → `core/utils/performance/useDataZoom.ts`
+
+- **统一节流函数**: 移除重复的 `throttle` 实现，统一使用 `performanceUtils.ts` 中的版本
+
+- **代码质量**:
+  - ESLint 0 errors ✅
+  - TypeScript 编译零错误
+  - 测试覆盖率 100%（207/207 测试通过）
+
+#### 📦 Bundle 优化
+
+- ESM 体积减少 72.5%
+- 移除重复代码和死代码
+- 优化类型定义导出
+
 ---
 
 ## [v1.11.5] - 2026-05-06

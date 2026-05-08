@@ -42,28 +42,6 @@ export function deepMerge<T extends Record<string, unknown>>(
 }
 
 /**
- * 节流函数
- * @param fn 需要节流的函数
- * @param interval 间隔时间（毫秒）
- * @returns 节流后的函数
- */
-export function throttle<T extends (...args: unknown[]) => unknown>(
-  fn: T,
-  interval: number
-): (...args: Parameters<T>) => void {
-  let lastTime = 0;
-
-  return function (this: unknown, ...args: Parameters<T>): void {
-    const now = Date.now();
-
-    if (now - lastTime >= interval) {
-      lastTime = now;
-      fn.apply(this, args);
-    }
-  };
-}
-
-/**
  * 检测当前环境
  * @returns 环境信息
  */

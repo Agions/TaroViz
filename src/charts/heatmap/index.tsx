@@ -6,7 +6,8 @@
 import * as React from 'react';
 import BaseChart from '@/core/components/BaseChart';
 import type { BaseChartProps } from '@/charts/types';
-import type { HeatmapChartProps, HeatmapDataItem, HeatmapAxis } from './types';
+import type { HeatmapChartProps } from './types';
+// 类型 HeatmapDataItem、HeatmapAxis 通过下方 export type 导出供外部使用
 
 /**
  * 构建热力图 ECharts option
@@ -104,7 +105,7 @@ function buildHeatmapOption(props: HeatmapChartProps) {
  * 热力图组件
  */
 const HeatmapChart: React.FC<HeatmapChartProps> = (props) => {
-  const { xData, yData, data, ...rest } = props;
+  const { ...rest } = props;
 
   const option = buildHeatmapOption(props);
 

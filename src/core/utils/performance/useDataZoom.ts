@@ -4,7 +4,7 @@
  */
 import { useRef, useCallback, useEffect, useMemo } from 'react';
 import type { RefObject } from 'react';
-import type { ChartInstance, DataZoomType, ZoomRange, EventHandler } from './types';
+import type { ChartInstance, DataZoomType, ZoomRange, EventHandler } from '../../../hooks/types';
 
 // ============================================================================
 // Hook 实现
@@ -310,7 +310,7 @@ export function useDataZoom(
 // 类型导出
 // ============================================================================
 
-export type { UseDataZoomOptions, UseDataZoomReturn, DataZoomType, ZoomRange } from './types';
+export type { UseDataZoomOptions, UseDataZoomReturn, DataZoomType, ZoomRange } from '../../../hooks/types';
 
 // ============================================================================
 // 导出

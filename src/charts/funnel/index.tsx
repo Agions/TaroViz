@@ -6,7 +6,8 @@
 import * as React from 'react';
 import BaseChart from '@/core/components/BaseChart';
 import type { BaseChartProps } from '@/charts/types';
-import type { FunnelChartProps, FunnelDataItem } from './types';
+import type { FunnelChartProps } from './types';
+// 类型 FunnelDataItem 通过下方 export type 导出供外部使用
 
 /**
  * 构建漏斗图 ECharts option
@@ -64,7 +65,7 @@ function buildFunnelOption(props: FunnelChartProps) {
  * 漏斗图组件
  */
 const FunnelChart: React.FC<FunnelChartProps> = (props) => {
-  const { data, ...rest } = props;
+  const { ...rest } = props;
 
   const option = buildFunnelOption(props);
 

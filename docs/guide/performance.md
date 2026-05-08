@@ -331,49 +331,62 @@ const LazyLoadExample = () => {
 
 ## 5. 性能监控
 
-### 5.1 使用性能分析工具
+### 5.1 使用 usePerformance Hook
 
-TaroViz 提供了性能分析工具，可以监控图表的性能：
+TaroViz 提供了 `usePerformance` Hook，可以实时监控图表性能：
 
 ```typescript
-import { PerformanceAnalyzer } from '@agions/taroviz';
+import React from 'react';
+import { LineChart, usePerformance } from '@agions/taroviz';
 
 const PerformanceMonitoringExample = () => {
-  const option = {
-    // 配置项
-  };
-
-  useEffect(() => {
-    // 创建性能分析器实例
-    const analyzer = PerformanceAnalyzer.getInstance();
-
-    // 开始监控
-    analyzer.start();
-
-    // 停止监控并生成报告
-    setTimeout(() => {
-      analyzer.stop();
-      const report = analyzer.generateReport();
-      console.log('性能报告:', report);
-    }, 5000);
-
-    return () => {
-      analyzer.stop();
-    };
-  }, []);
+  const { metrics, isMonitoring, startMonitoring, stopMonitoring } = usePerformance({
+    autoStart: true,
+    interval: 1000
+  });
 
   return (
-    <LineChart
-      chartId="performance-chart"
-      option={option}
-      width="100%"
-      height={400}
-    />
+    <div>
+      <div>
+        <h3>性能指标</h3>
+        <p>帧率: {metrics.fps} FPS</p>
+        <p>渲染时间: {metrics.renderTime} ms</p>
+        <p>内存使用: {metrics.memoryUsage} MB</p>
+      </div>
+      <LineChart
+        chartId="performance-chart"
+        option={{ /* ... */ }}
+        width="100%"
+        height={400}
+      />
+      <button onClick={isMonitoring ? stopMonitoring : startMonitoring}>
+        {isMonitoring ? '停止监控' : '开始监控'}
+      </button>
+    </div>
   );
 };
 ```
 
-### 5.2 监控渲染时间
+### 5.2 使用 PerformanceAnalyzer
+
+对于更详细的性能分析，可以使用 `PerformanceAnalyzer` 工具类：
+
+```typescript
+import { PerformanceAnalyzer } from '@agions/taroviz';
+
+const analyzer = new PerformanceAnalyzer();
+analyzer.start();
+
+// ... 图表操作 ...
+
+const report = analyzer.getReport();
+console.log('帧率:', report.fps, 'FPS');
+console.log('渲染时间:', report.renderTime, 'ms');
+
+analyzer.stop();
+```
+
+### 5.3 监控渲染时间
 
 监控图表的渲染时间，及时发现性能问题：
 
@@ -472,25 +485,60 @@ const SimplifiedConfigExample = () => {
 };
 ```
 
+### 6.3 使用防抖和节流
+
+对于频繁触发的事件，使用防抖和节流优化：
+
+```typescript
+import { useDebounce, useThrottle } from '@agions/taroviz';
+
+const DebouncedExample = () => {
+  const [value, setValue] = useState('');
+  const debouncedValue = useDebounce(value, 300);
+
+  // debouncedValue 会在 300ms 后更新
+  useEffect(() => {
+    // 执行耗时的搜索操作
+    performSearch(debouncedValue);
+  }, [debouncedValue]);
+
+  return <input value={value} onChange={e => setValue(e.target.value)} />;
+};
+```
+
 ## 7. 跨平台性能优化
 
 ### 7.1 小程序平台优化
 
 在小程序平台上，需要特别注意性能优化：
 
-1. 减少图表数量：每个页面尽量只使用一个图表
-2. 简化图表配置：减少不必要的动画和效果
-3. 合理设置图表大小：避免过大的图表
-4. 及时销毁图表实例：在页面卸载时销毁图表
+1. **减少图表数量**：每个页面尽量只使用一个图表
+2. **简化图表配置**：减少不必要的动画和效果
+3. **合理设置图表大小**：避免过大的图表
+4. **及时销毁图表实例**：在页面卸载时销毁图表
+5. **使用懒加载**：非首屏图表使用懒加载
 
 ### 7.2 H5 平台优化
 
 在 H5 平台上，可以利用浏览器的性能特性：
 
-1. 使用 Web Workers 处理大数据
-2. 利用 requestAnimationFrame 优化动画
-3. 使用 Intersection Observer API 实现懒加载
-4. 利用浏览器缓存
+1. **使用 Web Workers** 处理大数据
+2. **利用 requestAnimationFrame** 优化动画
+3. **使用 Intersection Observer API** 实现懒加载
+4. **利用浏览器缓存**
+
+## 8. 性能优化 Checklist
+
+在开发过程中，可以使用以下 Checklist 来确保性能优化：
+
+- [ ] 大数据集是否进行了采样或分页
+- [ ] 是否关闭了不必要的动画
+- [ ] 是否使用了合适的渲染器（canvas vs svg）
+- [ ] 图表实例是否在组件卸载时正确销毁
+- [ ] 是否清除了所有定时器和事件监听器
+- [ ] 是否使用了 React.memo 优化频繁渲染的组件
+- [ ] 是否对频繁触发的事件使用了防抖/节流
+- [ ] 是否监控了性能指标（FPS、渲染时间）
 
 ## 下一步
 

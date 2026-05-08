@@ -92,7 +92,8 @@ describe('Data Processing Utilities', () => {
 
     it('should limit execution to once per interval', () => {
       const mockFn = jest.fn();
-      const throttledFn = throttle(mockFn, 100);
+      // 使用 leading=true, trailing=false 来匹配简单 throttle 行为
+      const throttledFn = throttle(mockFn, 100, { leading: true, trailing: false });
 
       throttledFn();
       expect(mockFn).toHaveBeenCalledTimes(1);

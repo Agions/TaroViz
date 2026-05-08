@@ -6,7 +6,8 @@
 import * as React from 'react';
 import BaseChart from '@/core/components/BaseChart';
 import type { BaseChartProps } from '@/charts/types';
-import type { WordCloudChartProps, WordCloudDataItem } from './types';
+import type { WordCloudChartProps } from './types';
+// 类型 WordCloudDataItem 通过下方 export type 导出供外部使用
 
 /**
  * 构建词云图 ECharts option
@@ -76,7 +77,7 @@ function buildWordCloudOption(props: WordCloudChartProps) {
  * 词云图组件
  */
 const WordCloudChart: React.FC<WordCloudChartProps> = (props) => {
-  const { wordCloudData, ...rest } = props;
+  const { ...rest } = props;
 
   const option = buildWordCloudOption(props);
 

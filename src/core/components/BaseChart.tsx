@@ -12,7 +12,6 @@ import { generateEChartsAnimationConfig } from '../animation';
 import { EChartsOption, EChartsType, AnimationConfig } from '../types';
 import type { DataZoomComponentOption } from 'echarts';
 import { registerChart, removeChart, getChart } from '../utils/chartInstances';
-import { DebugPanel, DebugPanelOptions, updateDebugInfo } from '../utils/debug';
 import { PerformanceAnalyzer } from '../utils/performance';
 import { normalizeSize, calculateDataLength, filterDataByKeys } from '../utils/chartUtils';
 import BaseChartWrapper from '../../charts/common/BaseChartWrapper';
@@ -41,7 +40,6 @@ export interface ChartProps {
   chartId?: string;
   option?: EChartsOption;
   animation?: AnimationConfig;
-  debug?: boolean | DebugPanelOptions;
   width?: number | string;
   height?: number | string;
   theme?: string | object;
@@ -99,7 +97,6 @@ const BaseChart: React.FC<ChartProps> = (props) => {
     chartId,
     option,
     animation,
-    debug,
     width = '100%',
     height = '300px',
     theme,
@@ -157,14 +154,6 @@ const BaseChart: React.FC<ChartProps> = (props) => {
   const oldOptionRef = useRef<EChartsOption | undefined>(option);
   const adapterRef = useRef<unknown>(null);
   const performanceAnalyzerRef = useRef<PerformanceAnalyzer | null>(null);
-
-  // Debug config
-  const debugConfig = useMemo(() => {
-    if (!debug) return null;
-    return typeof debug === 'boolean'
-      ? { enabled: debug, autoExpand: false }
-      : { enabled: true, ...debug };
-  }, [debug]);
 
   // Wrapper option that applies virtual scroll + _data filtering
   const wrappedOption = useMemo(() => {
@@ -356,31 +345,6 @@ const BaseChart: React.FC<ChartProps> = (props) => {
         }
       }
 
-      // Update debug panel
-      if (debugConfig?.enabled) {
-        updateDebugInfo({
-          instance: {
-            id: chartId,
-            type: 'ECharts',
-            renderer: 'canvas',
-            width: typeof width === 'number' ? width : undefined,
-            height: typeof height === 'number' ? height : undefined,
-            platform: 'web',
-          },
-          config: wrappedOption,
-          data: {
-            series: Array.isArray(wrappedOption?.series) ? wrappedOption.series : [],
-            totalDataCount: calculateDataLength(wrappedOption),
-            currentDataCount: calculateDataLength(wrappedOption),
-          },
-          performance: {
-            initTime: 0,
-            renderTime: 0,
-            dataSize: JSON.stringify(wrappedOption).length,
-          },
-        });
-      }
-
       onInit?.(_instance);
       performanceRef.current.initEndTime = Date.now();
     },
@@ -489,34 +453,6 @@ const BaseChart: React.FC<ChartProps> = (props) => {
   return (
     <>
       <BaseChartWrapper {...wrapperProps} />
-      {debugConfig?.enabled && (
-        <DebugPanel
-          options={debugConfig}
-          debugInfo={{
-            instance: {
-              id: chartId,
-              type: 'ECharts',
-              renderer: 'canvas',
-              width: typeof width === 'number' ? width : undefined,
-              height: typeof height === 'number' ? height : undefined,
-              platform: 'web',
-            },
-            config: option,
-            data: {
-              series: Array.isArray(option?.series) ? option.series : [],
-              totalDataCount: calculateDataLength(option),
-              currentDataCount: calculateDataLength(option),
-            },
-            performance: {
-              initTime: performanceRef.current.initEndTime - performanceRef.current.initStartTime,
-              renderTime:
-                performanceRef.current.renderEndTime - performanceRef.current.renderStartTime,
-              updateTime: 0,
-              dataSize: JSON.stringify(option).length,
-            },
-          }}
-        />
-      )}
     </>
   );
 };

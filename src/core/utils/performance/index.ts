@@ -11,3 +11,5 @@ export { PerformanceAnalyzer } from './PerformanceAnalyzer';
 // 导出默认实例
 import { PerformanceAnalyzer } from './PerformanceAnalyzer';
 export const performanceAnalyzer = PerformanceAnalyzer.getInstance();
+
+export * from './hooks';

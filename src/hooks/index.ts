@@ -6,7 +6,6 @@ import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { getAdapter } from '../adapters';
 import { getThemeByName } from '../themes';
 import type { EChartsOption } from 'echarts';
-import { useDataZoom } from './useDataZoom';
 import { useChartConnect } from './useChartConnect';
 import { useChartDownload } from './useChartDownload';
 import { useChartHistory } from './useChartHistory';
@@ -584,15 +583,6 @@ export function useChartTools(instance: ChartInstance | null) {
 // v1.7.0 新增 Hooks
 // ============================================================================
 
-// 数据缩放 Hook
-export {
-  useDataZoom,
-  type UseDataZoomOptions,
-  type UseDataZoomReturn,
-  type DataZoomType,
-  type ZoomRange,
-} from './useDataZoom';
-
 // 图表联动 Hook
 export {
   useChartConnect,
@@ -690,7 +680,6 @@ export default {
   useExport,
   useChartTools,
   // v1.7.0 新增
-  useDataZoom,
   useChartConnect,
   useChartDownload,
   useChartHistory,

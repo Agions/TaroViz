@@ -291,6 +291,127 @@ const ResponsiveChart = () => {
 export default ResponsiveChart;
 ```
 
+## 使用 Hooks
+
+TaroViz 提供了一系列 Hooks 来增强图表功能：
+
+### useChart - 管理图表实例
+
+```typescript
+import { LineChart, useChart } from '@agions/taroviz';
+
+const ChartWithHook = () => {
+  const { chartRef, chartInstance, isInitialized } = useChart('my-chart');
+
+  return (
+    <>
+      <LineChart
+        ref={chartRef}
+        chartId="my-chart"
+        option={{ /* ... */ }}
+        width="100%"
+        height={400}
+      />
+      {isInitialized && <p>图表已初始化</p>}
+    </>
+  );
+};
+```
+
+### useChartHistory - Undo/Redo 功能
+
+```typescript
+import { LineChart, useChartHistory } from '@agions/taroviz';
+
+const ChartWithHistory = () => {
+  const chartRef = useRef(null);
+  const { canUndo, canRedo, undo, redo } = useChartHistory(chartRef.current, {
+    maxHistorySize: 50,
+    enableKeyboard: true, // 支持 Ctrl+Z / Ctrl+Y
+  });
+
+  return (
+    <>
+      <LineChart ref={chartRef} option={{ /* ... */ }} width="100%" height={400} />
+      <div>
+        <button onClick={undo} disabled={!canUndo}>撤销</button>
+        <button onClick={redo} disabled={!canRedo}>重做</button>
+      </div>
+    </>
+  );
+};
+```
+
+### useChartSelection - 数据点选择
+
+```typescript
+import { LineChart, useChartSelection } from '@agions/taroviz';
+
+const ChartWithSelection = () => {
+  const chartRef = useRef(null);
+  const { selectedPoints, select, deselect, clearSelection } = useChartSelection(chartRef.current, {
+    mode: 'multiple',
+  });
+
+  return (
+    <>
+      <LineChart ref={chartRef} option={{ /* ... */ }} width="100%" height={400} />
+      <div>
+        <p>已选择 {selectedPoints.length} 个数据点</p>
+        <button onClick={() => select(0, 0)}>选择第一个点</button>
+        <button onClick={clearSelection}>清空选择</button>
+      </div>
+    </>
+  );
+};
+```
+
+### usePerformance - 性能监控
+
+```typescript
+import { LineChart, usePerformance } from '@agions/taroviz';
+
+const ChartWithPerformance = () => {
+  const { metrics, isMonitoring, startMonitoring, stopMonitoring } = usePerformance({
+    autoStart: true,
+    interval: 1000
+  });
+
+  return (
+    <>
+      <LineChart option={{ /* ... */ }} width="100%" height={400} />
+      <div>
+        <p>帧率: {metrics.fps} FPS</p>
+        <button onClick={isMonitoring ? stopMonitoring : startMonitoring}>
+          {isMonitoring ? '停止监控' : '开始监控'}
+        </button>
+      </div>
+    </>
+  );
+};
+```
+
+### useThemeSwitcher - 主题切换
+
+```typescript
+import { LineChart, useThemeSwitcher } from '@agions/taroviz';
+
+const ChartWithTheme = () => {
+  const { currentTheme, themes, switchTheme } = useThemeSwitcher('default');
+
+  return (
+    <>
+      <select value={currentTheme} onChange={(e) => switchTheme(e.target.value)}>
+        {themes.map(theme => (
+          <option key={theme} value={theme}>{theme}</option>
+        ))}
+      </select>
+      <LineChart option={{ /* ... */ }} width="100%" height={400} theme={currentTheme} />
+    </>
+  );
+};
+```
+
 ## 下一步
 
 继续阅读 [图表类型](./chart-types.md) 指南，了解 TaroViz 支持的图表类型。

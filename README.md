@@ -39,7 +39,7 @@ TaroViz v2.0.0 - 功能大版本更新，新增 6 种图表类型，总计 18 �
 #### 📊 项目统计
 
 - **图表类型**: 18 种（新增 6 种）
-- **测试覆盖**: 198/198 通过 ✅
+- **测试覆盖**: 207/207 通过 ✅（新增 22 个测试）
 - **代码质量**: ESLint 0 errors ✅
 - **Bundle 优化**: ESM 体积减少 72.5%
 
@@ -164,7 +164,7 @@ import {
   useThemeSwitcher,    // 主题切换
   usePerformance,      // 性能监控
   useDataTransform,    // 数据转换
-  // v1.11.5 新增
+  // 工具 Hooks
   useDebounce,         // 防抖 Hook
   useThrottle,         // 节流 Hook
   useAnimationFrame,   // 动画帧 Hook
@@ -193,14 +193,18 @@ const { selectedPoints, select, deselect, clearSelection } = useChartSelection(c
 
 TaroViz 采用单包架构设计，包含以下核心模块：
 
-| 模块 | 描述 |
-| ---- | ---- |
-| `core` | 核心组件（BaseChart、Annotation）、类型定义、主题系统 |
-| `adapters` | 多平台适配器（H5、微信小程序、支付宝、百度、字节跳动、HarmonyOS等） |
-| `charts` | 18种图表组件实现 |
-| `hooks` | React Hooks（useChart、useChartHistory、useChartSelection等14个） |
-| `core/themes` | 主题系统（内置主题、自定义主题、ThemeManager） |
-| `core/utils` | 工具函数（导出、性能分析、下钻、性能优化等） |
+| 模块 | 路径 | 描述 |
+| ---- | ---- | ---- |
+| `core` | `src/core/` | 核心组件（BaseChart、Annotation）、类型定义、主题系统 |
+| `core/themes` | `src/core/themes/` | 主题系统（内置主题、自定义主题、ThemeManager） |
+| `core/utils` | `src/core/utils/` | 工具函数（导出、性能分析、下钻、性能优化等） |
+| `core/utils/config` | `src/core/utils/config/` | 配置生成器 |
+| `core/utils/generator` | `src/core/utils/generator/` | 代码生成器 |
+| `core/utils/debug` | `src/core/utils/debug/` | 调试工具 |
+| `core/utils/performance` | `src/core/utils/performance/` | 性能优化（useAnimation、useDataZoom 等 Hooks） |
+| `adapters` | `src/adapters/` | 多平台适配器（H5、微信小程序、支付宝、百度、字节跳动、HarmonyOS等） |
+| `charts` | `src/charts/` | 18 种图表组件实现 |
+| `hooks` | `src/hooks/` | React Hooks（useChart、useChartHistory、useChartSelection 等） |
 
 ## 技术栈
 

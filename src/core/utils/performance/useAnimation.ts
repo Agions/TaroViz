@@ -4,7 +4,7 @@
  * 提供图表动画的播放、暂停、控制等功能
  */
 import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
-import type { ChartInstance } from './types';
+import type { ChartInstance } from '../../../hooks/types';
 
 /**
  * 动画状态

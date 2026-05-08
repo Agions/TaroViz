@@ -7,7 +7,7 @@ import {
   PerformanceAnalyzer,
   PerformanceMetricType,
   PerformanceMetric,
-} from '../core/utils/performance';
+} from './usePerformanceHooks';
 
 /**
  * 性能监控配置

@@ -506,68 +506,27 @@ function useChartEvent(options?: UseChartEventOptions): UseChartEventReturn;
 
 ```typescript
 import React from 'react';
-import { PieChart, useChart, useChartEvent } from '@agions/taroviz';
+import { LineChart, useChartEvent } from '@agions/taroviz';
 
 const EventComponent = () => {
-  const { chartRef, chartInstance } = useChart('event-chart');
+  const { bindEvent, unbindEvent } = useChartEvent();
 
-  const handleClick = (params: any) => {
-    console.log('点击事件:', params);
-    alert(`您点击了: ${params.name}`);
-  };
-
-  const handleMouseOver = (params: any) => {
-    console.log('鼠标悬停事件:', params);
-  };
-
-  const { bindEvents } = useChartEvent({
-    eventMap: {
-      click: handleClick,
-      mouseover: handleMouseOver
-    }
-  });
-
-  // 当图表实例可用时绑定事件
-  React.useEffect(() => {
-    if (chartInstance) {
-      bindEvents(chartInstance);
-    }
-  }, [chartInstance, bindEvents]);
-
-  const option = {
-    title: {
-      text: '事件处理示例',
-      left: 'center'
-    },
-    tooltip: {
-      trigger: 'item'
-    },
-    legend: {
-      orient: 'vertical',
-      left: 'left'
-    },
-    series: [
-      {
-        name: '销售渠道',
-        type: 'pie',
-        radius: '50%',
-        data: [
-          { value: 350, name: '线上商城' },
-          { value: 250, name: '线下门店' },
-          { value: 200, name: '代理商' },
-          { value: 150, name: '其他' }
-        ]
-      }
-    ]
+  const handlePointClick = (params: any) => {
+    console.log('数据点点击:', params);
   };
 
   return (
-    <PieChart
-      ref={chartRef}
+    <LineChart
       chartId="event-chart"
-      option={option}
+      option={{ /* ... */ }}
       width="100%"
       height={400}
+      onInit={(chartInstance) => {
+        bindEvent(chartInstance, 'click', handlePointClick);
+      }}
+      onDispose={(chartInstance) => {
+        unbindEvent('click', handlePointClick);
+      }}
     />
   );
 };
@@ -575,146 +534,627 @@ const EventComponent = () => {
 export default EventComponent;
 ```
 
-## useResponsive
+## useChartHistory
 
-用于处理图表响应式布局的 Hook，提供了自动调整图表大小的功能。
+用于管理图表配置历史记录的 Hook，支持 Undo/Redo 操作。
 
 ### 导入
 
 ```typescript
-import { useResponsive } from '@agions/taroviz';
+import { useChartHistory } from '@agions/taroviz';
 ```
 
 ### 类型定义
 
-interface UseResponsiveOptions {
-/\*\*
+```typescript
+interface UseChartHistoryOptions {
+  /**
+   * 最大历史记录数
+   */
+  maxHistorySize?: number;
+  /**
+   * 是否启用键盘快捷键
+   */
+  enableKeyboard?: boolean;
+  /**
+   * 历史记录间隔（毫秒）
+   */
+  debounceMs?: number;
+}
 
-- 监听的元素
-  \*/
-  element?: HTMLElement | null;
-  /\*\*
-- 调整大小的延迟（毫秒）
-  \*/
-  debounceDelay?: number;
-  /\*\*
-- 响应式配置
-  _/
-  responsiveConfig?: {
-  /\*\*
-  _ 断点配置
-  _/
-  breakpoints?: {
-  [key: string]: number;
-  };
-  /\*\*
-  _ 根据断点返回不同的配置
-  \*/
-  getConfigByBreakpoint?: (breakpoint: string, width: number) => any;
-  };
-  }
+interface UseChartHistoryReturn {
+  /**
+   * 是否可以撤销
+   */
+  canUndo: boolean;
+  /**
+   * 是否可以重做
+   */
+  canRedo: boolean;
+  /**
+   * 撤销操作
+   */
+  undo: () => void;
+  /**
+   * 重做操作
+   */
+  redo: () => void;
+  /**
+   * 获取历史记录
+   */
+  getHistory: () => any[];
+  /**
+   * 清空历史记录
+   */
+  clearHistory: () => void;
+}
 
-interface UseResponsiveReturn {
-/\*\*
-
-- 当前宽度
-  \*/
-  width: number;
-  /\*\*
-- 当前高度
-  \*/
-  height: number;
-  /\*\*
-- 当前断点
-  \*/
-  currentBreakpoint: string;
-  /\*\*
-- 响应式配置
-  \*/
-  responsiveConfig: any;
-  /\*\*
-- 手动触发调整大小
-  \*/
-  triggerResize: () => void;
-  /\*\*
-- 更新监听的元素
-  \*/
-  updateElement: (element: HTMLElement | null) => void;
-  }
-
-function useResponsive(options?: UseResponsiveOptions): UseResponsiveReturn;
+function useChartHistory(chartInstance: any, options?: UseChartHistoryOptions): UseChartHistoryReturn;
+```
 
 ### 示例
 
 ```typescript
 import React from 'react';
-import { LineChart, useResponsive } from '@agions/taroviz';
+import { LineChart, useChartHistory } from '@agions/taroviz';
 
-const ResponsiveComponent = () => {
-  const chartRef = React.useRef<HTMLDivElement>(null);
-  const { width, height, currentBreakpoint } = useResponsive({
-    element: chartRef.current,
-    debounceDelay: 300,
-    responsiveConfig: {
-      breakpoints: {
-        sm: 576,
-        md: 768,
-        lg: 992,
-        xl: 1200
-      },
-      getConfigByBreakpoint: (breakpoint, width) => {
-        // 根据不同断点返回不同的配置
-        if (breakpoint === 'sm') {
-          return { title: { fontSize: 14 }, legend: { show: false } };
-        } else if (breakpoint === 'md') {
-          return { title: { fontSize: 16 }, legend: { show: true } };
-        } else {
-          return { title: { fontSize: 18 }, legend: { show: true } };
-        }
-      }
-    }
+const HistoryComponent = () => {
+  const chartRef = React.useRef(null);
+  const { canUndo, canRedo, undo, redo } = useChartHistory(chartRef.current, {
+    maxHistorySize: 50,
+    enableKeyboard: true, // 支持 Ctrl+Z / Ctrl+Y
   });
 
-  React.useEffect(() => {
-    if (chartRef.current) {
-      // 更新监听的元素
-    }
-  }, [chartRef]);
+  return (
+    <div>
+      <LineChart ref={chartRef} option={{ /* ... */ }} width="100%" height={400} />
+      <div>
+        <button onClick={undo} disabled={!canUndo}>撤销 (Ctrl+Z)</button>
+        <button onClick={redo} disabled={!canRedo}>重做 (Ctrl+Y)</button>
+      </div>
+    </div>
+  );
+};
 
-  const baseOption = {
-    title: {
-      text: '响应式示例'
-    },
-    xAxis: {
-      type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    },
-    yAxis: {
-      type: 'value'
-    },
-    series: [
-      {
-        data: [120, 200, 150, 80, 70, 110, 130],
-        type: 'line'
-      }
-    ]
-  };
+export default HistoryComponent;
+```
+
+## useChartSelection
+
+用于管理图表数据点选择的 Hook，支持单选、多选和反选。
+
+### 导入
+
+```typescript
+import { useChartSelection } from '@agions/taroviz';
+```
+
+### 类型定义
+
+```typescript
+interface UseChartSelectionOptions {
+  /**
+   * 选择模式：'single' | 'multiple' | 'invert'
+   */
+  mode?: 'single' | 'multiple' | 'invert';
+  /**
+   * 是否支持程序化控制
+   */
+  programmable?: boolean;
+}
+
+interface SelectedPoint {
+  /**
+   * 系列索引
+   */
+  seriesIndex: number;
+  /**
+   * 数据索引
+   */
+  dataIndex: number;
+  /**
+   * 数据值
+   */
+  value: any;
+  /**
+   * 系列名称
+   */
+  seriesName?: string;
+}
+
+interface UseChartSelectionReturn {
+  /**
+   * 当前选中的数据点
+   */
+  selectedPoints: SelectedPoint[];
+  /**
+   * 选择数据点
+   */
+  select: (seriesIndex: number, dataIndex: number | number[]) => void;
+  /**
+   * 取消选择数据点
+   */
+  deselect: (seriesIndex: number, dataIndex: number | number[]) => void;
+  /**
+   * 清空所有选择
+   */
+  clearSelection: () => void;
+  /**
+   * 反选当前选择
+   */
+  invertSelection: () => void;
+}
+
+function useChartSelection(chartInstance: any, options?: UseChartSelectionOptions): UseChartSelectionReturn;
+```
+
+### 示例
+
+```typescript
+import React from 'react';
+import { LineChart, useChartSelection } from '@agions/taroviz';
+
+const SelectionComponent = () => {
+  const chartRef = React.useRef(null);
+  const { selectedPoints, select, deselect, clearSelection } = useChartSelection(chartRef.current, {
+    mode: 'multiple',
+  });
 
   return (
-    <div ref={chartRef}>
-      <div style={{ marginBottom: '10px' }}>
-        当前断点: {currentBreakpoint}, 宽度: {width}px, 高度: {height}px
+    <div>
+      <LineChart ref={chartRef} option={{ /* ... */ }} width="100%" height={400} />
+      <div>
+        <p>已选择: {selectedPoints.length} 个数据点</p>
+        <button onClick={() => select(0, 0)}>选择第一个点</button>
+        <button onClick={clearSelection}>清空选择</button>
       </div>
+    </div>
+  );
+};
+
+export default SelectionComponent;
+```
+
+## useChartDownload
+
+用于导出图表为图片或其他格式的 Hook。
+
+### 导入
+
+```typescript
+import { useChartDownload } from '@agions/taroviz';
+```
+
+### 类型定义
+
+```typescript
+interface UseChartDownloadOptions {
+  /**
+   * 默认导出格式
+   */
+  defaultFormat?: 'png' | 'jpeg' | 'svg' | 'pdf';
+  /**
+   * 默认分辨率
+   */
+  pixelRatio?: number;
+}
+
+interface UseChartDownloadReturn {
+  /**
+   * 导出为 PNG
+   */
+  downloadPNG: (filename?: string) => Promise<void>;
+  /**
+   * 导出为 JPEG
+   */
+  downloadJPEG: (filename?: string, quality?: number) => Promise<void>;
+  /**
+   * 导出为 SVG
+   */
+  downloadSVG: (filename?: string) => Promise<void>;
+  /**
+   * 导出为 PDF
+   */
+  downloadPDF: (filename?: string) => Promise<void>;
+  /**
+   * 导出为 CSV
+   */
+  downloadCSV: (filename?: string) => Promise<void>;
+  /**
+   * 导出为 JSON
+   */
+  downloadJSON: (filename?: string) => Promise<void>;
+}
+
+function useChartDownload(chartInstance: any, options?: UseChartDownloadOptions): UseChartDownloadReturn;
+```
+
+### 示例
+
+```typescript
+import React from 'react';
+import { LineChart, useChartDownload } from '@agions/taroviz';
+
+const DownloadComponent = () => {
+  const chartRef = React.useRef(null);
+  const { downloadPNG, downloadSVG } = useChartDownload(chartRef.current);
+
+  return (
+    <div>
+      <LineChart ref={chartRef} option={{ /* ... */ }} width="100%" height={400} />
+      <div>
+        <button onClick={() => downloadPNG('my-chart')}>导出 PNG</button>
+        <button onClick={() => downloadSVG('my-chart')}>导出 SVG</button>
+      </div>
+    </div>
+  );
+};
+
+export default DownloadComponent;
+```
+
+## useChartConnect
+
+用于实现多图表联动的 Hook。
+
+### 导入
+
+```typescript
+import { useChartConnect } from '@agions/taroviz';
+```
+
+### 类型定义
+
+```typescript
+interface UseChartConnectOptions {
+  /**
+   * 联动组名称
+   */
+  group?: string;
+  /**
+   * 联动事件
+   */
+  events?: string[];
+}
+
+interface UseChartConnectReturn {
+  /**
+   * 连接图表到联动组
+   */
+  connect: (chartInstance: any) => void;
+  /**
+   * 断开图表连接
+   */
+  disconnect: (chartInstance: any) => void;
+  /**
+   * 发送联动事件
+   */
+  dispatch: (eventName: string, params: any) => void;
+}
+
+function useChartConnect(options?: UseChartConnectOptions): UseChartConnectReturn;
+```
+
+### 示例
+
+```typescript
+import React from 'react';
+import { LineChart, PieChart, useChartConnect } from '@agions/taroviz';
+
+const ConnectComponent = () => {
+  const lineRef = React.useRef(null);
+  const pieRef = React.useRef(null);
+  const { connect, dispatch } = useChartConnect({ group: 'dashboard' });
+
+  return (
+    <div>
+      <LineChart ref={lineRef} option={{ /* ... */ }} width="100%" height={400} />
+      <PieChart ref={pieRef} option={{ /* ... */ }} width="100%" height={400} />
+    </div>
+  );
+};
+
+export default ConnectComponent;
+```
+
+## useDataZoom
+
+用于管理图表区域缩放的 Hook。
+
+### 导入
+
+```typescript
+import { useDataZoom } from '@agions/taroviz';
+```
+
+### 类型定义
+
+```typescript
+interface UseDataZoomReturn {
+  /**
+   * 当前缩放范围
+   */
+  range: [number, number];
+  /**
+   * 设置缩放范围
+   */
+  setRange: (start: number, end: number) => void;
+  /**
+   * 重置缩放
+   */
+  reset: () => void;
+  /**
+   * 是否正在缩放
+   */
+  isZooming: boolean;
+}
+
+function useDataZoom(chartInstance: any): UseDataZoomReturn;
+```
+
+### 示例
+
+```typescript
+import React from 'react';
+import { LineChart, useDataZoom } from '@agions/taroviz';
+
+const DataZoomComponent = () => {
+  const chartRef = React.useRef(null);
+  const { range, setRange, reset } = useDataZoom(chartRef.current);
+
+  return (
+    <div>
+      <LineChart ref={chartRef} option={{ /* ... */ }} width="100%" height={400} />
+      <div>
+        <p>当前范围: {range[0]}% - {range[1]}%</p>
+        <button onClick={() => setRange(0, 50)}>前 50%</button>
+        <button onClick={reset}>重置</button>
+      </div>
+    </div>
+  );
+};
+
+export default DataZoomComponent;
+```
+
+## useAnimation
+
+用于控制图表动画的 Hook。
+
+### 导入
+
+```typescript
+import { useAnimation } from '@agions/taroviz';
+```
+
+### 类型定义
+
+```typescript
+interface UseAnimationReturn {
+  /**
+   * 是否正在播放动画
+   */
+  isPlaying: boolean;
+  /**
+   * 播放动画
+   */
+  play: () => void;
+  /**
+   * 暂停动画
+   */
+  pause: () => void;
+  /**
+   * 恢复动画
+   */
+  resume: () => void;
+  /**
+   * 停止动画
+   */
+  stop: () => void;
+  /**
+   * 设置动画时长
+   */
+  setDuration: (duration: number) => void;
+}
+
+function useAnimation(chartInstance: any): UseAnimationReturn;
+```
+
+### 示例
+
+```typescript
+import React from 'react';
+import { LineChart, useAnimation } from '@agions/taroviz';
+
+const AnimationComponent = () => {
+  const chartRef = React.useRef(null);
+  const { isPlaying, play, pause, stop } = useAnimation(chartRef.current);
+
+  return (
+    <div>
+      <LineChart ref={chartRef} option={{ /* ... */ }} width="100%" height={400} />
+      <div>
+        <button onClick={play} disabled={isPlaying}>播放</button>
+        <button onClick={pause} disabled={!isPlaying}>暂停</button>
+        <button onClick={stop}>停止</button>
+      </div>
+    </div>
+  );
+};
+
+export default AnimationComponent;
+```
+
+## useThemeSwitcher
+
+用于管理主题切换的 Hook。
+
+### 导入
+
+```typescript
+import { useThemeSwitcher } from '@agions/taroviz';
+```
+
+### 类型定义
+
+```typescript
+interface UseThemeSwitcherReturn {
+  /**
+   * 当前主题
+   */
+  currentTheme: string;
+  /**
+   * 所有可用主题
+   */
+  themes: string[];
+  /**
+   * 切换主题
+   */
+  switchTheme: (theme: string) => void;
+  /**
+   * 获取主题配置
+   */
+  getThemeConfig: (theme: string) => object;
+}
+
+function useThemeSwitcher(initialTheme?: string): UseThemeSwitcherReturn;
+```
+
+### 示例
+
+```typescript
+import React from 'react';
+import { LineChart, useThemeSwitcher } from '@agions/taroviz';
+
+const ThemeSwitcherComponent = () => {
+  const { currentTheme, themes, switchTheme } = useThemeSwitcher('default');
+
+  return (
+    <div>
+      <select value={currentTheme} onChange={(e) => switchTheme(e.target.value)}>
+        {themes.map((theme) => (
+          <option key={theme} value={theme}>{theme}</option>
+        ))}
+      </select>
       <LineChart
-        chartId="responsive-chart"
-        option={baseOption}
+        option={{ /* ... */ }}
         width="100%"
         height={400}
-        autoResize
+        theme={currentTheme}
       />
     </div>
   );
 };
 
-export default ResponsiveComponent;
+export default ThemeSwitcherComponent;
+```
+
+## useDataTransform
+
+用于数据转换和处理的 Hook。
+
+### 导入
+
+```typescript
+import { useDataTransform } from '@agions/taroviz';
+```
+
+### 类型定义
+
+```typescript
+interface UseDataTransformReturn {
+  /**
+   * 原始数据
+   */
+  originalData: any;
+  /**
+   * 转换后的数据
+   */
+  transformedData: any;
+  /**
+   * 应用转换
+   */
+  transform: (transformFn: (data: any) => any) => void;
+  /**
+   * 重置数据
+   */
+  reset: () => void;
+}
+
+function useDataTransform(initialData?: any): UseDataTransformReturn;
+```
+
+### 示例
+
+```typescript
+import React from 'react';
+import { LineChart, useDataTransform } from '@agions/taroviz';
+
+const TransformComponent = () => {
+  const { transformedData, transform, reset } = useDataTransform([120, 200, 150, 80, 70, 110, 130]);
+
+  const handleSmooth = () => {
+    transform((data) => data.map(v => v * 1.1));
+  };
+
+  return (
+    <div>
+      <LineChart
+        option={{ series: [{ data: transformedData, type: 'line' }] }}
+        width="100%"
+        height={400}
+      />
+      <button onClick={handleSmooth}>平滑处理</button>
+      <button onClick={reset}>重置</button>
+    </div>
+  );
+};
+
+export default TransformComponent;
+```
+
+## 工具 Hooks
+
+以下工具 Hooks 位于 `src/core/utils/performance/` 目录下：
+
+### useDebounce
+
+防抖 Hook，用于延迟执行函数。
+
+```typescript
+import { useDebounce } from '@agions/taroviz';
+
+const debouncedValue = useDebounce(value, delay);
+```
+
+### useThrottle
+
+节流 Hook，用于限制函数执行频率。
+
+```typescript
+import { useThrottle } from '@agions/taroviz';
+
+const throttledFn = useThrottle(fn, limit);
+```
+
+### useAnimationFrame
+
+动画帧 Hook，用于实现流畅动画。
+
+```typescript
+import { useAnimationFrame } from '@agions/taroviz';
+
+useAnimationFrame((time) => {
+  // 动画逻辑
+});
+```
+
+### useWindowSizeDebounce
+
+窗口大小防抖 Hook，用于响应窗口大小变化。
+
+```typescript
+import { useWindowSizeDebounce } from '@agions/taroviz';
+
+const [width, height] = useWindowSizeDebounce(100);
 ```

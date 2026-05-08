@@ -5,8 +5,8 @@
  */
 import * as React from 'react';
 import BaseChart from '@/core/components/BaseChart';
-import type { BaseChartProps } from '@/charts/types';
-import type { RadarChartProps, RadarIndicator, RadarDataItem } from './types';
+import type { RadarChartProps } from './types';
+// 类型 RadarIndicator、RadarDataItem 通过下方 export type 导出供外部使用
 
 /**
  * 构建雷达图 ECharts option

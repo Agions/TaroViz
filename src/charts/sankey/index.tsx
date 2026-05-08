@@ -6,7 +6,8 @@
 import * as React from 'react';
 import BaseChart from '@/core/components/BaseChart';
 import type { BaseChartProps } from '@/charts/types';
-import type { SankeyChartProps, SankeyNode, SankeyLink } from './types';
+import type { SankeyChartProps } from './types';
+// 类型 SankeyNode、SankeyLink 通过下方 export type 导出供外部使用
 
 /**
  * 构建桑基图 ECharts option
@@ -70,7 +71,7 @@ function buildSankeyOption(props: SankeyChartProps) {
  * 桑基图组件
  */
 const SankeyChart: React.FC<SankeyChartProps> = (props) => {
-  const { nodes, ...rest } = props;
+  const { ...rest } = props;
 
   const option = buildSankeyOption(props);
 

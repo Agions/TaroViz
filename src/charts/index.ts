@@ -3,23 +3,15 @@
  * 使用工厂函数消除重复代码
  */
 
-import { createChartComponent, createChartComponentWithOptionCast } from './createChartComponent';
+import { createChartComponent } from './createChartComponent';
 import type {
   LineChartProps,
   BarChartProps,
   PieChartProps,
   ScatterChartProps,
-  RadarChartProps,
-  FunnelChartProps,
-  HeatmapChartProps,
-  SunburstChartProps,
   TreeMapChartProps,
-  SankeyChartProps,
-  GraphChartProps,
-  WordCloudChartProps,
+  SunburstChartProps,
 } from './types';
-import type { BoxplotChartProps } from './boxplot/types';
-import type { ParallelChartProps } from './parallel/types';
 
 // ===== 标准图表（用工厂函数创建）=====
 

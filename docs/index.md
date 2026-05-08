@@ -35,7 +35,7 @@ features:
 
   - icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
     title: React Hooks
-    details: useChart、useTheme、useResizeObserver 等 Hooks，简化状态管理与生命周期，开发更优雅
+    details: useChart、useTheme、useAnimation、useDataZoom 等 Hooks，简化状态管理与生命周期，开发更优雅
 
   - icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
     title: TypeScript First
@@ -50,7 +50,7 @@ footer:
 
 | 图表组件 | 小程序平台 | 月下载量 |
 |:---:|:---:|:---:|
-| **16** | **6+** | **10k+** |
+| **18** | **6+** | **10k+** |
 
 ## 为什么选择 TaroViz？
 

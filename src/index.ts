@@ -188,7 +188,7 @@ export {
   useTableTransform,
   useTimeSeriesTransform,
   // v1.7.0 新增 Hooks
-  useDataZoom,
+  
   useChartConnect,
   useChartDownload,
 } from './hooks';
