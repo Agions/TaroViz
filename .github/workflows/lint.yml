@@ -24,6 +24,14 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps --ignore-scripts
 
+      - name: Debug environment
+        run: |
+          echo "node: $(node --version)"
+          echo "npm: $(npm --version)"
+          ls node_modules/.bin/prettier 2>&1 || echo "prettier binary NOT found"
+          npx prettier --version 2>&1 || echo "npx prettier FAILED"
+          npm run lint:prettier 2>&1 || echo "npm run lint:prettier FAILED"
+
       - name: Run Prettier check
         run: npm run lint:prettier
 
