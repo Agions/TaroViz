@@ -4,6 +4,7 @@
  */
 import { useRef, useCallback } from 'react';
 import type { EChartsOption } from 'echarts';
+import { deepClone } from '../../../core/utils/deepClone';
 
 export interface UseVirtualScrollOptions {
   enabled?: boolean;
@@ -71,7 +72,7 @@ export function useVirtualScroll(options: UseVirtualScrollOptions = {}) {
       }
 
       // 深拷贝避免修改原始数据
-      const processedOption = JSON.parse(JSON.stringify(originalOption)) as EChartsOption;
+      const processedOption = deepClone(originalOption) as EChartsOption;
 
       (processedOption.series as unknown[]).forEach((seriesItem: unknown, _index: number) => {
         const s = seriesItem as { data?: unknown[] };

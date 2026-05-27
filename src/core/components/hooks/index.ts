@@ -16,5 +16,9 @@ export type {
 export { useVirtualScroll } from './useVirtualScroll';
 export type { UseVirtualScrollOptions, VirtualScrollState } from './useVirtualScroll';
 
-export { usePerformance } from './usePerformance';
-export type { PerformanceData, UsePerformanceOptions } from './usePerformance';
+export { useChartPerformanceMetrics, usePerformance } from './usePerformance';
+export type {
+  PerformanceData,
+  UseChartPerformanceMetricsOptions,
+  UsePerformanceOptions,
+} from './usePerformance';

@@ -119,6 +119,10 @@ export { uuid, shortId, prefixedId };
 // 导出国际化工具
 export { i18n };
 
+// 统一运行时检测
+export { detectRuntime, resetRuntimeCache } from './runtime';
+export type { RuntimeInfo, MiniAppType } from './runtime';
+
 // 性能优化工具
 export * from './performanceUtils';
 export { DebounceManager } from './performanceUtils';

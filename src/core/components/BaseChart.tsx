@@ -7,6 +7,7 @@
  * 所有具体的图表组件（如折线图、柱状图等）都继承自该组件
  */
 import React, { useEffect, useRef, useMemo, useCallback } from 'react';
+import { deepClone } from '../utils/deepClone';
 
 import { generateEChartsAnimationConfig } from '../animation';
 import { EChartsOption, EChartsType, AnimationConfig } from '../types';
@@ -162,7 +163,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
 
     // Apply _data filtering
     if (enableDataFiltering && _filters && Object.keys(_filters).length > 0) {
-      processed = JSON.parse(JSON.stringify(processed)) as typeof processed;
+      processed = deepClone(processed);
       if (processed.series && Array.isArray(processed.series)) {
         processed.series = (processed.series as unknown[]).map((s: unknown) => {
           const seriesItem = s as { _data?: unknown[]; [key: string]: unknown };
@@ -190,7 +191,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
 
     // Inject _dataZoom when enableZoom is true (keyboard-accessible zoom)
     if (_enableZoom) {
-      processed = JSON.parse(JSON.stringify(processed));
+      processed = deepClone(processed);
       // Avoid duplicate _dataZoom entries
       const existingDzArr = Array.isArray(processed._dataZoom)
         ? (processed._dataZoom as DataZoomComponentOption[])
@@ -378,7 +379,7 @@ const BaseChart: React.FC<ChartProps> = (props) => {
         renderTime: p.renderEndTime - p.renderStartTime,
         initTime: p.initEndTime - p.initStartTime,
         updateTime: p.updateEndTime - p.updateStartTime,
-        dataSize: JSON.stringify(option).length,
+        dataSize: estimateDataSize(option),
       });
     }
   }, [option, onPerformance]);
@@ -456,6 +457,34 @@ const BaseChart: React.FC<ChartProps> = (props) => {
     </>
   );
 };
+
+/**
+ * Lightweight estimation of option data size without expensive JSON.stringify.
+ * Counts approximate character length by summing string values and array lengths.
+ */
+function estimateDataSize(option: unknown): number {
+  if (option == null) return 0;
+  if (typeof option === 'string') return option.length;
+  if (typeof option !== 'object') return 8; // number/boolean approximation
+
+  let size = 0;
+  const obj = option as Record<string, unknown>;
+  for (const key in obj) {
+    if (!Object.prototype.hasOwnProperty.call(obj, key)) continue;
+    size += key.length + 1; // key + colon
+    const val = obj[key];
+    if (typeof val === 'string') {
+      size += val.length + 2; // quotes
+    } else if (Array.isArray(val)) {
+      size += val.length * 4; // rough per-element estimate
+    } else if (typeof val === 'object' && val !== null) {
+      size += estimateDataSize(val);
+    } else {
+      size += 8; // number/boolean
+    }
+  }
+  return size;
+}
 
 function normalizeSizeObject(
   width: number | string,

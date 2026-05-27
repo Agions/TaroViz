@@ -144,11 +144,9 @@ export function useChartHistory(
       newStack.push(option);
       if (newStack.length > maxHistorySize) {
         newStack.shift();
-      } else {
-        setCurrentIndex(newStack.length - 1);
       }
-
       historyStack.current = newStack;
+      setCurrentIndex(newStack.length - 1);
       return originalSetOption(option, notMerge, lazyUpdate);
     };
 

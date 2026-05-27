@@ -3,9 +3,7 @@
  *
  * 基于 ECharts sankey 系列实现桑基图可视化
  */
-import * as React from 'react';
-import BaseChart from '@/core/components/BaseChart';
-import type { BaseChartProps } from '@/charts/types';
+import { createOptionChartComponent } from '@/charts/createOptionChartComponent';
 import type { SankeyChartProps } from './types';
 // 类型 SankeyNode、SankeyLink 通过下方 export type 导出供外部使用
 
@@ -67,19 +65,6 @@ function buildSankeyOption(props: SankeyChartProps) {
   return option;
 }
 
-/**
- * 桑基图组件
- */
-const SankeyChart: React.FC<SankeyChartProps> = (props) => {
-  const { ...rest } = props;
-
-  const option = buildSankeyOption(props);
-
-  if (!option) {
-    return null;
-  }
-
-  return <BaseChart option={option} {...(rest as BaseChartProps)} />;
-};
+const SankeyChart = createOptionChartComponent<SankeyChartProps>('SankeyChart', buildSankeyOption);
 
 export default SankeyChart;

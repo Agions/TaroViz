@@ -3,9 +3,7 @@
  *
  * 基于 ECharts graph 系列实现关系图/力导向图可视化
  */
-import * as React from 'react';
-import BaseChart from '@/core/components/BaseChart';
-import type { BaseChartProps } from '@/charts/types';
+import { createOptionChartComponent } from '@/charts/createOptionChartComponent';
 import type { GraphChartProps } from './types';
 // 类型 GraphNode、GraphLink 通过下方 export type 导出供外部使用
 
@@ -67,19 +65,6 @@ function buildGraphOption(props: GraphChartProps) {
   return option;
 }
 
-/**
- * 关系图组件
- */
-const GraphChart: React.FC<GraphChartProps> = (props) => {
-  const { ...rest } = props;
-
-  const option = buildGraphOption(props);
-
-  if (!option) {
-    return null;
-  }
-
-  return <BaseChart option={option} {...(rest as BaseChartProps)} />;
-};
+const GraphChart = createOptionChartComponent<GraphChartProps>('GraphChart', buildGraphOption);
 
 export default GraphChart;

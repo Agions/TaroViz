@@ -3,8 +3,7 @@
  *
  * 基于 ECharts radar 系列实现多指标对比可视化
  */
-import * as React from 'react';
-import BaseChart from '@/core/components/BaseChart';
+import { createOptionChartComponent } from '@/charts/createOptionChartComponent';
 import type { RadarChartProps } from './types';
 // 类型 RadarIndicator、RadarDataItem 通过下方 export type 导出供外部使用
 
@@ -24,6 +23,26 @@ function buildRadarOption(props: RadarChartProps) {
     smooth = false,
     optionMerge,
   } = props;
+
+  // 验证数据
+  if (!indicators || indicators.length === 0) {
+    console.warn('[TaroViz] RadarChart: indicators is required');
+    return null;
+  }
+
+  if (!data || data.length === 0) {
+    console.warn('[TaroViz] RadarChart: data is required');
+    return null;
+  }
+
+  // 验证数据维度匹配
+  const firstDataItem = data[0];
+  if (firstDataItem.value.length !== indicators.length) {
+    console.warn(
+      `[TaroViz] RadarChart: data value length (${firstDataItem.value.length}) ` +
+        `does not match indicators count (${indicators.length})`
+    );
+  }
 
   // 构建雷达图 series
   const series = data.map((item, index) => ({
@@ -123,35 +142,6 @@ function buildRadarOption(props: RadarChartProps) {
   return option;
 }
 
-/**
- * 雷达图组件
- */
-const RadarChart: React.FC<RadarChartProps> = (props) => {
-  const { indicators, data, ...rest } = props;
-
-  // 验证数据
-  if (!indicators || indicators.length === 0) {
-    console.warn('[TaroViz] RadarChart: indicators is required');
-    return null;
-  }
-
-  if (!data || data.length === 0) {
-    console.warn('[TaroViz] RadarChart: data is required');
-    return null;
-  }
-
-  // 验证数据维度匹配
-  const firstDataItem = data[0];
-  if (firstDataItem.value.length !== indicators.length) {
-    console.warn(
-      `[TaroViz] RadarChart: data value length (${firstDataItem.value.length}) ` +
-        `does not match indicators count (${indicators.length})`
-    );
-  }
-
-  const option = buildRadarOption(props);
-
-  return <BaseChart option={option} {...(rest as any)} />;
-};
+const RadarChart = createOptionChartComponent<RadarChartProps>('RadarChart', buildRadarOption);
 
 export default RadarChart;

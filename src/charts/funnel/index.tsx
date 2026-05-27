@@ -3,9 +3,7 @@
  *
  * 基于 ECharts funnel 系列实现漏斗图可视化
  */
-import * as React from 'react';
-import BaseChart from '@/core/components/BaseChart';
-import type { BaseChartProps } from '@/charts/types';
+import { createOptionChartComponent } from '@/charts/createOptionChartComponent';
 import type { FunnelChartProps } from './types';
 // 类型 FunnelDataItem 通过下方 export type 导出供外部使用
 
@@ -61,19 +59,6 @@ function buildFunnelOption(props: FunnelChartProps) {
   return option;
 }
 
-/**
- * 漏斗图组件
- */
-const FunnelChart: React.FC<FunnelChartProps> = (props) => {
-  const { ...rest } = props;
-
-  const option = buildFunnelOption(props);
-
-  if (!option) {
-    return null;
-  }
-
-  return <BaseChart option={option} {...(rest as BaseChartProps)} />;
-};
+const FunnelChart = createOptionChartComponent<FunnelChartProps>('FunnelChart', buildFunnelOption);
 
 export default FunnelChart;

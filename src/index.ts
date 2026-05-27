@@ -95,6 +95,10 @@ export { getAdapter, detectPlatform, getEnv } from './adapters';
 export { default as H5Adapter } from './adapters/h5';
 export { default as WeappAdapter } from './adapters/weapp';
 
+// 统一运行时检测
+export { detectRuntime, resetRuntimeCache } from './core/utils/runtime';
+export type { RuntimeInfo, MiniAppType } from './core/utils/runtime';
+
 // 主题系统
 export type { BuiltinTheme, ThemeOptions } from './themes';
 export {

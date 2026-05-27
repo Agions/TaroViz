@@ -1,12 +1,14 @@
+const tsJestPreset = require('ts-jest/jest-preset');
+
 module.exports = {
-  // preset: 'ts-jest', // resolved inline below
+  ...tsJestPreset,
   testEnvironment: 'jsdom',
   maxWorkers: '50%',
   moduleNameMapper: {
-    '\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
     '^@/(.*)$': '<rootDir>/src/$1',
   },
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  setupFilesAfterSetup: ['<rootDir>/jest.setup.js'],
   testMatch: ['<rootDir>/src/**/__tests__/**/*.(spec|test).(ts|tsx)'],
   collectCoverageFrom: [
     'src/**/*.(ts|tsx)',
@@ -22,7 +24,7 @@ module.exports = {
     },
   },
   transform: {
-    '^.+\.(ts|tsx)$': ['ts-jest', {
+    '^.+\\.(ts|tsx)$': ['ts-jest', {
       tsconfig: 'tsconfig.test.json',
     }],
   },

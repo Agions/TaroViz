@@ -170,7 +170,7 @@ export class PerformanceAnalyzer {
 
     this.isMonitoring = true;
     this.startTime = Date.now();
-    this.lastFrameTime = performance.now();
+    this.lastFrameTime = typeof performance !== 'undefined' ? performance.now() : Date.now();
 
     // 启动采样定时器
     if (this.config.sampleInterval && this.config.realTime) {
@@ -232,6 +232,7 @@ export class PerformanceAnalyzer {
    * 开始帧率监控
    */
   private startFrameRateMonitoring(): void {
+    if (typeof requestAnimationFrame === 'undefined' || typeof performance === 'undefined') return;
     const updateFrameRate = () => {
       if (!this.isMonitoring) {
         return;

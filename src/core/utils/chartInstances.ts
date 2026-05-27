@@ -83,3 +83,16 @@ export function resizeAllCharts(): void {
     }
   });
 }
+
+/**
+ * Dispose and remove stale chart instances (those whose DOM container is gone)
+ * Call periodically or from ErrorBoundary componentDidCatch
+ */
+export function disposeStaleCharts(): void {
+  Object.keys(CHART_INSTANCES).forEach((id) => {
+    const instance = CHART_INSTANCES[id];
+    if (!instance || instance.isDisposed()) {
+      delete CHART_INSTANCES[id];
+    }
+  });
+}

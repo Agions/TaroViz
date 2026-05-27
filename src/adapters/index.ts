@@ -6,6 +6,8 @@
  */
 
 import { PlatformType } from '../core';
+import { detectRuntime } from '../core/utils/runtime';
+import type { RuntimeInfo } from '../core/utils/runtime';
 import type { AdapterOptions, Adapter } from './types';
 
 /**
@@ -31,40 +33,37 @@ const PLATFORM_CONFIGS: Record<PlatformType, PlatformConfig> = {
   [PlatformType.HARMONY]: { name: 'HarmonyOS', requireComponent: true },
 };
 
+/** Map RuntimeInfo miniAppType to PlatformType */
+const MINI_APP_TO_PLATFORM: Record<string, PlatformType> = {
+  weapp: PlatformType.WEAPP,
+  alipay: PlatformType.ALIPAY,
+  swan: PlatformType.SWAN,
+  tt: PlatformType.TT,
+  qq: PlatformType.QQ,
+  jd: PlatformType.JD,
+  dd: PlatformType.DD,
+  qywx: PlatformType.QYWX,
+  lark: PlatformType.LARK,
+  kwai: PlatformType.KWAI,
+};
+
 /**
  * 检测当前运行的平台环境
+ *
+ * Delegates to the unified detectRuntime() and maps the result to PlatformType.
+ * Also checks for HarmonyOS via userAgent, which is not a mini-app.
  */
 export function detectPlatform(): PlatformType {
-  if (typeof window === 'undefined') {
-    return PlatformType.H5;
+  const runtime: RuntimeInfo = detectRuntime();
+
+  if (runtime.platform === 'miniapp' && runtime.miniAppType) {
+    return MINI_APP_TO_PLATFORM[runtime.miniAppType] ?? PlatformType.H5;
   }
 
-  const win = window as Window & {
-    wx?: { getSystemInfoSync?: unknown; qy?: unknown };
-    my?: { getSystemInfoSync?: unknown };
-    swan?: { getSystemInfoSync?: unknown };
-    tt?: { getSystemInfoSync?: unknown; env?: { appName?: string } };
-    qq?: { getSystemInfoSync?: unknown };
-    jd?: { getSystemInfoSync?: unknown };
-    dd?: { getSystemInfoSync?: unknown };
-  };
-
-  const checks: Array<{ test: () => boolean; platform: PlatformType }> = [
-    { test: () => !!win.wx?.getSystemInfoSync && !win.wx?.qy, platform: PlatformType.WEAPP },
-    { test: () => !!win.my?.getSystemInfoSync, platform: PlatformType.ALIPAY },
-    { test: () => !!win.swan?.getSystemInfoSync, platform: PlatformType.SWAN },
-    { test: () => !!win.tt?.getSystemInfoSync, platform: PlatformType.TT },
-    { test: () => !!win.qq?.getSystemInfoSync, platform: PlatformType.QQ },
-    { test: () => !!win.jd?.getSystemInfoSync, platform: PlatformType.JD },
-    { test: () => !!win.dd?.getSystemInfoSync, platform: PlatformType.DD },
-    { test: () => !!win.wx?.qy, platform: PlatformType.QYWX },
-    { test: () => win.tt?.env?.appName === 'lark', platform: PlatformType.LARK },
-    { test: () => navigator.userAgent.includes('HarmonyOS'), platform: PlatformType.HARMONY },
-  ];
-
-  for (const check of checks) {
-    if (check.test()) {
-      return check.platform;
+  // HarmonyOS: detected via userAgent in browser context
+  if (runtime.platform === 'browser' && typeof navigator !== 'undefined') {
+    if (navigator.userAgent.includes('HarmonyOS')) {
+      return PlatformType.HARMONY;
     }
   }
 
@@ -75,13 +74,12 @@ export function detectPlatform(): PlatformType {
  * 判断运行环境
  */
 export function getEnv(): 'h5' | 'weapp' | 'unknown' {
-  if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+  const runtime = detectRuntime();
+
+  if (runtime.isBrowser) {
     return 'h5';
   }
-  if (
-    typeof global !== 'undefined' &&
-    (global as Global & { wx?: { getSystemInfoSync?: unknown } })?.wx?.getSystemInfoSync
-  ) {
+  if (runtime.isMiniApp && runtime.miniAppType === 'weapp') {
     return 'weapp';
   }
   return 'unknown';

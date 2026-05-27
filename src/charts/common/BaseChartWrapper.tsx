@@ -181,6 +181,7 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
       });
 
       const adapter = await getAdapter(initConfig);
+      const adapterRef = adapter; // store for cleanup
 
       if (!isMountedRef.current) {
         return;
@@ -189,6 +190,7 @@ const BaseChartWrapper: React.FC<BaseChartProps & { chartType: string }> = ({
       adapter.init();
 
       cleanupRef.current = () => {
+        adapterRef.dispose?.();
         const instance = chartInstance.current;
         if (instance) {
           if (onEvents) {

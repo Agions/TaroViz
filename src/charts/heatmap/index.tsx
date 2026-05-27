@@ -3,9 +3,7 @@
  *
  * 基于 ECharts heatmap 系列实现二维数据密度可视化
  */
-import * as React from 'react';
-import BaseChart from '@/core/components/BaseChart';
-import type { BaseChartProps } from '@/charts/types';
+import { createOptionChartComponent } from '@/charts/createOptionChartComponent';
 import type { HeatmapChartProps } from './types';
 // 类型 HeatmapDataItem、HeatmapAxis 通过下方 export type 导出供外部使用
 
@@ -101,19 +99,6 @@ function buildHeatmapOption(props: HeatmapChartProps) {
   return option;
 }
 
-/**
- * 热力图组件
- */
-const HeatmapChart: React.FC<HeatmapChartProps> = (props) => {
-  const { ...rest } = props;
-
-  const option = buildHeatmapOption(props);
-
-  if (!option) {
-    return null;
-  }
-
-  return <BaseChart option={option} {...(rest as BaseChartProps)} />;
-};
+const HeatmapChart = createOptionChartComponent<HeatmapChartProps>('HeatmapChart', buildHeatmapOption);
 
 export default HeatmapChart;

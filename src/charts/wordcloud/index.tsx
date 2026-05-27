@@ -3,9 +3,7 @@
  *
  * 基于 ECharts wordCloud 系列实现词云可视化
  */
-import * as React from 'react';
-import BaseChart from '@/core/components/BaseChart';
-import type { BaseChartProps } from '@/charts/types';
+import { createOptionChartComponent } from '@/charts/createOptionChartComponent';
 import type { WordCloudChartProps } from './types';
 // 类型 WordCloudDataItem 通过下方 export type 导出供外部使用
 
@@ -73,19 +71,6 @@ function buildWordCloudOption(props: WordCloudChartProps) {
   return option;
 }
 
-/**
- * 词云图组件
- */
-const WordCloudChart: React.FC<WordCloudChartProps> = (props) => {
-  const { ...rest } = props;
-
-  const option = buildWordCloudOption(props);
-
-  if (!option) {
-    return null;
-  }
-
-  return <BaseChart option={option} {...(rest as BaseChartProps)} />;
-};
+const WordCloudChart = createOptionChartComponent<WordCloudChartProps>('WordCloudChart', buildWordCloudOption);
 
 export default WordCloudChart;

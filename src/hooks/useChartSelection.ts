@@ -215,13 +215,22 @@ export function useChartSelection(
   const toggle = useCallback(
     (key: DataPointKey) => {
       const str = keyToString(key);
-      if (selectedPoints.some((p) => keyToString(p) === str)) {
-        deselect(key);
-      } else {
-        select(key);
-      }
+      let isCurrentlySelected = false;
+      setSelectedPoints((prev) => {
+        isCurrentlySelected = prev.some((p) => keyToString(p) === str);
+        if (isCurrentlySelected) {
+          dispatchSelect(key, false);
+          notifyChange([], [key]);
+          return prev.filter((p) => keyToString(p) !== str);
+        } else {
+          dispatchSelect(key, true);
+          const next = mode === 'single' ? [key] : [...prev, key];
+          notifyChange(next, []);
+          return next;
+        }
+      });
     },
-    [selectedPoints, select, deselect]
+    [mode, notifyChange, dispatchSelect]
   );
 
   const selectMultiple = useCallback(
@@ -313,10 +322,11 @@ export function useChartSelection(
     if (chart?.dispatchAction) {
       chart.dispatchAction({ type: 'unselect' });
     }
-    const prev = selectedPoints;
-    setSelectedPoints([]);
-    notifyChange([], prev);
-  }, [selectedPoints, notifyChange]);
+    setSelectedPoints((prev) => {
+      notifyChange([], prev);
+      return [];
+    });
+  }, [notifyChange]);
 
   const isSelected = useCallback(
     (key: DataPointKey) => {

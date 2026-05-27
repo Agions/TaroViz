@@ -49,57 +49,25 @@ export interface WeappAdapterOptions extends AdapterOptions {
   component?: object;
 }
 
-/**
- * 支付宝小程序适配器选项
- */
-export interface AlipayAdapterOptions extends AdapterOptions {}
-
-/**
- * 百度小程序适配器选项
- */
-export interface SwanAdapterOptions extends AdapterOptions {}
-
-/**
- * 鸿蒙OS适配器选项
- */
-export interface HarmonyAdapterOptions extends AdapterOptions {}
-
-/**
- * 钉钉小程序适配器选项
- */
-export interface DDAdapterOptions extends AdapterOptions {}
-
-/**
- * 抖音小程序适配器选项
- */
-export interface TTAdapterOptions extends AdapterOptions {}
-
-/**
- * QQ小程序适配器选项
- */
-export interface QQAdapterOptions extends AdapterOptions {}
-
-/**
- * 京东小程序适配器选项
- */
-export interface JDAdapterOptions extends AdapterOptions {}
-
-/**
- * 快手小程序适配器选项
- */
-export interface KwaiAdapterOptions extends AdapterOptions {}
-
-/**
- * 企业微信小程序适配器选项
- */
-export interface QywxAdapterOptions extends AdapterOptions {}
-
-/**
- * 飞书小程序适配器选项
- */
-export interface LarkAdapterOptions extends AdapterOptions {}
-
-/**
- * 小程序通用适配器选项
- */
-export interface MiniAppAdapterOptions extends AdapterOptions {}
+/** 支付宝小程序适配器选项 */
+export type AlipayAdapterOptions = AdapterOptions;
+/** 百度小程序适配器选项 */
+export type SwanAdapterOptions = AdapterOptions;
+/** 鸿蒙OS适配器选项 */
+export type HarmonyAdapterOptions = AdapterOptions;
+/** 钉钉小程序适配器选项 */
+export type DDAdapterOptions = AdapterOptions;
+/** 抖音小程序适配器选项 */
+export type TTAdapterOptions = AdapterOptions;
+/** QQ小程序适配器选项 */
+export type QQAdapterOptions = AdapterOptions;
+/** 京东小程序适配器选项 */
+export type JDAdapterOptions = AdapterOptions;
+/** 快手小程序适配器选项 */
+export type KwaiAdapterOptions = AdapterOptions;
+/** 企业微信小程序适配器选项 */
+export type QywxAdapterOptions = AdapterOptions;
+/** 飞书小程序适配器选项 */
+export type LarkAdapterOptions = AdapterOptions;
+/** 小程序通用适配器选项 */
+export type MiniAppAdapterOptions = AdapterOptions;

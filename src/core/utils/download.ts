@@ -37,28 +37,37 @@ export function generateFormattedFilename(name: string, format: string): string 
 }
 
 /**
+ * 触发浏览器下载的通用函数
+ * @param href 下载链接
+ * @param filename 文件名
+ * @param cleanup 可选的清理回调（如 revokeObjectURL）
+ */
+function triggerDownload(href: string, filename: string, cleanup?: () => void): void {
+  if (typeof document === 'undefined') return;
+  const link = document.createElement('a');
+  link.href = href;
+  link.download = filename;
+  link.style.display = 'none';
+  document.body.appendChild(link);
+  link.click();
+  const timerId = setTimeout(() => {
+    if (link.parentNode) document.body.removeChild(link);
+    cleanup?.();
+    // Auto-remove from timers array
+    const idx = timers.indexOf(timerId);
+    if (idx !== -1) timers.splice(idx, 1);
+  }, 100);
+  timers.push(timerId);
+}
+
+/**
  * 下载 Blob 对象
  * @param blob Blob 数据
  * @param filename 文件名
  */
 export function downloadBlob(blob: Blob, filename: string): void {
   const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = filename;
-  link.style.display = 'none';
-
-  document.body.appendChild(link);
-  link.click();
-
-  // 延迟清理，确保下载对话框已打开
-  const timerId = setTimeout(() => {
-    if (link.parentNode) {
-      document.body.removeChild(link);
-    }
-    URL.revokeObjectURL(url);
-  }, 100);
-  timers.push(timerId);
+  triggerDownload(url, filename, () => URL.revokeObjectURL(url));
 }
 
 /**
@@ -67,25 +76,10 @@ export function downloadBlob(blob: Blob, filename: string): void {
  * @param filename 文件名
  */
 export function downloadDataUrl(dataUrl: string, filename: string): void {
-  const link = document.createElement('a');
-  link.href = dataUrl;
-  link.download = filename;
-  link.style.display = 'none';
-
-  document.body.appendChild(link);
-  link.click();
-
-  // 延迟清理
-  const timerId = setTimeout(() => {
-    if (link.parentNode) {
-      document.body.removeChild(link);
-    }
-  }, 100);
-  timers.push(timerId);
+  triggerDownload(dataUrl, filename);
 }
 
 /**
- * 下载文件（支持 string | Blob）
  * 下载文件（支持 string | Blob）
  * @param data 数据（string 或 Blob）
  * @param filename 文件名

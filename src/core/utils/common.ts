@@ -1,4 +1,16 @@
 /**
+ * Environment detection utilities
+ *
+ * Backward-compatible re-exports that delegate to the unified detectRuntime()
+ * in ./runtime.ts. New code should import detectRuntime() directly.
+ */
+
+import { detectRuntime as _detectRuntime } from './runtime';
+
+export { detectRuntime, resetRuntimeCache } from './runtime';
+export type { RuntimeInfo, MiniAppType } from './runtime';
+
+/**
  * 获取DOM元素
  * @param selector 选择器或DOM元素
  * @returns DOM元素
@@ -14,21 +26,20 @@ export function getElement(selector: string | Element): Element | null {
  * 是否为浏览器环境
  * @returns 是否为浏览器环境
  */
-export const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
+export const isBrowser =
+  typeof window !== 'undefined' && typeof document !== 'undefined';
 
 /**
  * 是否为NodeJS环境
  * @returns 是否为NodeJS环境
  */
 export const isNode = (() => {
-  // 更可靠的环境检测：检查是否是真正的 Node.js 环境
-  // 而不是打包后的代码（如 webpack 定义的 process.env）
   try {
     return (
       typeof process !== 'undefined' &&
-      process.versions &&
-      process.versions.node &&
-      Object.prototype.toString.call(globalThis.process) === '[object process]'
+      (process as any).versions &&
+      (process as any).versions.node &&
+      Object.prototype.toString.call((globalThis as any).process) === '[object process]'
     );
   } catch {
     return false;
@@ -40,39 +51,13 @@ export const isNode = (() => {
  * @returns 是否为React Native环境
  */
 export const isReactNative =
-  typeof navigator !== 'undefined' && navigator.product === 'ReactNative';
+  typeof navigator !== 'undefined' && (navigator as any).product === 'ReactNative';
 
 /**
  * 是否为小程序环境
+ *
+ * Delegates to detectRuntime() for unified detection.
+ * Cached internally — repeated calls are cheap.
  * @returns 是否为小程序环境
  */
-export const isMiniApp = (): boolean => {
-  // 使用类型断言来安全地检查全局变量
-  const globalObj =
-    typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
-  const win = globalObj as Window & {
-    wx?: unknown;
-    my?: unknown;
-    swan?: unknown;
-    tt?: unknown;
-    jd?: unknown;
-  };
-
-  if (typeof win.wx !== 'undefined') {
-    return true;
-  }
-  if (typeof win.my !== 'undefined') {
-    return true;
-  }
-  if (typeof win.swan !== 'undefined') {
-    return true;
-  }
-  if (typeof win.tt !== 'undefined') {
-    return true;
-  }
-  if (typeof win.jd !== 'undefined') {
-    return true;
-  }
-
-  return false;
-};
+export const isMiniApp = (): boolean => _detectRuntime().isMiniApp;

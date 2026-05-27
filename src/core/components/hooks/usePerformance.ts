@@ -13,12 +13,15 @@ export interface PerformanceData {
   dataSize: number;
 }
 
-export interface UsePerformanceOptions {
+export interface UseChartPerformanceMetricsOptions {
   enabled?: boolean;
   onPerformance?: (data: PerformanceData) => void;
 }
 
-export function usePerformance(options: UsePerformanceOptions = {}) {
+/** @deprecated Use `UseChartPerformanceMetricsOptions` instead */
+export type UsePerformanceOptions = UseChartPerformanceMetricsOptions;
+
+export function useChartPerformanceMetrics(options: UseChartPerformanceMetricsOptions = {}) {
   const { enabled = false, onPerformance } = options;
 
   const analyzerRef = useRef<PerformanceAnalyzer | null>(null);
@@ -184,3 +187,6 @@ export function usePerformance(options: UsePerformanceOptions = {}) {
     dispose,
   };
 }
+
+/** @deprecated Use `useChartPerformanceMetrics` instead */
+export const usePerformance = useChartPerformanceMetrics;

@@ -4,18 +4,15 @@
  * 使用 ECharts 5.x 自定义系列实现水球图功能，
  * 不依赖有 zrender 兼容性问题的 echarts-liquidfill。
  */
-import React, { memo, useEffect, useRef, useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import type {
-  EChartsType,
-  ECElementEvent,
   EChartsOption,
   CustomSeriesRenderItem,
   CustomSeriesRenderItemReturn,
 } from 'echarts';
-import { getAdapter } from '../../adapters';
-import { uuid } from '../../core/utils';
-import { processAdapterConfig } from '../utils';
 import { LiquidChartProps } from './types';
+import type { BaseChartProps } from '../types';
+import BaseChartWrapper from '../common/BaseChartWrapper';
 
 /** 包装容器的最大半径（px），用于归一化半径 */
 const MAX_RADIUS = 100;
@@ -216,18 +213,6 @@ function buildLiquidOption(props: {
 const LiquidChart: React.FC<LiquidChartProps> = memo((props) => {
   const {
     option,
-    width = '100%',
-    height = '300px',
-    theme,
-    style = {},
-    className = '',
-    autoResize = true,
-    loading = false,
-    loadingOption,
-    onChartInit,
-    onChartReady,
-    renderer = 'canvas',
-    onEvents = {},
     waveData = [0.6],
     shape,
     amplitude,
@@ -238,13 +223,9 @@ const LiquidChart: React.FC<LiquidChartProps> = memo((props) => {
     color,
     showLabel = true,
     labelFormatter,
+    ...rest
   } = props;
 
-  const chartId = useRef<string>(`liquid-${uuid()}`);
-  const chartInstance = useRef<EChartsType | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  // 构建 ECharts 配置
   const liquidOption = useMemo((): EChartsOption => {
     const baseOption = (option || {}) as EChartsOption;
 
@@ -286,115 +267,9 @@ const LiquidChart: React.FC<LiquidChartProps> = memo((props) => {
     labelFormatter,
   ]);
 
-  // 处理图表初始化
-  useEffect(() => {
-    let mounted = true;
+  if (!liquidOption) return null;
 
-    const initChart = async (): Promise<(() => void) | undefined> => {
-      if (!mounted || !containerRef.current) return undefined;
-
-      const initConfig = processAdapterConfig({
-        canvasId: chartId.current,
-        containerRef,
-        width,
-        height,
-        theme,
-        autoResize,
-        renderer,
-        option: liquidOption,
-        onInit: (instance: EChartsType) => {
-          chartInstance.current = instance;
-
-          // 绑定事件
-          if (onEvents) {
-            Object.entries(onEvents).forEach(([eventName, handler]) => {
-              (
-                instance as unknown as { on: (e: string, h: (ev: ECElementEvent) => void) => void }
-              ).on(eventName, handler);
-            });
-          }
-
-          if (onChartInit) {
-            onChartInit(instance);
-          }
-
-          if (onChartReady) {
-            onChartReady(instance);
-          }
-        },
-      });
-
-      const adapter = await getAdapter(initConfig);
-      adapter.init();
-
-      return () => {
-        const instance = chartInstance.current;
-        if (instance) {
-          if (onEvents) {
-            Object.keys(onEvents).forEach((eventName) => {
-              instance.off(eventName);
-            });
-          }
-          instance.dispose();
-          chartInstance.current = null;
-        }
-      };
-    };
-
-    let cleanupFn: (() => void) | undefined;
-    initChart().then((cleanup) => {
-      cleanupFn = cleanup;
-    });
-
-    return () => {
-      mounted = false;
-      cleanupFn?.();
-    };
-  }, [
-    liquidOption,
-    width,
-    height,
-    theme,
-    autoResize,
-    renderer,
-    onChartInit,
-    onChartReady,
-    onEvents,
-  ]);
-
-  // 更新配置
-  useEffect(() => {
-    if (chartInstance.current && liquidOption) {
-      chartInstance.current.setOption(liquidOption, true);
-    }
-  }, [liquidOption]);
-
-  // 控制加载状态
-  useEffect(() => {
-    if (chartInstance.current) {
-      if (loading) {
-        chartInstance.current.showLoading(loadingOption);
-      } else {
-        chartInstance.current.hideLoading();
-      }
-    }
-  }, [loading, loadingOption]);
-
-  // 自定义样式
-  const mergedStyle = {
-    width: typeof width === 'number' ? `${width}px` : width,
-    height: typeof height === 'number' ? `${height}px` : height,
-    ...style,
-  };
-
-  return (
-    <div
-      data-testid="liquid-chart"
-      className={`taroviz-liquid ${className}`}
-      style={mergedStyle}
-      ref={containerRef as React.RefObject<HTMLDivElement>}
-    />
-  );
+  return <BaseChartWrapper {...(rest as BaseChartProps)} option={liquidOption} chartType="liquid" />;
 });
 
 LiquidChart.displayName = 'LiquidChart';

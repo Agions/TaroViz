@@ -7,7 +7,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 /**
  * 性能监控配置
  */
-export interface UsePerformanceOptions {
+export interface UseFpsMonitorOptions {
   /** 是否启用监控 */
   enabled?: boolean;
   /** 采样间隔 (ms) */
@@ -55,7 +55,7 @@ export interface PerformanceReportEntry {
 /**
  * 性能监控返回值
  */
-export interface UsePerformanceReturn {
+export interface UseFpsMonitorReturn {
   /** 性能状态 */
   state: PerformanceState;
   /** 开始监控 */
@@ -75,7 +75,13 @@ export interface UsePerformanceReturn {
  * @param options 配置选项
  * @returns 性能监控接口
  */
-export function usePerformance(options: UsePerformanceOptions = {}): UsePerformanceReturn {
+/** @deprecated Use `UseFpsMonitorOptions` instead */
+export type UsePerformanceOptions = UseFpsMonitorOptions;
+
+/** @deprecated Use `UseFpsMonitorReturn` instead */
+export type UsePerformanceReturn = UseFpsMonitorReturn;
+
+export function useFpsMonitor(options: UseFpsMonitorOptions = {}): UseFpsMonitorReturn {
   const {
     enabled = true,
     sampleInterval = 1000,
@@ -255,10 +261,10 @@ export function usePerformance(options: UsePerformanceOptions = {}): UsePerforma
 }
 
 /**
- * 轻量级 FPS 监控 Hook
+ * 轻量级 FPS 计数器 Hook
  * 用于实时显示图表 FPS
  */
-export function useFpsMonitor(): number {
+export function useFpsCounter(): number {
   const [fps, setFps] = useState(60);
   const frameCountRef = useRef(0);
   const lastTimeRef = useRef(performance.now());
@@ -288,3 +294,6 @@ export function useFpsMonitor(): number {
 
   return fps;
 }
+
+/** @deprecated Use `useFpsMonitor` instead */
+export const usePerformance = useFpsMonitor;
