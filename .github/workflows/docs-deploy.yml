@@ -24,7 +24,7 @@ jobs:
           node-version: '22'
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps
+        run: npm install --legacy-peer-deps 2>&1 || (echo "INSTALL FAILED" && npm install --legacy-peer-deps --loglevel verbose 2>&1 | tail -50 && exit 1)
 
       - name: Build documentation
         run: npm run docs:build
