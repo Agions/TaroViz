@@ -99,6 +99,9 @@ function buildHeatmapOption(props: HeatmapChartProps) {
   return option;
 }
 
-const HeatmapChart = createOptionChartComponent<HeatmapChartProps>('HeatmapChart', buildHeatmapOption);
+const HeatmapChart = createOptionChartComponent<HeatmapChartProps>(
+  'HeatmapChart',
+  buildHeatmapOption
+);
 
 export default HeatmapChart;

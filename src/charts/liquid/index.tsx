@@ -5,11 +5,7 @@
  * 不依赖有 zrender 兼容性问题的 echarts-liquidfill。
  */
 import React, { memo, useMemo } from 'react';
-import type {
-  EChartsOption,
-  CustomSeriesRenderItem,
-  CustomSeriesRenderItemReturn,
-} from 'echarts';
+import type { EChartsOption, CustomSeriesRenderItem, CustomSeriesRenderItemReturn } from 'echarts';
 import { LiquidChartProps } from './types';
 import type { BaseChartProps } from '../types';
 import BaseChartWrapper from '../common/BaseChartWrapper';
@@ -269,7 +265,9 @@ const LiquidChart: React.FC<LiquidChartProps> = memo((props) => {
 
   if (!liquidOption) return null;
 
-  return <BaseChartWrapper {...(rest as BaseChartProps)} option={liquidOption} chartType="liquid" />;
+  return (
+    <BaseChartWrapper {...(rest as BaseChartProps)} option={liquidOption} chartType="liquid" />
+  );
 });
 
 LiquidChart.displayName = 'LiquidChart';

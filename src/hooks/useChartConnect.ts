@@ -42,7 +42,10 @@ export type { UseChartConnectOptions, UseChartConnectReturn } from './types';
  * @returns 图表联动操作接口
  */
 export function useChartConnect(options: UseChartConnectOptions): UseChartConnectReturn {
-  const defaultEvents = useMemo<ConnectEventType[]>(() => ['click', 'hover', 'select', 'dataZoom'], []);
+  const defaultEvents = useMemo<ConnectEventType[]>(
+    () => ['click', 'hover', 'select', 'dataZoom'],
+    []
+  );
   const {
     chartIds = [],
     events = defaultEvents,

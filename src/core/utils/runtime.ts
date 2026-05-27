@@ -67,7 +67,10 @@ function getGlobalObj(): Record<string, unknown> {
 function hasGetSystemInfoSync(key: string): boolean {
   const g = getGlobalObj();
   const obj = g[key];
-  return typeof obj !== 'undefined' && typeof (obj as Record<string, unknown>)?.getSystemInfoSync === 'function';
+  return (
+    typeof obj !== 'undefined' &&
+    typeof (obj as Record<string, unknown>)?.getSystemInfoSync === 'function'
+  );
 }
 
 /**
@@ -136,7 +139,9 @@ export function detectRuntime(): RuntimeInfo {
 
   // --- Node.js detection ---
   try {
-    const proc = (globalThis as Record<string, unknown>).process as Record<string, unknown> | undefined;
+    const proc = (globalThis as Record<string, unknown>).process as
+      | Record<string, unknown>
+      | undefined;
     if (
       typeof proc !== 'undefined' &&
       proc.versions &&

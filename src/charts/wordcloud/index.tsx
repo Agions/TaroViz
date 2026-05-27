@@ -71,6 +71,9 @@ function buildWordCloudOption(props: WordCloudChartProps) {
   return option;
 }
 
-const WordCloudChart = createOptionChartComponent<WordCloudChartProps>('WordCloudChart', buildWordCloudOption);
+const WordCloudChart = createOptionChartComponent<WordCloudChartProps>(
+  'WordCloudChart',
+  buildWordCloudOption
+);
 
 export default WordCloudChart;

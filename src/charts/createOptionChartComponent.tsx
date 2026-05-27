@@ -15,11 +15,9 @@ interface OptionBuilderProps {
  * @param displayName Component display name
  * @param buildOption Function that builds ECharts option from props, returns null if invalid
  */
-export function createOptionChartComponent<
-  Props extends OptionBuilderProps,
->(
+export function createOptionChartComponent<Props extends OptionBuilderProps>(
   displayName: string,
-  buildOption: (props: Props) => Record<string, unknown> | null,
+  buildOption: (props: Props) => Record<string, unknown> | null
 ): React.FC<Props & Omit<BaseChartProps, 'option' | 'data'>> {
   const Component: React.FC<Props & Omit<BaseChartProps, 'option' | 'data'>> = (props) => {
     const { optionMerge, ...rest } = props;

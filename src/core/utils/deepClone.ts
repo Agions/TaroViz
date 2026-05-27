@@ -72,7 +72,7 @@ export function deepClone<T>(value: T, seen?: WeakMap<object, unknown>): T {
  */
 export function deepMerge<T extends Record<string, unknown>, U extends Record<string, unknown>>(
   target: T,
-  source: U,
+  source: U
 ): T & U {
   const result: Record<string, unknown> = {};
 
@@ -104,10 +104,7 @@ export function deepMerge<T extends Record<string, unknown>, U extends Record<st
       !(sVal instanceof Map) &&
       !(sVal instanceof Set)
     ) {
-      result[key] = deepMerge(
-        tVal as Record<string, unknown>,
-        sVal as Record<string, unknown>,
-      );
+      result[key] = deepMerge(tVal as Record<string, unknown>, sVal as Record<string, unknown>);
     } else {
       result[key] = deepClone(sVal);
     }

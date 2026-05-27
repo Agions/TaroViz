@@ -23,7 +23,11 @@ export function createChartComponent<P extends BaseChartProps = BaseChartProps>(
   const Chart: React.FC<P> = memo((props) => (
     <BaseChartWrapper
       {...(props as unknown as BaseChartProps)}
-      option={needOptionCast ? (props as { option?: EChartsOption }).option as EChartsOption : (props as unknown as BaseChartProps).option}
+      option={
+        needOptionCast
+          ? ((props as { option?: EChartsOption }).option as EChartsOption)
+          : (props as unknown as BaseChartProps).option
+      }
       chartType={chartType}
     />
   ));

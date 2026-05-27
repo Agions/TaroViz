@@ -26,8 +26,7 @@ export function getElement(selector: string | Element): Element | null {
  * 是否为浏览器环境
  * @returns 是否为浏览器环境
  */
-export const isBrowser =
-  typeof window !== 'undefined' && typeof document !== 'undefined';
+export const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
 
 /**
  * 是否为NodeJS环境
