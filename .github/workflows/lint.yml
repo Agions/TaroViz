@@ -17,16 +17,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps --ignore-scripts
+        run: npm install --legacy-peer-deps
 
       - name: Run Prettier check
-        run: |
-          npx prettier --version
-          npx prettier --check "src/**/*.{ts,tsx,js,jsx,json,css,md}" --log-level debug 2>&1 | tail -50 || true
-          npm run lint:prettier
+        run: npm run lint:prettier
 
       - name: Run ESLint
         run: npm run lint --format json --output-file eslint-report.json || true
