@@ -22,7 +22,7 @@ jobs:
           node-version: '22'
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps --ignore-scripts
+        run: npm ci --legacy-peer-deps 2>&1 || npm install --legacy-peer-deps --ignore-scripts 2>&1
 
       - name: Run TypeScript type check
         run: npx tsc --noEmit
