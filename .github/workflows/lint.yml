@@ -21,8 +21,14 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Debug environment
+        run: |
+          echo "Node version: $(node --version)"
+          echo "npm version: $(npm --version)"
+          echo "HUSKY=$HUSKY"
+
       - name: Install dependencies
-        run: npm install --legacy-peer-deps
+        run: npm install --legacy-peer-deps --loglevel verbose 2>&1 | tail -100
 
       - name: Run Prettier check
         run: npm run lint:prettier
