@@ -160,3 +160,30 @@ export interface LoadingOptions {
   maskColor?: string;
   zlevel?: number;
 }
+
+// ============================================================================
+// 图表配置类型
+// ============================================================================
+
+/** 图表配置 */
+export interface ChartConfig {
+  width?: number | string;
+  height?: number | string;
+  renderer?: 'canvas' | 'svg';
+  theme?: string | Record<string, unknown>;
+  [key: string]: unknown;
+}
+
+/** 数据转换器 */
+export type DataTransformer<T = unknown> = (data: T) => EChartsOption;
+
+/** 响应式断点 */
+export type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+
+/** 断点配置 */
+export interface BreakpointConfig {
+  width: number;
+}
+
+/** 主题切换回调 */
+export type ThemeChangeCallback = (theme: string | Record<string, unknown>) => void;

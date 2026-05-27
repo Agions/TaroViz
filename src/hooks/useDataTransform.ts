@@ -110,6 +110,21 @@ export interface TimeSeriesTransformOptions {
 // ============================================================================
 
 /**
+ * 使用图表数据变更
+ * @param data 数据源
+ * @param transformer 数据转换函数
+ * @returns 转换后的图表选项
+ */
+export function useChartData<T = unknown>(data: T | null, transformer: (data: T) => EChartsOption) {
+  return useMemo(() => {
+    if (!data || (Array.isArray(data) && data.length === 0)) {
+      return {};
+    }
+    return transformer(data);
+  }, [data, transformer]);
+}
+
+/**
  * 使用数据转换
  * @param options 转换选项
  * @returns 转换后的 ECharts 配置

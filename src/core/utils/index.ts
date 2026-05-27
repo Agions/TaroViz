@@ -1,128 +1,29 @@
-// 事件定义
-export const events = {
-  click: 'click',
-  mousemove: 'mousemove',
-  mouseup: 'mouseup',
-  mousedown: 'mousedown',
-  mouseover: 'mouseover',
-  mouseout: 'mouseout',
-  globalout: 'globalout',
-};
+// Re-export barrel file — all public APIs preserved
+// External import paths remain unchanged
 
-// 导入UUID工具函数
-import * as i18n from './i18n';
-import { uuid, shortId, prefixedId } from './uuid';
+// 事件常量
+export { events } from './events';
 
-// 导入国际化工具
+// 对象合并
+export { deepMerge } from './merge';
 
-/**
- * 深度合并对象
- * @param target 目标对象
- * @param source 源对象
- * @returns 合并后的对象
- */
-export function deepMerge<T extends Record<string, unknown>>(
-  target: T,
-  source: Partial<Record<string, unknown>>
-): T {
-  const result: Record<string, unknown> = { ...target };
+// 格式化与颜色工具
+export { formatNumber, getContrastColor } from './format';
 
-  Object.keys(source).forEach((key) => {
-    if (source[key] instanceof Object && key in target && target[key] instanceof Object) {
-      result[key] = deepMerge(
-        target[key] as Record<string, unknown>,
-        source[key] as Record<string, unknown>
-      );
-    } else {
-      result[key] = source[key];
-    }
-  });
-
-  return result as T;
-}
-
-/**
- * 检测当前环境
- * @returns 环境信息
- */
-export function getEnvironment() {
-  const isServer = typeof window === 'undefined';
-  const isClient = !isServer;
-
-  // 使用类型断言解决wx和my未定义的问题
-  const win = window as Window & { wx?: unknown; my?: unknown };
-  const isWeapp =
-    typeof win.wx !== 'undefined' &&
-    typeof (win.wx as { getSystemInfoSync?: unknown })?.getSystemInfoSync === 'function';
-  const isAlipay =
-    typeof win.my !== 'undefined' &&
-    typeof (win.my as { getSystemInfoSync?: unknown })?.getSystemInfoSync === 'function';
-  const isWeb = isClient && !isWeapp && !isAlipay;
-
-  return {
-    isServer,
-    isClient,
-    isWeapp,
-    isAlipay,
-    isWeb,
-  };
-}
-
-/**
- * 格式化数值
- * @param value 要格式化的数值
- * @param digits 小数位数
- * @param options 配置选项
- * @returns 格式化后的字符串
- */
-export function formatNumber(
-  value: number,
-  digits: number = 2,
-  options: {
-    useGrouping?: boolean;
-    locale?: string;
-  } = {}
-): string {
-  const { useGrouping = true, locale = 'zh-CN' } = options;
-
-  return new Intl.NumberFormat(locale, {
-    minimumFractionDigits: digits,
-    maximumFractionDigits: digits,
-    useGrouping,
-  }).format(value);
-}
-
-/**
- * 获取颜色的对比色
- * @param color 十六进制颜色值
- * @returns 对比色
- */
-export function getContrastColor(color: string): string {
-  // 移除#前缀
-  const hex = color.replace('#', '');
-
-  // 转换为RGB
-  const r = parseInt(hex.substring(0, 2), 16);
-  const g = parseInt(hex.substring(2, 4), 16);
-  const b = parseInt(hex.substring(4, 6), 16);
-
-  // 计算亮度
-  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-
-  // 根据亮度返回黑色或白色
-  return brightness > 128 ? '#000000' : '#FFFFFF';
-}
-
-// 导出UUID工具函数
-export { uuid, shortId, prefixedId };
-
-// 导出国际化工具
-export { i18n };
+// 检测当前环境（简易版，向后兼容）
+export { getEnvironment } from './runtime';
 
 // 统一运行时检测
 export { detectRuntime, resetRuntimeCache } from './runtime';
 export type { RuntimeInfo, MiniAppType } from './runtime';
 
-// 性能优化工具
+// UUID工具函数
+export { uuid, shortId, prefixedId } from './uuid';
+
+// 国际化工具
+import * as i18n from './i18n';
+export { i18n };
+
+// 性能优化工具（含 debounce, throttle, DebounceManager 等）
 export * from './performanceUtils';
 export { DebounceManager } from './performanceUtils';

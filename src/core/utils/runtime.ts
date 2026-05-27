@@ -161,3 +161,30 @@ export function detectRuntime(): RuntimeInfo {
 
   return makeResult('unknown');
 }
+
+/**
+ * 检测当前环境（简易版，向后兼容）
+ * @returns 环境信息
+ */
+export function getEnvironment() {
+  const isServer = typeof window === 'undefined';
+  const isClient = !isServer;
+
+  // 使用类型断言解决wx和my未定义的问题
+  const win = window as Window & { wx?: unknown; my?: unknown };
+  const isWeapp =
+    typeof win.wx !== 'undefined' &&
+    typeof (win.wx as { getSystemInfoSync?: unknown })?.getSystemInfoSync === 'function';
+  const isAlipay =
+    typeof win.my !== 'undefined' &&
+    typeof (win.my as { getSystemInfoSync?: unknown })?.getSystemInfoSync === 'function';
+  const isWeb = isClient && !isWeapp && !isAlipay;
+
+  return {
+    isServer,
+    isClient,
+    isWeapp,
+    isAlipay,
+    isWeb,
+  };
+}
