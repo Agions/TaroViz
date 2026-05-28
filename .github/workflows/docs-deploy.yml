@@ -26,12 +26,10 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: |
-          rm -rf node_modules
-          npm install --legacy-peer-deps --force || npm install --legacy-peer-deps --force
+        run: yarn install --frozen-lockfile
 
       - name: Build documentation
-        run: npm run docs:build
+        run: yarn docs:build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
