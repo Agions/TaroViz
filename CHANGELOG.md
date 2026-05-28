@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.0.3] - 2026-05-28
+
+### 🔧 CI/CD 权限修复
+
+#### 🐛 修复
+
+- **Release 权限修复**：添加 `actions:write` 权限，解决 `gh workflow run` 无法触发 npm-publish 的问题
+
+---
+
 ## [v2.0.2] - 2026-05-28
 
 ### 🔧 CI/CD 自动化完善
