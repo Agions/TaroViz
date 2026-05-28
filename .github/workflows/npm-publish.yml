@@ -31,7 +31,9 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps --force
+        run: |
+          rm -rf node_modules
+          npm install --legacy-peer-deps --force || npm install --legacy-peer-deps --force
 
       - name: Build
         run: npm run build
