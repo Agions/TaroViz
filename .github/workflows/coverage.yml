@@ -19,20 +19,18 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '18'
 
       - name: Install dependencies
         run: |
-          npm cache clean --force
           npm ci --legacy-peer-deps
-          npm rebuild
 
       - name: Run TypeScript type check
         run: npx tsc --noEmit
         continue-on-error: true
 
       - name: Run tests with coverage
-        run: npx jest --ci --maxWorkers=50% --coverage
+        run: npm run test:ci -- --coverage
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4

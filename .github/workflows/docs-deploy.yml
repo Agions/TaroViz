@@ -23,16 +23,14 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '18'
 
       - name: Install dependencies
         run: |
-          npm cache clean --force
           npm ci --legacy-peer-deps
-          npm rebuild
 
       - name: Build documentation
-        run: npx vitepress build docs
+        run: npm run docs:build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
