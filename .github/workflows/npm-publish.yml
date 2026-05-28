@@ -27,11 +27,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '20'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps --ignore-scripts
+        run: |
+          npm cache clean --force
+          npm ci --legacy-peer-deps --ignore-scripts
 
       - name: Build
         run: npm run build

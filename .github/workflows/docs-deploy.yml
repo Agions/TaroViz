@@ -23,10 +23,12 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '20'
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps --ignore-scripts
+        run: |
+          npm cache clean --force
+          npm ci --legacy-peer-deps --ignore-scripts
 
       - name: Build documentation
         run: npm run docs:build
