@@ -1,6 +1,6 @@
 {
   "name": "@agions/taroviz",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "基于 Taro 和 ECharts 的多端图表组件库 - v2.0.0 大版本更新，新增 6 种图表类型",
   "type": "module",
   "main": "dist/cjs/index.js",

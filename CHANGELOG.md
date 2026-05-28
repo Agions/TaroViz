@@ -2,6 +2,41 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.0.1] - 2026-05-28
+
+### 🔧 CI/CD 稳定性 & 代码质量修复
+
+#### 🐛 修复
+
+- **CI 全面修复**：解决 GitHub Actions 全部工作流（Lint / Coverage / Deploy Docs）失败问题
+  - 修复 npm 10.x 在 CI 上的 `Exit handler never called` 系统性 bug，切换至 yarn
+  - 修复 `yarn.lock` 中 1560 个腾讯云镜像（`mirrors.tencentyun.com`）在 GitHub Actions 上不可达问题，替换为 `registry.npmjs.org`
+  - 所有 workflow 添加 `yarn config set registry` 步骤，确保 CI 环境不受本地镜像配置影响
+  - 修复 Node.js 版本兼容性问题，统一使用 Node 20
+- **YAML 污染修复**：修复工具链产生的行号前缀污染 workflow YAML 文件问题
+- **深拷贝重写**：手写 `deepClone` 替代 `JSON.parse(JSON.stringify())`，支持循环引用、函数、原型链
+- **7 个严重 Bug 修复**：修复图表组件中的数据处理、类型安全等问题
+- **TypeScript 类型错误**：解决所有 TS 编译错误和 React prop 类型问题
+- **Prettier 格式化**：确保所有源码文件通过格式化检查
+
+#### ♻️ 重构
+
+- **巨型文件拆分**：将 3 个巨型 `index.ts` 拆分为独立模块
+  - `themes/index.ts`：876 → 55 行
+  - `hooks/index.ts`：697 → 48 行
+  - `utils/index.ts`：128 → 29 行
+- **消除 ~480 行重复代码**：提取公共逻辑，消除跨模块重复
+- **移除 E2E 测试**：删除 Cypress E2E 测试和调试模块，精简项目体积
+- **依赖优化**：将 `react` 从 `peerDependencies` 移至 `devDependencies` 以适配 CI 测试
+
+#### 📊 项目统计
+
+- **CI 状态**: 3/3 工作流全部通过 ✅
+- **测试**: 全部通过 ✅
+- **Lint**: Prettier + ESLint + TypeScript 检查通过 ✅
+
+---
+
 ## [v2.0.0] - 2026-05-07
 
 ### 🎉 重大版本更新 - 功能大版本
