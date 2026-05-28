@@ -1,49 +1,48 @@
-     1|name: Deploy Documentation to GitHub Pages
-     2|
-     3|on:
-     4|  push:
-     5|    branches: [main]
-     6|  workflow_dispatch:
-     7|
-     8|jobs:
-     9|  deploy-docs:
-    10|    runs-on: ubuntu-latest
-    11|    env:
-    12|      HUSKY: 0
-    13|    permissions:
-    14|      contents: write
-    15|      pages: write
-    16|      id-token: write
-    17|    steps:
-    18|      - name: Checkout code
-    19|        uses: actions/checkout@v4
-    20|        with:
-    21|          fetch-depth: 0
-    22|
-    23|      - name: Set up Node.js
-    24|        uses: actions/setup-node@v4
-    25|        with:
-    26|          node-version: '22'
-    27|
-    28|      - name: Install dependencies
-    29|        run: npm install --legacy-peer-deps --ignore-scripts
-    30|
-    31|      - name: Build documentation
-    32|        run: npm run docs:build
-    33|
-    34|      - name: Setup Pages
-    35|        uses: actions/configure-pages@v5
-    36|
-    37|      - name: Upload artifact
-    38|        uses: actions/upload-pages-artifact@v3
-    39|        with:
-    40|          path: docs/.vitepress/dist
-    41|
-    42|      - name: Deploy to GitHub Pages
-    43|        uses: peaceiris/actions-gh-pages@v4
-    44|        with:
-    45|          github_token: ${{ secrets.GITHUB_TOKEN }}
-    46|          publish_dir: ./docs/.vitepress/dist
-    47|          publish_branch: gh-pages
-    48|          force_orphan: true
-    49|
+name: Deploy Documentation to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy-docs:
+    runs-on: ubuntu-latest
+    env:
+      HUSKY: 0
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps --ignore-scripts
+
+      - name: Build documentation
+        run: npm run docs:build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/.vitepress/dist
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/.vitepress/dist
+          publish_branch: gh-pages
+          force_orphan: true
