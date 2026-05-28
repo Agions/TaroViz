@@ -29,6 +29,7 @@ jobs:
         run: |
           npm cache clean --force
           npm ci --legacy-peer-deps
+          npm rebuild
 
       - name: Build documentation
         run: npm run docs:build

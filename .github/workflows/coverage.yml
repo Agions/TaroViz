@@ -25,6 +25,7 @@ jobs:
         run: |
           npm cache clean --force
           npm ci --legacy-peer-deps
+          npm rebuild
 
       - name: Run TypeScript type check
         run: npx tsc --noEmit
