@@ -22,7 +22,7 @@ jobs:
           node-version: '22'
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps --ignore-scripts
+        run: npm ci --legacy-peer-deps --ignore-scripts
 
       - name: Run Prettier check
         run: npx prettier --check "src/**/*.{ts,tsx,js,jsx,json,css,md}"
