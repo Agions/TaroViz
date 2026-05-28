@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.0.2] - 2026-05-28
+
+### 🔧 CI/CD 自动化完善
+
+#### ✨ 改进
+
+- **自动发布流水线**：打 tag 后自动创建 GitHub Release 并触发 npm 发布
+  - `release.yml` 新增 `publish-npm` job，Release 创建完成后自动触发 `npm-publish.yml`
+  - 移除 `workflow_run` 触发器，避免重复 skipped 运行
+
+---
+
 ## [v2.0.1] - 2026-05-28
 
 ### 🔧 CI/CD 稳定性 & 代码质量修复
