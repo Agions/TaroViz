@@ -28,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: |
           npm cache clean --force
-          npm ci --legacy-peer-deps --ignore-scripts
+          npm ci --legacy-peer-deps
 
       - name: Build documentation
         run: npm run docs:build
