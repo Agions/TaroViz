@@ -1,42 +1,43 @@
-name: Publish to npm
-
-on:
-  release:
-    types: [published]
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version to publish (e.g., 1.2.0)'
-        required: false
-        type: string
-
-jobs:
-  publish:
-    name: Publish to npm
-    runs-on: ubuntu-latest
-    env:
-      HUSKY: 0
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps --ignore-scripts
-
-      - name: Build
-        run: npm run build
-
-      - name: Publish to npm
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+     1|name: Publish to npm
+     2|
+     3|on:
+     4|  release:
+     5|    types: [published]
+     6|  workflow_dispatch:
+     7|    inputs:
+     8|      version:
+     9|        description: 'Version to publish (e.g., 1.2.0)'
+    10|        required: false
+    11|        type: string
+    12|
+    13|jobs:
+    14|  publish:
+    15|    name: Publish to npm
+    16|    runs-on: ubuntu-latest
+    17|    env:
+    18|      HUSKY: 0
+    19|    permissions:
+    20|      contents: read
+    21|      packages: write
+    22|      id-token: write
+    23|    steps:
+    24|      - name: Checkout
+    25|        uses: actions/checkout@v4
+    26|
+    27|      - name: Setup Node.js
+    28|        uses: actions/setup-node@v4
+    29|        with:
+    30|          node-version: '22'
+    31|          registry-url: 'https://registry.npmjs.org'
+    32|
+    33|      - name: Install dependencies
+    34|        run: npm install --legacy-peer-deps --ignore-scripts
+    35|
+    36|      - name: Build
+    37|        run: npm run build
+    38|
+    39|      - name: Publish to npm
+    40|        run: npm publish --access public
+    41|        env:
+    42|          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    43|
